@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watermaxxing</title>
+</head>
+<body style="margin:0; padding:0;">
+
+<!-- ═══════════════════════════════════════════════════════════════════════════
+WATERMAXXING.COM - DIGITAL BUSINESS CARD v2
+VAPORWAVE/SYNTHWAVE EDITION - SINGLE FILE
+Width: 100% | Height: 4400px
+═══════════════════════════════════════════════════════════════════════════ -->
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+@keyframes neonPulse {
+0%, 100% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+50% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
+}
+@keyframes borderGlow {
+0%, 100% { box-shadow: 0 0 15px rgba(255,0,255,0.5), inset 0 0 15px rgba(255,0,255,0.1); }
+50% { box-shadow: 0 0 25px rgba(255,0,255,0.8), inset 0 0 25px rgba(255,0,255,0.2); }
+}
+@keyframes float {
+0%, 100% { transform: translateY(0) rotate(0deg); }
+50% { transform: translateY(-15px) rotate(2deg); }
+}
+@keyframes float2 {
+0%, 100% { transform: translateY(0) rotate(0deg); }
+50% { transform: translateY(-10px) rotate(-1deg); }
+}
+@keyframes orbFloat {
+0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
+25% { transform: translate(40px, -30px) scale(1.1); opacity: 0.8; }
+50% { transform: translate(-20px, -50px) scale(0.9); opacity: 0.5; }
+75% { transform: translate(-40px, -20px) scale(1.05); opacity: 0.7; }
+}
+@keyframes orbFloat2 {
+0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
+33% { transform: translate(-50px, 30px) scale(1.15); opacity: 0.7; }
+66% { transform: translate(30px, -40px) scale(0.85); opacity: 0.4; }
+}
+@keyframes gridScroll {
+0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+100% { transform: perspective(500px) rotateX(60deg) translateY(40px); }
+}
+@keyframes scanMove {
+0% { top: -10%; }
+100% { top: 110%; }
+}
+@keyframes statusPulse {
+0%, 100% { opacity: 1; box-shadow: 0 0 12px #00ff88; }
+50% { opacity: 0.5; box-shadow: 0 0 6px #00ff88; }
+}
+@keyframes glitch {
+0%, 90%, 100% { transform: translate(0); }
+92% { transform: translate(-2px, 1px); }
+94% { transform: translate(2px, -1px); }
+96% { transform: translate(-1px, -1px); }
+98% { transform: translate(1px, 1px); }
+}
+@keyframes starTwinkle {
+0%, 100% { opacity: 0.3; transform: scale(1); }
+50% { opacity: 1; transform: scale(1.5); }
+}
+@keyframes ringPulse {
+0%, 100% { transform: scale(1); opacity: 0.3; }
+50% { transform: scale(1.1); opacity: 0.6; }
+}
+.neon-text { animation: neonPulse 2s ease-in-out infinite; }
+.float { animation: float 6s ease-in-out infinite; }
+.float2 { animation: float2 5s ease-in-out infinite; }
+.glow-border { animation: borderGlow 3s ease-in-out infinite; }
+.status-dot { animation: statusPulse 2s ease-in-out infinite; }
+.glitch { animation: glitch 3s ease-in-out infinite; }
+.orb1 { animation: orbFloat 20s ease-in-out infinite; }
+.orb2 { animation: orbFloat2 25s ease-in-out infinite; }
+.star { animation: starTwinkle 2s ease-in-out infinite; }
+.ring { animation: ringPulse 4s ease-in-out infinite; }
+</style>
+
+<div style="font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; background: #0d0221; color: #fff; max-width: 100%; margin: 0; padding: 0; overflow-x: hidden;">
+
+<!-- === HERO === -->
+
+<div style="padding: 3rem 1.5rem 2rem; background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 40%, #16082a 100%); position: relative; overflow: hidden; min-height: 480px;">
+
+<!-- Animated scanline -->
+
+<div style="position: absolute; top: -10%; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,0,255,0.5), transparent); animation: scanMove 4s linear infinite; pointer-events: none; z-index: 15;"></div>
+
+<!-- CRT scanline overlay -->
+
+<div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 12;"></div>
+
+<!-- Animated grid floor -->
+
+<div style="position: absolute; bottom: 0; left: -100%; right: -100%; height: 60%; background-image: linear-gradient(rgba(255,0,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,255,0.15) 1px, transparent 1px); background-size: 50px 50px; animation: gridScroll 3s linear infinite; pointer-events: none; opacity: 0.4;"></div>
+
+<!-- Floating orbs -->
+
+<div class="orb1" style="position: absolute; top: 5%; left: -15%; width: 350px; height: 350px; background: radial-gradient(circle, rgba(255,0,255,0.3) 0%, transparent 60%); border-radius: 50%; filter: blur(50px); pointer-events: none;"></div>
+<div class="orb2" style="position: absolute; top: 15%; right: -20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,255,255,0.2) 0%, transparent 60%); border-radius: 50%; filter: blur(60px); pointer-events: none;"></div>
+<div class="orb1" style="position: absolute; bottom: 20%; left: 10%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(255,0,255,0.15) 0%, transparent 70%); border-radius: 50%; filter: blur(40px); pointer-events: none;"></div>
+
+<!-- Stars -->
+
+<div class="star" style="position: absolute; top: 12%; left: 15%; width: 3px; height: 3px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px #fff;"></div>
+<div class="star" style="position: absolute; top: 25%; right: 20%; width: 2px; height: 2px; background: #00ffff; border-radius: 50%; box-shadow: 0 0 8px #00ffff; animation-delay: 0.5s;"></div>
+<div class="star" style="position: absolute; top: 8%; right: 30%; width: 2px; height: 2px; background: #ff00ff; border-radius: 50%; box-shadow: 0 0 6px #ff00ff; animation-delay: 1s;"></div>
+<div class="star" style="position: absolute; top: 35%; left: 8%; width: 2px; height: 2px; background: #fff; border-radius: 50%; box-shadow: 0 0 4px #fff; animation-delay: 1.5s;"></div>
+
+<div style="max-width: 420px; margin: 0 auto; position: relative; z-index: 5;">
+
+```
+<!-- Logo/Brand -->
+<div class="glitch" style="text-align: center; margin-bottom: 1.5rem;">
+<div style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff00ff;" class="neon-text">
+watermaxxing
+</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 3px;">.com</div>
+</div>
+
+<!-- Large Avatar with rings -->
+<div class="float" style="text-align: center; margin-bottom: 1.25rem;">
+<div style="position: relative; display: inline-block;">
+<!-- Outer ring -->
+<div class="ring" style="position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px; border: 2px solid rgba(255,0,255,0.3); border-radius: 50%;"></div>
+<!-- Middle ring -->
+<div class="ring" style="position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; animation-delay: 0.5s;"></div>
+<img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
+<div class="status-dot" style="position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #00ff88; border-radius: 50%; border: 4px solid #0d0221;"></div>
+</div>
+</div>
+
+<!-- Name & Bio -->
+<div style="text-align: center; margin-bottom: 1.5rem;">
+<h1 style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 700; color: #fff; margin: 0 0 0.625rem 0;">Barron Sawyer, JD</h1>
+<p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.7; margin: 0; padding: 0 1rem;">
+water treatment solutions that hold up irl<br>
+<span style="color: #00ffff;">full wtp & wwtp delivery</span> · 450+ mobile fleet · westech · since 1973
+</p>
+</div>
+
+<!-- Social Icons Row (moved up like linktree) -->
+<div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem;">
+<a href="tel:8012905565" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none; transition: all 0.3s ease;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+</a>
+<a href="https://x.com/bsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none; transition: all 0.3s ease;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+</a>
+<a href="https://instagram.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none; transition: all 0.3s ease;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1.5" fill="currentColor"/></svg>
+</a>
+<a href="https://twitch.tv/barronsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none; transition: all 0.3s ease;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+</a>
+<a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; color: #00ffff; text-decoration: none; transition: all 0.3s ease;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+</a>
+<a href="https://www.threads.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none; transition: all 0.3s ease;">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.33-3.022.88-.73 2.082-1.146 3.39-1.17 1.016-.02 1.97.14 2.849.476-.03-.986-.18-1.79-.45-2.404-.387-.882-1.065-1.325-2.073-1.357-1.521-.047-2.404.655-2.62 2.082l-2.032-.309c.34-2.334 2.074-3.643 4.608-3.593 1.634.032 2.893.674 3.638 1.855.547.866.84 1.97.898 3.375.535.212 1.02.47 1.453.772 1.133.79 1.948 1.86 2.366 3.105.603 1.796.506 4.396-1.673 6.527-1.87 1.826-4.215 2.64-7.378 2.664z"/></svg>
+</a>
+</div>
+```
+
+</div>
+</div>
+
+<!-- === BOOKING SECTION === -->
+
+<div style="padding: 0 1.5rem 2rem; background: linear-gradient(180deg, #16082a 0%, #0d0221 100%);">
+<div style="max-width: 420px; margin: 0 auto;">
+
+```
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 12px; text-align: center;">// book a meeting</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px;">
+
+<!-- Book via Calendly (Primary) -->
+<a href="https://calendly.com/bsaw" target="_blank" class="glow-border" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: linear-gradient(135deg, rgba(255,0,255,0.25), rgba(255,0,255,0.1)); border: 1px solid rgba(255,0,255,0.5); border-radius: 14px; text-decoration: none; color: #fff; transition: all 0.3s ease;">
+<div style="width: 44px; height: 44px; background: linear-gradient(135deg, #ff00ff, #cc00cc); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><circle cx="12" cy="15" r="2"/></svg>
+</div>
+<div style="flex: 1;">
+<div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">Book a Meeting</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">calendly · works with everything</div>
+</div>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+
+<!-- Book via Outlook -->
+<a href="https://outlook.office.com/bookwithme/user/bsawyer@westechwater.com" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.25); border-radius: 14px; text-decoration: none; color: #fff; transition: all 0.3s ease;">
+<div style="width: 44px; height: 44px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+</div>
+<div style="flex: 1;">
+<div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">Book via Outlook</div>
+<div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">microsoft 365 · enterprise</div>
+</div>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+
+</div>
+```
+
+</div>
+</div>
+
+<!-- === CONTACT LINKS === -->
+
+<div style="padding: 0 1.5rem 2rem; background: #0d0221;">
+<div style="max-width: 420px; margin: 0 auto;">
+
+```
+<div style="display: flex; flex-direction: column; gap: 10px;">
+
+<!-- Send a Note -->
+<a href="mailto:bsawyer@westechwater.com" style="display: flex; align-items: center; gap: 14px;
+</body>
+</html>
