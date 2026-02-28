@@ -170,44 +170,6 @@
   </div>
 </div>
 
-<!-- === BOOKING SECTION === -->
-
-<div style="padding: 0 1.5rem 2rem; background: linear-gradient(180deg, #16082a 0%, #0d0221 100%);">
-  <div style="max-width: 420px; margin: 0 auto;">
-
-```
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 12px; text-align: center;">// book a meeting</div>
-
-<div style="display: flex; flex-direction: column; gap: 10px;">
-  
-  <a href="https://calendly.com/bsaw" target="_blank" class="glow-border" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: linear-gradient(135deg, rgba(255,0,255,0.25), rgba(255,0,255,0.1)); border: 1px solid rgba(255,0,255,0.5); border-radius: 14px; text-decoration: none; color: #fff;">
-    <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #ff00ff, #cc00cc); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><circle cx="12" cy="15" r="2"/></svg>
-    </div>
-    <div style="flex: 1;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">Book a Meeting</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">calendly · works with everything</div>
-    </div>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </a>
-  
-  <a href="https://outlook.office.com/bookwithme/user/bsawyer@westechwater.com" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(0,255,255,0.08); border: 1px solid rgba(0,255,255,0.25); border-radius: 14px; text-decoration: none; color: #fff;">
-    <div style="width: 44px; height: 44px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
-    </div>
-    <div style="flex: 1;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">Book via Outlook</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">microsoft 365 · enterprise</div>
-    </div>
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-  </a>
-  
-</div>
-```
-
-  </div>
-</div>
-
 <!-- === CONTACT LINKS === -->
 
 <div style="padding: 0 1.5rem 2rem; background: #0d0221;">
@@ -260,6 +222,30 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
   </a>
   
+</div>
+
+<!-- === ARCADE SECTION (COMPACT) === -->
+<div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,0,255,0.2);">
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 10px; text-align: center;">.:: arcade ::.</div>
+  
+  <style>
+    @keyframes btnPulse { 0%, 100% { box-shadow: 0 0 20px rgba(255,0,255,0.3), 0 4px 0 #880088; } 50% { box-shadow: 0 0 25px rgba(255,0,255,0.5), 0 4px 0 #880088; } }
+    @keyframes btnPulse2 { 0%, 100% { box-shadow: 0 0 15px rgba(0,255,136,0.3), 0 4px 0 #005522; } 50% { box-shadow: 0 0 20px rgba(0,255,136,0.5), 0 4px 0 #005522; } }
+    #launchGameBtn:hover, #launchFlowstateBtn:hover { transform: translateY(-1px); }
+    #launchGameBtn:active, #launchFlowstateBtn:active { transform: translateY(2px); }
+  </style>
+  
+  <div style="display: flex; gap: 10px;">
+    <button id="launchGameBtn" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px 10px; background: linear-gradient(135deg, #ff00ff, #cc00cc); border: 2px solid #ff44ff; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 0 20px rgba(255,0,255,0.3), 0 4px 0 #880088; transition: all 0.15s ease; animation: btnPulse 2s ease-in-out infinite;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg>
+      PIPE PANIC
+    </button>
+    
+    <button id="launchFlowstateBtn" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px 10px; background: linear-gradient(135deg, #00aa66, #008844); border: 2px solid #00ff88; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 0 15px rgba(0,255,136,0.3), 0 4px 0 #005522; transition: all 0.15s ease; animation: btnPulse2 2.5s ease-in-out infinite;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+      FLOWSTATE
+    </button>
+  </div>
 </div>
 ```
 
@@ -367,55 +353,6 @@
     </div>
     <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">8K+</span>
   </a>
-  
-</div>
-```
-
-  </div>
-</div>
-
-<!-- === GAME LAUNCHER BUTTON === -->
-
-<div style="padding: 2rem 1.5rem; background: linear-gradient(180deg, #0d0221, #1a0533); border-top: 1px solid rgba(255,0,255,0.15);">
-  <div style="max-width: 420px; margin: 0 auto; text-align: center;">
-
-```
-<div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 12px;">.:: arcade ::.</div>
-
-<style>
-  @keyframes btnPulse {
-    0%, 100% { box-shadow: 0 0 30px rgba(255,0,255,0.4), 0 8px 0 #880088, 0 0 0 0 rgba(255,0,255,0.4); }
-    50% { box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 8px 0 #880088, 0 0 0 8px rgba(255,0,255,0); }
-  }
-  @keyframes btnBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
-  }
-  @keyframes btnPulse2 {
-    0%, 100% { box-shadow: 0 0 25px rgba(0,255,136,0.3), 0 6px 0 #005522, 0 0 0 0 rgba(0,255,136,0.3); }
-    50% { box-shadow: 0 0 35px rgba(0,255,136,0.5), 0 6px 0 #005522, 0 0 0 6px rgba(0,255,136,0); }
-  }
-  #launchGameBtn:hover, #launchFlowstateBtn:hover {
-    transform: translateY(-2px);
-  }
-  #launchGameBtn:active, #launchFlowstateBtn:active {
-    transform: translateY(4px);
-  }
-</style>
-
-<div style="display: flex; flex-direction: column; gap: 14px;">
-  
-  <button id="launchGameBtn" style="display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 18px 32px; background: linear-gradient(135deg, #ff00ff, #cc00cc); border: 2px solid #ff44ff; border-radius: 16px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; box-shadow: 0 0 30px rgba(255,0,255,0.4), 0 8px 0 #880088; transition: all 0.15s ease; animation: btnPulse 2s ease-in-out infinite, btnBounce 3s ease-in-out infinite;">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg>
-    Play PIPE PANIC
-  </button>
-  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.25); margin-top: -8px;">puzzle · rotate pipes · race the clock</div>
-  
-  <button id="launchFlowstateBtn" style="display: inline-flex; align-items: center; justify-content: center; gap: 12px; padding: 16px 28px; background: linear-gradient(135deg, #00aa66, #008844); border: 2px solid #00ff88; border-radius: 16px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; box-shadow: 0 0 25px rgba(0,255,136,0.3), 0 6px 0 #005522; transition: all 0.15s ease; animation: btnPulse2 2.5s ease-in-out infinite;">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/><path d="M15 11l2 2 4-4"/></svg>
-    Play FLOWSTATE
-  </button>
-  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.25); margin-top: -8px;">RPG · explore the plant · collect coins</div>
   
 </div>
 ```
@@ -2625,6 +2562,5 @@ function shareGame() {
   document.getElementById('fsBtnB')?.addEventListener('click', handleB);
 })();
 </script>
-  
 </body>
 </html>
