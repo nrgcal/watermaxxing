@@ -313,7 +313,7 @@
         <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); display: flex; align-items: center; justify-content: center;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
         </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">My First Week in Qatar</div></div>
+        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Story: My First Week as a Salesman</div></div>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
       </a>
       
@@ -334,9 +334,9 @@
         </div>
         <div style="flex: 1;">
           <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600;">FLOWSTATE Newsletter</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">#2 non-corporate water newsletter · parody · w/ comedy writer</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">co-creator · #2 non-corporate water newsletter · parody</div>
         </div>
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #ff00ff; background: rgba(255,0,255,0.15); padding: 4px 8px; border-radius: 6px;">3.8K+</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #ff00ff; background: rgba(255,0,255,0.15); padding: 4px 8px; border-radius: 6px;">3.9K+</span>
       </a>
       
       <a href="https://www.linkedin.com/groups/42677/" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; text-decoration: none; color: #fff;">
@@ -347,7 +347,7 @@
           <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600;">UCLA Alumni Network</div>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">founder · largest unaffiliated</div>
         </div>
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">OG</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">8K+</span>
       </a>
       
     </div>
@@ -362,7 +362,26 @@
     
     <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 12px;">.:: arcade ::.</div>
     
-    <button id="launchGameBtn" style="display: inline-flex; align-items: center; gap: 12px; padding: 18px 32px; background: linear-gradient(135deg, #ff00ff, #cc00cc); border: 2px solid #ff44ff; border-radius: 16px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; box-shadow: 0 0 30px rgba(255,0,255,0.4), 0 8px 0 #880088; transition: all 0.2s ease;">
+    <style>
+      @keyframes btnPulse {
+        0%, 100% { box-shadow: 0 0 30px rgba(255,0,255,0.4), 0 8px 0 #880088, 0 0 0 0 rgba(255,0,255,0.4); }
+        50% { box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 8px 0 #880088, 0 0 0 8px rgba(255,0,255,0); }
+      }
+      @keyframes btnBounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-3px); }
+      }
+      #launchGameBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 50px rgba(255,0,255,0.7), 0 10px 0 #880088 !important;
+      }
+      #launchGameBtn:active {
+        transform: translateY(4px);
+        box-shadow: 0 0 30px rgba(255,0,255,0.5), 0 4px 0 #880088 !important;
+      }
+    </style>
+    
+    <button id="launchGameBtn" style="display: inline-flex; align-items: center; gap: 12px; padding: 18px 32px; background: linear-gradient(135deg, #ff00ff, #cc00cc); border: 2px solid #ff44ff; border-radius: 16px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; box-shadow: 0 0 30px rgba(255,0,255,0.4), 0 8px 0 #880088; transition: all 0.15s ease; animation: btnPulse 2s ease-in-out infinite, btnBounce 3s ease-in-out infinite;">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg>
       Play PIPE PANIC
     </button>
@@ -543,7 +562,7 @@
               <rect x="26" y="68" width="28" height="6" rx="2" fill="#ffcc00"/>
               <text x="40" y="45" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="bold">1</text>
             </svg>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 6px;">MASTER PLUMBER!</div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 6px;">MASTER OPERATOR!</div>
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #00ffff; margin-bottom: 4px;">ALL LEVELS COMPLETE!</div>
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #ff00ff; margin-bottom: 12px;">SCORE: <span id="victoryScore">0</span></div>
             
@@ -576,12 +595,12 @@
       <!-- Controls -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 0 8px;">
         
-        <div style="position: relative; width: 90px; height: 90px;">
-          <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">▲</button>
-          <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">▼</button>
-          <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">◀</button>
-          <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">▶</button>
-          <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: #2a2a4a; border-radius: 50%; border: 2px solid #4a4a7a;"></div>
+        <div style="position: relative; width: 94px; height: 94px;">
+          <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 32px; height: 32px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 12px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 10px rgba(0,255,255,0.2), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s;">▲</button>
+          <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 32px; height: 32px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 12px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 10px rgba(0,255,255,0.2), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s;">▼</button>
+          <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 12px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 10px rgba(0,255,255,0.2), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s;">◀</button>
+          <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 12px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 10px rgba(0,255,255,0.2), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s;">▶</button>
+          <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 22px; height: 22px; background: radial-gradient(circle, #3a3a6a, #2a2a4a); border-radius: 50%; border: 2px solid #4a4a7a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);"></div>
         </div>
         
         <div style="text-align: center;">
@@ -607,8 +626,10 @@
 
 <script>
 // Share game function (outside IIFE so onclick can access it)
+let currentGameScore = 0; // Will be set by game
+
 function shareGame() {
-  const shareText = "🎮 Just played PIPE PANIC on watermaxxing.com - a sick retro water pipe puzzle game! Can you beat my score? 💧";
+  const shareText = `🕹️ Just played Pipe Panic on Barron's business card - a retro puzzle game! Can you beat my score: ${currentGameScore}? 💧`;
   const shareUrl = "https://watermaxxing.com";
   
   // Try native share first (mobile)
@@ -1253,6 +1274,7 @@ function shareGame() {
   
   function gameOver() {
     state = 'gameOver';
+    currentGameScore = score; // For share function
     document.getElementById('finalScore').textContent = score;
     document.getElementById('highScoreText').textContent = score > highScore ? '★ NEW HIGH SCORE! ★' : `BEST: ${highScore}`;
     if (score > highScore) highScore = score;
@@ -1261,6 +1283,7 @@ function shareGame() {
   
   function victory() {
     state = 'victory';
+    currentGameScore = score; // For share function
     document.getElementById('victoryScore').textContent = score;
     if (score > highScore) highScore = score;
     createCelebration(document.getElementById('victoryCelebration'));
