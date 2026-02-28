@@ -455,8 +455,8 @@
                 <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Rotate ↺</div>
               </div>
               <div style="text-align: center; padding: 6px 10px; background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 8px;">
-                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ffcc00; font-weight: bold;">A+B</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Swap</div>
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ffcc00; font-weight: bold;">HOLD B</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Swap tiles</div>
               </div>
             </div>
             
@@ -632,9 +632,9 @@
   let celebrationParticles = [];
   
   const levels = [
-    { cols: 3, rows: 3, waterDelay: 4, waterSpeed: 1.2 },
-    { cols: 4, rows: 3, waterDelay: 3.5, waterSpeed: 1.5 },
-    { cols: 4, rows: 4, waterDelay: 3, waterSpeed: 1.8 }
+    { cols: 3, rows: 3, waterDelay: 5, waterSpeed: 0.15 },
+    { cols: 4, rows: 3, waterDelay: 5, waterSpeed: 0.18 },
+    { cols: 4, rows: 4, waterDelay: 5, waterSpeed: 0.20 }
   ];
   
   const CELL = 58;
@@ -1122,7 +1122,7 @@
       ctx.font = 'bold 10px Orbitron';
       ctx.fillStyle = '#ffcc00';
       ctx.textAlign = 'center';
-      ctx.fillText('SWAP MODE - Select target', W/2, H - 15);
+      ctx.fillText('SWAP: Move cursor, press A to swap', W/2, H - 15);
     }
     
     // Particles
@@ -1229,10 +1229,8 @@
     if (state === 'menu' || state === 'gameOver' || state === 'victory') startGame();
     else if (state === 'levelComplete') nextLevel();
     else if (state === 'playing') {
-      if (btnBDown) {
-        // Both pressed - start swap
-        if (!swapMode) startSwap();
-      } else if (swapMode) {
+      if (swapMode) {
+        // In swap mode, A confirms the swap
         executeSwap();
       } else {
         rotateTile(true);
@@ -1242,10 +1240,8 @@
   
   function handleB() {
     if (state === 'playing') {
-      if (btnADown) {
-        // Both pressed - start swap
-        if (!swapMode) startSwap();
-      } else if (swapMode) {
+      if (swapMode) {
+        // Already in swap mode - cancel it
         cancelSwap();
       } else {
         rotateTile(false);
@@ -1255,19 +1251,39 @@
     }
   }
   
-  // Button bindings with press tracking
+  function handleBHold() {
+    // Long press B enters swap mode
+    if (state === 'playing' && !swapMode) {
+      startSwap();
+    }
+  }
+  
+  // Button bindings
   const btnA = document.getElementById('btnA');
   const btnB = document.getElementById('btnB');
   
-  btnA.addEventListener('mousedown', () => { btnADown = true; });
-  btnA.addEventListener('mouseup', () => { handleA(); btnADown = false; });
-  btnA.addEventListener('touchstart', e => { e.preventDefault(); btnADown = true; });
-  btnA.addEventListener('touchend', e => { e.preventDefault(); handleA(); btnADown = false; });
+  let bHoldTimer = null;
   
-  btnB.addEventListener('mousedown', () => { btnBDown = true; });
-  btnB.addEventListener('mouseup', () => { handleB(); btnBDown = false; });
-  btnB.addEventListener('touchstart', e => { e.preventDefault(); btnBDown = true; });
-  btnB.addEventListener('touchend', e => { e.preventDefault(); handleB(); btnBDown = false; });
+  btnA.addEventListener('click', handleA);
+  btnA.addEventListener('touchstart', e => e.preventDefault());
+  btnA.addEventListener('touchend', e => { e.preventDefault(); handleA(); });
+  
+  btnB.addEventListener('mousedown', () => {
+    bHoldTimer = setTimeout(handleBHold, 400); // Hold for 400ms to swap
+  });
+  btnB.addEventListener('mouseup', () => {
+    if (bHoldTimer) { clearTimeout(bHoldTimer); bHoldTimer = null; }
+    if (!swapMode) handleB(); // Only rotate if we didn't enter swap mode
+  });
+  btnB.addEventListener('touchstart', e => {
+    e.preventDefault();
+    bHoldTimer = setTimeout(handleBHold, 400);
+  });
+  btnB.addEventListener('touchend', e => {
+    e.preventDefault();
+    if (bHoldTimer) { clearTimeout(bHoldTimer); bHoldTimer = null; }
+    if (!swapMode) handleB();
+  });
   
   document.getElementById('btnUp').onclick = () => moveCursor(0, -1);
   document.getElementById('btnDown').onclick = () => moveCursor(0, 1);
@@ -1279,32 +1295,34 @@
   });
   
   // Keyboard
+  let xHoldTimer = null;
+  
   document.addEventListener('keydown', e => {
     if (overlay.style.display === 'none') return;
+    if (e.repeat) return; // Ignore key repeat
+    
     switch(e.key) {
       case 'ArrowUp': case 'w': moveCursor(0, -1); break;
       case 'ArrowDown': case 's': moveCursor(0, 1); break;
       case 'ArrowLeft': case 'a': moveCursor(-1, 0); break;
       case 'ArrowRight': case 'd': moveCursor(1, 0); break;
-      case ' ': case 'z': e.preventDefault(); btnADown = true; break;
-      case 'x': e.preventDefault(); btnBDown = true; break;
+      case ' ': case 'z': e.preventDefault(); handleA(); break;
+      case 'x': 
+        e.preventDefault();
+        xHoldTimer = setTimeout(handleBHold, 400);
+        break;
       case 'Escape': hideGame(); break;
-    }
-    
-    // Check for both keys combo
-    if (btnADown && btnBDown && state === 'playing' && !swapMode) {
-      startSwap();
     }
   });
   
   document.addEventListener('keyup', e => {
-    if (e.key === ' ' || e.key === 'z') { handleA(); btnADown = false; }
-    if (e.key === 'x') { handleB(); btnBDown = false; }
+    if (e.key === 'x') {
+      if (xHoldTimer) { clearTimeout(xHoldTimer); xHoldTimer = null; }
+      if (!swapMode) handleB();
+    }
   });
 })();
 </script>
-
-
 
   
 </body>
