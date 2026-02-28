@@ -396,8 +396,9 @@
 
 </div>
 
+
 <!-- ═══════════════════════════════════════════════════════════════════════════
-     PIPE PANIC - ENHANCED WATER FLOW VERSION
+     PIPE PANIC - ENHANCED WATER FLOW VERSION v2
 ═══════════════════════════════════════════════════════════════════════════ -->
 
 <div id="gameOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,5,15,0.95); z-index: 1000; backdrop-filter: blur(10px);">
@@ -408,124 +409,152 @@
     
     <div style="max-width: 420px; margin: 0 auto; background: linear-gradient(180deg, #151530 0%, #0a0a1a 100%); border-radius: 30px 30px 0 0; padding: 16px 16px 24px; border: 3px solid #3a3a6a; border-bottom: none; box-shadow: 0 -15px 80px rgba(0,255,255,0.2), 0 -5px 40px rgba(255,0,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1);">
       
-      <!-- Title with water effect -->
       <div style="text-align: center; margin-bottom: 10px; position: relative;">
         <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: 0.15em; color: #00ffff; text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;">PIPE PANIC</div>
         <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; letter-spacing: 0.3em;">WATER EDITION</div>
       </div>
       
-      <!-- Game Screen -->
       <div style="background: #000; border-radius: 16px; padding: 4px; border: 3px solid #2a2a5a; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 20px rgba(0,255,255,0.1);">
         
         <div id="gameScreen" style="position: relative; width: 100%; height: 340px; background: linear-gradient(180deg, #000510 0%, #001020 50%, #000815 100%); border-radius: 12px; overflow: hidden;">
           
-          <!-- Animated water background -->
-          <svg id="bgWaves" style="position: absolute; bottom: 0; left: 0; width: 100%; height: 60px; opacity: 0.1;">
-            <path d="M0,30 Q50,10 100,30 T200,30 T300,30 T400,30 V60 H0 Z" fill="#00ffff">
-              <animate attributeName="d" dur="3s" repeatCount="indefinite" values="M0,30 Q50,10 100,30 T200,30 T300,30 T400,30 V60 H0 Z; M0,30 Q50,50 100,30 T200,30 T300,30 T400,30 V60 H0 Z; M0,30 Q50,10 100,30 T200,30 T300,30 T400,30 V60 H0 Z"/>
-            </path>
-          </svg>
-          
-          <!-- Canvas for game -->
           <canvas id="gameCanvas" width="388" height="340" style="display: block; width: 100%; height: 100%; position: relative; z-index: 10;"></canvas>
           
           <!-- Start Screen -->
-          <div id="startScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,30,60,0.95) 0%, rgba(0,10,30,0.98) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
+          <div id="startScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,30,60,0.98) 0%, rgba(0,10,30,0.99) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
             
-            <!-- Animated logo -->
-            <div style="position: relative; margin-bottom: 20px;">
-              <svg width="80" height="80" viewBox="0 0 80 80">
-                <defs>
-                  <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#00ffff"/>
-                    <stop offset="100%" style="stop-color:#ff00ff"/>
-                  </linearGradient>
-                </defs>
-                <circle cx="40" cy="40" r="35" fill="none" stroke="url(#pipeGrad)" stroke-width="6" opacity="0.3"/>
-                <circle cx="40" cy="40" r="35" fill="none" stroke="url(#pipeGrad)" stroke-width="6" stroke-dasharray="60 160" stroke-linecap="round">
-                  <animateTransform attributeName="transform" type="rotate" from="0 40 40" to="360 40 40" dur="2s" repeatCount="indefinite"/>
-                </circle>
-                <text x="40" y="48" text-anchor="middle" fill="#00ffff" font-family="Arial" font-size="28">💧</text>
-              </svg>
+            <svg width="70" height="70" viewBox="0 0 70 70" style="margin-bottom: 12px;">
+              <defs>
+                <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#00ffff"/>
+                  <stop offset="100%" style="stop-color:#ff00ff"/>
+                </linearGradient>
+              </defs>
+              <circle cx="35" cy="35" r="30" fill="none" stroke="url(#pipeGrad)" stroke-width="5" opacity="0.3"/>
+              <circle cx="35" cy="35" r="30" fill="none" stroke="url(#pipeGrad)" stroke-width="5" stroke-dasharray="50 140" stroke-linecap="round">
+                <animateTransform attributeName="transform" type="rotate" from="0 35 35" to="360 35 35" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M35 12 C35 12 20 30 20 40 C20 50 27 55 35 55 C43 55 50 50 50 40 C50 30 35 12 35 12 Z" fill="#00ffff" opacity="0.8"/>
+            </svg>
+            
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; color: #00ffff; text-shadow: 0 0 30px #00ffff; margin-bottom: 6px;">PIPE PANIC</div>
+            
+            <div style="width: 80px; height: 2px; background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent); margin-bottom: 12px;"></div>
+            
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.7; margin-bottom: 14px;">
+              Connect <span style="color: #00ff88;">IN</span> → <span style="color: #ff00ff;">OUT</span> before overflow!
             </div>
             
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: #00ffff; text-shadow: 0 0 30px #00ffff; margin-bottom: 8px;">PIPE PANIC</div>
-            
-            <div style="width: 100px; height: 3px; background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent); margin-bottom: 16px;"></div>
-            
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.8; margin-bottom: 20px;">
-              Rotate pipes to connect<br>
-              <span style="color: #00ff88;">SOURCE</span> → <span style="color: #ff00ff;">DRAIN</span><br>
-              before water overflows!
-            </div>
-            
-            <div style="display: flex; gap: 20px; margin-bottom: 24px;">
-              <div style="text-align: center;">
-                <div style="width: 36px; height: 36px; background: rgba(255,0,255,0.2); border: 2px solid #ff00ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px;">
-                  <span style="color: #ff00ff; font-size: 14px;">⬅➡</span>
-                </div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.4);">MOVE</div>
+            <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center;">
+              <div style="text-align: center; padding: 6px 10px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 8px;">
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #00ffff; font-weight: bold;">A</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Rotate ↻</div>
               </div>
-              <div style="text-align: center;">
-                <div style="width: 36px; height: 36px; background: rgba(0,255,255,0.2); border: 2px solid #00ffff; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px;">
-                  <span style="color: #00ffff; font-size: 12px; font-weight: bold;">A</span>
-                </div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.4);">ROTATE →</div>
+              <div style="text-align: center; padding: 6px 10px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); border-radius: 8px;">
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ff00ff; font-weight: bold;">B</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Rotate ↺</div>
               </div>
-              <div style="text-align: center;">
-                <div style="width: 36px; height: 36px; background: rgba(255,0,255,0.2); border: 2px solid #ff00ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px;">
-                  <span style="color: #ff00ff; font-size: 12px; font-weight: bold;">B</span>
-                </div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.4);">ROTATE ←</div>
+              <div style="text-align: center; padding: 6px 10px; background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 8px;">
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ffcc00; font-weight: bold;">A+B</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Swap</div>
               </div>
             </div>
             
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #ff00ff; text-shadow: 0 0 20px #ff00ff;">
-              ▶ PRESS A TO START ◀
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; color: #ff00ff; text-shadow: 0 0 15px #ff00ff;">
+              ▶ PRESS A ◀
             </div>
           </div>
           
           <!-- Level Complete -->
-          <div id="levelScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,40,30,0.95) 0%, rgba(0,20,15,0.98) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
-            <svg width="70" height="70" viewBox="0 0 70 70" style="margin-bottom: 10px; filter: drop-shadow(0 0 20px #00ff88);">
-              <path d="M35 8 C35 8 15 32 15 45 C15 56 24 62 35 62 C46 62 55 56 55 45 C55 32 35 8 35 8 Z" fill="#00ffaa" stroke="#00ff88" stroke-width="3"/>
-              <ellipse cx="28" cy="40" rx="6" ry="10" fill="rgba(255,255,255,0.4)"/>
+          <div id="levelScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,50,40,0.98) 0%, rgba(0,20,15,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
+            <div id="levelCelebration" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden;"></div>
+            <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 25px #00ff88);">
+              <path d="M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z" fill="#00ffaa" stroke="#00ff88" stroke-width="3">
+                <animate attributeName="d" dur="0.5s" values="M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z; M40 8 C40 8 18 35 18 48 C18 62 28 72 40 72 C52 72 62 62 62 48 C62 35 40 8 40 8 Z; M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z" repeatCount="indefinite"/>
+              </path>
+              <ellipse cx="30" cy="45" rx="8" ry="12" fill="rgba(255,255,255,0.4)"/>
+              <path d="M30 60 L35 55 L40 62 L50 45" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 700; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 16px;">CONNECTED!</div>
-            <div id="levelBonus" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #00ffff; margin-bottom: 8px;"></div>
-            <div id="levelTotal" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #fff; margin-bottom: 24px;"></div>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; color: #ff00ff;">▶ PRESS A ◀</div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 8px;">CONNECTED!</div>
+            <div id="levelBonus" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #00ffff; margin-bottom: 6px;"></div>
+            <div id="levelTotal" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #fff; margin-bottom: 12px;"></div>
+            
+            <!-- Barron appears -->
+            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0,255,255,0.3); margin-bottom: 12px;">
+              <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #00ffff; object-fit: cover;">
+              <div>
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #00ffff;">BARRON SAYS:</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"Nice flow! Keep it up!"</div>
+              </div>
+            </div>
+            
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; color: #ff00ff;">▶ PRESS A ◀</div>
           </div>
           
           <!-- Game Over -->
-          <div id="gameOverScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(40,0,20,0.95) 0%, rgba(20,0,10,0.98) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
-            <svg width="70" height="70" viewBox="0 0 70 70" style="margin-bottom: 10px; filter: drop-shadow(0 0 20px #ff0055);">
-              <path d="M5 40 Q15 30 25 40 T45 40 T65 40" fill="none" stroke="#ff0055" stroke-width="6" stroke-linecap="round"/>
-              <path d="M5 50 Q15 40 25 50 T45 50 T65 50" fill="none" stroke="#ff3366" stroke-width="5" stroke-linecap="round"/>
-              <path d="M5 58 Q15 50 25 58 T45 58 T65 58" fill="none" stroke="#ff6688" stroke-width="4" stroke-linecap="round"/>
-              <circle cx="20" cy="25" r="4" fill="#ff0055"/>
-              <circle cx="50" cy="20" r="3" fill="#ff3366"/>
-              <circle cx="35" cy="15" r="5" fill="#ff0055"/>
+          <div id="gameOverScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(50,0,20,0.98) 0%, rgba(20,0,10,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
+            <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 20px #ff0055);">
+              <path d="M5 45 Q20 30 35 45 T65 45 T95 45" fill="none" stroke="#ff0055" stroke-width="7" stroke-linecap="round">
+                <animate attributeName="d" dur="0.8s" values="M5 45 Q20 30 35 45 T65 45; M5 45 Q20 55 35 45 T65 45; M5 45 Q20 30 35 45 T65 45" repeatCount="indefinite"/>
+              </path>
+              <path d="M5 55 Q20 42 35 55 T65 55 T95 55" fill="none" stroke="#ff3366" stroke-width="5" stroke-linecap="round"/>
+              <path d="M5 63 Q20 52 35 63 T65 63" fill="none" stroke="#ff6688" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="25" cy="28" r="5" fill="#ff0055"><animate attributeName="cy" dur="1s" values="28;20;28" repeatCount="indefinite"/></circle>
+              <circle cx="55" cy="22" r="4" fill="#ff3366"><animate attributeName="cy" dur="0.8s" values="22;15;22" repeatCount="indefinite"/></circle>
+              <circle cx="40" cy="18" r="6" fill="#ff0055"><animate attributeName="cy" dur="1.2s" values="18;10;18" repeatCount="indefinite"/></circle>
             </svg>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 700; color: #ff0055; text-shadow: 0 0 30px #ff0055; margin-bottom: 16px;">OVERFLOW!</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #00ffff; margin-bottom: 8px;">SCORE: <span id="finalScore">0</span></div>
-            <div id="highScoreText" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #00ff88; margin-bottom: 24px;"></div>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; color: rgba(255,255,255,0.6);">▶ PRESS A ◀</div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 800; color: #ff0055; text-shadow: 0 0 30px #ff0055; margin-bottom: 8px;">OVERFLOW!</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #00ffff; margin-bottom: 6px;">SCORE: <span id="finalScore">0</span></div>
+            <div id="highScoreText" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ff88; margin-bottom: 12px;"></div>
+            
+            <!-- Barron appears -->
+            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(255,0,255,0.3); margin-bottom: 12px;">
+              <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #ff00ff; object-fit: cover;">
+              <div>
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #ff00ff;">BARRON SAYS:</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"Follow me on LinkedIn for tips!"</div>
+              </div>
+            </div>
+            
+            <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: rgba(0,119,181,0.3); border: 1px solid #0077b5; border-radius: 8px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-bottom: 12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              Follow @sawyerlaw
+            </a>
+            
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6);">▶ PRESS A ◀</div>
           </div>
           
           <!-- Victory -->
-          <div id="victoryScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,40,40,0.95) 0%, rgba(0,20,30,0.98) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
-            <svg width="70" height="70" viewBox="0 0 70 70" style="margin-bottom: 10px; filter: drop-shadow(0 0 20px #ffcc00);">
-              <path d="M20 15 L20 35 Q20 50 35 55 Q50 50 50 35 L50 15 Z" fill="#ffcc00" stroke="#ffaa00" stroke-width="3"/>
-              <path d="M15 15 L10 15 Q5 15 5 25 Q5 35 15 35 L20 35" fill="none" stroke="#ffcc00" stroke-width="4"/>
-              <path d="M55 15 L60 15 Q65 15 65 25 Q65 35 55 35 L50 35" fill="none" stroke="#ffcc00" stroke-width="4"/>
-              <rect x="28" y="55" width="14" height="8" fill="#ffaa00"/>
-              <rect x="22" y="63" width="26" height="5" rx="2" fill="#ffcc00"/>
-              <ellipse cx="35" cy="32" rx="8" ry="10" fill="rgba(255,255,255,0.3)"/>
+          <div id="victoryScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,50,50,0.98) 0%, rgba(0,20,30,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
+            <div id="victoryCelebration" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden;"></div>
+            <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 25px #ffcc00);">
+              <path d="M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z" fill="#ffcc00" stroke="#ffaa00" stroke-width="3">
+                <animate attributeName="d" dur="0.6s" values="M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z; M23 16 L23 42 Q23 57 40 62 Q57 57 57 42 L57 16 Z; M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z" repeatCount="indefinite"/>
+              </path>
+              <path d="M18 18 L12 18 Q6 18 6 30 Q6 42 18 42 L25 42" fill="none" stroke="#ffcc00" stroke-width="5"/>
+              <path d="M62 18 L68 18 Q74 18 74 30 Q74 42 62 42 L55 42" fill="none" stroke="#ffcc00" stroke-width="5"/>
+              <rect x="32" y="60" width="16" height="8" fill="#ffaa00"/>
+              <rect x="26" y="68" width="28" height="6" rx="2" fill="#ffcc00"/>
+              <text x="40" y="45" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="bold">1</text>
             </svg>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 700; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 8px;">MASTER PLUMBER!</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #00ffff; margin-bottom: 8px;">ALL LEVELS COMPLETE!</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #ff00ff; margin-bottom: 24px;">SCORE: <span id="victoryScore">0</span></div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 6px;">MASTER PLUMBER!</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #00ffff; margin-bottom: 4px;">ALL LEVELS COMPLETE!</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #ff00ff; margin-bottom: 12px;">SCORE: <span id="victoryScore">0</span></div>
+            
+            <!-- Barron appears -->
+            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0,255,136,0.4); margin-bottom: 12px;">
+              <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #00ff88; object-fit: cover;">
+              <div>
+                <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #00ff88;">BARRON SAYS:</div>
+                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"You're a natural! Let's connect!"</div>
+              </div>
+            </div>
+            
+            <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; background: rgba(0,119,181,0.3); border: 1px solid #0077b5; border-radius: 8px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 10px; margin-bottom: 12px;">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              Follow @sawyerlaw
+            </a>
+            
             <div style="font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.6);">▶ PRESS A ◀</div>
           </div>
           
@@ -535,27 +564,25 @@
       <!-- Controls -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 0 8px;">
         
-        <!-- D-pad -->
         <div style="position: relative; width: 90px; height: 90px;">
-          <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a, inset 0 1px 0 rgba(255,255,255,0.2);">▲</button>
-          <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a, inset 0 1px 0 rgba(255,255,255,0.2);">▼</button>
-          <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a, inset 0 1px 0 rgba(255,255,255,0.2);">◀</button>
-          <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a, inset 0 1px 0 rgba(255,255,255,0.2);">▶</button>
-          <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: linear-gradient(180deg, #3a3a6a, #2a2a4a); border-radius: 50%; border: 2px solid #4a4a7a;"></div>
+          <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">▲</button>
+          <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">▼</button>
+          <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">◀</button>
+          <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 30px; height: 30px; background: linear-gradient(180deg, #4a4a7a, #3a3a6a); border: 2px solid #5a5a8a; border-radius: 8px; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 3px 0 #2a2a4a;">▶</button>
+          <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; background: #2a2a4a; border-radius: 50%; border: 2px solid #4a4a7a;"></div>
         </div>
         
         <div style="text-align: center;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.15); letter-spacing: 0.2em;">WATERMAXXING™</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.15); letter-spacing: 0.2em;">WATERMAXXING</div>
         </div>
         
-        <!-- Action buttons -->
         <div style="display: flex; gap: 12px;">
           <div style="text-align: center;">
-            <button id="btnB" style="width: 44px; height: 44px; background: linear-gradient(180deg, #ff00ff, #cc00cc); border: 3px solid #ff66ff; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #880088, 0 0 25px rgba(255,0,255,0.5), inset 0 2px 0 rgba(255,255,255,0.3);">B</button>
+            <button id="btnB" style="width: 44px; height: 44px; background: linear-gradient(180deg, #ff00ff, #cc00cc); border: 3px solid #ff66ff; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #880088, 0 0 25px rgba(255,0,255,0.5);">B</button>
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #ff00ff; margin-top: 4px;">↺</div>
           </div>
           <div style="text-align: center;">
-            <button id="btnA" style="width: 44px; height: 44px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5), inset 0 2px 0 rgba(255,255,255,0.4);">A</button>
+            <button id="btnA" style="width: 44px; height: 44px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5);">A</button>
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #00ffff; margin-top: 4px;">↻</div>
           </div>
         </div>
@@ -575,7 +602,6 @@
   const overlay = document.getElementById('gameOverlay');
   const consoleEl = document.getElementById('gameConsole');
   
-  // Screens
   const screens = {
     start: document.getElementById('startScreen'),
     level: document.getElementById('levelScreen'),
@@ -588,28 +614,31 @@
   let level = 1;
   let score = 0;
   let highScore = 0;
-  let timeLeft = 0;
-  let maxTime = 0;
-  let waterFill = 0; // 0-100, water rising in source
   let grid = [];
-  let cols = 4, rows = 3;
+  let solutionGrid = []; // Store the solution
+  let cols = 3, rows = 3;
   let cursorX = 0, cursorY = 0;
   let sourceY = 1, drainY = 1;
   let flowPath = [];
   let animTime = 0;
   let particles = [];
-  let shakeAmount = 0;
+  let waterProgress = 0; // 0-100%, how far water has flowed
+  let waterSpeed = 2; // % per frame
+  let waterStartDelay = 3; // seconds before water starts
+  let gameStartTime = 0;
+  let swapMode = false;
+  let swapStartX = -1, swapStartY = -1;
+  let btnADown = false, btnBDown = false;
+  let celebrationParticles = [];
   
-  // Level configs - EASIER with more time
   const levels = [
-    { cols: 3, rows: 3, time: 45, fillRate: 1.5 },
-    { cols: 4, rows: 3, time: 40, fillRate: 2 },
-    { cols: 4, rows: 4, time: 35, fillRate: 2.5 }
+    { cols: 3, rows: 3, waterDelay: 4, waterSpeed: 1.2 },
+    { cols: 4, rows: 3, waterDelay: 3.5, waterSpeed: 1.5 },
+    { cols: 4, rows: 4, waterDelay: 3, waterSpeed: 1.8 }
   ];
   
-  // Cell size
-  const CELL = 60;
-  const PIPE_W = 18;
+  const CELL = 58;
+  const PIPE_W = 16;
   
   function showGame() {
     overlay.style.display = 'block';
@@ -627,7 +656,6 @@
   document.getElementById('closeGameBtn').onclick = hideGame;
   overlay.onclick = e => { if (e.target === overlay) hideGame(); };
   
-  // Pipe rotation
   function rotateCW(c) { return [c[3], c[0], c[1], c[2]]; }
   function rotateCCW(c) { return [c[1], c[2], c[3], c[0]]; }
   
@@ -635,80 +663,93 @@
     const cfg = levels[level - 1];
     cols = cfg.cols;
     rows = cfg.rows;
-    maxTime = cfg.time;
-    timeLeft = maxTime;
-    waterFill = 0;
+    waterStartDelay = cfg.waterDelay;
+    waterSpeed = cfg.waterSpeed;
+    waterProgress = 0;
     particles = [];
+    celebrationParticles = [];
+    gameStartTime = performance.now();
     
+    // Generate source and drain positions
     sourceY = Math.floor(Math.random() * rows);
     drainY = Math.floor(Math.random() * rows);
     
-    // Generate solution path
-    const path = [];
-    let x = 0, y = sourceY, fromDir = 3;
-    
-    while (x < cols) {
-      const c = [0,0,0,0];
-      c[fromDir] = 1;
-      
-      if (x === cols - 1) {
-        c[1] = 1;
-        path.push({x, y, c: [...c]});
-        break;
-      }
-      
-      // Choose next direction - bias toward drain
-      const opts = ['right'];
-      if (y > 0 && fromDir !== 0) opts.push('up');
-      if (y < rows - 1 && fromDir !== 2) opts.push('down');
-      
-      // Strong bias toward drain
-      if (y < drainY) { opts.push('down', 'down'); }
-      else if (y > drainY) { opts.push('up', 'up'); }
-      else { opts.push('right', 'right'); }
-      
-      const choice = opts[Math.floor(Math.random() * opts.length)];
-      
-      if (choice === 'right') {
-        c[1] = 1;
-        path.push({x, y, c: [...c]});
-        x++; fromDir = 3;
-      } else if (choice === 'up') {
-        c[0] = 1;
-        path.push({x, y, c: [...c]});
-        y--; fromDir = 2;
-      } else {
-        c[2] = 1;
-        path.push({x, y, c: [...c]});
-        y++; fromDir = 0;
+    // GENERATE A GUARANTEED SOLVABLE PUZZLE
+    // First, create the solution grid
+    solutionGrid = [];
+    for (let y = 0; y < rows; y++) {
+      solutionGrid[y] = [];
+      for (let x = 0; x < cols; x++) {
+        solutionGrid[y][x] = { c: [0,0,0,0] };
       }
     }
     
-    // Possible pipe shapes
-    const pipeTypes = [
-      [0,1,0,1], [1,0,1,0], // straight
-      [1,1,0,0], [0,1,1,0], [0,0,1,1], [1,0,0,1], // corners
-      [1,1,1,0], [0,1,1,1], [1,0,1,1], [1,1,0,1] // T-junctions
-    ];
+    // Build path from source to drain
+    let x = 0, y = sourceY;
+    let path = [{x, y}];
     
-    // Fill grid
+    while (x < cols - 1 || y !== drainY) {
+      let nextX = x, nextY = y;
+      
+      // Decide next move
+      if (x < cols - 1) {
+        if (y < drainY && Math.random() < 0.4) {
+          nextY = y + 1; // go down
+        } else if (y > drainY && Math.random() < 0.4) {
+          nextY = y - 1; // go up
+        } else {
+          nextX = x + 1; // go right
+        }
+      } else {
+        // Must reach drain row
+        if (y < drainY) nextY = y + 1;
+        else if (y > drainY) nextY = y - 1;
+      }
+      
+      // Set connections
+      if (nextX > x) { // going right
+        solutionGrid[y][x].c[1] = 1;
+        solutionGrid[nextY][nextX].c[3] = 1;
+      } else if (nextY > y) { // going down
+        solutionGrid[y][x].c[2] = 1;
+        solutionGrid[nextY][nextX].c[0] = 1;
+      } else if (nextY < y) { // going up
+        solutionGrid[y][x].c[0] = 1;
+        solutionGrid[nextY][nextX].c[2] = 1;
+      }
+      
+      x = nextX;
+      y = nextY;
+      path.push({x, y});
+    }
+    
+    // Add source and drain connections
+    solutionGrid[sourceY][0].c[3] = 1; // connect to source
+    solutionGrid[drainY][cols-1].c[1] = 1; // connect to drain
+    
+    // Create playable grid by scrambling the solution
     grid = [];
     for (let gy = 0; gy < rows; gy++) {
       grid[gy] = [];
       for (let gx = 0; gx < cols; gx++) {
-        const pathCell = path.find(p => p.x === gx && p.y === gy);
-        let c = pathCell ? [...pathCell.c] : [...pipeTypes[Math.floor(Math.random() * pipeTypes.length)]];
+        let c = [...solutionGrid[gy][gx].c];
         
-        // Scramble with 1-3 rotations (makes it easier than full random)
+        // Scramble with random rotations (1-3)
         const rots = 1 + Math.floor(Math.random() * 3);
-        for (let r = 0; r < rots; r++) c = rotateCW(c);
+        for (let r = 0; r < rots; r++) {
+          c = rotateCW(c);
+        }
         
-        grid[gy][gx] = { c, rotation: 0, targetRotation: 0 };
+        grid[gy][gx] = { c };
       }
     }
     
     cursorX = 0;
     cursorY = sourceY;
+    swapMode = false;
+    swapStartX = -1;
+    swapStartY = -1;
+    
     checkFlow();
   }
   
@@ -727,19 +768,17 @@
       
       flowPath.push({x, y});
       
-      // Find exit
       let exitDir = -1;
       for (let d = 0; d < 4; d++) {
         if (d !== fromDir && cell.c[d] === 1) { exitDir = d; break; }
       }
       if (exitDir === -1) break;
       
-      // Check win
       if (x === cols - 1 && y === drainY && exitDir === 1) {
+        flowPath.push({x: cols, y: drainY}); // Mark complete
         return true;
       }
       
-      // Move
       const moves = [{dx:0,dy:-1,e:2}, {dx:1,dy:0,e:3}, {dx:0,dy:1,e:0}, {dx:-1,dy:0,e:1}];
       x += moves[exitDir].dx;
       y += moves[exitDir].dy;
@@ -750,29 +789,74 @@
   
   function rotateTile(clockwise) {
     if (state !== 'playing') return;
+    if (swapMode) return; // Can't rotate in swap mode
     
     const cell = grid[cursorY][cursorX];
     cell.c = clockwise ? rotateCW(cell.c) : rotateCCW(cell.c);
-    cell.targetRotation += clockwise ? 90 : -90;
     
-    // Add rotation particles
+    // Particles
     const offset = getGridOffset();
     const cx = offset.x + cursorX * (CELL + 4) + CELL/2;
     const cy = offset.y + cursorY * (CELL + 4) + CELL/2;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 4; i++) {
       particles.push({
         x: cx, y: cy,
-        vx: (Math.random() - 0.5) * 4,
-        vy: (Math.random() - 0.5) * 4,
-        life: 20,
+        vx: (Math.random() - 0.5) * 5,
+        vy: (Math.random() - 0.5) * 5,
+        life: 15,
         color: clockwise ? '#00ffff' : '#ff00ff',
-        size: 3 + Math.random() * 3
+        size: 2 + Math.random() * 3
       });
     }
     
     if (checkFlow()) {
-      setTimeout(levelComplete, 400);
+      setTimeout(levelComplete, 200);
     }
+  }
+  
+  function startSwap() {
+    if (state !== 'playing') return;
+    swapMode = true;
+    swapStartX = cursorX;
+    swapStartY = cursorY;
+  }
+  
+  function executeSwap() {
+    if (!swapMode || swapStartX === -1) return;
+    
+    // Swap the two tiles
+    if (swapStartX !== cursorX || swapStartY !== cursorY) {
+      const temp = {...grid[swapStartY][swapStartX]};
+      grid[swapStartY][swapStartX] = {...grid[cursorY][cursorX]};
+      grid[cursorY][cursorX] = temp;
+      
+      // Swap particles
+      const offset = getGridOffset();
+      for (let i = 0; i < 8; i++) {
+        const cx1 = offset.x + swapStartX * (CELL + 4) + CELL/2;
+        const cy1 = offset.y + swapStartY * (CELL + 4) + CELL/2;
+        const cx2 = offset.x + cursorX * (CELL + 4) + CELL/2;
+        const cy2 = offset.y + cursorY * (CELL + 4) + CELL/2;
+        particles.push({
+          x: cx1, y: cy1, vx: (cx2-cx1)/10, vy: (cy2-cy1)/10,
+          life: 10, color: '#ffcc00', size: 4
+        });
+      }
+      
+      if (checkFlow()) {
+        setTimeout(levelComplete, 200);
+      }
+    }
+    
+    swapMode = false;
+    swapStartX = -1;
+    swapStartY = -1;
+  }
+  
+  function cancelSwap() {
+    swapMode = false;
+    swapStartX = -1;
+    swapStartY = -1;
   }
   
   function moveCursor(dx, dy) {
@@ -786,31 +870,21 @@
     const gh = rows * CELL + (rows - 1) * 4;
     return {
       x: (W - gw) / 2,
-      y: 55 + (H - 70 - gh) / 2
+      y: 50 + (H - 60 - gh) / 2
     };
   }
   
-  function drawPipe(cx, cy, cell, inFlow) {
+  function drawPipe(cx, cy, cell, inFlow, flowAmount) {
     const c = cell.c;
-    
-    // Animate visual rotation (for smooth animation effect only)
-    if (cell.rotation !== cell.targetRotation) {
-      const diff = cell.targetRotation - cell.rotation;
-      cell.rotation += diff * 0.3;
-      if (Math.abs(diff) < 1) cell.rotation = cell.targetRotation;
-    }
     
     ctx.save();
     ctx.translate(cx, cy);
     
-    // Pipe color
     const baseColor = inFlow ? '#00ddff' : '#335577';
-    const glowColor = inFlow ? 'rgba(0,255,255,0.6)' : 'rgba(0,0,0,0)';
     
-    // Glow for flowing pipes
-    if (inFlow) {
+    if (inFlow && flowAmount > 0) {
       ctx.shadowColor = '#00ffff';
-      ctx.shadowBlur = 15;
+      ctx.shadowBlur = 12;
     }
     
     ctx.strokeStyle = baseColor;
@@ -818,42 +892,24 @@
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     
-    // Draw pipe segments based on connections (c array already has correct rotation)
     ctx.beginPath();
-    
-    // Top
     if (c[0]) { ctx.moveTo(0, 0); ctx.lineTo(0, -CELL/2); }
-    // Right
     if (c[1]) { ctx.moveTo(0, 0); ctx.lineTo(CELL/2, 0); }
-    // Bottom
     if (c[2]) { ctx.moveTo(0, 0); ctx.lineTo(0, CELL/2); }
-    // Left
     if (c[3]) { ctx.moveTo(0, 0); ctx.lineTo(-CELL/2, 0); }
-    
     ctx.stroke();
     
-    // Center junction
     ctx.fillStyle = baseColor;
     ctx.beginPath();
     ctx.arc(0, 0, PIPE_W/2, 0, Math.PI * 2);
     ctx.fill();
     
-    // Inner highlight
-    ctx.strokeStyle = inFlow ? 'rgba(150,255,255,0.5)' : 'rgba(100,150,200,0.3)';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    if (c[0]) { ctx.moveTo(0, 0); ctx.lineTo(0, -CELL/2 + 5); }
-    if (c[1]) { ctx.moveTo(0, 0); ctx.lineTo(CELL/2 - 5, 0); }
-    if (c[2]) { ctx.moveTo(0, 0); ctx.lineTo(0, CELL/2 - 5); }
-    if (c[3]) { ctx.moveTo(0, 0); ctx.lineTo(-CELL/2 + 5, 0); }
-    ctx.stroke();
-    
-    // Animated water flow inside pipes
-    if (inFlow) {
-      ctx.strokeStyle = `rgba(100,255,255,${0.4 + Math.sin(animTime * 5) * 0.2})`;
+    // Water flow animation
+    if (inFlow && flowAmount > 0) {
+      ctx.strokeStyle = `rgba(100,255,255,${0.5 + Math.sin(animTime * 6) * 0.3})`;
       ctx.lineWidth = 6;
-      ctx.setLineDash([8, 12]);
-      ctx.lineDashOffset = -animTime * 80;
+      ctx.setLineDash([6, 10]);
+      ctx.lineDashOffset = -animTime * 100;
       ctx.beginPath();
       if (c[0]) { ctx.moveTo(0, 0); ctx.lineTo(0, -CELL/2); }
       if (c[1]) { ctx.moveTo(0, 0); ctx.lineTo(CELL/2, 0); }
@@ -875,20 +931,20 @@
     lastTime = time;
     animTime += dt;
     
-    // Update game state
     if (state === 'playing') {
-      timeLeft -= dt;
-      waterFill += levels[level - 1].fillRate * dt;
+      const elapsed = (time - gameStartTime) / 1000;
       
-      if (timeLeft <= 0 || waterFill >= 100) {
-        gameOver();
-      }
-      
-      // Warning shake when low on time
-      if (timeLeft < 10) {
-        shakeAmount = Math.sin(time * 0.05) * 2;
-      } else {
-        shakeAmount = 0;
+      // Water starts flowing after delay
+      if (elapsed > waterStartDelay) {
+        waterProgress += waterSpeed * dt * 100 / (flowPath.length || 1);
+        
+        // Check if water hit a dead end (not complete)
+        const isComplete = flowPath.length > 0 && flowPath[flowPath.length-1].x === cols;
+        
+        if (waterProgress >= 100 && !isComplete) {
+          gameOver();
+          return;
+        }
       }
     }
     
@@ -896,7 +952,7 @@
     particles = particles.filter(p => {
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.2;
+      p.vy += 0.15;
       p.life--;
       return p.life > 0;
     });
@@ -906,200 +962,211 @@
   }
   
   function draw() {
-    ctx.save();
-    ctx.translate(shakeAmount, 0);
-    
     // Background
     const grad = ctx.createLinearGradient(0, 0, 0, H);
     grad.addColorStop(0, '#000a18');
     grad.addColorStop(0.5, '#001228');
     grad.addColorStop(1, '#000815');
     ctx.fillStyle = grad;
-    ctx.fillRect(-10, 0, W + 20, H);
+    ctx.fillRect(0, 0, W, H);
     
-    // Subtle grid
-    ctx.strokeStyle = 'rgba(0,150,200,0.05)';
+    // Grid lines
+    ctx.strokeStyle = 'rgba(0,150,200,0.04)';
     ctx.lineWidth = 1;
-    for (let i = 0; i <= W; i += 30) {
+    for (let i = 0; i <= W; i += 25) {
       ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, H); ctx.stroke();
     }
-    for (let i = 0; i <= H; i += 30) {
+    for (let i = 0; i <= H; i += 25) {
       ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(W, i); ctx.stroke();
     }
     
-    if (state !== 'menu') {
-      // HUD
-      ctx.font = 'bold 16px Orbitron';
-      
-      // Level
-      ctx.fillStyle = '#00ffff';
-      ctx.textAlign = 'left';
-      ctx.fillText('LEVEL ' + level, 15, 28);
-      
-      // Score
-      ctx.fillStyle = '#fff';
-      ctx.textAlign = 'right';
-      ctx.fillText(score, W - 15, 28);
-      
-      // Timer bar
-      const barW = 140;
-      const barX = (W - barW) / 2;
-      const pct = Math.max(0, timeLeft / maxTime);
-      
-      // Bar background
-      ctx.fillStyle = 'rgba(0,0,0,0.6)';
-      ctx.fillRect(barX - 2, 10, barW + 4, 22);
-      
-      // Bar fill with color change
-      let barColor;
-      if (pct > 0.5) barColor = '#00ffaa';
-      else if (pct > 0.25) barColor = '#ffaa00';
-      else barColor = '#ff0044';
-      
-      const barGrad = ctx.createLinearGradient(barX, 0, barX + barW, 0);
-      barGrad.addColorStop(0, barColor);
-      barGrad.addColorStop(1, pct > 0.5 ? '#00ffff' : barColor);
-      ctx.fillStyle = barGrad;
-      ctx.fillRect(barX, 12, barW * pct, 18);
-      
-      // Bar border
+    if (state === 'menu') return;
+    
+    // HUD
+    ctx.font = 'bold 15px Orbitron';
+    ctx.fillStyle = '#00ffff';
+    ctx.textAlign = 'left';
+    ctx.fillText('LEVEL ' + level, 12, 26);
+    
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'right';
+    ctx.fillText(score, W - 12, 26);
+    
+    // Water progress bar (the timer)
+    const elapsed = (performance.now() - gameStartTime) / 1000;
+    const barW = 140;
+    const barX = (W - barW) / 2;
+    
+    ctx.fillStyle = 'rgba(0,0,0,0.5)';
+    ctx.fillRect(barX - 2, 8, barW + 4, 20);
+    
+    if (elapsed < waterStartDelay) {
+      // Countdown before water
+      const countdown = Math.ceil(waterStartDelay - elapsed);
+      ctx.fillStyle = '#00ff88';
+      ctx.fillRect(barX, 10, barW, 16);
+      ctx.fillStyle = '#003322';
+      ctx.font = 'bold 11px Orbitron';
+      ctx.textAlign = 'center';
+      ctx.fillText('WATER IN ' + countdown + 's', W/2, 22);
+    } else {
+      // Water flowing
+      const pct = Math.min(waterProgress / 100, 1);
+      const barColor = pct < 0.5 ? '#00ffff' : pct < 0.75 ? '#ffaa00' : '#ff0044';
+      ctx.fillStyle = barColor;
+      ctx.fillRect(barX, 10, barW * pct, 16);
       ctx.strokeStyle = barColor;
       ctx.lineWidth = 2;
-      ctx.strokeRect(barX - 2, 10, barW + 4, 22);
-      
-      // Water fill indicator (rising water)
-      const fillH = 30;
-      ctx.fillStyle = 'rgba(0,0,0,0.4)';
-      ctx.fillRect(10, H - fillH - 10, 20, fillH);
-      ctx.fillStyle = `rgba(0,200,255,${0.6 + Math.sin(animTime * 3) * 0.2})`;
-      ctx.fillRect(10, H - 10 - (fillH * waterFill / 100), 20, fillH * waterFill / 100);
-      ctx.strokeStyle = '#00aaff';
-      ctx.lineWidth = 2;
-      ctx.strokeRect(10, H - fillH - 10, 20, fillH);
-      ctx.font = '8px JetBrains Mono';
-      ctx.fillStyle = '#00ffff';
-      ctx.textAlign = 'center';
-      ctx.fillText('H2O', 20, H - fillH - 15);
-      
-      // Draw grid
-      const offset = getGridOffset();
-      
-      // Source pipe (left side)
-      const srcY = offset.y + sourceY * (CELL + 4) + CELL/2;
-      ctx.fillStyle = '#00ff88';
-      ctx.shadowColor = '#00ff88';
-      ctx.shadowBlur = 15;
-      ctx.beginPath();
-      ctx.moveTo(offset.x - 25, srcY);
-      ctx.lineTo(offset.x - 8, srcY - 12);
-      ctx.lineTo(offset.x - 8, srcY + 12);
-      ctx.closePath();
-      ctx.fill();
-      
-      // Pipe from source
-      ctx.strokeStyle = '#00ff88';
-      ctx.lineWidth = PIPE_W;
-      ctx.lineCap = 'round';
-      ctx.beginPath();
-      ctx.moveTo(offset.x - 35, srcY);
-      ctx.lineTo(offset.x - 5, srcY);
-      ctx.stroke();
-      
-      // Animated water in source pipe
-      ctx.strokeStyle = `rgba(100,255,150,${0.5 + Math.sin(animTime * 4) * 0.3})`;
-      ctx.lineWidth = 6;
-      ctx.setLineDash([6, 10]);
-      ctx.lineDashOffset = -animTime * 60;
-      ctx.beginPath();
-      ctx.moveTo(offset.x - 35, srcY);
-      ctx.lineTo(offset.x - 5, srcY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.shadowBlur = 0;
-      
-      // Label
-      ctx.font = 'bold 10px Orbitron';
-      ctx.fillStyle = '#00ff88';
-      ctx.textAlign = 'right';
-      ctx.fillText('IN', offset.x - 40, srcY + 4);
-      
-      // Drain pipe (right side)
-      const drnY = offset.y + drainY * (CELL + 4) + CELL/2;
-      const gridRight = offset.x + cols * (CELL + 4) - 4;
-      
-      ctx.fillStyle = '#ff00ff';
-      ctx.shadowColor = '#ff00ff';
-      ctx.shadowBlur = 15;
-      ctx.beginPath();
-      ctx.moveTo(gridRight + 25, drnY);
-      ctx.lineTo(gridRight + 8, drnY - 12);
-      ctx.lineTo(gridRight + 8, drnY + 12);
-      ctx.closePath();
-      ctx.fill();
-      
-      // Pipe to drain
-      ctx.strokeStyle = '#ff00ff';
-      ctx.lineWidth = PIPE_W;
-      ctx.beginPath();
-      ctx.moveTo(gridRight + 5, drnY);
-      ctx.lineTo(gridRight + 35, drnY);
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-      
-      // Label
-      ctx.fillStyle = '#ff00ff';
-      ctx.textAlign = 'left';
-      ctx.fillText('OUT', gridRight + 40, drnY + 4);
-      
-      // Draw cells
-      for (let y = 0; y < rows; y++) {
-        for (let x = 0; x < cols; x++) {
-          const cell = grid[y][x];
-          const cx = offset.x + x * (CELL + 4) + CELL/2;
-          const cy = offset.y + y * (CELL + 4) + CELL/2;
-          const inFlow = flowPath.some(f => f.x === x && f.y === y);
-          const isSelected = x === cursorX && y === cursorY;
-          
-          // Cell background
-          let bgColor = 'rgba(0,40,70,0.6)';
-          if (inFlow) bgColor = 'rgba(0,100,120,0.5)';
-          if (isSelected) bgColor = 'rgba(150,0,150,0.4)';
-          
-          ctx.fillStyle = bgColor;
-          ctx.beginPath();
-          ctx.roundRect(cx - CELL/2, cy - CELL/2, CELL, CELL, 8);
-          ctx.fill();
-          
-          // Selection glow
-          if (isSelected) {
-            ctx.strokeStyle = '#ff00ff';
-            ctx.lineWidth = 3;
-            ctx.shadowColor = '#ff00ff';
-            ctx.shadowBlur = 20;
-            ctx.stroke();
-            ctx.shadowBlur = 0;
-          } else {
-            ctx.strokeStyle = inFlow ? 'rgba(0,255,255,0.3)' : 'rgba(100,150,200,0.2)';
-            ctx.lineWidth = 1;
-            ctx.stroke();
-          }
-          
-          drawPipe(cx, cy, cell, inFlow);
-        }
-      }
-      
-      // Draw particles
-      for (const p of particles) {
-        ctx.fillStyle = p.color;
-        ctx.globalAlpha = p.life / 20;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
+      ctx.strokeRect(barX - 2, 8, barW + 4, 20);
     }
     
-    ctx.restore();
+    const offset = getGridOffset();
+    
+    // Source pipe
+    const srcY = offset.y + sourceY * (CELL + 4) + CELL/2;
+    ctx.fillStyle = '#00ff88';
+    ctx.shadowColor = '#00ff88';
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.moveTo(offset.x - 22, srcY);
+    ctx.lineTo(offset.x - 6, srcY - 10);
+    ctx.lineTo(offset.x - 6, srcY + 10);
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    ctx.strokeStyle = '#00ff88';
+    ctx.lineWidth = PIPE_W;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(offset.x - 30, srcY);
+    ctx.lineTo(offset.x - 4, srcY);
+    ctx.stroke();
+    
+    ctx.font = 'bold 9px Orbitron';
+    ctx.fillStyle = '#00ff88';
+    ctx.textAlign = 'right';
+    ctx.fillText('IN', offset.x - 34, srcY + 3);
+    
+    // Drain pipe
+    const drnY = offset.y + drainY * (CELL + 4) + CELL/2;
+    const gridRight = offset.x + cols * (CELL + 4) - 4;
+    
+    ctx.fillStyle = '#ff00ff';
+    ctx.shadowColor = '#ff00ff';
+    ctx.shadowBlur = 12;
+    ctx.beginPath();
+    ctx.moveTo(gridRight + 22, drnY);
+    ctx.lineTo(gridRight + 6, drnY - 10);
+    ctx.lineTo(gridRight + 6, drnY + 10);
+    ctx.closePath();
+    ctx.fill();
+    ctx.shadowBlur = 0;
+    
+    ctx.strokeStyle = '#ff00ff';
+    ctx.lineWidth = PIPE_W;
+    ctx.beginPath();
+    ctx.moveTo(gridRight + 4, drnY);
+    ctx.lineTo(gridRight + 30, drnY);
+    ctx.stroke();
+    
+    ctx.fillStyle = '#ff00ff';
+    ctx.textAlign = 'left';
+    ctx.fillText('OUT', gridRight + 34, drnY + 3);
+    
+    // Draw grid cells
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const cell = grid[y][x];
+        const cx = offset.x + x * (CELL + 4) + CELL/2;
+        const cy = offset.y + y * (CELL + 4) + CELL/2;
+        
+        const flowIdx = flowPath.findIndex(f => f.x === x && f.y === y);
+        const inFlow = flowIdx !== -1;
+        const flowAmount = inFlow ? Math.max(0, Math.min(1, (waterProgress - flowIdx * (100/flowPath.length)) / (100/flowPath.length))) : 0;
+        
+        const isSelected = x === cursorX && y === cursorY;
+        const isSwapStart = swapMode && x === swapStartX && y === swapStartY;
+        
+        // Cell background
+        let bgColor = 'rgba(0,40,70,0.5)';
+        if (inFlow && flowAmount > 0) bgColor = 'rgba(0,80,100,0.5)';
+        if (isSwapStart) bgColor = 'rgba(255,200,0,0.3)';
+        if (isSelected) bgColor = swapMode ? 'rgba(255,200,0,0.4)' : 'rgba(150,0,150,0.4)';
+        
+        ctx.fillStyle = bgColor;
+        ctx.beginPath();
+        ctx.roundRect(cx - CELL/2, cy - CELL/2, CELL, CELL, 6);
+        ctx.fill();
+        
+        // Selection border
+        if (isSelected || isSwapStart) {
+          ctx.strokeStyle = swapMode ? '#ffcc00' : '#ff00ff';
+          ctx.lineWidth = 3;
+          ctx.shadowColor = swapMode ? '#ffcc00' : '#ff00ff';
+          ctx.shadowBlur = 15;
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        } else {
+          ctx.strokeStyle = inFlow ? 'rgba(0,255,255,0.25)' : 'rgba(100,150,200,0.15)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        
+        drawPipe(cx, cy, cell, inFlow, flowAmount);
+      }
+    }
+    
+    // Swap mode indicator
+    if (swapMode) {
+      ctx.font = 'bold 10px Orbitron';
+      ctx.fillStyle = '#ffcc00';
+      ctx.textAlign = 'center';
+      ctx.fillText('SWAP MODE - Select target', W/2, H - 15);
+    }
+    
+    // Particles
+    for (const p of particles) {
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.life / 15;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+  
+  function createCelebration(container) {
+    container.innerHTML = '';
+    for (let i = 0; i < 30; i++) {
+      const particle = document.createElement('div');
+      const colors = ['#00ffff', '#ff00ff', '#00ff88', '#ffcc00', '#ff6688'];
+      particle.style.cssText = `
+        position: absolute;
+        width: ${4 + Math.random() * 8}px;
+        height: ${4 + Math.random() * 8}px;
+        background: ${colors[Math.floor(Math.random() * colors.length)]};
+        border-radius: 50%;
+        left: ${Math.random() * 100}%;
+        top: 100%;
+        animation: celebrate ${1 + Math.random()}s ease-out forwards;
+        animation-delay: ${Math.random() * 0.3}s;
+      `;
+      container.appendChild(particle);
+    }
+    
+    // Add CSS animation if not exists
+    if (!document.getElementById('celebrateStyle')) {
+      const style = document.createElement('style');
+      style.id = 'celebrateStyle';
+      style.textContent = `
+        @keyframes celebrate {
+          0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+          100% { transform: translateY(-300px) rotate(720deg); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    }
   }
   
   function hideScreens() {
@@ -1117,13 +1184,16 @@
   function levelComplete() {
     state = 'levelComplete';
     
-    const timeBonus = Math.floor(timeLeft * 25);
+    const timeBonus = Math.max(0, Math.floor((100 - waterProgress) * 10));
     const levelBonus = level * 200;
     const total = timeBonus + levelBonus;
     score += total;
     
-    document.getElementById('levelBonus').textContent = `TIME +${timeBonus}  •  LEVEL +${levelBonus}`;
+    document.getElementById('levelBonus').textContent = `SPEED +${timeBonus}  •  LEVEL +${levelBonus}`;
     document.getElementById('levelTotal').textContent = `TOTAL: ${score}`;
+    
+    // Create celebration
+    createCelebration(document.getElementById('levelCelebration'));
     
     screens.level.style.display = 'flex';
   }
@@ -1151,30 +1221,60 @@
     state = 'victory';
     document.getElementById('victoryScore').textContent = score;
     if (score > highScore) highScore = score;
+    createCelebration(document.getElementById('victoryCelebration'));
     screens.victory.style.display = 'flex';
   }
   
   function handleA() {
     if (state === 'menu' || state === 'gameOver' || state === 'victory') startGame();
     else if (state === 'levelComplete') nextLevel();
-    else if (state === 'playing') rotateTile(true);
+    else if (state === 'playing') {
+      if (btnBDown) {
+        // Both pressed - start swap
+        if (!swapMode) startSwap();
+      } else if (swapMode) {
+        executeSwap();
+      } else {
+        rotateTile(true);
+      }
+    }
   }
   
   function handleB() {
-    if (state === 'playing') rotateTile(false);
-    else handleA();
+    if (state === 'playing') {
+      if (btnADown) {
+        // Both pressed - start swap
+        if (!swapMode) startSwap();
+      } else if (swapMode) {
+        cancelSwap();
+      } else {
+        rotateTile(false);
+      }
+    } else {
+      handleA();
+    }
   }
   
-  // Button bindings
-  document.getElementById('btnA').onclick = handleA;
-  document.getElementById('btnB').onclick = handleB;
+  // Button bindings with press tracking
+  const btnA = document.getElementById('btnA');
+  const btnB = document.getElementById('btnB');
+  
+  btnA.addEventListener('mousedown', () => { btnADown = true; });
+  btnA.addEventListener('mouseup', () => { handleA(); btnADown = false; });
+  btnA.addEventListener('touchstart', e => { e.preventDefault(); btnADown = true; });
+  btnA.addEventListener('touchend', e => { e.preventDefault(); handleA(); btnADown = false; });
+  
+  btnB.addEventListener('mousedown', () => { btnBDown = true; });
+  btnB.addEventListener('mouseup', () => { handleB(); btnBDown = false; });
+  btnB.addEventListener('touchstart', e => { e.preventDefault(); btnBDown = true; });
+  btnB.addEventListener('touchend', e => { e.preventDefault(); handleB(); btnBDown = false; });
+  
   document.getElementById('btnUp').onclick = () => moveCursor(0, -1);
   document.getElementById('btnDown').onclick = () => moveCursor(0, 1);
   document.getElementById('btnLeft').onclick = () => moveCursor(-1, 0);
   document.getElementById('btnRight').onclick = () => moveCursor(1, 0);
   
-  // Touch support
-  ['btnA','btnB','btnUp','btnDown','btnLeft','btnRight'].forEach(id => {
+  ['btnUp','btnDown','btnLeft','btnRight'].forEach(id => {
     document.getElementById(id).addEventListener('touchstart', e => { e.preventDefault(); document.getElementById(id).click(); });
   });
   
@@ -1186,14 +1286,23 @@
       case 'ArrowDown': case 's': moveCursor(0, 1); break;
       case 'ArrowLeft': case 'a': moveCursor(-1, 0); break;
       case 'ArrowRight': case 'd': moveCursor(1, 0); break;
-      case ' ': case 'z': e.preventDefault(); handleA(); break;
-      case 'x': e.preventDefault(); handleB(); break;
+      case ' ': case 'z': e.preventDefault(); btnADown = true; break;
+      case 'x': e.preventDefault(); btnBDown = true; break;
       case 'Escape': hideGame(); break;
     }
+    
+    // Check for both keys combo
+    if (btnADown && btnBDown && state === 'playing' && !swapMode) {
+      startSwap();
+    }
+  });
+  
+  document.addEventListener('keyup', e => {
+    if (e.key === ' ' || e.key === 'z') { handleA(); btnADown = false; }
+    if (e.key === 'x') { handleB(); btnBDown = false; }
   });
 })();
 </script>
-
 
 
 
