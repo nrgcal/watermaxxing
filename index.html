@@ -224,9 +224,15 @@
   
 </div>
 
-<!-- === ARCADE SECTION (COMPACT) === -->
-<div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,0,255,0.2);">
-  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 10px; text-align: center;">.:: arcade ::.</div>
+<!-- === ARCADE SECTION (BREAKROOM ONLY) === -->
+<div style="margin-top: 20px; padding: 18px; background: linear-gradient(135deg, rgba(139,0,139,0.15) 0%, rgba(0,100,100,0.1) 100%); border: 2px dashed rgba(255,0,255,0.4); border-radius: 16px; position: relative;">
+  
+  <!-- Caution tape style header -->
+  <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, #1a0533, #0d0221); padding: 4px 16px; border-radius: 20px; border: 1px solid rgba(255,0,255,0.5);">
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">☕ BREAKROOM ARCADE ☕</div>
+  </div>
+  
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 8px; margin-bottom: 12px; font-style: italic;">off-shift entertainment only · not for use during operations</div>
   
   <style>
     @keyframes btnPulse { 0%, 100% { box-shadow: 0 0 20px rgba(255,0,255,0.3), 0 4px 0 #880088; } 50% { box-shadow: 0 0 25px rgba(255,0,255,0.5), 0 4px 0 #880088; } }
@@ -2562,5 +2568,7 @@ function shareGame() {
   document.getElementById('fsBtnB')?.addEventListener('click', handleB);
 })();
 </script>
+
+     
 </body>
 </html>
