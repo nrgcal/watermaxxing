@@ -224,33 +224,98 @@
   
 </div>
 
-<!-- === ARCADE SECTION (BREAKROOM ONLY) === -->
-<div style="margin-top: 20px; padding: 18px; background: linear-gradient(135deg, rgba(139,0,139,0.15) 0%, rgba(0,100,100,0.1) 100%); border: 2px dashed rgba(255,0,255,0.4); border-radius: 16px; position: relative;">
+<!-- === OFF-SHIFT ARCADE === -->
+<div style="margin-top: 20px; padding: 20px 16px 18px; background: linear-gradient(135deg, rgba(139,0,139,0.15) 0%, rgba(0,100,100,0.1) 100%); border: 2px dashed rgba(255,0,255,0.4); border-radius: 16px; position: relative;">
   
-  <!-- Caution tape style header -->
-  <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, #1a0533, #0d0221); padding: 4px 16px; border-radius: 20px; border: 1px solid rgba(255,0,255,0.5);">
-    <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">☕ BREAKROOM ARCADE ☕</div>
+  <!-- Header badge with custom gamepad icons -->
+  <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, #1a0533, #0d0221); padding: 4px 14px; border-radius: 20px; border: 1px solid rgba(255,0,255,0.5); display: flex; align-items: center; gap: 8px;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="#ff00ff"/><circle cx="17" cy="14" r="1" fill="#ff00ff"/></svg>
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">OFF-SHIFT ARCADE</div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="#ff00ff"/><circle cx="17" cy="14" r="1" fill="#ff00ff"/></svg>
   </div>
   
-  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 8px; margin-bottom: 12px; font-style: italic;">off-shift entertainment only · not for use during operations</div>
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 4px; margin-bottom: 14px; font-style: italic;">for breakroom use only · not for use during operations</div>
   
   <style>
-    @keyframes btnPulse { 0%, 100% { box-shadow: 0 0 20px rgba(255,0,255,0.3), 0 4px 0 #880088; } 50% { box-shadow: 0 0 25px rgba(255,0,255,0.5), 0 4px 0 #880088; } }
-    @keyframes btnPulse2 { 0%, 100% { box-shadow: 0 0 15px rgba(0,255,136,0.3), 0 4px 0 #005522; } 50% { box-shadow: 0 0 20px rgba(0,255,136,0.5), 0 4px 0 #005522; } }
-    #launchGameBtn:hover, #launchFlowstateBtn:hover { transform: translateY(-1px); }
-    #launchGameBtn:active, #launchFlowstateBtn:active { transform: translateY(2px); }
+    @keyframes pipePulse { 
+      0%, 100% { box-shadow: 0 0 20px rgba(0,200,255,0.4), 0 6px 0 #0077aa, inset 0 0 20px rgba(0,200,255,0.1); transform: scale(1); } 
+      50% { box-shadow: 0 0 30px rgba(0,200,255,0.6), 0 6px 0 #0077aa, inset 0 0 30px rgba(0,200,255,0.2); transform: scale(1.02); } 
+    }
+    @keyframes flowPulse { 
+      0%, 100% { box-shadow: 0 0 20px rgba(76,175,80,0.4), 0 6px 0 #2E7D32, inset 0 0 20px rgba(76,175,80,0.1); transform: scale(1); } 
+      50% { box-shadow: 0 0 30px rgba(76,175,80,0.6), 0 6px 0 #2E7D32, inset 0 0 30px rgba(76,175,80,0.2); transform: scale(1.02); } 
+    }
+    @keyframes waterDrip {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(2px); opacity: 0.7; }
+    }
+    @keyframes gearSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    #launchGameBtn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 40px rgba(0,200,255,0.7), 0 10px 0 #0077aa !important; }
+    #launchGameBtn:active { transform: translateY(3px) scale(0.98); box-shadow: 0 0 15px rgba(0,200,255,0.5), 0 2px 0 #0077aa !important; }
+    #launchFlowstateBtn:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 0 40px rgba(76,175,80,0.7), 0 10px 0 #2E7D32 !important; }
+    #launchFlowstateBtn:active { transform: translateY(3px) scale(0.98); box-shadow: 0 0 15px rgba(76,175,80,0.5), 0 2px 0 #2E7D32 !important; }
   </style>
   
-  <div style="display: flex; gap: 10px;">
-    <button id="launchGameBtn" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px 10px; background: linear-gradient(135deg, #ff00ff, #cc00cc); border: 2px solid #ff44ff; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 0 20px rgba(255,0,255,0.3), 0 4px 0 #880088; transition: all 0.15s ease; animation: btnPulse 2s ease-in-out infinite;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="currentColor"/><circle cx="17" cy="14" r="1" fill="currentColor"/></svg>
-      PIPE PANIC
+  <div style="display: flex; gap: 12px;">
+    
+    <!-- PIPE PANIC Button -->
+    <button id="launchGameBtn" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px 12px 14px; background: linear-gradient(180deg, #00BFFF 0%, #0099DD 50%, #0077AA 100%); border: 3px solid #00E5FF; border-radius: 14px; color: #fff; cursor: pointer; box-shadow: 0 0 20px rgba(0,200,255,0.4), 0 6px 0 #0077aa, inset 0 0 20px rgba(0,200,255,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: pipePulse 2s ease-in-out infinite; position: relative; overflow: hidden;">
+      <!-- Water effect overlay -->
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
+      <!-- Pipe Panic Logo -->
+      <svg width="48" height="36" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+        <!-- Pipes forming a maze -->
+        <rect x="2" y="14" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="14" y="8" width="8" height="20" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="20" y="14" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="32" y="4" width="8" height="18" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="32" y="20" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <!-- Water drops -->
+        <ellipse cx="8" cy="18" rx="3" ry="2" fill="#E1F5FE" style="animation: waterDrip 1s ease-in-out infinite;"/>
+        <ellipse cx="27" cy="18" rx="3" ry="2" fill="#E1F5FE" style="animation: waterDrip 1s ease-in-out infinite; animation-delay: 0.3s;"/>
+        <ellipse cx="42" cy="24" rx="3" ry="2" fill="#E1F5FE" style="animation: waterDrip 1s ease-in-out infinite; animation-delay: 0.6s;"/>
+        <!-- Joints -->
+        <circle cx="18" cy="18" r="3" fill="#0288D1"/>
+        <circle cx="36" cy="18" r="3" fill="#0288D1"/>
+        <circle cx="36" cy="8" r="3" fill="#0288D1"/>
+      </svg>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; text-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative;">PIPE PANIC</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.7); position: relative;">puzzle · connect · flow</div>
     </button>
     
-    <button id="launchFlowstateBtn" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 14px 10px; background: linear-gradient(135deg, #00aa66, #008844); border: 2px solid #00ff88; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; cursor: pointer; box-shadow: 0 0 15px rgba(0,255,136,0.3), 0 4px 0 #005522; transition: all 0.15s ease; animation: btnPulse2 2.5s ease-in-out infinite;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
-      FLOWSTATE
+    <!-- FLOWSTATE Button -->
+    <button id="launchFlowstateBtn" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 16px 12px 14px; background: linear-gradient(180deg, #66BB6A 0%, #43A047 50%, #2E7D32 100%); border: 3px solid #81C784; border-radius: 14px; color: #fff; cursor: pointer; box-shadow: 0 0 20px rgba(76,175,80,0.4), 0 6px 0 #2E7D32, inset 0 0 20px rgba(76,175,80,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: flowPulse 2.5s ease-in-out infinite; position: relative; overflow: hidden;">
+      <!-- Grass/outdoor effect overlay -->
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 40%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
+      <!-- Flowstate Logo - Treatment Plant Scene -->
+      <svg width="48" height="36" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">
+        <!-- Sky -->
+        <rect x="0" y="0" width="48" height="14" fill="#81D4FA"/>
+        <!-- Sun -->
+        <circle cx="40" cy="6" r="4" fill="#FFD54F"/>
+        <!-- Grass -->
+        <rect x="0" y="14" width="48" height="22" fill="#8BC34A"/>
+        <!-- Clarifier tank -->
+        <ellipse cx="16" cy="22" rx="10" ry="4" fill="#B0BEC5" stroke="#78909C" stroke-width="1"/>
+        <ellipse cx="16" cy="22" rx="8" ry="3" fill="#4FC3F7"/>
+        <!-- Rotating arm -->
+        <line x1="16" y1="22" x2="24" y2="22" stroke="#546E7A" stroke-width="2" stroke-linecap="round" style="transform-origin: 16px 22px; animation: gearSpin 4s linear infinite;"/>
+        <!-- Building -->
+        <rect x="30" y="16" width="14" height="14" fill="#A1887F" stroke="#6D4C41" stroke-width="1"/>
+        <rect x="34" y="24" width="6" height="6" fill="#5D4037"/>
+        <!-- Operator figure -->
+        <circle cx="26" cy="26" r="2" fill="#FFCCBC"/>
+        <rect x="24" y="28" width="4" height="5" fill="#FF6F00"/>
+        <rect x="24" y="33" width="2" height="2" fill="#4A6FA5"/>
+        <rect x="26" y="33" width="2" height="2" fill="#4A6FA5"/>
+      </svg>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; text-shadow: 0 2px 4px rgba(0,0,0,0.3); position: relative;">FLOWSTATE</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.7); position: relative;">RPG · explore · operate</div>
     </button>
+    
   </div>
 </div>
 ```
