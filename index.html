@@ -7,6 +7,7 @@
 </head>
 <body style="margin:0; padding:0;">
 
+
 <!-- ═══════════════════════════════════════════════════════════════════════════
      WATERMAXXING.COM - DIGITAL BUSINESS CARD v3
      VAPORWAVE/SYNTHWAVE EDITION - WITH SLIDE-UP GAME
@@ -1466,8 +1467,9 @@ function shareGame() {
   <canvas id="flowstateCanvas" width="780" height="440" style="display: block; width: 100%; border-radius: 10px;"></canvas>
   
   <div id="fsHUD" style="position: absolute; top: 18px; left: 18px; right: 18px; display: none; justify-content: space-between; align-items: flex-start; pointer-events: none;">
-    <div style="background: linear-gradient(135deg, #FFFBEA, #FFF3C4); padding: 6px 14px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 2px solid #E6C864;">
-      <span style="font-family: Georgia, serif; font-size: 13px; color: #8B6914; font-weight: bold;">🪙 <span id="fsCoinCount">0</span></span>
+    <div style="background: linear-gradient(135deg, #FFFBEA, #FFF3C4); padding: 6px 14px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 2px solid #E6C864; display: flex; align-items: center; gap: 6px;">
+      <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFD700" stroke="#B8860B" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="#FFC107"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#B8860B">$</text></svg>
+      <span style="font-family: Georgia, serif; font-size: 13px; color: #8B6914; font-weight: bold;"><span id="fsCoinCount">0</span></span>
     </div>
     <div id="fsZoneName" style="background: linear-gradient(135deg, #2d5a27, #1e4a1e); padding: 6px 16px; border-radius: 16px; color: #C4E6B8; font-family: Georgia, serif; font-size: 12px; font-weight: bold;"></div>
   </div>
@@ -1476,7 +1478,7 @@ function shareGame() {
     <div style="background: linear-gradient(180deg, #FFFFF8, #F5F0E0); border: 3px solid #8B7355; border-radius: 12px; padding: 12px 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
       <div style="display: flex; align-items: flex-start; gap: 12px;">
         <div id="fsDialogPortrait" style="width: 44px; height: 44px; background: linear-gradient(135deg, #FF6F00, #E65100); border-radius: 50%; border: 2px solid #8B7355; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-          <span style="font-size: 20px;">👷</span>
+          <svg width="28" height="28" viewBox="0 0 32 32"><ellipse cx="16" cy="14" rx="8" ry="7" fill="#FFCCBC"/><ellipse cx="16" cy="8" rx="9" ry="4" fill="#FFD700"/><rect x="8" y="5" width="16" height="4" rx="1" fill="#FFD700"/><circle cx="13" cy="13" r="1.5" fill="#4A4A4A"/><circle cx="19" cy="13" r="1.5" fill="#4A4A4A"/><path d="M14 17 Q16 18.5 18 17" stroke="#8B6914" stroke-width="1.2" fill="none"/></svg>
         </div>
         <div style="flex: 1;">
           <div id="fsDialogSpeaker" style="font-family: Georgia, serif; font-size: 11px; color: #8B6914; font-weight: bold; margin-bottom: 4px;">GRADY</div>
@@ -1490,24 +1492,59 @@ function shareGame() {
   </div>
   
   <div id="fsShopModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 110;">
-    <div style="background: linear-gradient(180deg, #FFFFF8, #E8E0D0); border: 4px solid #5D4E37; border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); min-width: 300px;">
+    <div style="background: linear-gradient(180deg, #FFFFF8, #E8E0D0); border: 4px solid #5D4E37; border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); min-width: 300px; position: relative;">
+      <!-- Close X button -->
+      <button id="fsShopClose" style="position: absolute; top: -12px; right: -12px; width: 32px; height: 32px; background: linear-gradient(180deg, #F44336, #D32F2F); border: 3px solid #B71C1C; border-radius: 50%; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 0 #7f0000, 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">X</button>
       <div style="text-align: center; margin-bottom: 16px;">
-        <div style="font-family: Georgia, serif; font-size: 18px; color: #2d5a27; font-weight: bold;">🔧 TOOL CRIB 🔧</div>
-        <div style="font-family: Georgia, serif; font-size: 11px; color: #8B7355;">Coins: <span id="fsShopCoins" style="color: #8B6914; font-weight: bold;">0</span></div>
+        <div style="font-family: Georgia, serif; font-size: 18px; color: #2d5a27; font-weight: bold;">TOOL CRIB</div>
+        <div style="font-family: Georgia, serif; font-size: 11px; color: #8B7355;">Your coins: <span id="fsShopCoins" style="color: #8B6914; font-weight: bold;">0</span></div>
       </div>
       <div id="fsShopItems" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;"></div>
-      <div style="text-align: center; font-family: Georgia, serif; font-size: 10px; color: #8B7355;">↑↓ Select · A Buy · B Close</div>
+      <!-- Bottom close button -->
+      <button id="fsShopCloseBtn" style="width: 100%; padding: 12px; background: linear-gradient(180deg, #78909C, #607D8B); border: 2px solid #455A64; border-radius: 8px; color: #fff; font-family: Georgia, serif; font-size: 13px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #37474F;">EXIT SHOP</button>
     </div>
   </div>
   
-  <div id="fsStartScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(126,200,227,0.97), rgba(200,230,200,0.97)); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 120;">
-    <div style="position: absolute; top: 30px; right: 60px; width: 60px; height: 60px; background: radial-gradient(circle, #FFE066 0%, #FFB800 60%, transparent 70%); border-radius: 50%;"></div>
-    <div style="font-family: Georgia, serif; font-size: 36px; font-weight: bold; color: #2d5a27; text-shadow: 3px 3px 0 rgba(255,255,255,0.8);">FLOWSTATE</div>
-    <div style="font-family: Georgia, serif; font-size: 13px; color: #5a8a54; font-style: italic; margin-bottom: 20px;">The Anti-Thought-Leadership Game</div>
+  <div id="fsStartScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #87CEEB 0%, #B5E3F5 40%, #C8E6C9 100%); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 120; padding: 20px;">
     
-    <div style="width: 70px; height: 90px; margin-bottom: 16px;">
-      <svg width="70" height="90" viewBox="0 0 70 90">
-        <ellipse cx="35" cy="85" rx="18" ry="5" fill="rgba(0,0,0,0.2)"/>
+    <!-- BETA Badge -->
+    <div style="position: absolute; top: 15px; left: 15px; background: linear-gradient(135deg, #FF6F00, #E65100); padding: 4px 12px; border-radius: 4px; transform: rotate(-5deg); box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+      <div style="font-family: 'Orbitron', Georgia, sans-serif; font-size: 10px; font-weight: 800; color: #fff; letter-spacing: 0.1em;">BETA</div>
+    </div>
+    
+    <!-- Animated Clarifier in background -->
+    <div style="position: absolute; top: 20px; right: 30px;">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <!-- Tank shadow -->
+        <ellipse cx="40" cy="70" rx="35" ry="8" fill="rgba(0,0,0,0.15)"/>
+        <!-- Tank outer ring -->
+        <circle cx="40" cy="40" r="35" fill="#B0BEC5" stroke="#78909C" stroke-width="2"/>
+        <!-- Water -->
+        <circle cx="40" cy="40" r="30" fill="#4FC3F7"/>
+        <!-- Water shimmer -->
+        <ellipse cx="32" cy="35" rx="8" ry="4" fill="rgba(255,255,255,0.4)"/>
+        <!-- Center hub -->
+        <circle cx="40" cy="40" r="6" fill="#546E7A"/>
+        <!-- Rotating arm -->
+        <g style="transform-origin: 40px 40px; animation: clarifierSpin 8s linear infinite;">
+          <rect x="40" y="38" width="28" height="4" rx="2" fill="#455A64"/>
+          <rect x="64" y="35" width="4" height="10" rx="1" fill="#37474F"/>
+        </g>
+      </svg>
+    </div>
+    
+    <style>
+      @keyframes clarifierSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+    
+    <!-- Title -->
+    <div style="font-family: Georgia, serif; font-size: 32px; font-weight: bold; color: #2d5a27; text-shadow: 2px 2px 0 rgba(255,255,255,0.9); margin-bottom: 4px;">FLOWSTATE</div>
+    <div style="font-family: Georgia, serif; font-size: 11px; color: #5a8a54; font-style: italic; margin-bottom: 16px;">A Day at the Plant</div>
+    
+    <!-- Grady character -->
+    <div style="width: 60px; height: 80px; margin-bottom: 12px;">
+      <svg width="60" height="80" viewBox="0 0 70 90">
+        <ellipse cx="35" cy="85" rx="16" ry="4" fill="rgba(0,0,0,0.2)"/>
         <rect x="22" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
         <rect x="38" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
         <rect x="20" y="50" width="12" height="24" rx="2" fill="#4A6FA5"/>
@@ -1530,31 +1567,33 @@ function shareGame() {
       </svg>
     </div>
     
-    <div style="font-family: Georgia, serif; font-size: 12px; color: #3a5a3a; text-align: center; line-height: 1.6; max-width: 320px; margin-bottom: 16px;">
+    <!-- Description -->
+    <div style="font-family: Georgia, serif; font-size: 12px; color: #3a5a3a; text-align: center; line-height: 1.5; max-width: 280px; margin-bottom: 20px;">
       You're <strong>Grady Watts</strong>, veteran operator.<br>
-      Flip switches. Control equipment. Cause chaos.<br>
-      Read signs. Buy hats. Survive the shift.
+      Flip switches. Control equipment.<br>
+      Read signs. Survive the shift.
     </div>
     
-    <div style="display: flex; gap: 16px; margin-bottom: 20px;">
-      <div style="text-align: center; padding: 8px 14px; background: rgba(255,255,255,0.8); border: 2px solid #4a8a44; border-radius: 8px;">
-        <div style="font-family: Georgia, serif; font-size: 13px; color: #2d5a27; font-weight: bold;">WASD</div>
-        <div style="font-family: Georgia, serif; font-size: 9px; color: #5a8a54;">Move</div>
-      </div>
-      <div style="text-align: center; padding: 8px 14px; background: rgba(255,255,255,0.8); border: 2px solid #4a8a44; border-radius: 8px;">
-        <div style="font-family: Georgia, serif; font-size: 13px; color: #2d5a27; font-weight: bold;">SPACE</div>
-        <div style="font-family: Georgia, serif; font-size: 9px; color: #5a8a54;">Interact</div>
-      </div>
-    </div>
-    
-    <button id="fsStartBtn" style="padding: 12px 36px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 20px; color: #fff; font-family: Georgia, serif; font-size: 15px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20;">
-      ▶ START SHIFT
+    <!-- Start button -->
+    <button id="fsStartBtn" style="padding: 14px 44px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 25px; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20, 0 6px 12px rgba(0,0,0,0.2);">
+      START SHIFT
     </button>
+    
+    <!-- Controls hint (smaller, at bottom) -->
+    <div style="position: absolute; bottom: 15px; display: flex; gap: 20px; opacity: 0.7;">
+      <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
+        <span style="font-weight: bold;">WASD</span> Move
+      </div>
+      <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
+        <span style="font-weight: bold;">SPACE</span> Interact
+      </div>
+    </div>
   </div>
   
 </div>
 
-<div class="fs-mobile-controls" style="margin-top: 12px; justify-content: space-between; align-items: center; padding: 0 10px;">
+<!-- Mobile Controls - OUTSIDE the game container, only show during gameplay -->
+<div id="fsMobileControls" class="fs-mobile-controls" style="display: none; margin-top: 12px; justify-content: space-between; align-items: center; padding: 0 10px;">
   <div style="position: relative; width: 110px; height: 110px;">
     <button id="fsBtnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▲</button>
     <button id="fsBtnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▼</button>
@@ -1824,10 +1863,16 @@ function shareGame() {
   document.getElementById('closeFlowstateBtn').onclick = hideGame;
   document.getElementById('fsStartBtn').onclick = startGame;
   
+  const mobileControls = document.getElementById('fsMobileControls');
+  
   function startGame() {
     state = 'playing';
     startScreen.style.display = 'none';
     hud.style.display = 'flex';
+    // Show mobile controls on touch devices
+    if (mobileControls && (window.matchMedia('(max-width: 768px)').matches || window.matchMedia('(pointer: coarse)').matches)) {
+      mobileControls.style.display = 'flex';
+    }
     player.x = 380;
     player.y = 320;
     currentZone = 'control';
@@ -1905,6 +1950,10 @@ function shareGame() {
     shopModal.style.display = 'none';
     state = 'playing';
   }
+  
+  // Shop close button handlers
+  document.getElementById('fsShopClose')?.addEventListener('click', closeShop);
+  document.getElementById('fsShopCloseBtn')?.addEventListener('click', closeShop);
   
   function renderShop() {
     const container = document.getElementById('fsShopItems');
