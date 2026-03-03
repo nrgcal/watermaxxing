@@ -29,9 +29,15 @@
   --glass-bg: rgba(255,255,255,0.03);
   --glass-border: rgba(255,255,255,0.1);
   --glass-blur: blur(12px);
+  --hero-bg: linear-gradient(180deg, #0d0221 0%, #1a0a2e 40%, #16082a 100%);
+  --scanline-opacity: 0.15;
+  --grid-opacity: 0.4;
+  --status-border: #0d0221;
 }
 
-[data-theme="light"] {
+[data-theme="light"],
+:root[data-theme="light"],
+html[data-theme="light"] {
   --bg-primary: #f5f5f7;
   --bg-secondary: #e8e8ed;
   --bg-tertiary: #ffffff;
@@ -43,6 +49,25 @@
   --glass-bg: rgba(255,255,255,0.6);
   --glass-border: rgba(0,0,0,0.08);
   --glass-blur: blur(16px);
+  --hero-bg: linear-gradient(180deg, #e8e8f0 0%, #f0f0f5 40%, #f5f5fa 100%);
+  --scanline-opacity: 0.05;
+  --grid-opacity: 0.15;
+  --status-border: #f5f5f7;
+}
+
+.hero-section {
+  background: var(--hero-bg);
+  transition: background 0.4s ease;
+}
+
+.scanline-overlay {
+  opacity: var(--scanline-opacity);
+  transition: opacity 0.4s ease;
+}
+
+.grid-floor {
+  opacity: var(--grid-opacity);
+  transition: opacity 0.4s ease;
 }
 
 /* === EXISTING ANIMATIONS === */
@@ -360,19 +385,19 @@
 
 <!-- === HERO === -->
 
-<div style="padding: 3rem 1.5rem 2rem; background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 40%, #16082a 100%); position: relative; overflow: hidden; min-height: 480px;">
+<div class="hero-section" style="padding: 3rem 1.5rem 2rem; position: relative; overflow: hidden; min-height: 480px;">
 
   <!-- Animated scanline -->
 
-  <div style="position: absolute; top: -10%; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,0,255,0.5), transparent); animation: scanMove 4s linear infinite; pointer-events: none; z-index: 15;"></div>
+  <div style="position: absolute; top: -10%; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-magenta), transparent); animation: scanMove 4s linear infinite; pointer-events: none; z-index: 15; opacity: 0.5;"></div>
 
   <!-- CRT scanline overlay -->
 
-  <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 12;"></div>
+  <div class="scanline-overlay" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 12;"></div>
 
   <!-- Animated grid floor -->
 
-  <div style="position: absolute; bottom: 0; left: -100%; right: -100%; height: 60%; background-image: linear-gradient(rgba(255,0,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,255,0.15) 1px, transparent 1px); background-size: 50px 50px; transform: perspective(500px) rotateX(60deg); pointer-events: none; opacity: 0.4;"></div>
+  <div class="grid-floor" style="position: absolute; bottom: 0; left: -100%; right: -100%; height: 60%; background-image: linear-gradient(var(--accent-magenta) 1px, transparent 1px), linear-gradient(90deg, var(--accent-magenta) 1px, transparent 1px); background-size: 50px 50px; transform: perspective(500px) rotateX(60deg); pointer-events: none;"></div>
 
   <!-- Floating orbs -->
 
@@ -382,10 +407,10 @@
 
   <!-- Stars -->
 
-  <div class="star" style="position: absolute; top: 12%; left: 15%; width: 3px; height: 3px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px #fff;"></div>
-  <div class="star" style="position: absolute; top: 25%; right: 20%; width: 2px; height: 2px; background: #00ffff; border-radius: 50%; box-shadow: 0 0 8px #00ffff; animation-delay: 0.5s;"></div>
-  <div class="star" style="position: absolute; top: 8%; right: 30%; width: 2px; height: 2px; background: #ff00ff; border-radius: 50%; box-shadow: 0 0 6px #ff00ff; animation-delay: 1s;"></div>
-  <div class="star" style="position: absolute; top: 35%; left: 8%; width: 2px; height: 2px; background: #fff; border-radius: 50%; box-shadow: 0 0 4px #fff; animation-delay: 1.5s;"></div>
+  <div class="star" style="position: absolute; top: 12%; left: 15%; width: 3px; height: 3px; background: var(--text-primary); border-radius: 50%; box-shadow: 0 0 6px var(--text-primary);"></div>
+  <div class="star" style="position: absolute; top: 25%; right: 20%; width: 2px; height: 2px; background: var(--accent-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--accent-cyan); animation-delay: 0.5s;"></div>
+  <div class="star" style="position: absolute; top: 8%; right: 30%; width: 2px; height: 2px; background: var(--accent-magenta); border-radius: 50%; box-shadow: 0 0 6px var(--accent-magenta); animation-delay: 1s;"></div>
+  <div class="star" style="position: absolute; top: 35%; left: 8%; width: 2px; height: 2px; background: var(--text-primary); border-radius: 50%; box-shadow: 0 0 4px var(--text-primary); animation-delay: 1.5s;"></div>
 
   <div style="max-width: 420px; margin: 0 auto; position: relative; z-index: 5;">
 
@@ -413,27 +438,32 @@
     84% { transform: translate(3px, -1px) skewX(-2deg); filter: hue-rotate(-30deg); }
     86% { transform: translate(0); filter: none; }
   }
-  @keyframes photoGlitch {
-    0%, 100% { transform: translate(0); filter: none; clip-path: none; }
-    5% { transform: translate(-2px, 1px); filter: hue-rotate(10deg); }
-    10% { transform: translate(1px, -1px); clip-path: inset(10% 0 80% 0); }
-    15% { transform: translate(0); filter: none; clip-path: none; }
-    45% { transform: translate(0); filter: none; }
-    47% { transform: translate(2px, 0); filter: saturate(1.5) hue-rotate(-15deg); }
-    49% { transform: translate(-1px, 1px); clip-path: inset(40% 0 50% 0); }
-    51% { transform: translate(0); filter: none; clip-path: none; }
-    75% { transform: translate(0); filter: none; }
-    77% { transform: translate(1px, -1px); filter: hue-rotate(20deg) brightness(1.1); }
-    79% { transform: translate(0); filter: none; }
+  @keyframes photoGlitchPro {
+    0%, 100% { transform: translate(0) scale(1); filter: none; }
+    3% { transform: translate(-2px, 0) scale(1); filter: saturate(1.3) hue-rotate(5deg); }
+    6% { transform: translate(2px, 1px) scale(1.01); filter: saturate(0.8) hue-rotate(-5deg) contrast(1.1); }
+    9% { transform: translate(0) scale(1); filter: none; }
+    25% { transform: translate(0) scale(1); filter: none; }
+    27% { transform: translate(1px, -1px) scale(0.99); filter: hue-rotate(15deg) brightness(1.1); }
+    29% { transform: translate(-1px, 1px) scale(1.01); filter: hue-rotate(-10deg) saturate(1.5); }
+    31% { transform: translate(3px, 0) scale(1); filter: contrast(1.2) hue-rotate(25deg); }
+    33% { transform: translate(0) scale(1); filter: none; }
+    55% { transform: translate(0) scale(1); filter: none; }
+    57% { transform: translate(-2px, -1px) scale(1.02); filter: hue-rotate(-20deg) saturate(1.4) brightness(1.05); }
+    59% { transform: translate(2px, 2px) scale(0.98); filter: hue-rotate(30deg) contrast(1.15); }
+    61% { transform: translate(0) scale(1); filter: none; }
+    80% { transform: translate(0) scale(1); filter: none; }
+    82% { transform: translate(1px, 0) scale(1.01); filter: saturate(1.6) hue-rotate(10deg); }
+    84% { transform: translate(-1px, -1px) scale(1); filter: hue-rotate(-15deg) brightness(1.08); }
+    86% { transform: translate(0) scale(1); filter: none; }
   }
   .glitch-hard { animation: glitchHard 1.5s ease-in-out infinite; }
-  .photo-glitch { animation: photoGlitch 4s ease-in-out infinite; }
+  .photo-glitch-pro { animation: photoGlitchPro 3s ease-in-out infinite; }
 </style>
 <div class="glitch-hard" style="text-align: center; margin-bottom: 1.5rem;">
-  <div style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff, 2px 2px 0 #ff00ff, -2px -2px 0 #ff00ff;">
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 1.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff, 2px 2px 0 #ff00ff, -2px -2px 0 #ff00ff;">
     watermaxxing
   </div>
-  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 3px;">.com</div>
 </div>
 
 <!-- Large Avatar with rings and glitch -->
@@ -441,8 +471,8 @@
   <div style="position: relative; display: inline-block;">
     <div class="ring" style="position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px; border: 2px solid rgba(255,0,255,0.3); border-radius: 50%;"></div>
     <div class="ring" style="position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; animation-delay: 0.5s;"></div>
-    <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" class="photo-glitch" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
-    <div class="status-dot" style="position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #00ff88; border-radius: 50%; border: 4px solid #0d0221;"></div>
+    <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" class="photo-glitch-pro" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
+    <div class="status-dot" style="position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #00ff88; border-radius: 50%; border: 4px solid var(--status-border);"></div>
   </div>
 </div>
 
@@ -463,12 +493,26 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
   </a>
   <!-- 2. Email -->
-  <a href="/cdn-cgi/l/email-protection#c7a5b4a6b0bea2b587b0a2b4b3a2a4afb0a6b3a2b5e9a4a8aaf8b4b2a5ada2a4b3fa95a2a6a4afaea9a0e2f5f7a8b2b3e2f5f7a6a5a8b2b3e2f5f7b0a6b3a2b5e2f5f7b3b5a2a6b3aaa2a9b3" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
+  <a href="mailto:bsawyer@westechwater.com?subject=Reaching%20out%20about%20water%20treatment" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
   </a>
   <!-- 3. Microsoft Teams -->
-  <a href="https://teams.microsoft.com/l/chat/0/0?users=bsawyer@westechwater.com" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(98,100,167,0.2); border: 1px solid rgba(98,100,167,0.5); border-radius: 50%; color: #7B83EB; text-decoration: none;">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 6.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM22 8.5h-5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zM12.5 5a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 7H9a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-3.5 8h-2v-2h2v2zm0-3h-2V9h2v3zM5 11H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1z"/></svg>
+  <a href="https://teams.microsoft.com/l/chat/0/0?users=bsawyer@westechwater.com" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(91,95,199,0.25); border: 1px solid rgba(91,95,199,0.6); border-radius: 50%; text-decoration: none; box-shadow: 0 0 12px rgba(91,95,199,0.5), 0 0 24px rgba(91,95,199,0.3); animation: teamsGlow 2s ease-in-out infinite;">
+    <style>
+      @keyframes teamsGlow {
+        0%, 100% { box-shadow: 0 0 12px rgba(91,95,199,0.5), 0 0 24px rgba(91,95,199,0.3); }
+        50% { box-shadow: 0 0 18px rgba(91,95,199,0.7), 0 0 36px rgba(91,95,199,0.4); }
+      }
+    </style>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <!-- Teams logo - proper design -->
+      <circle cx="17" cy="6" r="2.5" fill="#5B5FC7"/>
+      <rect x="13" y="9" width="8" height="7" rx="1" fill="#5B5FC7"/>
+      <circle cx="10" cy="5" r="3" fill="#7B83EB"/>
+      <rect x="5" y="8" width="10" height="9" rx="1.5" fill="#7B83EB"/>
+      <path d="M7 11.5h6M7 14h4" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+      <rect x="1" y="11" width="5" height="6" rx="1" fill="#5B5FC7"/>
+    </svg>
   </a>
   <!-- 4. LinkedIn -->
   <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; color: #00ffff; text-decoration: none;">
@@ -3632,11 +3676,13 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   // Check for saved theme preference or default to dark
   const savedTheme = localStorage.getItem('watermaxxing-theme') || 'dark';
   mainContainer.setAttribute('data-theme', savedTheme);
+  document.documentElement.setAttribute('data-theme', savedTheme);
   
   themeToggle?.addEventListener('click', () => {
     const currentTheme = mainContainer.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
     mainContainer.setAttribute('data-theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
     localStorage.setItem('watermaxxing-theme', newTheme);
   });
   
