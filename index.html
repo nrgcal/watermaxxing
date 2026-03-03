@@ -8,7 +8,6 @@
 <body style="margin:0; padding:0;">
 
 
-
 <!-- ═══════════════════════════════════════════════════════════════════════════
      WATERMAXXING.COM - DIGITAL BUSINESS CARD v3
      VAPORWAVE/SYNTHWAVE EDITION - WITH SLIDE-UP GAME
@@ -18,6 +17,36 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
+/* === THEME VARIABLES === */
+:root {
+  --bg-primary: #0d0221;
+  --bg-secondary: #1a0a2e;
+  --bg-tertiary: #16082a;
+  --text-primary: #fff;
+  --text-secondary: rgba(255,255,255,0.7);
+  --text-muted: rgba(255,255,255,0.4);
+  --accent-magenta: #ff00ff;
+  --accent-cyan: #00ffff;
+  --glass-bg: rgba(255,255,255,0.03);
+  --glass-border: rgba(255,255,255,0.1);
+  --glass-blur: blur(12px);
+}
+
+[data-theme="light"] {
+  --bg-primary: #f5f5f7;
+  --bg-secondary: #e8e8ed;
+  --bg-tertiary: #ffffff;
+  --text-primary: #1a1a2e;
+  --text-secondary: rgba(26,26,46,0.7);
+  --text-muted: rgba(26,26,46,0.4);
+  --accent-magenta: #c000c0;
+  --accent-cyan: #0099aa;
+  --glass-bg: rgba(255,255,255,0.6);
+  --glass-border: rgba(0,0,0,0.08);
+  --glass-blur: blur(16px);
+}
+
+/* === EXISTING ANIMATIONS === */
 @keyframes neonPulse {
   0%, 100% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
   50% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
@@ -72,6 +101,17 @@
   0% { transform: translateY(0); }
   100% { transform: translateY(100%); }
 }
+
+/* === MICRO-INTERACTION ANIMATIONS === */
+@keyframes subtleGlow {
+  0%, 100% { box-shadow: 0 4px 20px rgba(255,0,255,0.15); }
+  50% { box-shadow: 0 6px 28px rgba(255,0,255,0.25); }
+}
+@keyframes iconSlide {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+}
+
 .neon-text { animation: neonPulse 2s ease-in-out infinite; }
 .float { animation: float 6s ease-in-out infinite; }
 .glow-border { animation: borderGlow 3s ease-in-out infinite; }
@@ -83,621 +123,943 @@
 .ring { animation: ringPulse 4s ease-in-out infinite; }
 .game-slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .game-slide-down { animation: slideDown 0.3s ease-in forwards; }
+
+/* === GLASSMORPHISM CARDS === */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 32px rgba(255,0,255,0.12);
+  border-color: rgba(255,0,255,0.25);
+}
+
+.glass-card:active {
+  transform: translateY(0) scale(0.995);
+}
+
+/* === LINK ITEM MICRO-INTERACTIONS === */
+.link-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.link-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+  transition: left 0.5s ease;
+}
+
+.link-item:hover::before {
+  left: 100%;
+}
+
+.link-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,0,255,0.15);
+  border-color: rgba(255,0,255,0.3);
+}
+
+.link-item:hover .link-arrow {
+  transform: translateX(3px);
+  stroke: rgba(255,255,255,0.6);
+}
+
+.link-item:active {
+  transform: translateY(0);
+}
+
+.link-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+}
+
+.link-item:hover .link-icon {
+  transform: scale(1.08);
+}
+
+.link-arrow {
+  transition: all 0.25s ease;
+}
+
+/* === ACCORDION SECTIONS === */
+.accordion-section {
+  margin-bottom: 12px;
+}
+
+.accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+.accordion-header:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,0,255,0.2);
+}
+
+.accordion-header.active {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-color: transparent;
+}
+
+.accordion-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.accordion-header.active .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), padding 0.3s ease;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+}
+
+.accordion-content.open {
+  max-height: 1000px;
+  padding: 12px;
+}
+
+/* === THEME TOGGLE === */
+.theme-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(255,0,255,0.3);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
+.theme-toggle svg {
+  transition: all 0.3s ease;
+}
+
+.theme-toggle .sun-icon { display: none; }
+.theme-toggle .moon-icon { display: block; }
+
+[data-theme="light"] .theme-toggle .sun-icon { display: block; }
+[data-theme="light"] .theme-toggle .moon-icon { display: none; }
+
+/* === CTA BUTTON ENHANCEMENTS === */
+.cta-button {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cta-button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.cta-button:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(255,0,255,0.4);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+/* === SECTION DEPTH LAYERING === */
+.depth-layer {
+  position: relative;
+}
+
+.depth-layer::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 40px;
+  background: linear-gradient(180deg, transparent, rgba(255,0,255,0.03));
+  border-radius: 50%;
+  filter: blur(20px);
+  pointer-events: none;
+}
 </style>
 
-<div style="font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; background: #0d0221; color: #fff; max-width: 100%; margin: 0; padding: 0; overflow-x: hidden;">
+<div id="mainContainer" data-theme="dark" style="font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; background: var(--bg-primary); color: var(--text-primary); max-width: 100%; margin: 0; padding: 0; overflow-x: hidden; transition: background 0.4s ease, color 0.4s ease;">
+
+<!-- Theme Toggle Button -->
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+  <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c000c0" stroke-width="2">
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+</button>
 
 <!-- === HERO === -->
+
 <div style="padding: 3rem 1.5rem 2rem; background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 40%, #16082a 100%); position: relative; overflow: hidden; min-height: 480px;">
-  
+
   <!-- Animated scanline -->
+
   <div style="position: absolute; top: -10%; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(255,0,255,0.5), transparent); animation: scanMove 4s linear infinite; pointer-events: none; z-index: 15;"></div>
-  
+
   <!-- CRT scanline overlay -->
+
   <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px); pointer-events: none; z-index: 12;"></div>
-  
+
   <!-- Animated grid floor -->
+
   <div style="position: absolute; bottom: 0; left: -100%; right: -100%; height: 60%; background-image: linear-gradient(rgba(255,0,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,0,255,0.15) 1px, transparent 1px); background-size: 50px 50px; transform: perspective(500px) rotateX(60deg); pointer-events: none; opacity: 0.4;"></div>
-  
+
   <!-- Floating orbs -->
+
   <div class="orb1" style="position: absolute; top: 5%; left: -15%; width: 350px; height: 350px; background: radial-gradient(circle, rgba(255,0,255,0.3) 0%, transparent 60%); border-radius: 50%; filter: blur(50px); pointer-events: none;"></div>
   <div class="orb2" style="position: absolute; top: 15%; right: -20%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(0,255,255,0.2) 0%, transparent 60%); border-radius: 50%; filter: blur(60px); pointer-events: none;"></div>
   <div class="orb1" style="position: absolute; bottom: 20%; left: 10%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(255,0,255,0.15) 0%, transparent 70%); border-radius: 50%; filter: blur(40px); pointer-events: none;"></div>
-  
+
   <!-- Stars -->
+
   <div class="star" style="position: absolute; top: 12%; left: 15%; width: 3px; height: 3px; background: #fff; border-radius: 50%; box-shadow: 0 0 6px #fff;"></div>
   <div class="star" style="position: absolute; top: 25%; right: 20%; width: 2px; height: 2px; background: #00ffff; border-radius: 50%; box-shadow: 0 0 8px #00ffff; animation-delay: 0.5s;"></div>
   <div class="star" style="position: absolute; top: 8%; right: 30%; width: 2px; height: 2px; background: #ff00ff; border-radius: 50%; box-shadow: 0 0 6px #ff00ff; animation-delay: 1s;"></div>
   <div class="star" style="position: absolute; top: 35%; left: 8%; width: 2px; height: 2px; background: #fff; border-radius: 50%; box-shadow: 0 0 4px #fff; animation-delay: 1.5s;"></div>
-  
+
   <div style="max-width: 420px; margin: 0 auto; position: relative; z-index: 5;">
-    
-    <!-- Logo/Brand -->
-    <div class="glitch" style="text-align: center; margin-bottom: 1.5rem;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff00ff;" class="neon-text">
-        watermaxxing
-      </div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 3px;">.com</div>
-    </div>
-    
-    <!-- Large Avatar with rings -->
-    <div class="float" style="text-align: center; margin-bottom: 1.25rem;">
-      <div style="position: relative; display: inline-block;">
-        <div class="ring" style="position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px; border: 2px solid rgba(255,0,255,0.3); border-radius: 50%;"></div>
-        <div class="ring" style="position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; animation-delay: 0.5s;"></div>
-        <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
-        <div class="status-dot" style="position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #00ff88; border-radius: 50%; border: 4px solid #0d0221;"></div>
-      </div>
-    </div>
-    
-    <!-- Name & Bio -->
-    <div style="text-align: center; margin-bottom: 1.5rem;">
-      <h1 style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 700; color: #fff; margin: 0 0 0.625rem 0;">Barron Sawyer, JD</h1>
-      <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.7; margin: 0; padding: 0 1rem;">
-        water treatment solutions that hold up irl<br>
-        <span style="color: #00ffff;">full wtp & wwtp delivery</span> · 450+ mobile fleet · westech · since 1973
-      </p>
-    </div>
-    
-    <!-- Social Icons Row -->
-    <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem;">
-      <a href="tel:8012905565" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-      </a>
-      <a href="https://x.com/bsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-      </a>
-      <a href="https://instagram.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1.5" fill="currentColor"/></svg>
-      </a>
-      <a href="https://twitch.tv/barronsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
-      </a>
-      <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; color: #00ffff; text-decoration: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-      </a>
-      <a href="https://www.threads.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.33-3.022.88-.73 2.082-1.146 3.39-1.17 1.016-.02 1.97.14 2.849.476-.03-.986-.18-1.79-.45-2.404-.387-.882-1.065-1.325-2.073-1.357-1.521-.047-2.404.655-2.62 2.082l-2.032-.309c.34-2.334 2.074-3.643 4.608-3.593 1.634.032 2.893.674 3.638 1.855.547.866.84 1.97.898 3.375.535.212 1.02.47 1.453.772 1.133.79 1.948 1.86 2.366 3.105.603 1.796.506 4.396-1.673 6.527-1.87 1.826-4.215 2.64-7.378 2.664z"/></svg>
-      </a>
-    </div>
-    
+
+```
+<!-- Logo/Brand -->
+<div class="glitch" style="text-align: center; margin-bottom: 1.5rem;">
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff00ff;" class="neon-text">
+    watermaxxing
+  </div>
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 3px;">.com</div>
+</div>
+
+<!-- Large Avatar with rings -->
+<div class="float" style="text-align: center; margin-bottom: 1.25rem;">
+  <div style="position: relative; display: inline-block;">
+    <div class="ring" style="position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px; border: 2px solid rgba(255,0,255,0.3); border-radius: 50%;"></div>
+    <div class="ring" style="position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; animation-delay: 0.5s;"></div>
+    <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
+    <div class="status-dot" style="position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #00ff88; border-radius: 50%; border: 4px solid #0d0221;"></div>
+  </div>
+</div>
+
+<!-- Name & Bio -->
+<div style="text-align: center; margin-bottom: 1.5rem;">
+  <h1 style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 700; color: #fff; margin: 0 0 0.625rem 0;">Barron Sawyer, JD</h1>
+  <p style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.55); line-height: 1.7; margin: 0; padding: 0 1rem;">
+    water treatment solutions that hold up irl<br>
+    <span style="color: #00ffff;">full wtp & wwtp delivery</span> · 450+ mobile fleet · westech · since 1973
+  </p>
+</div>
+
+<!-- Social Icons Row -->
+<div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem;">
+  <a href="tel:8012905565" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  </a>
+  <a href="https://x.com/bsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  </a>
+  <a href="https://instagram.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1.5" fill="currentColor"/></svg>
+  </a>
+  <a href="https://twitch.tv/barronsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+  </a>
+  <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; color: #00ffff; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+  </a>
+  <a href="https://www.threads.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.33-3.022.88-.73 2.082-1.146 3.39-1.17 1.016-.02 1.97.14 2.849.476-.03-.986-.18-1.79-.45-2.404-.387-.882-1.065-1.325-2.073-1.357-1.521-.047-2.404.655-2.62 2.082l-2.032-.309c.34-2.334 2.074-3.643 4.608-3.593 1.634.032 2.893.674 3.638 1.855.547.866.84 1.97.898 3.375.535.212 1.02.47 1.453.772 1.133.79 1.948 1.86 2.366 3.105.603 1.796.506 4.396-1.673 6.527-1.87 1.826-4.215 2.64-7.378 2.664z"/></svg>
+  </a>
+</div>
+```
+
   </div>
 </div>
 
 <!-- === CONTACT LINKS === -->
-<div style="padding: 0 1.5rem 2rem; background: #0d0221;">
+
+<div class="depth-layer" style="padding: 0 1.5rem 2rem; background: var(--bg-primary); transition: background 0.4s ease;">
   <div style="max-width: 420px; margin: 0 auto;">
-    
+
+```
+<!-- === WORK WITH ME ACCORDION === -->
+<div class="accordion-section">
+  <div class="accordion-header active" onclick="toggleAccordion(this)">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-magenta)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Work With Me</span>
+    </div>
+    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="accordion-content open">
     <div style="display: flex; flex-direction: column; gap: 10px;">
       
-      <a href="/cdn-cgi/l/email-protection#62001103151b0710221507111607010a15031607104c010d0f" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; text-decoration: none; color: #fff;">
-        <div style="width: 44px; height: 44px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+      <a href="/cdn-cgi/l/email-protection#62001103151b0710221507111607010a15031607104c010d0f" class="link-item">
+        <div class="link-icon" style="background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3);">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
         </div>
         <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">Send a Note</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">direct to inbox</div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">Send a Note</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">direct to inbox</div>
         </div>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
       
-      <a href="https://teams.microsoft.com/l/chat/0/0?users=bsawyer@westechwater.com" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; text-decoration: none; color: #fff;">
-        <div style="width: 44px; height: 44px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 14h4"/></svg>
+      <a href="https://teams.microsoft.com/l/chat/0/0?users=bsawyer@westechwater.com" target="_blank" class="link-item">
+        <div class="link-icon" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 14h4"/></svg>
         </div>
         <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">Message via Teams</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">instant chat</div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">Message via Teams</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">instant chat</div>
         </div>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
       
-      <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; text-decoration: none; color: #fff;">
-        <div style="width: 44px; height: 44px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
+    </div>
+  </div>
+</div>
+
+<!-- === SOCIAL PRESENCE ACCORDION === -->
+<div class="accordion-section">
+  <div class="accordion-header active" onclick="toggleAccordion(this)">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Social Presence</span>
+    </div>
+    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="accordion-content open">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+  
+      <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" class="link-item">
+        <div class="link-icon" style="background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="#00ffff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
         </div>
         <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">View LinkedIn Profile</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">#1 american water treatment pro on social</div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">View LinkedIn Profile</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">#1 american water treatment pro on social</div>
         </div>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
       
-      <a href="https://x.com/bsawyer" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; text-decoration: none; color: #fff;">
-        <div style="width: 44px; height: 44px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <a href="https://x.com/bsawyer" target="_blank" class="link-item">
+        <div class="link-icon" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--text-primary)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
         </div>
         <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600;">@bsawyer</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">thoughts & threads</div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">@bsawyer</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">thoughts & threads</div>
         </div>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
       
     </div>
+  </div>
+</div>
+
+<!-- === OFF-SHIFT ARCADE === -->
+<div style="margin-top: 20px; padding: 20px 16px 18px; background: linear-gradient(135deg, rgba(139,0,139,0.15) 0%, rgba(0,100,100,0.1) 100%); border: 2px dashed rgba(255,0,255,0.4); border-radius: 16px; position: relative;">
+  
+  <!-- Header badge with custom gamepad icons -->
+  <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, #1a0533, #0d0221); padding: 4px 20px; border-radius: 20px; border: 1px solid rgba(255,0,255,0.5); display: flex; align-items: center; gap: 10px; white-space: nowrap;">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="#ff00ff"/><circle cx="17" cy="14" r="1" fill="#ff00ff"/></svg>
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">OFF-SHIFT ARCADE</div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="#ff00ff"/><circle cx="17" cy="14" r="1" fill="#ff00ff"/></svg>
+  </div>
+  
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 4px; margin-bottom: 14px; font-style: italic;">for breakroom use only · not for use during operations</div>
+  
+  <style>
+    @keyframes pipePulse { 
+      0%, 100% { box-shadow: 0 0 15px rgba(0,200,255,0.4), 0 4px 0 #0077aa, inset 0 0 15px rgba(0,200,255,0.1); } 
+      50% { box-shadow: 0 0 20px rgba(0,200,255,0.6), 0 4px 0 #0077aa, inset 0 0 20px rgba(0,200,255,0.2); } 
+    }
+    @keyframes flowPulse { 
+      0%, 100% { box-shadow: 0 0 15px rgba(76,175,80,0.4), 0 4px 0 #2E7D32, inset 0 0 15px rgba(76,175,80,0.1); } 
+      50% { box-shadow: 0 0 20px rgba(76,175,80,0.6), 0 4px 0 #2E7D32, inset 0 0 20px rgba(76,175,80,0.2); } 
+    }
+    @keyframes sludgePulse { 
+      0%, 100% { box-shadow: 0 0 15px rgba(139,90,43,0.4), 0 4px 0 #5D4037, inset 0 0 15px rgba(139,90,43,0.1); } 
+      50% { box-shadow: 0 0 20px rgba(139,90,43,0.6), 0 4px 0 #5D4037, inset 0 0 20px rgba(139,90,43,0.2); } 
+    }
+    @keyframes shiftPulse { 
+      0%, 100% { box-shadow: 0 0 15px rgba(156,39,176,0.4), 0 4px 0 #7B1FA2, inset 0 0 15px rgba(156,39,176,0.1); } 
+      50% { box-shadow: 0 0 20px rgba(156,39,176,0.6), 0 4px 0 #7B1FA2, inset 0 0 20px rgba(156,39,176,0.2); } 
+    }
+    @keyframes waterDrip {
+      0%, 100% { transform: translateY(0); opacity: 1; }
+      50% { transform: translateY(2px); opacity: 0.7; }
+    }
+    @keyframes gearSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes blockFall {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(3px); }
+    }
+    @keyframes cardFlip {
+      0%, 100% { transform: rotateY(0deg); }
+      50% { transform: rotateY(15deg); }
+    }
+    .arcade-btn:hover { transform: translateY(-2px) scale(1.02) !important; }
+    .arcade-btn:active { transform: translateY(2px) scale(0.98) !important; }
+  </style>
+  
+  <!-- 2x2 Grid of Games -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
     
-    <!-- === OFF-SHIFT ARCADE === -->
-    <div style="margin-top: 20px; padding: 20px 16px 18px; background: linear-gradient(135deg, rgba(139,0,139,0.15) 0%, rgba(0,100,100,0.1) 100%); border: 2px dashed rgba(255,0,255,0.4); border-radius: 16px; position: relative;">
-      
-      <!-- Header badge with custom gamepad icons -->
-      <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(90deg, #1a0533, #0d0221); padding: 4px 20px; border-radius: 20px; border: 1px solid rgba(255,0,255,0.5); display: flex; align-items: center; gap: 10px; white-space: nowrap;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="#ff00ff"/><circle cx="17" cy="14" r="1" fill="#ff00ff"/></svg>
-        <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 800; letter-spacing: 0.15em; text-transform: uppercase; color: #ff00ff; text-shadow: 0 0 10px #ff00ff;">OFF-SHIFT ARCADE</div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="#ff00ff"/><circle cx="17" cy="14" r="1" fill="#ff00ff"/></svg>
-      </div>
-      
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 4px; margin-bottom: 14px; font-style: italic;">for breakroom use only · not for use during operations</div>
-      
-      <style>
-        @keyframes pipePulse { 
-          0%, 100% { box-shadow: 0 0 15px rgba(0,200,255,0.4), 0 4px 0 #0077aa, inset 0 0 15px rgba(0,200,255,0.1); } 
-          50% { box-shadow: 0 0 20px rgba(0,200,255,0.6), 0 4px 0 #0077aa, inset 0 0 20px rgba(0,200,255,0.2); } 
-        }
-        @keyframes flowPulse { 
-          0%, 100% { box-shadow: 0 0 15px rgba(76,175,80,0.4), 0 4px 0 #2E7D32, inset 0 0 15px rgba(76,175,80,0.1); } 
-          50% { box-shadow: 0 0 20px rgba(76,175,80,0.6), 0 4px 0 #2E7D32, inset 0 0 20px rgba(76,175,80,0.2); } 
-        }
-        @keyframes sludgePulse { 
-          0%, 100% { box-shadow: 0 0 15px rgba(139,90,43,0.4), 0 4px 0 #5D4037, inset 0 0 15px rgba(139,90,43,0.1); } 
-          50% { box-shadow: 0 0 20px rgba(139,90,43,0.6), 0 4px 0 #5D4037, inset 0 0 20px rgba(139,90,43,0.2); } 
-        }
-        @keyframes shiftPulse { 
-          0%, 100% { box-shadow: 0 0 15px rgba(156,39,176,0.4), 0 4px 0 #7B1FA2, inset 0 0 15px rgba(156,39,176,0.1); } 
-          50% { box-shadow: 0 0 20px rgba(156,39,176,0.6), 0 4px 0 #7B1FA2, inset 0 0 20px rgba(156,39,176,0.2); } 
-        }
-        @keyframes waterDrip {
-          0%, 100% { transform: translateY(0); opacity: 1; }
-          50% { transform: translateY(2px); opacity: 0.7; }
-        }
-        @keyframes gearSpin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        @keyframes blockFall {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(3px); }
-        }
-        @keyframes cardFlip {
-          0%, 100% { transform: rotateY(0deg); }
-          50% { transform: rotateY(15deg); }
-        }
-        .arcade-btn:hover { transform: translateY(-2px) scale(1.02) !important; }
-        .arcade-btn:active { transform: translateY(2px) scale(0.98) !important; }
-      </style>
-      
-      <!-- 2x2 Grid of Games -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        
-        <!-- PIPE PANIC Button -->
-        <button id="launchGameBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #00BFFF 0%, #0099DD 50%, #0077AA 100%); border: 2px solid #00E5FF; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(0,200,255,0.4), 0 4px 0 #0077aa, inset 0 0 15px rgba(0,200,255,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: pipePulse 2s ease-in-out infinite; position: relative; overflow: hidden;">
-          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
-          <!-- Pipe Panic Logo -->
-          <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
-            <rect x="2" y="14" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
-            <rect x="14" y="8" width="8" height="20" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
-            <rect x="20" y="14" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
-            <rect x="32" y="4" width="8" height="18" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
-            <rect x="32" y="20" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
-            <ellipse cx="8" cy="18" rx="3" ry="2" fill="#E1F5FE" style="animation: waterDrip 1s ease-in-out infinite;"/>
-            <circle cx="18" cy="18" r="3" fill="#0288D1"/>
-            <circle cx="36" cy="18" r="3" fill="#0288D1"/>
-          </svg>
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">PIPE PANIC</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">puzzle · rotate · connect</div>
-        </button>
-        
-        <!-- FLOWSTATE Button -->
-        <button id="launchFlowstateBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #66BB6A 0%, #43A047 50%, #2E7D32 100%); border: 2px solid #81C784; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(76,175,80,0.4), 0 4px 0 #2E7D32, inset 0 0 15px rgba(76,175,80,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: flowPulse 2.5s ease-in-out infinite; position: relative; overflow: hidden;">
-          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 40%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
-          <!-- BETA badge -->
-          <div style="position: absolute; top: 4px; right: 4px; background: #FF6F00; padding: 1px 5px; border-radius: 3px; font-family: 'Orbitron', sans-serif; font-size: 6px; font-weight: 800;">BETA</div>
-          <!-- Flowstate Logo -->
-          <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
-            <rect x="0" y="0" width="48" height="14" fill="#81D4FA"/>
-            <circle cx="40" cy="6" r="4" fill="#FFD54F"/>
-            <rect x="0" y="14" width="48" height="22" fill="#8BC34A"/>
-            <ellipse cx="16" cy="22" rx="10" ry="4" fill="#B0BEC5" stroke="#78909C" stroke-width="1"/>
-            <ellipse cx="16" cy="22" rx="8" ry="3" fill="#4FC3F7"/>
-            <line x1="16" y1="22" x2="24" y2="22" stroke="#546E7A" stroke-width="2" stroke-linecap="round" style="transform-origin: 16px 22px; animation: gearSpin 4s linear infinite;"/>
-            <rect x="30" y="16" width="14" height="14" fill="#A1887F" stroke="#6D4C41" stroke-width="1"/>
-            <rect x="34" y="24" width="6" height="6" fill="#5D4037"/>
-          </svg>
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">FLOWSTATE</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">RPG · explore · operate</div>
-        </button>
-        
-        <!-- SL*DGE HAPPENS Button (Tetris-style) -->
-        <button id="launchSludgeBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #A1887F 0%, #8D6E63 50%, #5D4037 100%); border: 2px solid #BCAAA4; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(139,90,43,0.4), 0 4px 0 #5D4037, inset 0 0 15px rgba(139,90,43,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: sludgePulse 2.2s ease-in-out infinite; position: relative; overflow: hidden;">
-          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 40%, rgba(0,0,0,0.15) 100%); pointer-events: none;"></div>
-          <!-- BETA badge -->
-          <div style="position: absolute; top: 4px; right: 4px; background: #FF6F00; padding: 1px 5px; border-radius: 3px; font-family: 'Orbitron', sans-serif; font-size: 6px; font-weight: 800;">BETA</div>
-          <!-- Sl*dge Happens Logo - Tetris-style sludge blocks with drips -->
-          <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
-            <!-- Tank outline -->
-            <rect x="8" y="4" width="32" height="28" rx="2" fill="none" stroke="#D7CCC8" stroke-width="2"/>
-            <!-- Sludge blocks with texture -->
-            <rect x="10" y="24" width="8" height="6" rx="1" fill="#6D4C41"/>
-            <circle cx="13" cy="27" r="1" fill="#4E342E"/>
-            <rect x="18" y="24" width="8" height="6" rx="1" fill="#795548"/>
-            <circle cx="21" cy="26" r="1.5" fill="#5D4037"/>
-            <rect x="26" y="24" width="8" height="6" rx="1" fill="#6D4C41"/>
-            <rect x="10" y="18" width="8" height="6" rx="1" fill="#8D6E63"/>
-            <circle cx="15" cy="20" r="1" fill="#6D4C41"/>
-            <rect x="18" y="18" width="8" height="6" rx="1" fill="#A1887F"/>
-            <rect x="18" y="12" width="8" height="6" rx="1" fill="#BCAAA4"/>
-            <!-- Falling piece with drip -->
-            <g style="animation: blockFall 1s ease-in-out infinite;">
-              <rect x="30" y="6" width="6" height="6" rx="1" fill="#D7CCC8"/>
-              <rect x="30" y="12" width="6" height="6" rx="1" fill="#D7CCC8"/>
-              <ellipse cx="33" cy="19" rx="2" ry="3" fill="#BCAAA4" opacity="0.7"/>
-            </g>
-          </svg>
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">SL*DGE HAPPENS</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">tetris · stack · clear</div>
-        </button>
-        
-        <!-- SHIFT SHUFFLE Button (Memory/Card game) -->
-        <button id="launchShiftBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #BA68C8 0%, #9C27B0 50%, #7B1FA2 100%); border: 2px solid #CE93D8; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(156,39,176,0.4), 0 4px 0 #7B1FA2, inset 0 0 15px rgba(156,39,176,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: shiftPulse 2.8s ease-in-out infinite; position: relative; overflow: hidden;">
-          <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 40%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
-          <!-- BETA badge -->
-          <div style="position: absolute; top: 4px; right: 4px; background: #FF6F00; padding: 1px 5px; border-radius: 3px; font-family: 'Orbitron', sans-serif; font-size: 6px; font-weight: 800;">BETA</div>
-          <!-- Shift Shuffle Logo - Card grid -->
-          <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
-            <!-- Card grid -->
-            <rect x="4" y="4" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1" style="animation: cardFlip 3s ease-in-out infinite;"/>
-            <rect x="18" y="4" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
-            <rect x="32" y="4" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1"/>
-            <rect x="4" y="20" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
-            <rect x="18" y="20" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1" style="animation: cardFlip 3s ease-in-out infinite; animation-delay: 0.5s;"/>
-            <rect x="32" y="20" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
-            <!-- Icons on revealed cards -->
-            <circle cx="10" cy="11" r="3" fill="#9C27B0"/>
-            <rect x="35" y="8" width="6" height="6" rx="1" fill="#9C27B0"/>
-            <path d="M22 24 L26 28 L30 24" stroke="#E1BEE7" stroke-width="2" fill="none"/>
-          </svg>
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">SHIFT SHUFFLE</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">memory · match · focus</div>
-        </button>
-        
-      </div>
-    </div>
+    <!-- PIPE PANIC Button -->
+    <button id="launchGameBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #00BFFF 0%, #0099DD 50%, #0077AA 100%); border: 2px solid #00E5FF; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(0,200,255,0.4), 0 4px 0 #0077aa, inset 0 0 15px rgba(0,200,255,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: pipePulse 2s ease-in-out infinite; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 50%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
+      <!-- Pipe Panic Logo -->
+      <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
+        <rect x="2" y="14" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="14" y="8" width="8" height="20" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="20" y="14" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="32" y="4" width="8" height="18" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <rect x="32" y="20" width="14" height="8" rx="1" fill="#4FC3F7" stroke="#01579B" stroke-width="1.5"/>
+        <ellipse cx="8" cy="18" rx="3" ry="2" fill="#E1F5FE" style="animation: waterDrip 1s ease-in-out infinite;"/>
+        <circle cx="18" cy="18" r="3" fill="#0288D1"/>
+        <circle cx="36" cy="18" r="3" fill="#0288D1"/>
+      </svg>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">PIPE PANIC</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">puzzle · rotate · connect</div>
+    </button>
     
+    <!-- FLOWSTATE Button -->
+    <button id="launchFlowstateBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #66BB6A 0%, #43A047 50%, #2E7D32 100%); border: 2px solid #81C784; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(76,175,80,0.4), 0 4px 0 #2E7D32, inset 0 0 15px rgba(76,175,80,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: flowPulse 2.5s ease-in-out infinite; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 40%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
+      <!-- BETA badge -->
+      <div style="position: absolute; top: 4px; right: 4px; background: #FF6F00; padding: 1px 5px; border-radius: 3px; font-family: 'Orbitron', sans-serif; font-size: 6px; font-weight: 800;">BETA</div>
+      <!-- Flowstate Logo -->
+      <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
+        <rect x="0" y="0" width="48" height="14" fill="#81D4FA"/>
+        <circle cx="40" cy="6" r="4" fill="#FFD54F"/>
+        <rect x="0" y="14" width="48" height="22" fill="#8BC34A"/>
+        <ellipse cx="16" cy="22" rx="10" ry="4" fill="#B0BEC5" stroke="#78909C" stroke-width="1"/>
+        <ellipse cx="16" cy="22" rx="8" ry="3" fill="#4FC3F7"/>
+        <line x1="16" y1="22" x2="24" y2="22" stroke="#546E7A" stroke-width="2" stroke-linecap="round" style="transform-origin: 16px 22px; animation: gearSpin 4s linear infinite;"/>
+        <rect x="30" y="16" width="14" height="14" fill="#A1887F" stroke="#6D4C41" stroke-width="1"/>
+        <rect x="34" y="24" width="6" height="6" fill="#5D4037"/>
+      </svg>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">FLOWSTATE</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">RPG · explore · operate</div>
+    </button>
+    
+    <!-- SL*DGE HAPPENS Button (Tetris-style) -->
+    <button id="launchSludgeBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #A1887F 0%, #8D6E63 50%, #5D4037 100%); border: 2px solid #BCAAA4; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(139,90,43,0.4), 0 4px 0 #5D4037, inset 0 0 15px rgba(139,90,43,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: sludgePulse 2.2s ease-in-out infinite; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, transparent 40%, rgba(0,0,0,0.15) 100%); pointer-events: none;"></div>
+      <!-- BETA badge -->
+      <div style="position: absolute; top: 4px; right: 4px; background: #FF6F00; padding: 1px 5px; border-radius: 3px; font-family: 'Orbitron', sans-serif; font-size: 6px; font-weight: 800;">BETA</div>
+      <!-- Sl*dge Happens Logo - Tetris-style sludge blocks with drips -->
+      <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
+        <!-- Tank outline -->
+        <rect x="8" y="4" width="32" height="28" rx="2" fill="none" stroke="#D7CCC8" stroke-width="2"/>
+        <!-- Sludge blocks with texture -->
+        <rect x="10" y="24" width="8" height="6" rx="1" fill="#6D4C41"/>
+        <circle cx="13" cy="27" r="1" fill="#4E342E"/>
+        <rect x="18" y="24" width="8" height="6" rx="1" fill="#795548"/>
+        <circle cx="21" cy="26" r="1.5" fill="#5D4037"/>
+        <rect x="26" y="24" width="8" height="6" rx="1" fill="#6D4C41"/>
+        <rect x="10" y="18" width="8" height="6" rx="1" fill="#8D6E63"/>
+        <circle cx="15" cy="20" r="1" fill="#6D4C41"/>
+        <rect x="18" y="18" width="8" height="6" rx="1" fill="#A1887F"/>
+        <rect x="18" y="12" width="8" height="6" rx="1" fill="#BCAAA4"/>
+        <!-- Falling piece with drip -->
+        <g style="animation: blockFall 1s ease-in-out infinite;">
+          <rect x="30" y="6" width="6" height="6" rx="1" fill="#D7CCC8"/>
+          <rect x="30" y="12" width="6" height="6" rx="1" fill="#D7CCC8"/>
+          <ellipse cx="33" cy="19" rx="2" ry="3" fill="#BCAAA4" opacity="0.7"/>
+        </g>
+      </svg>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">SL*DGE HAPPENS</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">tetris · stack · clear</div>
+    </button>
+    
+    <!-- SHIFT SHUFFLE Button (Memory/Card game) -->
+    <button id="launchShiftBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #BA68C8 0%, #9C27B0 50%, #7B1FA2 100%); border: 2px solid #CE93D8; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(156,39,176,0.4), 0 4px 0 #7B1FA2, inset 0 0 15px rgba(156,39,176,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: shiftPulse 2.8s ease-in-out infinite; position: relative; overflow: hidden;">
+      <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 40%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
+      <!-- BETA badge -->
+      <div style="position: absolute; top: 4px; right: 4px; background: #FF6F00; padding: 1px 5px; border-radius: 3px; font-family: 'Orbitron', sans-serif; font-size: 6px; font-weight: 800;">BETA</div>
+      <!-- Shift Shuffle Logo - Card grid -->
+      <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
+        <!-- Card grid -->
+        <rect x="4" y="4" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1" style="animation: cardFlip 3s ease-in-out infinite;"/>
+        <rect x="18" y="4" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
+        <rect x="32" y="4" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1"/>
+        <rect x="4" y="20" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
+        <rect x="18" y="20" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1" style="animation: cardFlip 3s ease-in-out infinite; animation-delay: 0.5s;"/>
+        <rect x="32" y="20" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
+        <!-- Icons on revealed cards -->
+        <circle cx="10" cy="11" r="3" fill="#9C27B0"/>
+        <rect x="35" y="8" width="6" height="6" rx="1" fill="#9C27B0"/>
+        <path d="M22 24 L26 28 L30 24" stroke="#E1BEE7" stroke-width="2" fill="none"/>
+      </svg>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">SHIFT SHUFFLE</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">memory · match · focus</div>
+    </button>
+    
+  </div>
+</div>
+```
+
   </div>
 </div>
 
 <!-- === ARTICLES === -->
-<div style="padding: 2rem 1.5rem; background: linear-gradient(180deg, #0d0221, #1a0533);">
+
+<div class="depth-layer" style="padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg-primary), var(--bg-secondary)); transition: background 0.4s ease;">
   <div style="max-width: 420px; margin: 0 auto;">
-    
-    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 12px; text-align: center;">.:: Articles, Etc. ::.</div>
-    
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-      
-      <a href="https://www.linkedin.com/pulse/why-so-many-industries-outsourcing-water-operations-us-sawyer-jd-tbrfc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-        <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-        </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Industries Outsource Water Ops</div></div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      
-      <a href="https://www.linkedin.com/pulse/why-transfer-water-treatment-assets-westech-now-barron-sawyer-jd-t03zc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-        <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-        </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Transfer Assets to WesTech</div></div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      
-      <a href="https://www.linkedin.com/pulse/why-gallons-megawatts-emerging-growth-filter-barron-sawyer-lriqc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-        <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
-        </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Data Centers × Water</div></div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      
-      <a href="https://www.linkedin.com/pulse/future-selenium-nitrate-removal-mining-ebr-explained-sawyer-jd-5yvwc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-        <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
-        </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Interview: EBR System for Selenium</div></div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      
-      <a href="https://www.linkedin.com/pulse/barron-sawyer-07-water-treatment-heart-americas-barron-sawyer-jd-i3sxc/" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-        <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-        </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">UCLA Alumni Feature</div></div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      
-      <a href="https://www.linkedin.com/pulse/zion-shores-surf-park-southern-utah-barron-sawyer-wjwdc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-        <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M2 12c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/><path d="M2 16c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/><path d="M2 20c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/></svg>
-        </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Project: Surf Park Water Treatment</div></div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      
-      <a href="https://www.linkedin.com/posts/sawyerlaw_24-hours-to-hit-qatars-desert-no-heads-upjust-activity-7303395187764998146-BgKH" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(0,255,255,0.05); border: 1px solid rgba(0,255,255,0.15); border-radius: 12px; text-decoration: none; color: #fff;">
-        <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); display: flex; align-items: center; justify-content: center;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-        </div>
-        <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Story: My First Week as a Salesman</div></div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-      </a>
-      
+
+```
+<!-- === INSIGHTS & MEDIA ACCORDION === -->
+<div class="accordion-section">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-magenta)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Insights & Media</span>
     </div>
-    
+    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="accordion-content">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+  
+  <a href="https://www.linkedin.com/pulse/why-so-many-industries-outsourcing-water-operations-us-sawyer-jd-tbrfc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
+    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+    </div>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Industries Outsource Water Ops</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </a>
+  
+  <a href="https://www.linkedin.com/pulse/why-transfer-water-treatment-assets-westech-now-barron-sawyer-jd-t03zc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
+    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
+    </div>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Transfer Assets to WesTech</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </a>
+  
+  <a href="https://www.linkedin.com/pulse/why-gallons-megawatts-emerging-growth-filter-barron-sawyer-lriqc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
+    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
+    </div>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Data Centers × Water</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </a>
+  
+  <a href="https://www.linkedin.com/pulse/future-selenium-nitrate-removal-mining-ebr-explained-sawyer-jd-5yvwc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
+    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+    </div>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Interview: EBR System for Selenium</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </a>
+  
+  <a href="https://www.linkedin.com/pulse/barron-sawyer-07-water-treatment-heart-americas-barron-sawyer-jd-i3sxc/" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
+    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </div>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">UCLA Alumni Feature</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </a>
+  
+  <a href="https://www.linkedin.com/pulse/zion-shores-surf-park-southern-utah-barron-sawyer-wjwdc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
+    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M2 12c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/><path d="M2 16c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/><path d="M2 20c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/></svg>
+    </div>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Project: Surf Park Water Treatment</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </a>
+  
+  <a href="https://www.linkedin.com/posts/sawyerlaw_24-hours-to-hit-qatars-desert-no-heads-upjust-activity-7303395187764998146-BgKH" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(0,255,255,0.05); border: 1px solid rgba(0,255,255,0.15); border-radius: 12px; text-decoration: none; color: #fff;">
+    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); display: flex; align-items: center; justify-content: center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+    </div>
+    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Story: My First Week as a Salesman</div></div>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+  </a>
+  
+    </div>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
 <!-- === COMMUNITY === -->
-<div style="padding: 2rem 1.5rem; background: #0d0221; border-top: 1px solid rgba(255,0,255,0.1);">
+
+<div class="depth-layer" style="padding: 2rem 1.5rem; background: var(--bg-primary); border-top: 1px solid rgba(255,0,255,0.1); transition: background 0.4s ease;">
   <div style="max-width: 420px; margin: 0 auto;">
-    
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      
-      <a href="https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; text-decoration: none; color: #fff;">
-        <div style="width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(0,255,255,0.2)); border: 1px solid rgba(255,0,255,0.4); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        </div>
-        <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600;">FLOWSTATE Newsletter</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">co-creator · #2 non-corporate water newsletter · parody</div>
-        </div>
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #ff00ff; background: rgba(255,0,255,0.15); padding: 4px 8px; border-radius: 6px;">3.9K+</span>
-      </a>
-      
-      <a href="https://www.linkedin.com/groups/42677/" target="_blank" style="display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; text-decoration: none; color: #fff;">
-        <div style="width: 48px; height: 48px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 10px; display: flex; align-items: center; justify-content: center;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        </div>
-        <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600;">UCLA Alumni Network</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.5);">founder · largest unaffiliated</div>
-        </div>
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">8K+</span>
-      </a>
-      
+
+```
+<!-- === COMMUNITY ACCORDION === -->
+<div class="accordion-section">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Community & Networks</span>
     </div>
-    
+    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div class="accordion-content">
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+  
+  <a href="https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/" target="_blank" class="link-item">
+    <div class="link-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(0,255,255,0.2)); border: 1px solid rgba(255,0,255,0.4);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+    </div>
+    <div style="flex: 1;">
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">FLOWSTATE Newsletter</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">co-creator · #2 non-corporate water newsletter · parody</div>
+    </div>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #ff00ff; background: rgba(255,0,255,0.15); padding: 4px 8px; border-radius: 6px;">3.9K+</span>
+  </a>
+  
+  <a href="https://www.linkedin.com/groups/42677/" target="_blank" class="link-item">
+    <div class="link-icon" style="width: 48px; height: 48px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <div style="flex: 1;">
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">UCLA Alumni Network</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">founder · largest unaffiliated</div>
+    </div>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">8K+</span>
+  </a>
+  
+    </div>
   </div>
 </div>
+```
 
+  </div>
+</div>
 
 <!-- === FOOTER === -->
-<div style="padding: 2.5rem 1.5rem 3rem; background: linear-gradient(180deg, #0d0221 0%, #05010d 100%); text-align: center; position: relative; overflow: hidden;">
-  
+
+<div class="depth-layer" style="padding: 2.5rem 1.5rem 3rem; background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%); text-align: center; position: relative; overflow: hidden; transition: background 0.4s ease;">
+
   <div class="orb1" style="position: absolute; bottom: -40%; left: 50%; transform: translateX(-50%); width: 400px; height: 250px; background: radial-gradient(ellipse, rgba(255,0,255,0.2) 0%, transparent 70%); pointer-events: none;"></div>
-  
+
   <div style="max-width: 420px; margin: 0 auto; position: relative; z-index: 1;">
-    
-    <div style="width: 60px; height: 2px; background: linear-gradient(90deg, #ff00ff, #00ffff); margin: 0 auto 1.5rem; border-radius: 2px;"></div>
-    
-    <a href="https://calendly.com/bsaw" target="_blank" class="glow-border" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; background: linear-gradient(135deg, #ff00ff, #cc00cc); color: #fff; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 12px; border: none;">
-      book the call
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-    
-    <div style="margin-top: 2rem;">
-      <div class="glitch" style="font-family: 'Orbitron', sans-serif; font-size: 0.875rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff00ff;">watermaxxing.com</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); margin-top: 8px; letter-spacing: 0.15em;">iykyk</div>
-    </div>
-    
+
+```
+<div style="width: 60px; height: 2px; background: linear-gradient(90deg, #ff00ff, #00ffff); margin: 0 auto 1.5rem; border-radius: 2px;"></div>
+
+<a href="https://calendly.com/bsaw" target="_blank" class="cta-button glow-border" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; background: linear-gradient(135deg, #ff00ff, #cc00cc); color: #fff; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 12px; border: none;">
+  book the call
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+</a>
+
+<div style="margin-top: 2rem;">
+  <div class="glitch" style="font-family: 'Orbitron', sans-serif; font-size: 0.875rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff00ff;">watermaxxing.com</div>
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); margin-top: 8px; letter-spacing: 0.15em;">iykyk</div>
+</div>
+```
+
   </div>
 </div>
 
 </div>
-
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
      PIPE PANIC - ENHANCED WATER FLOW VERSION v2
 ═══════════════════════════════════════════════════════════════════════════ -->
 
 <div id="gameOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,5,15,0.95); z-index: 1000; backdrop-filter: blur(10px);">
-  
-  <button id="closeGameBtn" style="position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; background: rgba(255,0,255,0.2); border: 2px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; font-size: 24px; cursor: pointer; z-index: 1002;">×</button>
-  
+
+<button id="closeGameBtn" style="position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; background: rgba(255,0,255,0.2); border: 2px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; font-size: 24px; cursor: pointer; z-index: 1002;">×</button>
+
   <div id="gameConsole" style="position: absolute; bottom: 0; left: 0; right: 0; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1001;">
+
+```
+<div style="max-width: 420px; margin: 0 auto; background: linear-gradient(180deg, #151530 0%, #0a0a1a 100%); border-radius: 30px 30px 0 0; padding: 16px 16px 24px; border: 3px solid #3a3a6a; border-bottom: none; box-shadow: 0 -15px 80px rgba(0,255,255,0.2), 0 -5px 40px rgba(255,0,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1);">
+  
+  <div style="text-align: center; margin-bottom: 10px; position: relative;">
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: 0.15em; color: #00ffff; text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;">PIPE PANIC</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; letter-spacing: 0.3em;">WATER EDITION</div>
+  </div>
+  
+  <div style="background: #000; border-radius: 16px; padding: 4px; border: 3px solid #2a2a5a; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 20px rgba(0,255,255,0.1);">
     
-    <div style="max-width: 420px; margin: 0 auto; background: linear-gradient(180deg, #151530 0%, #0a0a1a 100%); border-radius: 30px 30px 0 0; padding: 16px 16px 24px; border: 3px solid #3a3a6a; border-bottom: none; box-shadow: 0 -15px 80px rgba(0,255,255,0.2), 0 -5px 40px rgba(255,0,255,0.2), inset 0 1px 0 rgba(255,255,255,0.1);">
+    <div id="gameScreen" style="position: relative; width: 100%; height: 340px; background: linear-gradient(180deg, #000510 0%, #001020 50%, #000815 100%); border-radius: 12px; overflow: hidden;">
       
-      <div style="text-align: center; margin-bottom: 10px; position: relative;">
-        <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: 0.15em; color: #00ffff; text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;">PIPE PANIC</div>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; letter-spacing: 0.3em;">WATER EDITION</div>
-      </div>
+      <canvas id="gameCanvas" width="388" height="340" style="display: block; width: 100%; height: 100%; position: relative; z-index: 10;"></canvas>
       
-      <div style="background: #000; border-radius: 16px; padding: 4px; border: 3px solid #2a2a5a; box-shadow: inset 0 0 50px rgba(0,0,0,0.9), 0 0 20px rgba(0,255,255,0.1);">
+      <!-- Start Screen -->
+      <div id="startScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,30,60,0.98) 0%, rgba(0,10,30,0.99) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
         
-        <div id="gameScreen" style="position: relative; width: 100%; height: 340px; background: linear-gradient(180deg, #000510 0%, #001020 50%, #000815 100%); border-radius: 12px; overflow: hidden;">
-          
-          <canvas id="gameCanvas" width="388" height="340" style="display: block; width: 100%; height: 100%; position: relative; z-index: 10;"></canvas>
-          
-          <!-- Start Screen -->
-          <div id="startScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,30,60,0.98) 0%, rgba(0,10,30,0.99) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
-            
-            <svg width="70" height="70" viewBox="0 0 70 70" style="margin-bottom: 12px;">
-              <defs>
-                <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#00ffff"/>
-                  <stop offset="100%" style="stop-color:#ff00ff"/>
-                </linearGradient>
-              </defs>
-              <circle cx="35" cy="35" r="30" fill="none" stroke="url(#pipeGrad)" stroke-width="5" opacity="0.3"/>
-              <circle cx="35" cy="35" r="30" fill="none" stroke="url(#pipeGrad)" stroke-width="5" stroke-dasharray="50 140" stroke-linecap="round">
-                <animateTransform attributeName="transform" type="rotate" from="0 35 35" to="360 35 35" dur="2s" repeatCount="indefinite"/>
-              </circle>
-              <path d="M35 12 C35 12 20 30 20 40 C20 50 27 55 35 55 C43 55 50 50 50 40 C50 30 35 12 35 12 Z" fill="#00ffff" opacity="0.8"/>
-            </svg>
-            
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; color: #00ffff; text-shadow: 0 0 30px #00ffff; margin-bottom: 6px;">PIPE PANIC</div>
-            
-            <div style="width: 80px; height: 2px; background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent); margin-bottom: 12px;"></div>
-            
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.7; margin-bottom: 14px;">
-              Connect <span style="color: #00ff88;">IN</span> → <span style="color: #ff00ff;">OUT</span> before overflow!
-            </div>
-            
-            <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center;">
-              <div style="text-align: center; padding: 6px 10px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 8px;">
-                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #00ffff; font-weight: bold;">A</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Rotate ↻</div>
-              </div>
-              <div style="text-align: center; padding: 6px 10px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); border-radius: 8px;">
-                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ff00ff; font-weight: bold;">B</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Rotate ↺</div>
-              </div>
-              <div style="text-align: center; padding: 6px 10px; background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 8px;">
-                <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ffcc00; font-weight: bold;">HOLD B</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Swap tiles</div>
-              </div>
-            </div>
-            
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; color: #ff00ff; text-shadow: 0 0 15px #ff00ff;">
-              ▶ PRESS A TO START ◀
-            </div>
+        <svg width="70" height="70" viewBox="0 0 70 70" style="margin-bottom: 12px;">
+          <defs>
+            <linearGradient id="pipeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#00ffff"/>
+              <stop offset="100%" style="stop-color:#ff00ff"/>
+            </linearGradient>
+          </defs>
+          <circle cx="35" cy="35" r="30" fill="none" stroke="url(#pipeGrad)" stroke-width="5" opacity="0.3"/>
+          <circle cx="35" cy="35" r="30" fill="none" stroke="url(#pipeGrad)" stroke-width="5" stroke-dasharray="50 140" stroke-linecap="round">
+            <animateTransform attributeName="transform" type="rotate" from="0 35 35" to="360 35 35" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <path d="M35 12 C35 12 20 30 20 40 C20 50 27 55 35 55 C43 55 50 50 50 40 C50 30 35 12 35 12 Z" fill="#00ffff" opacity="0.8"/>
+        </svg>
+        
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 26px; font-weight: 900; color: #00ffff; text-shadow: 0 0 30px #00ffff; margin-bottom: 6px;">PIPE PANIC</div>
+        
+        <div style="width: 80px; height: 2px; background: linear-gradient(90deg, transparent, #00ffff, #ff00ff, transparent); margin-bottom: 12px;"></div>
+        
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: rgba(255,255,255,0.7); text-align: center; line-height: 1.7; margin-bottom: 14px;">
+          Connect <span style="color: #00ff88;">IN</span> → <span style="color: #ff00ff;">OUT</span> before overflow!
+        </div>
+        
+        <div style="display: flex; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; justify-content: center;">
+          <div style="text-align: center; padding: 6px 10px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 8px;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #00ffff; font-weight: bold;">A</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Rotate ↻</div>
           </div>
-          
-          <!-- Level Complete -->
-          <div id="levelScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,50,40,0.98) 0%, rgba(0,20,15,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
-            <div id="levelCelebration" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden;"></div>
-            <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 25px #00ff88);">
-              <path d="M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z" fill="#00ffaa" stroke="#00ff88" stroke-width="3">
-                <animate attributeName="d" dur="0.5s" values="M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z; M40 8 C40 8 18 35 18 48 C18 62 28 72 40 72 C52 72 62 62 62 48 C62 35 40 8 40 8 Z; M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z" repeatCount="indefinite"/>
-              </path>
-              <ellipse cx="30" cy="45" rx="8" ry="12" fill="rgba(255,255,255,0.4)"/>
-              <path d="M30 60 L35 55 L40 62 L50 45" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 8px;">CONNECTED!</div>
-            <div id="levelBonus" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #00ffff; margin-bottom: 6px;"></div>
-            <div id="levelTotal" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #fff; margin-bottom: 12px;"></div>
-            
-            <!-- Barron appears -->
-            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0,255,255,0.3); margin-bottom: 12px;">
-              <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #00ffff; object-fit: cover;">
-              <div>
-                <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #00ffff;">BARRON SAYS:</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"Nice flow! Keep it up!"</div>
-              </div>
-            </div>
-            
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; color: #ff00ff;">▶ PRESS A ◀</div>
+          <div style="text-align: center; padding: 6px 10px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); border-radius: 8px;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ff00ff; font-weight: bold;">B</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Rotate ↺</div>
           </div>
-          
-          <!-- Game Over -->
-          <div id="gameOverScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(50,0,20,0.98) 0%, rgba(20,0,10,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
-            <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 20px #ff0055);">
-              <path d="M5 45 Q20 30 35 45 T65 45 T95 45" fill="none" stroke="#ff0055" stroke-width="7" stroke-linecap="round">
-                <animate attributeName="d" dur="0.8s" values="M5 45 Q20 30 35 45 T65 45; M5 45 Q20 55 35 45 T65 45; M5 45 Q20 30 35 45 T65 45" repeatCount="indefinite"/>
-              </path>
-              <path d="M5 55 Q20 42 35 55 T65 55 T95 55" fill="none" stroke="#ff3366" stroke-width="5" stroke-linecap="round"/>
-              <path d="M5 63 Q20 52 35 63 T65 63" fill="none" stroke="#ff6688" stroke-width="4" stroke-linecap="round"/>
-              <circle cx="25" cy="28" r="5" fill="#ff0055"><animate attributeName="cy" dur="1s" values="28;20;28" repeatCount="indefinite"/></circle>
-              <circle cx="55" cy="22" r="4" fill="#ff3366"><animate attributeName="cy" dur="0.8s" values="22;15;22" repeatCount="indefinite"/></circle>
-              <circle cx="40" cy="18" r="6" fill="#ff0055"><animate attributeName="cy" dur="1.2s" values="18;10;18" repeatCount="indefinite"/></circle>
-            </svg>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 800; color: #ff0055; text-shadow: 0 0 30px #ff0055; margin-bottom: 8px;">OVERFLOW!</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #00ffff; margin-bottom: 6px;">SCORE: <span id="finalScore">0</span></div>
-            <div id="highScoreText" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ff88; margin-bottom: 12px;"></div>
-            
-            <!-- Barron appears -->
-            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(255,0,255,0.3); margin-bottom: 12px;">
-              <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #ff00ff; object-fit: cover;">
-              <div>
-                <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #ff00ff;">BARRON SAYS:</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"Follow me on LinkedIn for tips!"</div>
-              </div>
-            </div>
-            
-            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-              <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,119,181,0.3); border: 1px solid #0077b5; border-radius: 8px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 9px;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                Follow
-              </a>
-              <button onclick="shareGame()" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,255,136,0.2); border: 1px solid #00ff88; border-radius: 8px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 9px; cursor: pointer;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
-                Share Game
-              </button>
-            </div>
-            
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6);">▶ PRESS A TO RESTART ◀</div>
+          <div style="text-align: center; padding: 6px 10px; background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 8px;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ffcc00; font-weight: bold;">HOLD B</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.5);">Swap tiles</div>
           </div>
-          
-          <!-- Victory -->
-          <div id="victoryScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,50,50,0.98) 0%, rgba(0,20,30,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
-            <div id="victoryCelebration" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden;"></div>
-            <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 25px #ffcc00);">
-              <path d="M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z" fill="#ffcc00" stroke="#ffaa00" stroke-width="3">
-                <animate attributeName="d" dur="0.6s" values="M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z; M23 16 L23 42 Q23 57 40 62 Q57 57 57 42 L57 16 Z; M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z" repeatCount="indefinite"/>
-              </path>
-              <path d="M18 18 L12 18 Q6 18 6 30 Q6 42 18 42 L25 42" fill="none" stroke="#ffcc00" stroke-width="5"/>
-              <path d="M62 18 L68 18 Q74 18 74 30 Q74 42 62 42 L55 42" fill="none" stroke="#ffcc00" stroke-width="5"/>
-              <rect x="32" y="60" width="16" height="8" fill="#ffaa00"/>
-              <rect x="26" y="68" width="28" height="6" rx="2" fill="#ffcc00"/>
-              <text x="40" y="45" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="bold">1</text>
-            </svg>
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 6px;">MASTER OPERATOR!</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #00ffff; margin-bottom: 4px;">ALL LEVELS COMPLETE!</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #ff00ff; margin-bottom: 12px;">SCORE: <span id="victoryScore">0</span></div>
-            
-            <!-- Barron appears -->
-            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0,255,136,0.4); margin-bottom: 12px;">
-              <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #00ff88; object-fit: cover;">
-              <div>
-                <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #00ff88;">BARRON SAYS:</div>
-                <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"You're a natural! Let's connect!"</div>
-              </div>
-            </div>
-            
-            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-              <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,119,181,0.3); border: 1px solid #0077b5; border-radius: 8px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 9px;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-                Follow
-              </a>
-              <button onclick="shareGame()" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,255,136,0.2); border: 1px solid #00ff88; border-radius: 8px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 9px; cursor: pointer;">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
-                Share Game
-              </button>
-            </div>
-            
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.6);">▶ PRESS A TO PLAY AGAIN ◀</div>
-          </div>
-          
+        </div>
+        
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; color: #ff00ff; text-shadow: 0 0 15px #ff00ff;">
+          ▶ PRESS A TO START ◀
         </div>
       </div>
       
-      <!-- Controls -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 0 6px;">
+      <!-- Level Complete -->
+      <div id="levelScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,50,40,0.98) 0%, rgba(0,20,15,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
+        <div id="levelCelebration" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden;"></div>
+        <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 25px #00ff88);">
+          <path d="M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z" fill="#00ffaa" stroke="#00ff88" stroke-width="3">
+            <animate attributeName="d" dur="0.5s" values="M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z; M40 8 C40 8 18 35 18 48 C18 62 28 72 40 72 C52 72 62 62 62 48 C62 35 40 8 40 8 Z; M40 5 C40 5 15 35 15 50 C15 65 26 75 40 75 C54 75 65 65 65 50 C65 35 40 5 40 5 Z" repeatCount="indefinite"/>
+          </path>
+          <ellipse cx="30" cy="45" rx="8" ry="12" fill="rgba(255,255,255,0.4)"/>
+          <path d="M30 60 L35 55 L40 62 L50 45" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 8px;">CONNECTED!</div>
+        <div id="levelBonus" style="font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #00ffff; margin-bottom: 6px;"></div>
+        <div id="levelTotal" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #fff; margin-bottom: 12px;"></div>
         
-        <div style="position: relative; width: 110px; height: 110px;">
-          <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▲</button>
-          <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▼</button>
-          <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">◀</button>
-          <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▶</button>
-          <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: radial-gradient(circle, #3a3a6a, #2a2a4a); border-radius: 50%; border: 2px solid #4a4a7a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);"></div>
-        </div>
-        
-        <div style="text-align: center;">
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 5px; color: rgba(255,255,255,0.12); letter-spacing: 0.15em;">WATERMAXXING</div>
-        </div>
-        
-        <div style="display: flex; gap: 14px;">
-          <div style="text-align: center;">
-            <button id="btnB" style="width: 52px; height: 52px; background: linear-gradient(180deg, #ff00ff, #cc00cc); border: 3px solid #ff66ff; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #880088, 0 0 25px rgba(255,0,255,0.5); -webkit-tap-highlight-color: transparent;">B</button>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #ff00ff; margin-top: 4px;">↺</div>
-          </div>
-          <div style="text-align: center;">
-            <button id="btnA" style="width: 52px; height: 52px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5); -webkit-tap-highlight-color: transparent;">A</button>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #00ffff; margin-top: 4px;">↻</div>
+        <!-- Barron appears -->
+        <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0,255,255,0.3); margin-bottom: 12px;">
+          <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #00ffff; object-fit: cover;">
+          <div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #00ffff;">BARRON SAYS:</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"Nice flow! Keep it up!"</div>
           </div>
         </div>
         
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; color: #ff00ff;">▶ PRESS A ◀</div>
+      </div>
+      
+      <!-- Game Over -->
+      <div id="gameOverScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(50,0,20,0.98) 0%, rgba(20,0,10,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
+        <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 20px #ff0055);">
+          <path d="M5 45 Q20 30 35 45 T65 45 T95 45" fill="none" stroke="#ff0055" stroke-width="7" stroke-linecap="round">
+            <animate attributeName="d" dur="0.8s" values="M5 45 Q20 30 35 45 T65 45; M5 45 Q20 55 35 45 T65 45; M5 45 Q20 30 35 45 T65 45" repeatCount="indefinite"/>
+          </path>
+          <path d="M5 55 Q20 42 35 55 T65 55 T95 55" fill="none" stroke="#ff3366" stroke-width="5" stroke-linecap="round"/>
+          <path d="M5 63 Q20 52 35 63 T65 63" fill="none" stroke="#ff6688" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="25" cy="28" r="5" fill="#ff0055"><animate attributeName="cy" dur="1s" values="28;20;28" repeatCount="indefinite"/></circle>
+          <circle cx="55" cy="22" r="4" fill="#ff3366"><animate attributeName="cy" dur="0.8s" values="22;15;22" repeatCount="indefinite"/></circle>
+          <circle cx="40" cy="18" r="6" fill="#ff0055"><animate attributeName="cy" dur="1.2s" values="18;10;18" repeatCount="indefinite"/></circle>
+        </svg>
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 800; color: #ff0055; text-shadow: 0 0 30px #ff0055; margin-bottom: 8px;">OVERFLOW!</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 18px; color: #00ffff; margin-bottom: 6px;">SCORE: <span id="finalScore">0</span></div>
+        <div id="highScoreText" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ff88; margin-bottom: 12px;"></div>
+        
+        <!-- Barron appears -->
+        <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(255,0,255,0.3); margin-bottom: 12px;">
+          <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #ff00ff; object-fit: cover;">
+          <div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #ff00ff;">BARRON SAYS:</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"Follow me on LinkedIn for tips!"</div>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,119,181,0.3); border: 1px solid #0077b5; border-radius: 8px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 9px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            Follow
+          </a>
+          <button onclick="shareGame()" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,255,136,0.2); border: 1px solid #00ff88; border-radius: 8px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 9px; cursor: pointer;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+            Share Game
+          </button>
+        </div>
+        
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6);">▶ PRESS A TO RESTART ◀</div>
+      </div>
+      
+      <!-- Victory -->
+      <div id="victoryScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,50,50,0.98) 0%, rgba(0,20,30,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 60;">
+        <div id="victoryCelebration" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden;"></div>
+        <svg width="80" height="80" viewBox="0 0 80 80" style="margin-bottom: 8px; filter: drop-shadow(0 0 25px #ffcc00);">
+          <path d="M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z" fill="#ffcc00" stroke="#ffaa00" stroke-width="3">
+            <animate attributeName="d" dur="0.6s" values="M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z; M23 16 L23 42 Q23 57 40 62 Q57 57 57 42 L57 16 Z; M25 18 L25 40 Q25 55 40 60 Q55 55 55 40 L55 18 Z" repeatCount="indefinite"/>
+          </path>
+          <path d="M18 18 L12 18 Q6 18 6 30 Q6 42 18 42 L25 42" fill="none" stroke="#ffcc00" stroke-width="5"/>
+          <path d="M62 18 L68 18 Q74 18 74 30 Q74 42 62 42 L55 42" fill="none" stroke="#ffcc00" stroke-width="5"/>
+          <rect x="32" y="60" width="16" height="8" fill="#ffaa00"/>
+          <rect x="26" y="68" width="28" height="6" rx="2" fill="#ffcc00"/>
+          <text x="40" y="45" text-anchor="middle" fill="#fff" font-family="Arial" font-size="18" font-weight="bold">1</text>
+        </svg>
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: 800; color: #00ff88; text-shadow: 0 0 30px #00ff88; margin-bottom: 6px;">MASTER OPERATOR!</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #00ffff; margin-bottom: 4px;">ALL LEVELS COMPLETE!</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 20px; color: #ff00ff; margin-bottom: 12px;">SCORE: <span id="victoryScore">0</span></div>
+        
+        <!-- Barron appears -->
+        <div style="display: flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.4); padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(0,255,136,0.4); margin-bottom: 12px;">
+          <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg" style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #00ff88; object-fit: cover;">
+          <div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #00ff88;">BARRON SAYS:</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.8);">"You're a natural! Let's connect!"</div>
+          </div>
+        </div>
+        
+        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+          <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,119,181,0.3); border: 1px solid #0077b5; border-radius: 8px; color: #fff; text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: 9px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="#0077b5"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+            Follow
+          </a>
+          <button onclick="shareGame()" style="display: inline-flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(0,255,136,0.2); border: 1px solid #00ff88; border-radius: 8px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 9px; cursor: pointer;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00ff88" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+            Share Game
+          </button>
+        </div>
+        
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 12px; color: rgba(255,255,255,0.6);">▶ PRESS A TO PLAY AGAIN ◀</div>
       </div>
       
     </div>
+  </div>
+  
+  <!-- Controls -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 0 6px;">
+    
+    <div style="position: relative; width: 110px; height: 110px;">
+      <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▲</button>
+      <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▼</button>
+      <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">◀</button>
+      <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▶</button>
+      <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: radial-gradient(circle, #3a3a6a, #2a2a4a); border-radius: 50%; border: 2px solid #4a4a7a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);"></div>
+    </div>
+    
+    <div style="text-align: center;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 5px; color: rgba(255,255,255,0.12); letter-spacing: 0.15em;">WATERMAXXING</div>
+    </div>
+    
+    <div style="display: flex; gap: 14px;">
+      <div style="text-align: center;">
+        <button id="btnB" style="width: 52px; height: 52px; background: linear-gradient(180deg, #ff00ff, #cc00cc); border: 3px solid #ff66ff; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #880088, 0 0 25px rgba(255,0,255,0.5); -webkit-tap-highlight-color: transparent;">B</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #ff00ff; margin-top: 4px;">↺</div>
+      </div>
+      <div style="text-align: center;">
+        <button id="btnA" style="width: 52px; height: 52px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5); -webkit-tap-highlight-color: transparent;">A</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #00ffff; margin-top: 4px;">↻</div>
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+```
+
   </div>
 </div>
 
@@ -1466,7 +1828,6 @@ function shareGame() {
 })();
 </script>
 
-
 <!-- ═══════════════════════════════════════════════════════════════════════════
      FLOWSTATE - WASTEWATER TREATMENT PLANT RPG v4
      Functional equipment, chaos effects, 4 areas
@@ -1480,163 +1841,165 @@ function shareGame() {
 </style>
 
 <div id="flowstateOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #7EC8E3 0%, #B5E3F5 50%, #E8F6FC 100%); z-index: 1000; overflow: hidden;">
-  
+
   <div style="position: absolute; top: 5%; left: 10%; width: 120px; height: 40px; background: rgba(255,255,255,0.8); border-radius: 50px; filter: blur(2px);"></div>
   <div style="position: absolute; top: 8%; right: 15%; width: 80px; height: 30px; background: rgba(255,255,255,0.7); border-radius: 40px; filter: blur(2px);"></div>
-  
-  <button id="closeFlowstateBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #2d5a27; border-radius: 50%; color: #2d5a27; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
-  
+
+<button id="closeFlowstateBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #2d5a27; border-radius: 50%; color: #2d5a27; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
+
   <div id="flowstateContainer" style="max-width: 820px; margin: 0 auto; padding: 15px; height: 100%; display: flex; flex-direction: column; justify-content: center;">
-    
-    <div style="text-align: center; margin-bottom: 10px;">
-      <div style="font-family: Georgia, serif; font-size: 26px; font-weight: bold; color: #2d5a27; text-shadow: 2px 2px 0 rgba(255,255,255,0.8);">✦ FLOWSTATE ✦</div>
-      <div style="font-family: Georgia, serif; font-size: 11px; color: #5a8a54; font-style: italic;">A Day at the Plant · Grady Watts, Operator</div>
+
+```
+<div style="text-align: center; margin-bottom: 10px;">
+  <div style="font-family: Georgia, serif; font-size: 26px; font-weight: bold; color: #2d5a27; text-shadow: 2px 2px 0 rgba(255,255,255,0.8);">✦ FLOWSTATE ✦</div>
+  <div style="font-family: Georgia, serif; font-size: 11px; color: #5a8a54; font-style: italic;">A Day at the Plant · Grady Watts, Operator</div>
+</div>
+
+<div style="position: relative; background: linear-gradient(135deg, #8B7355 0%, #6B5344 100%); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); padding: 10px; border: 4px solid #5D4E37;">
+  
+  <canvas id="flowstateCanvas" width="780" height="440" style="display: block; width: 100%; border-radius: 10px;"></canvas>
+  
+  <div id="fsHUD" style="position: absolute; top: 18px; left: 18px; right: 18px; display: none; justify-content: space-between; align-items: flex-start; pointer-events: none;">
+    <div style="background: linear-gradient(135deg, #FFFBEA, #FFF3C4); padding: 6px 14px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 2px solid #E6C864; display: flex; align-items: center; gap: 6px;">
+      <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFD700" stroke="#B8860B" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="#FFC107"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#B8860B">$</text></svg>
+      <span style="font-family: Georgia, serif; font-size: 13px; color: #8B6914; font-weight: bold;"><span id="fsCoinCount">0</span></span>
     </div>
-    
-    <div style="position: relative; background: linear-gradient(135deg, #8B7355 0%, #6B5344 100%); border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.25); padding: 10px; border: 4px solid #5D4E37;">
-      
-      <canvas id="flowstateCanvas" width="780" height="440" style="display: block; width: 100%; border-radius: 10px;"></canvas>
-      
-      <div id="fsHUD" style="position: absolute; top: 18px; left: 18px; right: 18px; display: none; justify-content: space-between; align-items: flex-start; pointer-events: none;">
-        <div style="background: linear-gradient(135deg, #FFFBEA, #FFF3C4); padding: 6px 14px; border-radius: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 2px solid #E6C864; display: flex; align-items: center; gap: 6px;">
-          <svg width="16" height="16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#FFD700" stroke="#B8860B" stroke-width="2"/><circle cx="12" cy="12" r="6" fill="#FFC107"/><text x="12" y="16" text-anchor="middle" font-size="10" font-weight="bold" fill="#B8860B">$</text></svg>
-          <span style="font-family: Georgia, serif; font-size: 13px; color: #8B6914; font-weight: bold;"><span id="fsCoinCount">0</span></span>
+    <div id="fsZoneName" style="background: linear-gradient(135deg, #2d5a27, #1e4a1e); padding: 6px 16px; border-radius: 16px; color: #C4E6B8; font-family: Georgia, serif; font-size: 12px; font-weight: bold;"></div>
+  </div>
+  
+  <div id="fsDialogBox" style="position: absolute; bottom: 18px; left: 18px; right: 18px; display: none; z-index: 100;">
+    <div style="background: linear-gradient(180deg, #FFFFF8, #F5F0E0); border: 3px solid #8B7355; border-radius: 12px; padding: 12px 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
+      <div style="display: flex; align-items: flex-start; gap: 12px;">
+        <div id="fsDialogPortrait" style="width: 44px; height: 44px; background: linear-gradient(135deg, #FF6F00, #E65100); border-radius: 50%; border: 2px solid #8B7355; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+          <svg width="28" height="28" viewBox="0 0 32 32"><ellipse cx="16" cy="14" rx="8" ry="7" fill="#FFCCBC"/><ellipse cx="16" cy="8" rx="9" ry="4" fill="#FFD700"/><rect x="8" y="5" width="16" height="4" rx="1" fill="#FFD700"/><circle cx="13" cy="13" r="1.5" fill="#4A4A4A"/><circle cx="19" cy="13" r="1.5" fill="#4A4A4A"/><path d="M14 17 Q16 18.5 18 17" stroke="#8B6914" stroke-width="1.2" fill="none"/></svg>
         </div>
-        <div id="fsZoneName" style="background: linear-gradient(135deg, #2d5a27, #1e4a1e); padding: 6px 16px; border-radius: 16px; color: #C4E6B8; font-family: Georgia, serif; font-size: 12px; font-weight: bold;"></div>
-      </div>
-      
-      <div id="fsDialogBox" style="position: absolute; bottom: 18px; left: 18px; right: 18px; display: none; z-index: 100;">
-        <div style="background: linear-gradient(180deg, #FFFFF8, #F5F0E0); border: 3px solid #8B7355; border-radius: 12px; padding: 12px 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.25);">
-          <div style="display: flex; align-items: flex-start; gap: 12px;">
-            <div id="fsDialogPortrait" style="width: 44px; height: 44px; background: linear-gradient(135deg, #FF6F00, #E65100); border-radius: 50%; border: 2px solid #8B7355; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
-              <svg width="28" height="28" viewBox="0 0 32 32"><ellipse cx="16" cy="14" rx="8" ry="7" fill="#FFCCBC"/><ellipse cx="16" cy="8" rx="9" ry="4" fill="#FFD700"/><rect x="8" y="5" width="16" height="4" rx="1" fill="#FFD700"/><circle cx="13" cy="13" r="1.5" fill="#4A4A4A"/><circle cx="19" cy="13" r="1.5" fill="#4A4A4A"/><path d="M14 17 Q16 18.5 18 17" stroke="#8B6914" stroke-width="1.2" fill="none"/></svg>
-            </div>
-            <div style="flex: 1;">
-              <div id="fsDialogSpeaker" style="font-family: Georgia, serif; font-size: 11px; color: #8B6914; font-weight: bold; margin-bottom: 4px;">GRADY</div>
-              <div id="fsDialogText" style="font-family: Georgia, serif; font-size: 13px; color: #3a3a3a; line-height: 1.5;"></div>
-            </div>
-          </div>
-          <div style="text-align: right; margin-top: 8px;">
-            <span style="font-family: Georgia, serif; font-size: 10px; color: #8B7355;">Press A ▸</span>
-          </div>
+        <div style="flex: 1;">
+          <div id="fsDialogSpeaker" style="font-family: Georgia, serif; font-size: 11px; color: #8B6914; font-weight: bold; margin-bottom: 4px;">GRADY</div>
+          <div id="fsDialogText" style="font-family: Georgia, serif; font-size: 13px; color: #3a3a3a; line-height: 1.5;"></div>
         </div>
       </div>
-      
-      <div id="fsShopModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 110;">
-        <div style="background: linear-gradient(180deg, #FFFFF8, #E8E0D0); border: 4px solid #5D4E37; border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); min-width: 300px; position: relative;">
-          <!-- Close X button -->
-          <button id="fsShopClose" style="position: absolute; top: -12px; right: -12px; width: 32px; height: 32px; background: linear-gradient(180deg, #F44336, #D32F2F); border: 3px solid #B71C1C; border-radius: 50%; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 0 #7f0000, 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">X</button>
-          <div style="text-align: center; margin-bottom: 16px;">
-            <div style="font-family: Georgia, serif; font-size: 18px; color: #2d5a27; font-weight: bold;">TOOL CRIB</div>
-            <div style="font-family: Georgia, serif; font-size: 11px; color: #8B7355;">Your coins: <span id="fsShopCoins" style="color: #8B6914; font-weight: bold;">0</span></div>
-          </div>
-          <div id="fsShopItems" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;"></div>
-          <!-- Bottom close button -->
-          <button id="fsShopCloseBtn" style="width: 100%; padding: 12px; background: linear-gradient(180deg, #78909C, #607D8B); border: 2px solid #455A64; border-radius: 8px; color: #fff; font-family: Georgia, serif; font-size: 13px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #37474F;">EXIT SHOP</button>
-        </div>
-      </div>
-      
-      <div id="fsStartScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #87CEEB 0%, #B5E3F5 40%, #C8E6C9 100%); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 120; padding: 20px;">
-        
-        <!-- BETA Badge -->
-        <div style="position: absolute; top: 15px; left: 15px; background: linear-gradient(135deg, #FF6F00, #E65100); padding: 4px 12px; border-radius: 4px; transform: rotate(-5deg); box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
-          <div style="font-family: 'Orbitron', Georgia, sans-serif; font-size: 10px; font-weight: 800; color: #fff; letter-spacing: 0.1em;">BETA</div>
-        </div>
-        
-        <!-- Animated Clarifier in background -->
-        <div style="position: absolute; top: 20px; right: 30px;">
-          <svg width="80" height="80" viewBox="0 0 80 80">
-            <!-- Tank shadow -->
-            <ellipse cx="40" cy="70" rx="35" ry="8" fill="rgba(0,0,0,0.15)"/>
-            <!-- Tank outer ring -->
-            <circle cx="40" cy="40" r="35" fill="#B0BEC5" stroke="#78909C" stroke-width="2"/>
-            <!-- Water -->
-            <circle cx="40" cy="40" r="30" fill="#4FC3F7"/>
-            <!-- Water shimmer -->
-            <ellipse cx="32" cy="35" rx="8" ry="4" fill="rgba(255,255,255,0.4)"/>
-            <!-- Center hub -->
-            <circle cx="40" cy="40" r="6" fill="#546E7A"/>
-            <!-- Rotating arm -->
-            <g style="transform-origin: 40px 40px; animation: clarifierSpin 8s linear infinite;">
-              <rect x="40" y="38" width="28" height="4" rx="2" fill="#455A64"/>
-              <rect x="64" y="35" width="4" height="10" rx="1" fill="#37474F"/>
-            </g>
-          </svg>
-        </div>
-        
-        <style>
-          @keyframes clarifierSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        </style>
-        
-        <!-- Title -->
-        <div style="font-family: Georgia, serif; font-size: 32px; font-weight: bold; color: #2d5a27; text-shadow: 2px 2px 0 rgba(255,255,255,0.9); margin-bottom: 4px;">FLOWSTATE</div>
-        <div style="font-family: Georgia, serif; font-size: 11px; color: #5a8a54; font-style: italic; margin-bottom: 16px;">A Day at the Plant</div>
-        
-        <!-- Grady character -->
-        <div style="width: 60px; height: 80px; margin-bottom: 12px;">
-          <svg width="60" height="80" viewBox="0 0 70 90">
-            <ellipse cx="35" cy="85" rx="16" ry="4" fill="rgba(0,0,0,0.2)"/>
-            <rect x="22" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
-            <rect x="38" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
-            <rect x="20" y="50" width="12" height="24" rx="2" fill="#4A6FA5"/>
-            <rect x="38" y="50" width="12" height="24" rx="2" fill="#4A6FA5"/>
-            <rect x="18" y="48" width="34" height="5" fill="#5D4037"/>
-            <rect x="16" y="26" width="38" height="24" rx="3" fill="#FF6F00"/>
-            <rect x="18" y="32" width="34" height="3" fill="#FFECB3"/>
-            <rect x="18" y="40" width="34" height="3" fill="#FFECB3"/>
-            <rect x="8" y="28" width="10" height="18" rx="3" fill="#FF6F00"/>
-            <rect x="52" y="28" width="10" height="18" rx="3" fill="#FF6F00"/>
-            <circle cx="13" cy="48" r="4" fill="#FFCCBC"/>
-            <circle cx="57" cy="48" r="4" fill="#FFCCBC"/>
-            <rect x="28" y="20" width="14" height="8" fill="#FFCCBC"/>
-            <ellipse cx="35" cy="14" rx="12" ry="11" fill="#FFCCBC"/>
-            <ellipse cx="35" cy="6" rx="14" ry="5" fill="#FFD700"/>
-            <rect x="22" y="3" width="26" height="6" rx="2" fill="#FFD700"/>
-            <circle cx="30" cy="12" r="2" fill="#4A4A4A"/>
-            <circle cx="40" cy="12" r="2" fill="#4A4A4A"/>
-            <path d="M32 17 Q35 19 38 17" stroke="#8B6914" stroke-width="1.5" fill="none"/>
-          </svg>
-        </div>
-        
-        <!-- Description -->
-        <div style="font-family: Georgia, serif; font-size: 12px; color: #3a5a3a; text-align: center; line-height: 1.5; max-width: 280px; margin-bottom: 20px;">
-          You're <strong>Grady Watts</strong>, veteran operator.<br>
-          Flip switches. Control equipment.<br>
-          Read signs. Survive the shift.
-        </div>
-        
-        <!-- Start button -->
-        <button id="fsStartBtn" style="padding: 14px 44px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 25px; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20, 0 6px 12px rgba(0,0,0,0.2);">
-          START SHIFT
-        </button>
-        
-        <!-- Controls hint (smaller, at bottom) -->
-        <div style="position: absolute; bottom: 15px; display: flex; gap: 20px; opacity: 0.7;">
-          <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
-            <span style="font-weight: bold;">WASD</span> Move
-          </div>
-          <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
-            <span style="font-weight: bold;">SPACE</span> Interact
-          </div>
-        </div>
-      </div>
-      
-    </div>
-    
-    <!-- Mobile Controls - OUTSIDE the game container, only show during gameplay -->
-    <div id="fsMobileControls" class="fs-mobile-controls" style="display: none; margin-top: 12px; justify-content: space-between; align-items: center; padding: 0 10px;">
-      <div style="position: relative; width: 110px; height: 110px;">
-        <button id="fsBtnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▲</button>
-        <button id="fsBtnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▼</button>
-        <button id="fsBtnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">◀</button>
-        <button id="fsBtnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▶</button>
-      </div>
-      <div style="display: flex; gap: 14px;">
-        <button id="fsBtnB" style="width: 52px; height: 52px; background: linear-gradient(180deg, #FF9800, #F57C00); border: 3px solid #E65100; border-radius: 50%; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #BF360C;">B</button>
-        <button id="fsBtnA" style="width: 52px; height: 52px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 50%; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20;">A</button>
+      <div style="text-align: right; margin-top: 8px;">
+        <span style="font-family: Georgia, serif; font-size: 10px; color: #8B7355;">Press A ▸</span>
       </div>
     </div>
+  </div>
+  
+  <div id="fsShopModal" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; z-index: 110;">
+    <div style="background: linear-gradient(180deg, #FFFFF8, #E8E0D0); border: 4px solid #5D4E37; border-radius: 16px; padding: 20px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); min-width: 300px; position: relative;">
+      <!-- Close X button -->
+      <button id="fsShopClose" style="position: absolute; top: -12px; right: -12px; width: 32px; height: 32px; background: linear-gradient(180deg, #F44336, #D32F2F); border: 3px solid #B71C1C; border-radius: 50%; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 0 #7f0000, 0 4px 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;">X</button>
+      <div style="text-align: center; margin-bottom: 16px;">
+        <div style="font-family: Georgia, serif; font-size: 18px; color: #2d5a27; font-weight: bold;">TOOL CRIB</div>
+        <div style="font-family: Georgia, serif; font-size: 11px; color: #8B7355;">Your coins: <span id="fsShopCoins" style="color: #8B6914; font-weight: bold;">0</span></div>
+      </div>
+      <div id="fsShopItems" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;"></div>
+      <!-- Bottom close button -->
+      <button id="fsShopCloseBtn" style="width: 100%; padding: 12px; background: linear-gradient(180deg, #78909C, #607D8B); border: 2px solid #455A64; border-radius: 8px; color: #fff; font-family: Georgia, serif; font-size: 13px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #37474F;">EXIT SHOP</button>
+    </div>
+  </div>
+  
+  <div id="fsStartScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #87CEEB 0%, #B5E3F5 40%, #C8E6C9 100%); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 120; padding: 20px;">
     
+    <!-- BETA Badge -->
+    <div style="position: absolute; top: 15px; left: 15px; background: linear-gradient(135deg, #FF6F00, #E65100); padding: 4px 12px; border-radius: 4px; transform: rotate(-5deg); box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+      <div style="font-family: 'Orbitron', Georgia, sans-serif; font-size: 10px; font-weight: 800; color: #fff; letter-spacing: 0.1em;">BETA</div>
+    </div>
+    
+    <!-- Animated Clarifier in background -->
+    <div style="position: absolute; top: 20px; right: 30px;">
+      <svg width="80" height="80" viewBox="0 0 80 80">
+        <!-- Tank shadow -->
+        <ellipse cx="40" cy="70" rx="35" ry="8" fill="rgba(0,0,0,0.15)"/>
+        <!-- Tank outer ring -->
+        <circle cx="40" cy="40" r="35" fill="#B0BEC5" stroke="#78909C" stroke-width="2"/>
+        <!-- Water -->
+        <circle cx="40" cy="40" r="30" fill="#4FC3F7"/>
+        <!-- Water shimmer -->
+        <ellipse cx="32" cy="35" rx="8" ry="4" fill="rgba(255,255,255,0.4)"/>
+        <!-- Center hub -->
+        <circle cx="40" cy="40" r="6" fill="#546E7A"/>
+        <!-- Rotating arm -->
+        <g style="transform-origin: 40px 40px; animation: clarifierSpin 8s linear infinite;">
+          <rect x="40" y="38" width="28" height="4" rx="2" fill="#455A64"/>
+          <rect x="64" y="35" width="4" height="10" rx="1" fill="#37474F"/>
+        </g>
+      </svg>
+    </div>
+    
+    <style>
+      @keyframes clarifierSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
+    
+    <!-- Title -->
+    <div style="font-family: Georgia, serif; font-size: 32px; font-weight: bold; color: #2d5a27; text-shadow: 2px 2px 0 rgba(255,255,255,0.9); margin-bottom: 4px;">FLOWSTATE</div>
+    <div style="font-family: Georgia, serif; font-size: 11px; color: #5a8a54; font-style: italic; margin-bottom: 16px;">A Day at the Plant</div>
+    
+    <!-- Grady character -->
+    <div style="width: 60px; height: 80px; margin-bottom: 12px;">
+      <svg width="60" height="80" viewBox="0 0 70 90">
+        <ellipse cx="35" cy="85" rx="16" ry="4" fill="rgba(0,0,0,0.2)"/>
+        <rect x="22" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
+        <rect x="38" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
+        <rect x="20" y="50" width="12" height="24" rx="2" fill="#4A6FA5"/>
+        <rect x="38" y="50" width="12" height="24" rx="2" fill="#4A6FA5"/>
+        <rect x="18" y="48" width="34" height="5" fill="#5D4037"/>
+        <rect x="16" y="26" width="38" height="24" rx="3" fill="#FF6F00"/>
+        <rect x="18" y="32" width="34" height="3" fill="#FFECB3"/>
+        <rect x="18" y="40" width="34" height="3" fill="#FFECB3"/>
+        <rect x="8" y="28" width="10" height="18" rx="3" fill="#FF6F00"/>
+        <rect x="52" y="28" width="10" height="18" rx="3" fill="#FF6F00"/>
+        <circle cx="13" cy="48" r="4" fill="#FFCCBC"/>
+        <circle cx="57" cy="48" r="4" fill="#FFCCBC"/>
+        <rect x="28" y="20" width="14" height="8" fill="#FFCCBC"/>
+        <ellipse cx="35" cy="14" rx="12" ry="11" fill="#FFCCBC"/>
+        <ellipse cx="35" cy="6" rx="14" ry="5" fill="#FFD700"/>
+        <rect x="22" y="3" width="26" height="6" rx="2" fill="#FFD700"/>
+        <circle cx="30" cy="12" r="2" fill="#4A4A4A"/>
+        <circle cx="40" cy="12" r="2" fill="#4A4A4A"/>
+        <path d="M32 17 Q35 19 38 17" stroke="#8B6914" stroke-width="1.5" fill="none"/>
+      </svg>
+    </div>
+    
+    <!-- Description -->
+    <div style="font-family: Georgia, serif; font-size: 12px; color: #3a5a3a; text-align: center; line-height: 1.5; max-width: 280px; margin-bottom: 20px;">
+      You're <strong>Grady Watts</strong>, veteran operator.<br>
+      Flip switches. Control equipment.<br>
+      Read signs. Survive the shift.
+    </div>
+    
+    <!-- Start button -->
+    <button id="fsStartBtn" style="padding: 14px 44px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 25px; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20, 0 6px 12px rgba(0,0,0,0.2);">
+      START SHIFT
+    </button>
+    
+    <!-- Controls hint (smaller, at bottom) -->
+    <div style="position: absolute; bottom: 15px; display: flex; gap: 20px; opacity: 0.7;">
+      <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
+        <span style="font-weight: bold;">WASD</span> Move
+      </div>
+      <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
+        <span style="font-weight: bold;">SPACE</span> Interact
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- Mobile Controls - OUTSIDE the game container, only show during gameplay -->
+<div id="fsMobileControls" class="fs-mobile-controls" style="display: none; margin-top: 12px; justify-content: space-between; align-items: center; padding: 0 10px;">
+  <div style="position: relative; width: 110px; height: 110px;">
+    <button id="fsBtnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▲</button>
+    <button id="fsBtnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▼</button>
+    <button id="fsBtnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">◀</button>
+    <button id="fsBtnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #fff, #e0e0e0); border: 3px solid #4CAF50; border-radius: 50%; color: #2d5a27; font-size: 14px; font-weight: bold; cursor: pointer;">▶</button>
+  </div>
+  <div style="display: flex; gap: 14px;">
+    <button id="fsBtnB" style="width: 52px; height: 52px; background: linear-gradient(180deg, #FF9800, #F57C00); border: 3px solid #E65100; border-radius: 50%; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #BF360C;">B</button>
+    <button id="fsBtnA" style="width: 52px; height: 52px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 50%; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20;">A</button>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
@@ -2713,14 +3076,14 @@ function shareGame() {
 })();
 </script>
 
-
 <!-- ═══════════════════════════════════════════════════════════════════════════
      SL*DGE HAPPENS - TETRIS-STYLE STACKING GAME (BETA)
 ═══════════════════════════════════════════════════════════════════════════ -->
 
 <div id="sludgeOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #3E2723 0%, #5D4037 50%, #4E342E 100%); z-index: 1000; overflow: hidden;">
-  
+
   <!-- Background Sludge Elements -->
+
   <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.15;">
     <!-- Sludge Clarifier (rotating) -->
     <g transform="translate(80, 120)">
@@ -2751,84 +3114,87 @@ function shareGame() {
     <ellipse cx="50" cy="250" rx="4" ry="6" fill="#5D4037" style="animation: sludgeDrip 2s ease-in-out infinite;"/>
     <ellipse cx="370" cy="350" rx="3" ry="5" fill="#5D4037" style="animation: sludgeDrip 2.5s ease-in-out infinite; animation-delay: 0.5s;"/>
   </svg>
-  
+
   <style>
     @keyframes sludgeClarifierSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes sludgeDrip { 0%, 100% { transform: translateY(0); opacity: 0.8; } 50% { transform: translateY(15px); opacity: 0.3; } }
   </style>
-  
-  <button id="closeSludgeBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #5D4037; border-radius: 50%; color: #5D4037; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
-  
+
+<button id="closeSludgeBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #5D4037; border-radius: 50%; color: #5D4037; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
+
   <div style="max-width: 420px; margin: 0 auto; padding: 15px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 1;">
+
+```
+<div style="text-align: center; margin-bottom: 10px;">
+  <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 6px;">BETA</div>
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: bold; color: #D7CCC8; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">SL*DGE HAPPENS</div>
+  <div style="font-family: Georgia, serif; font-size: 11px; color: #A1887F; font-style: italic;">Stack it before it stacks you</div>
+</div>
+
+<div style="position: relative; background: #3E2723; border-radius: 12px; padding: 8px; border: 3px solid #6D4C41;">
+  <canvas id="sludgeCanvas" width="240" height="400" style="display: block; border-radius: 8px; background: linear-gradient(180deg, #1A1A1A 0%, #2D2220 100%);"></canvas>
+  
+  <div id="sludgeHUD" style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between;">
+    <div style="background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 8px;">
+      <div style="font-family: Georgia, serif; font-size: 10px; color: #A1887F;">SCORE</div>
+      <div id="sludgeScore" style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #D7CCC8; font-weight: bold;">0</div>
+    </div>
+    <div style="background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 8px;">
+      <div style="font-family: Georgia, serif; font-size: 10px; color: #A1887F;">LEVEL</div>
+      <div id="sludgeLevel" style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #D7CCC8; font-weight: bold;">1</div>
+    </div>
+  </div>
+  
+  <div id="sludgeStart" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.9); padding: 30px 40px; border-radius: 16px; border: 2px solid #6D4C41;">
+    <!-- Sludge icon -->
+    <svg width="50" height="40" viewBox="0 0 50 40" style="margin-bottom: 10px;">
+      <ellipse cx="25" cy="30" rx="20" ry="8" fill="#5D4037"/>
+      <path d="M10 30 Q10 15 25 10 Q40 15 40 30" fill="#795548"/>
+      <ellipse cx="18" cy="22" rx="4" ry="2" fill="#8D6E63" opacity="0.6"/>
+      <ellipse cx="30" cy="18" rx="3" ry="1.5" fill="#8D6E63" opacity="0.5"/>
+      <circle cx="15" cy="28" r="2" fill="#4E342E"/>
+      <circle cx="32" cy="26" r="1.5" fill="#4E342E"/>
+    </svg>
+    <div style="font-family: Georgia, serif; font-size: 13px; color: #BCAAA4; margin-bottom: 16px; line-height: 1.5;">
+      Stack sludge blocks<br>Clear rows to score<br>Don't let it overflow!
+    </div>
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #8D6E63; margin-bottom: 16px;">
+      <strong>LEFT/RIGHT</strong> Move · <strong>UP</strong> Rotate · <strong>DOWN</strong> Drop
+    </div>
+    <button id="sludgeStartBtn" style="padding: 12px 32px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 2px solid #A1887F; border-radius: 20px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #4E342E;">
+      START
+    </button>
+  </div>
+  
+  <div id="sludgeGameOver" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.95); padding: 24px 32px; border-radius: 16px; border: 2px solid #A1887F;">
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #BCAAA4; margin-bottom: 6px;">OVERFLOW!</div>
+    <div style="font-family: Georgia, serif; font-size: 14px; color: #8D6E63; margin-bottom: 12px;">Final Score: <span id="sludgeFinalScore" style="color: #D7CCC8; font-weight: bold;">0</span></div>
     
-    <div style="text-align: center; margin-bottom: 10px;">
-      <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 6px;">BETA</div>
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: bold; color: #D7CCC8; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">SL*DGE HAPPENS</div>
-      <div style="font-family: Georgia, serif; font-size: 11px; color: #A1887F; font-style: italic;">Stack it before it stacks you</div>
+    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+      <button id="sludgeRestartBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 2px solid #A1887F; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
+        TRY AGAIN
+      </button>
+      <button id="sludgeShareBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #43A047, #2E7D32); border: 2px solid #66BB6A; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
+        SHARE
+      </button>
     </div>
     
-    <div style="position: relative; background: #3E2723; border-radius: 12px; padding: 8px; border: 3px solid #6D4C41;">
-      <canvas id="sludgeCanvas" width="240" height="400" style="display: block; border-radius: 8px; background: linear-gradient(180deg, #1A1A1A 0%, #2D2220 100%);"></canvas>
-      
-      <div id="sludgeHUD" style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between;">
-        <div style="background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 8px;">
-          <div style="font-family: Georgia, serif; font-size: 10px; color: #A1887F;">SCORE</div>
-          <div id="sludgeScore" style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #D7CCC8; font-weight: bold;">0</div>
-        </div>
-        <div style="background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 8px;">
-          <div style="font-family: Georgia, serif; font-size: 10px; color: #A1887F;">LEVEL</div>
-          <div id="sludgeLevel" style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #D7CCC8; font-weight: bold;">1</div>
-        </div>
-      </div>
-      
-      <div id="sludgeStart" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.9); padding: 30px 40px; border-radius: 16px; border: 2px solid #6D4C41;">
-        <!-- Sludge icon -->
-        <svg width="50" height="40" viewBox="0 0 50 40" style="margin-bottom: 10px;">
-          <ellipse cx="25" cy="30" rx="20" ry="8" fill="#5D4037"/>
-          <path d="M10 30 Q10 15 25 10 Q40 15 40 30" fill="#795548"/>
-          <ellipse cx="18" cy="22" rx="4" ry="2" fill="#8D6E63" opacity="0.6"/>
-          <ellipse cx="30" cy="18" rx="3" ry="1.5" fill="#8D6E63" opacity="0.5"/>
-          <circle cx="15" cy="28" r="2" fill="#4E342E"/>
-          <circle cx="32" cy="26" r="1.5" fill="#4E342E"/>
-        </svg>
-        <div style="font-family: Georgia, serif; font-size: 13px; color: #BCAAA4; margin-bottom: 16px; line-height: 1.5;">
-          Stack sludge blocks<br>Clear rows to score<br>Don't let it overflow!
-        </div>
-        <div style="font-family: Georgia, serif; font-size: 10px; color: #8D6E63; margin-bottom: 16px;">
-          <strong>LEFT/RIGHT</strong> Move · <strong>UP</strong> Rotate · <strong>DOWN</strong> Drop
-        </div>
-        <button id="sludgeStartBtn" style="padding: 12px 32px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 2px solid #A1887F; border-radius: 20px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #4E342E;">
-          START
-        </button>
-      </div>
-      
-      <div id="sludgeGameOver" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.95); padding: 24px 32px; border-radius: 16px; border: 2px solid #A1887F;">
-        <div style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #BCAAA4; margin-bottom: 6px;">OVERFLOW!</div>
-        <div style="font-family: Georgia, serif; font-size: 14px; color: #8D6E63; margin-bottom: 12px;">Final Score: <span id="sludgeFinalScore" style="color: #D7CCC8; font-weight: bold;">0</span></div>
-        
-        <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-          <button id="sludgeRestartBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 2px solid #A1887F; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-            TRY AGAIN
-          </button>
-          <button id="sludgeShareBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #43A047, #2E7D32); border: 2px solid #66BB6A; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-            SHARE
-          </button>
-        </div>
-        
-        <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(0,119,181,0.9); border: 2px solid #0077B5; border-radius: 12px; color: #fff; text-decoration: none; font-family: Georgia, serif; font-size: 11px;">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-          Connect with Barron
-        </a>
-      </div>
-    </div>
-    
-    <!-- Mobile Controls -->
-    <div class="fs-mobile-controls" style="margin-top: 16px; justify-content: center; gap: 20px; align-items: center;">
-      <button id="sludgeLeft" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">◀</button>
-      <button id="sludgeRotate" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">↻</button>
-      <button id="sludgeDrop" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▼</button>
-      <button id="sludgeRight" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▶</button>
-    </div>
+    <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(0,119,181,0.9); border: 2px solid #0077B5; border-radius: 12px; color: #fff; text-decoration: none; font-family: Georgia, serif; font-size: 11px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+      Connect with Barron
+    </a>
+  </div>
+</div>
+
+<!-- Mobile Controls -->
+<div class="fs-mobile-controls" style="margin-top: 16px; justify-content: center; gap: 20px; align-items: center;">
+  <button id="sludgeLeft" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">◀</button>
+  <button id="sludgeRotate" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">↻</button>
+  <button id="sludgeDrop" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▼</button>
+  <button id="sludgeRight" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▶</button>
+</div>
+```
+
   </div>
 </div>
 
@@ -3119,55 +3485,56 @@ function shareGame() {
 })();
 </script>
 
-
 <!-- ═══════════════════════════════════════════════════════════════════════════
      SHIFT SHUFFLE - MEMORY MATCHING CARD GAME (BETA)
 ═══════════════════════════════════════════════════════════════════════════ -->
 
 <div id="shiftOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #4A148C 0%, #7B1FA2 50%, #6A1B9A 100%); z-index: 1000; overflow: hidden;">
-  
-  <button id="closeShiftBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #7B1FA2; border-radius: 50%; color: #7B1FA2; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
-  
+
+<button id="closeShiftBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #7B1FA2; border-radius: 50%; color: #7B1FA2; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
+
   <div style="max-width: 420px; margin: 0 auto; padding: 15px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    
-    <div style="text-align: center; margin-bottom: 12px;">
-      <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 6px;">BETA</div>
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: bold; color: #E1BEE7; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">SHIFT SHUFFLE</div>
-      <div style="font-family: Georgia, serif; font-size: 11px; color: #CE93D8; font-style: italic;">Match the plant equipment</div>
-    </div>
-    
-    <div id="shiftHUD" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 12px;">
-      <div style="background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 10px; text-align: center;">
-        <div style="font-family: Georgia, serif; font-size: 10px; color: #CE93D8;">MOVES</div>
-        <div id="shiftMoves" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E1BEE7; font-weight: bold;">0</div>
-      </div>
-      <div style="background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 10px; text-align: center;">
-        <div style="font-family: Georgia, serif; font-size: 10px; color: #CE93D8;">PAIRS</div>
-        <div id="shiftPairs" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E1BEE7; font-weight: bold;">0/8</div>
-      </div>
-    </div>
-    
-    <div id="shiftBoard" style="display: grid; grid-template-columns: repeat(4, 70px); gap: 8px; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 16px; border: 2px solid #9C27B0;"></div>
-    
-    <div id="shiftWin" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.95); padding: 24px 36px; border-radius: 20px; border: 3px solid #E1BEE7; z-index: 1010;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 20px; color: #CE93D8; margin-bottom: 6px;">SHIFT COMPLETE!</div>
-      <div style="font-family: Georgia, serif; font-size: 14px; color: #E1BEE7; margin-bottom: 14px;">Completed in <span id="shiftFinalMoves" style="font-weight: bold;">0</span> moves</div>
-      
-      <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-        <button id="shiftPlayAgain" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #AB47BC, #7B1FA2); border: 2px solid #CE93D8; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-          PLAY AGAIN
-        </button>
-        <button id="shiftShareBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #43A047, #2E7D32); border: 2px solid #66BB6A; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-          SHARE
-        </button>
-      </div>
-      
-      <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(0,119,181,0.9); border: 2px solid #0077B5; border-radius: 12px; color: #fff; text-decoration: none; font-family: Georgia, serif; font-size: 11px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-        Connect with Barron
-      </a>
-    </div>
-    
+
+```
+<div style="text-align: center; margin-bottom: 12px;">
+  <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 6px;">BETA</div>
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: bold; color: #E1BEE7; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">SHIFT SHUFFLE</div>
+  <div style="font-family: Georgia, serif; font-size: 11px; color: #CE93D8; font-style: italic;">Match the plant equipment</div>
+</div>
+
+<div id="shiftHUD" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 12px;">
+  <div style="background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 10px; text-align: center;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #CE93D8;">MOVES</div>
+    <div id="shiftMoves" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E1BEE7; font-weight: bold;">0</div>
+  </div>
+  <div style="background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 10px; text-align: center;">
+    <div style="font-family: Georgia, serif; font-size: 10px; color: #CE93D8;">PAIRS</div>
+    <div id="shiftPairs" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E1BEE7; font-weight: bold;">0/8</div>
+  </div>
+</div>
+
+<div id="shiftBoard" style="display: grid; grid-template-columns: repeat(4, 70px); gap: 8px; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 16px; border: 2px solid #9C27B0;"></div>
+
+<div id="shiftWin" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.95); padding: 24px 36px; border-radius: 20px; border: 3px solid #E1BEE7; z-index: 1010;">
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 20px; color: #CE93D8; margin-bottom: 6px;">SHIFT COMPLETE!</div>
+  <div style="font-family: Georgia, serif; font-size: 14px; color: #E1BEE7; margin-bottom: 14px;">Completed in <span id="shiftFinalMoves" style="font-weight: bold;">0</span> moves</div>
+  
+  <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+    <button id="shiftPlayAgain" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #AB47BC, #7B1FA2); border: 2px solid #CE93D8; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
+      PLAY AGAIN
+    </button>
+    <button id="shiftShareBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #43A047, #2E7D32); border: 2px solid #66BB6A; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
+      SHARE
+    </button>
+  </div>
+  
+  <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(0,119,181,0.9); border: 2px solid #0077B5; border-radius: 12px; color: #fff; text-decoration: none; font-family: Georgia, serif; font-size: 11px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+    Connect with Barron
+  </a>
+</div>
+```
+
   </div>
 </div>
 
@@ -3309,6 +3676,51 @@ function shareGame() {
 })();
 </script>
 
+<!-- === THEME TOGGLE & ACCORDION FUNCTIONALITY === -->
+
+<script>
+(function() {
+  // Theme Toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const mainContainer = document.getElementById('mainContainer');
+  
+  // Check for saved theme preference or default to dark
+  const savedTheme = localStorage.getItem('watermaxxing-theme') || 'dark';
+  mainContainer.setAttribute('data-theme', savedTheme);
+  
+  themeToggle?.addEventListener('click', () => {
+    const currentTheme = mainContainer.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    mainContainer.setAttribute('data-theme', newTheme);
+    localStorage.setItem('watermaxxing-theme', newTheme);
+  });
+  
+  // Accordion Toggle
+  window.toggleAccordion = function(header) {
+    const content = header.nextElementSibling;
+    const isOpen = content.classList.contains('open');
+    
+    // Close all accordions (optional: remove this for independent accordions)
+    // document.querySelectorAll('.accordion-content').forEach(c => c.classList.remove('open'));
+    // document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+    
+    // Toggle current accordion
+    if (isOpen) {
+      content.classList.remove('open');
+      header.classList.remove('active');
+    } else {
+      content.classList.add('open');
+      header.classList.add('active');
+    }
+  };
+  
+  // Initialize first accordion as open (Work With Me)
+  document.querySelectorAll('.accordion-header.active').forEach(header => {
+    const content = header.nextElementSibling;
+    if (content) content.classList.add('open');
+  });
+})();
+</script>
      
      
 </body>
