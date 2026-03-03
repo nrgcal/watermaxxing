@@ -7,7 +7,6 @@
 </head>
 <body style="margin:0; padding:0;">
 
-
 <!-- ═══════════════════════════════════════════════════════════════════════════
      WATERMAXXING.COM - DIGITAL BUSINESS CARD v3
      VAPORWAVE/SYNTHWAVE EDITION - WITH SLIDE-UP GAME
@@ -270,9 +269,6 @@
 
 /* === THEME TOGGLE === */
 .theme-toggle {
-  position: fixed;
-  top: 16px;
-  right: 16px;
   width: 44px;
   height: 44px;
   background: var(--glass-bg);
@@ -281,7 +277,6 @@
   border: 1px solid var(--glass-border);
   border-radius: 50%;
   cursor: pointer;
-  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -363,21 +358,6 @@
 
 <div id="mainContainer" data-theme="dark" style="font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; background: var(--bg-primary); color: var(--text-primary); max-width: 100%; margin: 0; padding: 0; overflow-x: hidden; transition: background 0.4s ease, color 0.4s ease;">
 
-<!-- Theme Toggle Button -->
-
-<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-  <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2">
-    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-  </svg>
-  <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c000c0" stroke-width="2">
-    <circle cx="12" cy="12" r="5"/>
-    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-  </svg>
-</button>
-
 <!-- === HERO === -->
 
 <div style="padding: 3rem 1.5rem 2rem; background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 40%, #16082a 100%); position: relative; overflow: hidden; min-height: 480px;">
@@ -435,25 +415,32 @@
     water treatment solutions that hold up irl<br>
     <span style="color: #00ffff;">full wtp & wwtp delivery</span> · 450+ mobile fleet · westech · since 1973
   </p>
+  <div style="margin-top: 10px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #00ffff; text-shadow: 0 0 10px rgba(0,255,255,0.5);">#1 American Water Treatment Pro on Social</div>
 </div>
 
-<!-- Social Icons Row -->
+<!-- Social Icons Row: Phone, Email, Teams, LinkedIn, Twitch, Threads -->
 <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 2rem;">
-  <a href="tel:8012905565" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
+  <!-- 1. Phone -->
+  <a href="tel:+18012905565" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
   </a>
-  <a href="https://x.com/bsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+  <!-- 2. Email -->
+  <a href="/cdn-cgi/l/email-protection#62001103151b0710221507111607010a15031607104c010d0f" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
   </a>
-  <a href="https://instagram.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="18" cy="6" r="1.5" fill="currentColor"/></svg>
+  <!-- 3. Microsoft Teams -->
+  <a href="https://teams.microsoft.com/l/chat/0/0?users=bsawyer@westechwater.com" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(98,100,167,0.2); border: 1px solid rgba(98,100,167,0.5); border-radius: 50%; color: #7B83EB; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.5 6.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM22 8.5h-5a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-6a1 1 0 0 0-1-1zM12.5 5a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM16 7H9a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2zm-3.5 8h-2v-2h2v2zm0-3h-2V9h2v3zM5 11H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1z"/></svg>
   </a>
-  <a href="https://twitch.tv/barronsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
-  </a>
+  <!-- 4. LinkedIn -->
   <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; color: #00ffff; text-decoration: none;">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
   </a>
+  <!-- 5. Twitch -->
+  <a href="https://twitch.tv/barronsawyer" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(145,70,255,0.15); border: 1px solid rgba(145,70,255,0.4); border-radius: 50%; color: #9146FF; text-decoration: none;">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"/></svg>
+  </a>
+  <!-- 6. Threads -->
   <a href="https://www.threads.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.33-3.022.88-.73 2.082-1.146 3.39-1.17 1.016-.02 1.97.14 2.849.476-.03-.986-.18-1.79-.45-2.404-.387-.882-1.065-1.325-2.073-1.357-1.521-.047-2.404.655-2.62 2.082l-2.032-.309c.34-2.334 2.074-3.643 4.608-3.593 1.634.032 2.893.674 3.638 1.855.547.866.84 1.97.898 3.375.535.212 1.02.47 1.453.772 1.133.79 1.948 1.86 2.366 3.105.603 1.796.506 4.396-1.673 6.527-1.87 1.826-4.215 2.64-7.378 2.664z"/></svg>
   </a>
@@ -463,84 +450,93 @@
   </div>
 </div>
 
-<!-- === CONTACT LINKS === -->
+<!-- === CONTENT SECTIONS === -->
 
 <div class="depth-layer" style="padding: 0 1.5rem 2rem; background: var(--bg-primary); transition: background 0.4s ease;">
   <div style="max-width: 420px; margin: 0 auto;">
 
 ```
-<!-- === WORK WITH ME ACCORDION === -->
+<!-- === INSIGHTS & MEDIA ACCORDION === -->
 <div class="accordion-section">
-  <div class="accordion-header active" onclick="toggleAccordion(this)">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
     <div style="display: flex; align-items: center; gap: 12px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-magenta)" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Work With Me</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-magenta)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Insights & Media</span>
     </div>
     <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
   </div>
-  <div class="accordion-content open">
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-      
-      <a href="/cdn-cgi/l/email-protection#62001103151b0710221507111607010a15031607104c010d0f" class="link-item">
-        <div class="link-icon" style="background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3);">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+  <div class="accordion-content">
+    <div style="display: flex; flex-direction: column; gap: 8px;">
+      <a href="https://www.linkedin.com/pulse/why-so-many-industries-outsourcing-water-operations-us-sawyer-jd-tbrfc" target="_blank" class="link-item" style="padding: 12px 14px;">
+        <div class="link-icon" style="width: 36px; height: 36px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
         </div>
-        <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">Send a Note</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">direct to inbox</div>
-        </div>
-        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div style="flex: 1; min-width: 0;"><div style="font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Industries Outsource Water Ops</div></div>
+        <svg class="link-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
       </a>
-      
-      <a href="https://teams.microsoft.com/l/chat/0/0?users=bsawyer@westechwater.com" target="_blank" class="link-item">
-        <div class="link-icon" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-primary)" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 14h4"/></svg>
+      <a href="https://www.linkedin.com/pulse/why-transfer-water-treatment-assets-westech-now-barron-sawyer-jd-t03zc" target="_blank" class="link-item" style="padding: 12px 14px;">
+        <div class="link-icon" style="width: 36px; height: 36px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
         </div>
-        <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">Message via Teams</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">instant chat</div>
-        </div>
-        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <div style="flex: 1; min-width: 0;"><div style="font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Transfer Assets to WesTech</div></div>
+        <svg class="link-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
       </a>
-      
+      <a href="https://www.linkedin.com/pulse/why-gallons-megawatts-emerging-growth-filter-barron-sawyer-lriqc" target="_blank" class="link-item" style="padding: 12px 14px;">
+        <div class="link-icon" style="width: 36px; height: 36px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/></svg>
+        </div>
+        <div style="flex: 1; min-width: 0;"><div style="font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Data Centers × Water</div></div>
+        <svg class="link-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/pulse/future-selenium-nitrate-removal-mining-ebr-explained-sawyer-jd-5yvwc" target="_blank" class="link-item" style="padding: 12px 14px;">
+        <div class="link-icon" style="width: 36px; height: 36px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+        </div>
+        <div style="flex: 1; min-width: 0;"><div style="font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Interview: EBR System for Selenium</div></div>
+        <svg class="link-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/posts/sawyerlaw_24-hours-to-hit-qatars-desert-no-heads-upjust-activity-7303395187764998146-BgKH" target="_blank" class="link-item" style="padding: 12px 14px;">
+        <div class="link-icon" style="width: 36px; height: 36px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4);">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg>
+        </div>
+        <div style="flex: 1; min-width: 0;"><div style="font-size: 12px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Story: My First Week as a Salesman</div></div>
+        <svg class="link-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+      </a>
     </div>
   </div>
 </div>
 
-<!-- === SOCIAL PRESENCE ACCORDION === -->
+<!-- === COMMUNITY ACCORDION === -->
 <div class="accordion-section">
-  <div class="accordion-header active" onclick="toggleAccordion(this)">
+  <div class="accordion-header" onclick="toggleAccordion(this)">
     <div style="display: flex; align-items: center; gap: 12px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Social Presence</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Community & Networks</span>
     </div>
     <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
   </div>
-  <div class="accordion-content open">
+  <div class="accordion-content">
     <div style="display: flex; flex-direction: column; gap: 10px;">
-  
-      <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" class="link-item">
-        <div class="link-icon" style="background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="#00ffff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+      <a href="https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/" target="_blank" class="link-item">
+        <div class="link-icon" style="width: 44px; height: 44px; background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(0,255,255,0.2)); border: 1px solid rgba(255,0,255,0.4);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
         </div>
         <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">View LinkedIn Profile</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">#1 american water treatment pro on social</div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">FLOWSTATE Newsletter</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">co-creator · #2 non-corporate water newsletter</div>
         </div>
-        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #ff00ff; background: rgba(255,0,255,0.15); padding: 4px 8px; border-radius: 6px;">3.9K+</span>
       </a>
-      
-      <a href="https://x.com/bsawyer" target="_blank" class="link-item">
-        <div class="link-icon" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15);">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--text-primary)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <a href="https://www.linkedin.com/groups/42677/" target="_blank" class="link-item">
+        <div class="link-icon" style="width: 44px; height: 44px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg>
         </div>
         <div style="flex: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 600; color: var(--text-primary);">@bsawyer</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">thoughts & threads</div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">UCLA Alumni Network</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">founder · largest unaffiliated</div>
         </div>
-        <svg class="link-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">8K+</span>
       </a>
-      
     </div>
   </div>
 </div>
@@ -611,7 +607,7 @@
         <circle cx="18" cy="18" r="3" fill="#0288D1"/>
         <circle cx="36" cy="18" r="3" fill="#0288D1"/>
       </svg>
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">PIPE PANIC</div>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; text-shadow: 0 0 8px #00ffff, 0 1px 2px rgba(0,0,0,0.5); color: #E1F5FE; position: relative;">PIPE PANIC</div>
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">puzzle · rotate · connect</div>
     </button>
     
@@ -631,7 +627,7 @@
         <rect x="30" y="16" width="14" height="14" fill="#A1887F" stroke="#6D4C41" stroke-width="1"/>
         <rect x="34" y="24" width="6" height="6" fill="#5D4037"/>
       </svg>
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">FLOWSTATE</div>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; text-shadow: 0 0 6px #69F0AE, 0 1px 2px rgba(0,0,0,0.5); color: #C8E6C9; position: relative;">FLOWSTATE</div>
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">RPG · explore · operate</div>
     </button>
     
@@ -661,7 +657,7 @@
           <ellipse cx="33" cy="19" rx="2" ry="3" fill="#BCAAA4" opacity="0.7"/>
         </g>
       </svg>
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">SL*DGE HAPPENS</div>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; text-shadow: 0 0 4px #BCAAA4, 0 2px 3px rgba(0,0,0,0.6); color: #D7CCC8; position: relative; font-style: italic;">SL*DGE HAPPENS</div>
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">tetris · stack · clear</div>
     </button>
     
@@ -684,140 +680,10 @@
         <rect x="35" y="8" width="6" height="6" rx="1" fill="#9C27B0"/>
         <path d="M22 24 L26 28 L30 24" stroke="#E1BEE7" stroke-width="2" fill="none"/>
       </svg>
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 1px 3px rgba(0,0,0,0.3); position: relative;">SHIFT SHUFFLE</div>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; text-shadow: 0 0 8px #E040FB, 0 1px 2px rgba(0,0,0,0.5); color: #F3E5F5; position: relative;">SHIFT SHUFFLE</div>
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">memory · match · focus</div>
     </button>
     
-  </div>
-</div>
-```
-
-  </div>
-</div>
-
-<!-- === ARTICLES === -->
-
-<div class="depth-layer" style="padding: 2rem 1.5rem; background: linear-gradient(180deg, var(--bg-primary), var(--bg-secondary)); transition: background 0.4s ease;">
-  <div style="max-width: 420px; margin: 0 auto;">
-
-```
-<!-- === INSIGHTS & MEDIA ACCORDION === -->
-<div class="accordion-section">
-  <div class="accordion-header" onclick="toggleAccordion(this)">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-magenta)" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Insights & Media</span>
-    </div>
-    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-  </div>
-  <div class="accordion-content">
-    <div style="display: flex; flex-direction: column; gap: 8px;">
-  
-  <a href="https://www.linkedin.com/pulse/why-so-many-industries-outsourcing-water-operations-us-sawyer-jd-tbrfc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-    </div>
-    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Industries Outsource Water Ops</div></div>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  
-  <a href="https://www.linkedin.com/pulse/why-transfer-water-treatment-assets-westech-now-barron-sawyer-jd-t03zc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-    </div>
-    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Why Transfer Assets to WesTech</div></div>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  
-  <a href="https://www.linkedin.com/pulse/why-gallons-megawatts-emerging-growth-filter-barron-sawyer-lriqc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><path d="M6 6h.01M6 18h.01"/></svg>
-    </div>
-    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Data Centers × Water</div></div>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  
-  <a href="https://www.linkedin.com/pulse/future-selenium-nitrate-removal-mining-ebr-explained-sawyer-jd-5yvwc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
-    </div>
-    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Interview: EBR System for Selenium</div></div>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  
-  <a href="https://www.linkedin.com/pulse/barron-sawyer-07-water-treatment-heart-americas-barron-sawyer-jd-i3sxc/" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); display: flex; align-items: center; justify-content: center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-    </div>
-    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">UCLA Alumni Feature</div></div>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  
-  <a href="https://www.linkedin.com/pulse/zion-shores-surf-park-southern-utah-barron-sawyer-wjwdc" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; text-decoration: none; color: #fff;">
-    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); display: flex; align-items: center; justify-content: center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M2 12c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/><path d="M2 16c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/><path d="M2 20c2-2 4-3 6-3s4 2 6 2 4-2 6-2"/></svg>
-    </div>
-    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Project: Surf Park Water Treatment</div></div>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  
-  <a href="https://www.linkedin.com/posts/sawyerlaw_24-hours-to-hit-qatars-desert-no-heads-upjust-activity-7303395187764998146-BgKH" target="_blank" style="display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(0,255,255,0.05); border: 1px solid rgba(0,255,255,0.15); border-radius: 12px; text-decoration: none; color: #fff;">
-    <div style="width: 40px; height: 40px; border-radius: 8px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); display: flex; align-items: center; justify-content: center;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-    </div>
-    <div style="flex: 1; min-width: 0;"><div style="font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Story: My First Week as a Salesman</div></div>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
-  </a>
-  
-    </div>
-  </div>
-</div>
-```
-
-  </div>
-</div>
-
-<!-- === COMMUNITY === -->
-
-<div class="depth-layer" style="padding: 2rem 1.5rem; background: var(--bg-primary); border-top: 1px solid rgba(255,0,255,0.1); transition: background 0.4s ease;">
-  <div style="max-width: 420px; margin: 0 auto;">
-
-```
-<!-- === COMMUNITY ACCORDION === -->
-<div class="accordion-section">
-  <div class="accordion-header" onclick="toggleAccordion(this)">
-    <div style="display: flex; align-items: center; gap: 12px;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">Community & Networks</span>
-    </div>
-    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
-  </div>
-  <div class="accordion-content">
-    <div style="display: flex; flex-direction: column; gap: 10px;">
-  
-  <a href="https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/" target="_blank" class="link-item">
-    <div class="link-icon" style="width: 48px; height: 48px; background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(0,255,255,0.2)); border: 1px solid rgba(255,0,255,0.4);">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-    </div>
-    <div style="flex: 1;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">FLOWSTATE Newsletter</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">co-creator · #2 non-corporate water newsletter · parody</div>
-    </div>
-    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #ff00ff; background: rgba(255,0,255,0.15); padding: 4px 8px; border-radius: 6px;">3.9K+</span>
-  </a>
-  
-  <a href="https://www.linkedin.com/groups/42677/" target="_blank" class="link-item">
-    <div class="link-icon" style="width: 48px; height: 48px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    </div>
-    <div style="flex: 1;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">UCLA Alumni Network</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">founder · largest unaffiliated</div>
-    </div>
-    <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">8K+</span>
-  </a>
-  
-    </div>
   </div>
 </div>
 ```
@@ -829,22 +695,57 @@
 
 <div class="depth-layer" style="padding: 2.5rem 1.5rem 3rem; background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-tertiary) 100%); text-align: center; position: relative; overflow: hidden; transition: background 0.4s ease;">
 
-  <div class="orb1" style="position: absolute; bottom: -40%; left: 50%; transform: translateX(-50%); width: 400px; height: 250px; background: radial-gradient(ellipse, rgba(255,0,255,0.2) 0%, transparent 70%); pointer-events: none;"></div>
+  <div class="orb1" style="position: absolute; bottom: -40%; left: 50%; transform: translateX(-50%); width: 400px; height: 250px; background: radial-gradient(ellipse, rgba(0,255,255,0.2) 0%, transparent 70%); pointer-events: none;"></div>
 
   <div style="max-width: 420px; margin: 0 auto; position: relative; z-index: 1;">
 
 ```
-<div style="width: 60px; height: 2px; background: linear-gradient(90deg, #ff00ff, #00ffff); margin: 0 auto 1.5rem; border-radius: 2px;"></div>
+<div style="width: 60px; height: 2px; background: linear-gradient(90deg, #00ffff, #ff00ff); margin: 0 auto 1.5rem; border-radius: 2px;"></div>
 
-<a href="https://calendly.com/bsaw" target="_blank" class="cta-button glow-border" style="display: inline-flex; align-items: center; gap: 10px; padding: 16px 28px; background: linear-gradient(135deg, #ff00ff, #cc00cc); color: #fff; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; border-radius: 12px; border: none;">
-  book the call
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+<!-- Book Call Button -->
+<a href="https://calendly.com/bsaw" target="_blank" class="cta-button glow-border" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; background: linear-gradient(135deg, #ff00ff, #cc00cc); color: #fff; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 12px; border: none; width: 100%; max-width: 280px; margin-bottom: 12px;">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+  Book Call with Barron
+</a>
+
+<!-- Call Now Button -->
+<a href="tel:+18012905565" class="cta-button" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; background: linear-gradient(135deg, #00ffff, #0099aa); color: #000; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 12px; border: 2px solid rgba(0,255,255,0.5); width: 100%; max-width: 280px; box-shadow: 0 0 20px rgba(0,255,255,0.3);">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+  Call Barron Now
 </a>
 
 <div style="margin-top: 2rem;">
-  <div class="glitch" style="font-family: 'Orbitron', sans-serif; font-size: 0.875rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff00ff;">watermaxxing.com</div>
+  <style>
+    @keyframes glitchIntense {
+      0%, 100% { transform: translate(0); text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
+      10% { transform: translate(-2px, 1px); text-shadow: 2px 0 #ff00ff, -2px 0 #00ffff, 0 0 20px #00ffff; }
+      20% { transform: translate(2px, -1px); text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff, 0 0 20px #00ffff; }
+      30% { transform: translate(0); text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff; }
+      40% { transform: translate(1px, 2px); text-shadow: 2px 0 #ff00ff, -1px 0 #00ffff; }
+      50% { transform: translate(-1px, -1px); text-shadow: -1px 0 #ff00ff, 1px 0 #00ffff, 0 0 30px #00ffff; }
+      60% { transform: translate(0); text-shadow: 0 0 15px #00ffff, 0 0 30px #00ffff; }
+      70% { transform: translate(2px, 0); text-shadow: 3px 0 #ff00ff, -3px 0 #00ffff; }
+      80% { transform: translate(-2px, 1px); text-shadow: -2px 0 #ff00ff, 2px 0 #00ffff, 0 0 25px #00ffff; }
+      90% { transform: translate(1px, -2px); text-shadow: 1px 0 #ff00ff, -1px 0 #00ffff; }
+    }
+  </style>
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: #00ffff; animation: glitchIntense 2s ease-in-out infinite;">watermaxxing.com</div>
   <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); margin-top: 8px; letter-spacing: 0.15em;">iykyk</div>
 </div>
+
+<!-- Theme Toggle (moved to footer) -->
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" style="position: relative; margin-top: 1.5rem; top: auto; right: auto;">
+  <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ffff" stroke-width="2">
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+  </svg>
+  <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0099aa" stroke-width="2">
+    <circle cx="12" cy="12" r="5"/>
+    <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+    <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+  </svg>
+</button>
 ```
 
   </div>
@@ -3132,7 +3033,7 @@ function shareGame() {
 </div>
 
 <div style="position: relative; background: #3E2723; border-radius: 12px; padding: 8px; border: 3px solid #6D4C41;">
-  <canvas id="sludgeCanvas" width="240" height="400" style="display: block; border-radius: 8px; background: linear-gradient(180deg, #1A1A1A 0%, #2D2220 100%);"></canvas>
+  <canvas id="sludgeCanvas" width="200" height="400" style="display: block; border-radius: 8px; background: linear-gradient(180deg, #1A1A1A 0%, #2D2220 100%);"></canvas>
   
   <div id="sludgeHUD" style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between;">
     <div style="background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 8px;">
@@ -3202,7 +3103,7 @@ function shareGame() {
 (function() {
   const canvas = document.getElementById('sludgeCanvas');
   const ctx = canvas.getContext('2d');
-  const COLS = 10, ROWS = 20, BLOCK = 24;
+  const COLS = 10, ROWS = 20, BLOCK = 20;  // Changed from 24 to 20 to fit 400px height
   
   let board = [];
   let piece = null;
@@ -3337,28 +3238,28 @@ function shareGame() {
     ctx.fillStyle = color.base;
     ctx.fillRect(px + 1, py + 1, BLOCK - 2, BLOCK - 2);
     
-    // Sludge texture - bubbles
+    // Sludge texture - bubbles (scaled for smaller blocks)
     ctx.fillStyle = color.dark;
     ctx.beginPath();
-    ctx.arc(px + 6, py + 8, 3, 0, Math.PI * 2);
+    ctx.arc(px + 5, py + 6, 2, 0, Math.PI * 2);
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(px + 16, py + 14, 2, 0, Math.PI * 2);
+    ctx.arc(px + 13, py + 11, 1.5, 0, Math.PI * 2);
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(px + 10, py + 18, 2.5, 0, Math.PI * 2);
+    ctx.arc(px + 8, py + 14, 2, 0, Math.PI * 2);
     ctx.fill();
     
     // Highlight
     ctx.fillStyle = color.light;
     ctx.globalAlpha = 0.4;
-    ctx.fillRect(px + 2, py + 2, BLOCK - 6, 4);
+    ctx.fillRect(px + 2, py + 2, BLOCK - 6, 3);
     ctx.globalAlpha = 1;
     
     // Drip effect on bottom
     ctx.fillStyle = color.dark;
     ctx.beginPath();
-    ctx.ellipse(px + BLOCK/2, py + BLOCK - 1, 4, 2, 0, 0, Math.PI * 2);
+    ctx.ellipse(px + BLOCK/2, py + BLOCK - 1, 3, 1.5, 0, 0, Math.PI * 2);
     ctx.fill();
   }
   
@@ -3366,14 +3267,6 @@ function shareGame() {
     // Background with subtle sludge pattern
     ctx.fillStyle = '#1A1A1A';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Animated sludge at bottom
-    gameTime += 0.02;
-    ctx.fillStyle = '#2D2220';
-    for (let x = 0; x < COLS; x++) {
-      const waveHeight = Math.sin(gameTime + x * 0.5) * 3;
-      ctx.fillRect(x * BLOCK, ROWS * BLOCK - 8 + waveHeight, BLOCK, 10);
-    }
     
     // Grid
     ctx.strokeStyle = '#2A2A2A';
@@ -3387,8 +3280,8 @@ function shareGame() {
     
     // Side pipes decoration
     ctx.fillStyle = '#3E2723';
-    ctx.fillRect(0, 0, 3, canvas.height);
-    ctx.fillRect(canvas.width - 3, 0, 3, canvas.height);
+    ctx.fillRect(0, 0, 2, canvas.height);
+    ctx.fillRect(canvas.width - 2, 0, 2, canvas.height);
     
     // Board
     for (let y = 0; y < ROWS; y++) {
@@ -3721,7 +3614,6 @@ function shareGame() {
   });
 })();
 </script>
-     
      
 </body>
 </html>
