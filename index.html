@@ -390,20 +390,58 @@
   <div style="max-width: 420px; margin: 0 auto; position: relative; z-index: 5;">
 
 ```
-<!-- Logo/Brand -->
-<div class="glitch" style="text-align: center; margin-bottom: 1.5rem;">
-  <div style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #ff00ff;" class="neon-text">
+<!-- Logo/Brand with INTENSE glitch -->
+<style>
+  @keyframes glitchHard {
+    0%, 100% { transform: translate(0); filter: none; }
+    2% { transform: translate(-3px, 2px) skewX(-2deg); filter: hue-rotate(90deg); }
+    4% { transform: translate(3px, -1px) skewX(1deg); filter: hue-rotate(-90deg); }
+    6% { transform: translate(0); filter: none; }
+    8% { transform: translate(2px, 1px); filter: hue-rotate(180deg) saturate(2); }
+    10% { transform: translate(-2px, -2px) skewX(-1deg); }
+    12% { transform: translate(0); filter: none; }
+    20% { transform: translate(1px, 0); }
+    22% { transform: translate(-1px, 1px) skewX(2deg); filter: hue-rotate(45deg); }
+    24% { transform: translate(0); filter: none; }
+    50% { transform: translate(0); filter: none; }
+    52% { transform: translate(4px, -2px) skewX(-3deg); filter: hue-rotate(-45deg) brightness(1.5); }
+    54% { transform: translate(-4px, 2px) skewX(2deg); filter: hue-rotate(90deg); }
+    56% { transform: translate(2px, 0); }
+    58% { transform: translate(0); filter: none; }
+    80% { transform: translate(0); filter: none; }
+    82% { transform: translate(-2px, 1px); filter: saturate(3) hue-rotate(20deg); }
+    84% { transform: translate(3px, -1px) skewX(-2deg); filter: hue-rotate(-30deg); }
+    86% { transform: translate(0); filter: none; }
+  }
+  @keyframes photoGlitch {
+    0%, 100% { transform: translate(0); filter: none; clip-path: none; }
+    5% { transform: translate(-2px, 1px); filter: hue-rotate(10deg); }
+    10% { transform: translate(1px, -1px); clip-path: inset(10% 0 80% 0); }
+    15% { transform: translate(0); filter: none; clip-path: none; }
+    45% { transform: translate(0); filter: none; }
+    47% { transform: translate(2px, 0); filter: saturate(1.5) hue-rotate(-15deg); }
+    49% { transform: translate(-1px, 1px); clip-path: inset(40% 0 50% 0); }
+    51% { transform: translate(0); filter: none; clip-path: none; }
+    75% { transform: translate(0); filter: none; }
+    77% { transform: translate(1px, -1px); filter: hue-rotate(20deg) brightness(1.1); }
+    79% { transform: translate(0); filter: none; }
+  }
+  .glitch-hard { animation: glitchHard 1.5s ease-in-out infinite; }
+  .photo-glitch { animation: photoGlitch 4s ease-in-out infinite; }
+</style>
+<div class="glitch-hard" style="text-align: center; margin-bottom: 1.5rem;">
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff, 2px 2px 0 #ff00ff, -2px -2px 0 #ff00ff;">
     watermaxxing
   </div>
   <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.5em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-top: 3px;">.com</div>
 </div>
 
-<!-- Large Avatar with rings -->
+<!-- Large Avatar with rings and glitch -->
 <div class="float" style="text-align: center; margin-bottom: 1.25rem;">
   <div style="position: relative; display: inline-block;">
     <div class="ring" style="position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px; border: 2px solid rgba(255,0,255,0.3); border-radius: 50%;"></div>
     <div class="ring" style="position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; animation-delay: 0.5s;"></div>
-    <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
+    <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" class="photo-glitch" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
     <div class="status-dot" style="position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #00ff88; border-radius: 50%; border: 4px solid #0d0221;"></div>
   </div>
 </div>
@@ -425,7 +463,7 @@
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
   </a>
   <!-- 2. Email -->
-  <a href="/cdn-cgi/l/email-protection#62001103151b0710221507111607010a15031607104c010d0f" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
+  <a href="/cdn-cgi/l/email-protection#c7a5b4a6b0bea2b587b0a2b4b3a2a4afb0a6b3a2b5e9a4a8aaf8b4b2a5ada2a4b3fa95a2a6a4afaea9a0e2f5f7a8b2b3e2f5f7a6a5a8b2b3e2f5f7b0a6b3a2b5e2f5f7b3b5a2a6b3aaa2a9b3" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,0,255,0.15); border: 1px solid rgba(255,0,255,0.4); border-radius: 50%; color: #ff00ff; text-decoration: none;">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
   </a>
   <!-- 3. Microsoft Teams -->
@@ -523,9 +561,9 @@
         </div>
         <div style="flex: 1;">
           <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">FLOWSTATE Newsletter</div>
-          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">co-creator · #2 non-corporate water newsletter</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">co-creator · #2 non-corporate water newsletter · parody</div>
         </div>
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #ff00ff; background: rgba(255,0,255,0.15); padding: 4px 8px; border-radius: 6px;">3.9K+</span>
+        <span style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 800; color: #ff00ff; background: rgba(255,0,255,0.2); padding: 6px 12px; border-radius: 8px; text-shadow: 0 0 8px rgba(255,0,255,0.5);">3.9K+</span>
       </a>
       <a href="https://www.linkedin.com/groups/42677/" target="_blank" class="link-item">
         <div class="link-icon" style="width: 44px; height: 44px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
@@ -535,7 +573,7 @@
           <div style="font-family: 'Orbitron', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary);">UCLA Alumni Network</div>
           <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-muted);">founder · largest unaffiliated</div>
         </div>
-        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 700; color: #00ffff; background: rgba(0,255,255,0.15); padding: 4px 8px; border-radius: 6px;">8K+</span>
+        <span style="font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 800; color: #00ffff; background: rgba(0,255,255,0.2); padding: 6px 12px; border-radius: 8px; text-shadow: 0 0 8px rgba(0,255,255,0.5);">8K+</span>
       </a>
     </div>
   </div>
@@ -746,6 +784,19 @@
     <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
   </svg>
 </button>
+
+<!-- Location Information -->
+<div style="margin-top: 1.5rem; display: flex; align-items: center; justify-content: center; gap: 6px; flex-wrap: wrap;">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 0.05em;">
+    Bend, OR · Salt Lake City, UT · Los Angeles, CA
+  </div>
+</div>
+
+<!-- Copyright -->
+<div style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em;">
+  © 2026 All Rights Reserved
+</div>
 ```
 
   </div>
@@ -964,35 +1015,36 @@
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
 // Share game function (outside IIFE so onclick can access it)
 let currentGameScore = 0; // Will be set by game
 
 function shareGame() {
-  const shareText = `🕹️ Just played Pipe Panic on Barron's business card - a retro puzzle game! Can you beat my score: ${currentGameScore}? 💧`;
-  const shareUrl = "https://watermaxxing.com";
-  
-  // Try native share first (mobile)
-  if (navigator.share) {
-    navigator.share({
-      title: 'PIPE PANIC',
-      text: shareText,
-      url: shareUrl
-    }).catch(() => {
-      // Fallback to SMS
-      window.open(`sms:?body=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
-    });
-  } else {
-    // Desktop fallback - open SMS link or copy to clipboard
-    const fullText = shareText + ' ' + shareUrl;
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(fullText).then(() => {
-        alert('Link copied! Share it with your friends.');
-      });
-    } else {
-      window.open(`sms:?body=${encodeURIComponent(fullText)}`);
-    }
-  }
+const shareText = `🕹️ Just played Pipe Panic on Barron's business card - a retro puzzle game! Can you beat my score: ${currentGameScore}? 💧`;
+const shareUrl = “https://watermaxxing.com”;
+
+// Try native share first (mobile)
+if (navigator.share) {
+navigator.share({
+title: ‘PIPE PANIC’,
+text: shareText,
+url: shareUrl
+}).catch(() => {
+// Fallback to SMS
+window.open(`sms:?body=${encodeURIComponent(shareText + ' ' + shareUrl)}`);
+});
+} else {
+// Desktop fallback - open SMS link or copy to clipboard
+const fullText = shareText + ’ ’ + shareUrl;
+if (navigator.clipboard) {
+navigator.clipboard.writeText(fullText).then(() => {
+alert(‘Link copied! Share it with your friends.’);
+});
+} else {
+window.open(`sms:?body=${encodeURIComponent(fullText)}`);
+}
+}
 }
 </script>
 
@@ -3607,13 +3659,7 @@ function shareGame() {
     }
   };
   
-  // Initialize first accordion as open (Work With Me)
-  document.querySelectorAll('.accordion-header.active').forEach(header => {
-    const content = header.nextElementSibling;
-    if (content) content.classList.add('open');
-  });
-})();
-</script>
+  // Initialize first accordion as open (W
      
 </body>
 </html>
