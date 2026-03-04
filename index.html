@@ -3155,106 +3155,109 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   document.getElementById('fsBtnA')?.addEventListener('click', handleA);
   document.getElementById('fsBtnB')?.addEventListener('click', handleB);
 })();
-
+</script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
      SL*DGE HAPPENS - TETRIS-STYLE STACKING GAME (BETA) - SLIDE UP UI
 ═══════════════════════════════════════════════════════════════════════════ -->
 
 <div id="sludgeOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(30,20,15,0.95); z-index: 1000; backdrop-filter: blur(10px);">
-  
-  <button id="closeSludgeBtn" style="position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; background: rgba(188,170,164,0.2); border: 2px solid rgba(188,170,164,0.4); border-radius: 50%; color: #BCAAA4; font-size: 24px; cursor: pointer; z-index: 1002;">×</button>
-  
+
+<button id="closeSludgeBtn" style="position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; background: rgba(188,170,164,0.2); border: 2px solid rgba(188,170,164,0.4); border-radius: 50%; color: #BCAAA4; font-size: 24px; cursor: pointer; z-index: 1002;">×</button>
+
   <div id="sludgeConsole" style="position: absolute; bottom: 0; left: 0; right: 0; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1001;">
-    
-    <div style="max-width: 420px; margin: 0 auto; background: linear-gradient(180deg, #4E342E 0%, #3E2723 100%); border-radius: 30px 30px 0 0; padding: 16px 16px 24px; border: 3px solid #6D4C41; border-bottom: none; box-shadow: 0 -15px 80px rgba(141,110,99,0.3), 0 -5px 40px rgba(93,64,55,0.3), inset 0 1px 0 rgba(255,255,255,0.1);">
-      
-      <div style="text-align: center; margin-bottom: 10px; position: relative;">
-        <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; color: #fff; margin-bottom: 4px;">BETA</div>
-        <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: 0.1em; color: #D7CCC8; text-shadow: 0 0 20px rgba(188,170,164,0.5); font-style: italic;">SL*DGE HAPPENS</div>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; letter-spacing: 0.3em;">SLUDGE EDITION</div>
-      </div>
-      
-      <div style="display: flex; gap: 12px; justify-content: center;">
-        <!-- Main game area -->
-        <div style="background: #000; border-radius: 12px; padding: 4px; border: 3px solid #5D4037; box-shadow: inset 0 0 30px rgba(0,0,0,0.9);">
-          <div id="sludgeGameScreen" style="position: relative; width: 200px; height: 340px; background: linear-gradient(180deg, #1a1410 0%, #0d0a08 100%); border-radius: 8px; overflow: hidden;">
-            <canvas id="sludgeCanvas" width="200" height="340" style="display: block;"></canvas>
-            
-            <!-- Start Screen -->
-            <div id="sludgeStart" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(60,40,30,0.98) 0%, rgba(30,20,15,0.99) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
-              <svg width="50" height="50" viewBox="0 0 50 50" style="margin-bottom: 10px;">
-                <ellipse cx="25" cy="40" rx="20" ry="8" fill="#5D4037"/>
-                <path d="M10 40 Q10 20 25 10 Q40 20 40 40" fill="#795548"/>
-                <ellipse cx="18" cy="28" rx="5" ry="3" fill="#8D6E63" opacity="0.6"/>
-                <ellipse cx="30" cy="22" rx="4" ry="2" fill="#8D6E63" opacity="0.5"/>
-                <circle cx="15" cy="35" r="3" fill="#4E342E"/>
-                <circle cx="32" cy="32" r="2" fill="#4E342E"/>
-              </svg>
-              <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; color: #BCAAA4; text-shadow: 0 0 15px rgba(188,170,164,0.5); margin-bottom: 8px; font-style: italic;">SL*DGE HAPPENS</div>
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 12px;">
-                Stack blocks · Clear rows<br>Don't overflow!
-              </div>
-              <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #8D6E63; text-shadow: 0 0 10px rgba(141,110,99,0.5);">
-                ▶ PRESS A TO START ◀
-              </div>
-            </div>
-            
-            <!-- Game Over -->
-            <div id="sludgeGameOver" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(40,20,15,0.98) 0%, rgba(20,10,5,0.99) 100%); flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
-              <div style="font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; color: #A1887F; margin-bottom: 8px;">OVERFLOW!</div>
-              <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 4px;">Final Score</div>
-              <div id="sludgeFinalScore" style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: #D7CCC8; text-shadow: 0 0 20px rgba(215,204,200,0.5); margin-bottom: 16px;">0</div>
-              <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #8D6E63;">
-                ▶ PRESS A TO RETRY ◀
-              </div>
-            </div>
+
+```
+<div style="max-width: 420px; margin: 0 auto; background: linear-gradient(180deg, #4E342E 0%, #3E2723 100%); border-radius: 30px 30px 0 0; padding: 16px 16px 24px; border: 3px solid #6D4C41; border-bottom: none; box-shadow: 0 -15px 80px rgba(141,110,99,0.3), 0 -5px 40px rgba(93,64,55,0.3), inset 0 1px 0 rgba(255,255,255,0.1);">
+  
+  <div style="text-align: center; margin-bottom: 10px; position: relative;">
+    <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; color: #fff; margin-bottom: 4px;">BETA</div>
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: 0.1em; color: #D7CCC8; text-shadow: 0 0 20px rgba(188,170,164,0.5); font-style: italic;">SL*DGE HAPPENS</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; letter-spacing: 0.3em;">SLUDGE EDITION</div>
+  </div>
+  
+  <div style="display: flex; gap: 12px; justify-content: center;">
+    <!-- Main game area -->
+    <div style="background: #000; border-radius: 12px; padding: 4px; border: 3px solid #5D4037; box-shadow: inset 0 0 30px rgba(0,0,0,0.9);">
+      <div id="sludgeGameScreen" style="position: relative; width: 200px; height: 340px; background: linear-gradient(180deg, #1a1410 0%, #0d0a08 100%); border-radius: 8px; overflow: hidden;">
+        <canvas id="sludgeCanvas" width="200" height="340" style="display: block;"></canvas>
+        
+        <!-- Start Screen -->
+        <div id="sludgeStart" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(60,40,30,0.98) 0%, rgba(30,20,15,0.99) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
+          <svg width="50" height="50" viewBox="0 0 50 50" style="margin-bottom: 10px;">
+            <ellipse cx="25" cy="40" rx="20" ry="8" fill="#5D4037"/>
+            <path d="M10 40 Q10 20 25 10 Q40 20 40 40" fill="#795548"/>
+            <ellipse cx="18" cy="28" rx="5" ry="3" fill="#8D6E63" opacity="0.6"/>
+            <ellipse cx="30" cy="22" rx="4" ry="2" fill="#8D6E63" opacity="0.5"/>
+            <circle cx="15" cy="35" r="3" fill="#4E342E"/>
+            <circle cx="32" cy="32" r="2" fill="#4E342E"/>
+          </svg>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; color: #BCAAA4; text-shadow: 0 0 15px rgba(188,170,164,0.5); margin-bottom: 8px; font-style: italic;">SL*DGE HAPPENS</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 12px;">
+            Stack blocks · Clear rows<br>Don't overflow!
+          </div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #8D6E63; text-shadow: 0 0 10px rgba(141,110,99,0.5);">
+            ▶ PRESS A TO START ◀
           </div>
         </div>
         
-        <!-- Side panel: Next piece + Stats -->
-        <div style="display: flex; flex-direction: column; gap: 10px; width: 90px;">
-          <!-- Next Piece Preview -->
-          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; margin-bottom: 6px; letter-spacing: 0.1em;">NEXT</div>
-            <canvas id="sludgeNextCanvas" width="70" height="70" style="display: block; margin: 0 auto; background: rgba(0,0,0,0.3); border-radius: 6px;"></canvas>
-          </div>
-          
-          <!-- Score -->
-          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">SCORE</div>
-            <div id="sludgeScore" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">0</div>
-          </div>
-          
-          <!-- Level -->
-          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">LEVEL</div>
-            <div id="sludgeLevel" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">1</div>
-          </div>
-          
-          <!-- Lines -->
-          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">LINES</div>
-            <div id="sludgeLines" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">0</div>
+        <!-- Game Over -->
+        <div id="sludgeGameOver" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(40,20,15,0.98) 0%, rgba(20,10,5,0.99) 100%); flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; color: #A1887F; margin-bottom: 8px;">OVERFLOW!</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 4px;">Final Score</div>
+          <div id="sludgeFinalScore" style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: #D7CCC8; text-shadow: 0 0 20px rgba(215,204,200,0.5); margin-bottom: 16px;">0</div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #8D6E63;">
+            ▶ PRESS A TO RETRY ◀
           </div>
         </div>
       </div>
-      
-      <!-- Controls - LARGER BUTTONS -->
-      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 16px;">
-        <div style="position: relative; width: 140px; height: 100px;">
-          <button id="sludgeBtnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">↻</button>
-          <button id="sludgeBtnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">◀</button>
-          <button id="sludgeBtnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▶</button>
-          <button id="sludgeBtnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▼</button>
-        </div>
-        <div style="display: flex; flex-direction: column; gap: 10px; justify-content: center;">
-          <button id="sludgeBtnB" style="width: 60px; height: 60px; background: linear-gradient(180deg, #6D4C41, #5D4037); border: 3px solid #8D6E63; border-radius: 50%; color: #BCAAA4; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #3E2723;">B</button>
-          <button id="sludgeBtnA" style="width: 60px; height: 60px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #4E342E;">A</button>
-        </div>
-      </div>
-      
     </div>
+    
+    <!-- Side panel: Next piece + Stats -->
+    <div style="display: flex; flex-direction: column; gap: 10px; width: 90px;">
+      <!-- Next Piece Preview -->
+      <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; margin-bottom: 6px; letter-spacing: 0.1em;">NEXT</div>
+        <canvas id="sludgeNextCanvas" width="70" height="70" style="display: block; margin: 0 auto; background: rgba(0,0,0,0.3); border-radius: 6px;"></canvas>
+      </div>
+      
+      <!-- Score -->
+      <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">SCORE</div>
+        <div id="sludgeScore" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">0</div>
+      </div>
+      
+      <!-- Level -->
+      <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">LEVEL</div>
+        <div id="sludgeLevel" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">1</div>
+      </div>
+      
+      <!-- Lines -->
+      <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">LINES</div>
+        <div id="sludgeLines" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">0</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Controls - LARGER BUTTONS -->
+  <div style="display: flex; justify-content: center; gap: 12px; margin-top: 16px;">
+    <div style="position: relative; width: 140px; height: 100px;">
+      <button id="sludgeBtnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">↻</button>
+      <button id="sludgeBtnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">◀</button>
+      <button id="sludgeBtnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▶</button>
+      <button id="sludgeBtnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▼</button>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px; justify-content: center;">
+      <button id="sludgeBtnB" style="width: 60px; height: 60px; background: linear-gradient(180deg, #6D4C41, #5D4037); border: 3px solid #8D6E63; border-radius: 50%; color: #BCAAA4; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #3E2723;">B</button>
+      <button id="sludgeBtnA" style="width: 60px; height: 60px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #4E342E;">A</button>
+    </div>
+  </div>
+  
+</div>
+```
+
   </div>
 </div>
 
