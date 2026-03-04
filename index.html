@@ -762,27 +762,35 @@ html[data-theme="light"] {
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">tetris · stack · clear</div>
     </button>
     
-    <!-- SHIFT SHUFFLE Button (Memory/Card game) -->
-    <button id="launchShiftBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #BA68C8 0%, #9C27B0 50%, #7B1FA2 100%); border: 2px solid #CE93D8; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(156,39,176,0.4), 0 4px 0 #7B1FA2, inset 0 0 15px rgba(156,39,176,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: shiftPulse 2.8s ease-in-out infinite; position: relative; overflow: hidden;">
+    <!-- WATER TRIVIA Button (Jeopardy-style quiz) -->
+    <button id="launchShiftBtn" class="arcade-btn" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 12px 8px 10px; background: linear-gradient(180deg, #5C6BC0 0%, #3949AB 50%, #1A237E 100%); border: 2px solid #7986CB; border-radius: 12px; color: #fff; cursor: pointer; box-shadow: 0 0 15px rgba(57,73,171,0.4), 0 4px 0 #1A237E, inset 0 0 15px rgba(57,73,171,0.1); transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); animation: shiftPulse 2.8s ease-in-out infinite; position: relative; overflow: hidden;">
       <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 40%, rgba(0,0,0,0.1) 100%); pointer-events: none;"></div>
       <!-- BETA badge -->
       <div style="position: absolute; top: 4px; right: 4px; background: #FF6F00; padding: 1px 5px; border-radius: 3px; font-family: 'Orbitron', sans-serif; font-size: 6px; font-weight: 800;">BETA</div>
-      <!-- Shift Shuffle Logo - Card grid -->
+      <!-- Water Trivia Logo - Jeopardy board style -->
       <svg width="40" height="30" viewBox="0 0 48 36" style="filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3));">
-        <!-- Card grid -->
-        <rect x="4" y="4" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1" style="animation: cardFlip 3s ease-in-out infinite;"/>
-        <rect x="18" y="4" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
-        <rect x="32" y="4" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1"/>
-        <rect x="4" y="20" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
-        <rect x="18" y="20" width="12" height="14" rx="2" fill="#E1BEE7" stroke="#9C27B0" stroke-width="1" style="animation: cardFlip 3s ease-in-out infinite; animation-delay: 0.5s;"/>
-        <rect x="32" y="20" width="12" height="14" rx="2" fill="#7B1FA2" stroke="#4A148C" stroke-width="1"/>
-        <!-- Icons on revealed cards -->
-        <circle cx="10" cy="11" r="3" fill="#9C27B0"/>
-        <rect x="35" y="8" width="6" height="6" rx="1" fill="#9C27B0"/>
-        <path d="M22 24 L26 28 L30 24" stroke="#E1BEE7" stroke-width="2" fill="none"/>
+        <!-- Board background -->
+        <rect x="2" y="2" width="44" height="32" rx="3" fill="#1A237E" stroke="#FFD54F" stroke-width="1.5"/>
+        <!-- Category headers -->
+        <rect x="4" y="4" width="12" height="6" rx="1" fill="#4FC3F7"/>
+        <rect x="18" y="4" width="12" height="6" rx="1" fill="#81C784"/>
+        <rect x="32" y="4" width="12" height="6" rx="1" fill="#FFB74D"/>
+        <!-- Question tiles -->
+        <rect x="4" y="12" width="12" height="8" rx="1" fill="#1565C0"/>
+        <text x="10" y="18" text-anchor="middle" font-family="Arial" font-size="5" fill="#FFD54F" font-weight="bold">$100</text>
+        <rect x="18" y="12" width="12" height="8" rx="1" fill="#1565C0"/>
+        <text x="24" y="18" text-anchor="middle" font-family="Arial" font-size="5" fill="#FFD54F" font-weight="bold">$200</text>
+        <rect x="32" y="12" width="12" height="8" rx="1" fill="#1565C0"/>
+        <text x="38" y="18" text-anchor="middle" font-family="Arial" font-size="5" fill="#FFD54F" font-weight="bold">$300</text>
+        <rect x="4" y="22" width="12" height="8" rx="1" fill="#1565C0"/>
+        <text x="10" y="28" text-anchor="middle" font-family="Arial" font-size="5" fill="#FFD54F" font-weight="bold">$400</text>
+        <rect x="18" y="22" width="12" height="8" rx="1" fill="#1565C0"/>
+        <text x="24" y="28" text-anchor="middle" font-family="Arial" font-size="5" fill="#FFD54F" font-weight="bold">$500</text>
+        <!-- Water drop icon -->
+        <path d="M38 25 Q38 22 41 20 Q44 22 44 25 Q44 28 41 29 Q38 28 38 25" fill="#4FC3F7"/>
       </svg>
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.07em; text-shadow: 0 0 8px #E040FB, 0 1px 2px rgba(0,0,0,0.5); color: #F3E5F5; position: relative;">SHIFT SHUFFLE</div>
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">memory · match · focus</div>
+      <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; text-shadow: 0 0 8px #FFD54F, 0 1px 2px rgba(0,0,0,0.5); color: #FFD54F; position: relative;">WATER TRIVIA</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 6px; color: rgba(255,255,255,0.7); position: relative;">quiz · learn · win</div>
     </button>
     
   </div>
@@ -3147,127 +3155,106 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   document.getElementById('fsBtnA')?.addEventListener('click', handleA);
   document.getElementById('fsBtnB')?.addEventListener('click', handleB);
 })();
-</script>
+
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
-     SL*DGE HAPPENS - TETRIS-STYLE STACKING GAME (BETA)
+     SL*DGE HAPPENS - TETRIS-STYLE STACKING GAME (BETA) - SLIDE UP UI
 ═══════════════════════════════════════════════════════════════════════════ -->
 
-<div id="sludgeOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #3E2723 0%, #5D4037 50%, #4E342E 100%); z-index: 1000; overflow: hidden;">
-
-  <!-- Background Sludge Elements -->
-
-  <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.15;">
-    <!-- Sludge Clarifier (rotating) -->
-    <g transform="translate(80, 120)">
-      <ellipse cx="0" cy="0" rx="60" ry="25" fill="#5D4037" stroke="#4E342E" stroke-width="3"/>
-      <ellipse cx="0" cy="0" rx="50" ry="20" fill="#795548"/>
-      <circle cx="0" cy="0" r="8" fill="#3E2723"/>
-      <g style="transform-origin: 0px 0px; animation: sludgeClarifierSpin 10s linear infinite;">
-        <rect x="0" y="-3" width="45" height="6" rx="2" fill="#4E342E"/>
-        <rect x="40" y="-8" width="6" height="16" rx="1" fill="#3E2723"/>
-      </g>
-    </g>
-    <!-- Sludge Pipes -->
-    <rect x="-20" y="200" width="120" height="20" rx="4" fill="#6D4C41"/>
-    <rect x="80" y="180" width="20" height="60" rx="4" fill="#6D4C41"/>
-    <ellipse cx="90" cy="180" rx="15" ry="8" fill="#5D4037"/>
-    <!-- Right side pipes -->
-    <rect x="320" y="300" width="100" height="16" rx="4" fill="#6D4C41"/>
-    <rect x="300" y="280" width="16" height="50" rx="4" fill="#6D4C41"/>
-    <!-- Bottom clarifier -->
-    <g transform="translate(340, 500)">
-      <ellipse cx="0" cy="0" rx="45" ry="18" fill="#5D4037" stroke="#4E342E" stroke-width="2"/>
-      <ellipse cx="0" cy="0" rx="38" ry="14" fill="#795548"/>
-      <g style="transform-origin: 0px 0px; animation: sludgeClarifierSpin 8s linear infinite reverse;">
-        <rect x="0" y="-2" width="35" height="4" rx="1" fill="#4E342E"/>
-      </g>
-    </g>
-    <!-- Dripping sludge -->
-    <ellipse cx="50" cy="250" rx="4" ry="6" fill="#5D4037" style="animation: sludgeDrip 2s ease-in-out infinite;"/>
-    <ellipse cx="370" cy="350" rx="3" ry="5" fill="#5D4037" style="animation: sludgeDrip 2.5s ease-in-out infinite; animation-delay: 0.5s;"/>
-  </svg>
-
-  <style>
-    @keyframes sludgeClarifierSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes sludgeDrip { 0%, 100% { transform: translateY(0); opacity: 0.8; } 50% { transform: translateY(15px); opacity: 0.3; } }
-  </style>
-
-<button id="closeSludgeBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #5D4037; border-radius: 50%; color: #5D4037; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
-
-  <div style="max-width: 420px; margin: 0 auto; padding: 15px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; z-index: 1;">
-
-```
-<div style="text-align: center; margin-bottom: 10px;">
-  <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 6px;">BETA</div>
-  <div style="font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: bold; color: #D7CCC8; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">SL*DGE HAPPENS</div>
-  <div style="font-family: Georgia, serif; font-size: 11px; color: #A1887F; font-style: italic;">Stack it before it stacks you</div>
-</div>
-
-<div style="position: relative; background: #3E2723; border-radius: 12px; padding: 8px; border: 3px solid #6D4C41;">
-  <canvas id="sludgeCanvas" width="200" height="400" style="display: block; border-radius: 8px; background: linear-gradient(180deg, #1A1A1A 0%, #2D2220 100%);"></canvas>
+<div id="sludgeOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(30,20,15,0.95); z-index: 1000; backdrop-filter: blur(10px);">
   
-  <div id="sludgeHUD" style="position: absolute; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between;">
-    <div style="background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 8px;">
-      <div style="font-family: Georgia, serif; font-size: 10px; color: #A1887F;">SCORE</div>
-      <div id="sludgeScore" style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #D7CCC8; font-weight: bold;">0</div>
-    </div>
-    <div style="background: rgba(0,0,0,0.6); padding: 6px 12px; border-radius: 8px;">
-      <div style="font-family: Georgia, serif; font-size: 10px; color: #A1887F;">LEVEL</div>
-      <div id="sludgeLevel" style="font-family: 'Orbitron', sans-serif; font-size: 16px; color: #D7CCC8; font-weight: bold;">1</div>
-    </div>
-  </div>
+  <button id="closeSludgeBtn" style="position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; background: rgba(188,170,164,0.2); border: 2px solid rgba(188,170,164,0.4); border-radius: 50%; color: #BCAAA4; font-size: 24px; cursor: pointer; z-index: 1002;">×</button>
   
-  <div id="sludgeStart" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.9); padding: 30px 40px; border-radius: 16px; border: 2px solid #6D4C41;">
-    <!-- Sludge icon -->
-    <svg width="50" height="40" viewBox="0 0 50 40" style="margin-bottom: 10px;">
-      <ellipse cx="25" cy="30" rx="20" ry="8" fill="#5D4037"/>
-      <path d="M10 30 Q10 15 25 10 Q40 15 40 30" fill="#795548"/>
-      <ellipse cx="18" cy="22" rx="4" ry="2" fill="#8D6E63" opacity="0.6"/>
-      <ellipse cx="30" cy="18" rx="3" ry="1.5" fill="#8D6E63" opacity="0.5"/>
-      <circle cx="15" cy="28" r="2" fill="#4E342E"/>
-      <circle cx="32" cy="26" r="1.5" fill="#4E342E"/>
-    </svg>
-    <div style="font-family: Georgia, serif; font-size: 13px; color: #BCAAA4; margin-bottom: 16px; line-height: 1.5;">
-      Stack sludge blocks<br>Clear rows to score<br>Don't let it overflow!
-    </div>
-    <div style="font-family: Georgia, serif; font-size: 10px; color: #8D6E63; margin-bottom: 16px;">
-      <strong>LEFT/RIGHT</strong> Move · <strong>UP</strong> Rotate · <strong>DOWN</strong> Drop
-    </div>
-    <button id="sludgeStartBtn" style="padding: 12px 32px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 2px solid #A1887F; border-radius: 20px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #4E342E;">
-      START
-    </button>
-  </div>
-  
-  <div id="sludgeGameOver" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.95); padding: 24px 32px; border-radius: 16px; border: 2px solid #A1887F;">
-    <div style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #BCAAA4; margin-bottom: 6px;">OVERFLOW!</div>
-    <div style="font-family: Georgia, serif; font-size: 14px; color: #8D6E63; margin-bottom: 12px;">Final Score: <span id="sludgeFinalScore" style="color: #D7CCC8; font-weight: bold;">0</span></div>
+  <div id="sludgeConsole" style="position: absolute; bottom: 0; left: 0; right: 0; transform: translateY(100%); transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); z-index: 1001;">
     
-    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-      <button id="sludgeRestartBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 2px solid #A1887F; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-        TRY AGAIN
-      </button>
-      <button id="sludgeShareBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #43A047, #2E7D32); border: 2px solid #66BB6A; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-        SHARE
-      </button>
+    <div style="max-width: 420px; margin: 0 auto; background: linear-gradient(180deg, #4E342E 0%, #3E2723 100%); border-radius: 30px 30px 0 0; padding: 16px 16px 24px; border: 3px solid #6D4C41; border-bottom: none; box-shadow: 0 -15px 80px rgba(141,110,99,0.3), 0 -5px 40px rgba(93,64,55,0.3), inset 0 1px 0 rgba(255,255,255,0.1);">
+      
+      <div style="text-align: center; margin-bottom: 10px; position: relative;">
+        <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 800; color: #fff; margin-bottom: 4px;">BETA</div>
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 900; letter-spacing: 0.1em; color: #D7CCC8; text-shadow: 0 0 20px rgba(188,170,164,0.5); font-style: italic;">SL*DGE HAPPENS</div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3); margin-top: 2px; letter-spacing: 0.3em;">SLUDGE EDITION</div>
+      </div>
+      
+      <div style="display: flex; gap: 12px; justify-content: center;">
+        <!-- Main game area -->
+        <div style="background: #000; border-radius: 12px; padding: 4px; border: 3px solid #5D4037; box-shadow: inset 0 0 30px rgba(0,0,0,0.9);">
+          <div id="sludgeGameScreen" style="position: relative; width: 200px; height: 340px; background: linear-gradient(180deg, #1a1410 0%, #0d0a08 100%); border-radius: 8px; overflow: hidden;">
+            <canvas id="sludgeCanvas" width="200" height="340" style="display: block;"></canvas>
+            
+            <!-- Start Screen -->
+            <div id="sludgeStart" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(60,40,30,0.98) 0%, rgba(30,20,15,0.99) 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
+              <svg width="50" height="50" viewBox="0 0 50 50" style="margin-bottom: 10px;">
+                <ellipse cx="25" cy="40" rx="20" ry="8" fill="#5D4037"/>
+                <path d="M10 40 Q10 20 25 10 Q40 20 40 40" fill="#795548"/>
+                <ellipse cx="18" cy="28" rx="5" ry="3" fill="#8D6E63" opacity="0.6"/>
+                <ellipse cx="30" cy="22" rx="4" ry="2" fill="#8D6E63" opacity="0.5"/>
+                <circle cx="15" cy="35" r="3" fill="#4E342E"/>
+                <circle cx="32" cy="32" r="2" fill="#4E342E"/>
+              </svg>
+              <div style="font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: 800; color: #BCAAA4; text-shadow: 0 0 15px rgba(188,170,164,0.5); margin-bottom: 8px; font-style: italic;">SL*DGE HAPPENS</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 12px;">
+                Stack blocks · Clear rows<br>Don't overflow!
+              </div>
+              <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #8D6E63; text-shadow: 0 0 10px rgba(141,110,99,0.5);">
+                ▶ PRESS A TO START ◀
+              </div>
+            </div>
+            
+            <!-- Game Over -->
+            <div id="sludgeGameOver" style="display: none; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(40,20,15,0.98) 0%, rgba(20,10,5,0.99) 100%); flex-direction: column; align-items: center; justify-content: center; z-index: 60; padding: 15px;">
+              <div style="font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; color: #A1887F; margin-bottom: 8px;">OVERFLOW!</div>
+              <div style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: rgba(255,255,255,0.7); margin-bottom: 4px;">Final Score</div>
+              <div id="sludgeFinalScore" style="font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: #D7CCC8; text-shadow: 0 0 20px rgba(215,204,200,0.5); margin-bottom: 16px;">0</div>
+              <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #8D6E63;">
+                ▶ PRESS A TO RETRY ◀
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Side panel: Next piece + Stats -->
+        <div style="display: flex; flex-direction: column; gap: 10px; width: 90px;">
+          <!-- Next Piece Preview -->
+          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; margin-bottom: 6px; letter-spacing: 0.1em;">NEXT</div>
+            <canvas id="sludgeNextCanvas" width="70" height="70" style="display: block; margin: 0 auto; background: rgba(0,0,0,0.3); border-radius: 6px;"></canvas>
+          </div>
+          
+          <!-- Score -->
+          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">SCORE</div>
+            <div id="sludgeScore" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">0</div>
+          </div>
+          
+          <!-- Level -->
+          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">LEVEL</div>
+            <div id="sludgeLevel" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">1</div>
+          </div>
+          
+          <!-- Lines -->
+          <div style="background: rgba(0,0,0,0.5); border-radius: 10px; padding: 8px; border: 2px solid #5D4037;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: #8D6E63; text-align: center; letter-spacing: 0.1em;">LINES</div>
+            <div id="sludgeLines" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #D7CCC8; text-align: center; font-weight: bold;">0</div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Controls - LARGER BUTTONS -->
+      <div style="display: flex; justify-content: center; gap: 12px; margin-top: 16px;">
+        <div style="position: relative; width: 140px; height: 100px;">
+          <button id="sludgeBtnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">↻</button>
+          <button id="sludgeBtnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">◀</button>
+          <button id="sludgeBtnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▶</button>
+          <button id="sludgeBtnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▼</button>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 10px; justify-content: center;">
+          <button id="sludgeBtnB" style="width: 60px; height: 60px; background: linear-gradient(180deg, #6D4C41, #5D4037); border: 3px solid #8D6E63; border-radius: 50%; color: #BCAAA4; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #3E2723;">B</button>
+          <button id="sludgeBtnA" style="width: 60px; height: 60px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #4E342E;">A</button>
+        </div>
+      </div>
+      
     </div>
-    
-    <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(0,119,181,0.9); border: 2px solid #0077B5; border-radius: 12px; color: #fff; text-decoration: none; font-family: Georgia, serif; font-size: 11px;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-      Connect with Barron
-    </a>
-  </div>
-</div>
-
-<!-- Mobile Controls -->
-<div class="fs-mobile-controls" style="margin-top: 16px; justify-content: center; gap: 20px; align-items: center;">
-  <button id="sludgeLeft" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">◀</button>
-  <button id="sludgeRotate" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">↻</button>
-  <button id="sludgeDrop" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▼</button>
-  <button id="sludgeRight" style="width: 50px; height: 50px; background: linear-gradient(180deg, #A1887F, #8D6E63); border: 3px solid #BCAAA4; border-radius: 50%; color: #fff; font-size: 18px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #5D4037;">▶</button>
-</div>
-```
-
   </div>
 </div>
 
@@ -3275,65 +3262,62 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 (function() {
   const canvas = document.getElementById('sludgeCanvas');
   const ctx = canvas.getContext('2d');
-  const COLS = 10, ROWS = 20, BLOCK = 20;  // Changed from 24 to 20 to fit 400px height
+  const nextCanvas = document.getElementById('sludgeNextCanvas');
+  const nextCtx = nextCanvas.getContext('2d');
+  const COLS = 10, ROWS = 17, BLOCK = 20;
   
   let board = [];
-  let piece = null;
+  let piece = null, nextPiece = null;
   let pieceX = 0, pieceY = 0;
-  let score = 0, level = 1;
+  let score = 0, level = 1, lines = 0;
   let gameRunning = false;
   let dropInterval = 800;
   let lastDrop = 0;
-  let gameTime = 0;
+  let gameState = 'start';
   
   const COLORS = [
     { base: '#6D4C41', light: '#8D6E63', dark: '#4E342E' },
     { base: '#795548', light: '#A1887F', dark: '#5D4037' },
     { base: '#8D6E63', light: '#BCAAA4', dark: '#6D4C41' },
-    { base: '#5D4037', light: '#795548', dark: '#3E2723' },
-    { base: '#A1887F', light: '#D7CCC8', dark: '#795548' },
-    { base: '#4E342E', light: '#6D4C41', dark: '#3E2723' },
-    { base: '#BCAAA4', light: '#D7CCC8', dark: '#8D6E63' }
+    { base: '#A1887F', light: '#D7CCC8', dark: '#8D6E63' },
+    { base: '#5D4037', light: '#795548', dark: '#3E2723' }
   ];
   
-  const PIECES = [
-    [[1,1,1,1]], // I
-    [[1,1],[1,1]], // O
-    [[0,1,0],[1,1,1]], // T
-    [[1,0,0],[1,1,1]], // L
-    [[0,0,1],[1,1,1]], // J
-    [[0,1,1],[1,1,0]], // S
-    [[1,1,0],[0,1,1]]  // Z
+  const SHAPES = [
+    [[1,1,1,1]],
+    [[1,1],[1,1]],
+    [[0,1,0],[1,1,1]],
+    [[1,0,0],[1,1,1]],
+    [[0,0,1],[1,1,1]],
+    [[1,1,0],[0,1,1]],
+    [[0,1,1],[1,1,0]]
   ];
   
-  function init() {
-    board = Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
-    score = 0; level = 1;
-    dropInterval = 800;
-    document.getElementById('sludgeScore').textContent = '0';
-    document.getElementById('sludgeLevel').textContent = '1';
-    spawnPiece();
+  function init() { board = Array(ROWS).fill(null).map(() => Array(COLS).fill(0)); }
+  
+  function randomPiece() {
+    const shapeIdx = Math.floor(Math.random() * SHAPES.length);
+    const colorIdx = Math.floor(Math.random() * COLORS.length);
+    return { shape: SHAPES[shapeIdx].map(r => [...r]), color: colorIdx };
   }
   
   function spawnPiece() {
-    const idx = Math.floor(Math.random() * PIECES.length);
-    piece = { shape: PIECES[idx].map(r => [...r]), color: COLORS[idx], idx: idx };
+    piece = nextPiece || randomPiece();
+    nextPiece = randomPiece();
     pieceX = Math.floor((COLS - piece.shape[0].length) / 2);
     pieceY = 0;
-    if (collides()) {
-      gameRunning = false;
-      document.getElementById('sludgeFinalScore').textContent = score;
-      document.getElementById('sludgeGameOver').style.display = 'block';
-    }
+    drawNextPiece();
+    if (collides(0, 0)) gameOver();
   }
   
-  function collides(nx = pieceX, ny = pieceY, shape = piece.shape) {
+  function collides(dx, dy, testShape) {
+    const shape = testShape || piece.shape;
     for (let y = 0; y < shape.length; y++) {
       for (let x = 0; x < shape[y].length; x++) {
         if (shape[y][x]) {
-          const bx = nx + x, by = ny + y;
-          if (bx < 0 || bx >= COLS || by >= ROWS) return true;
-          if (by >= 0 && board[by][bx]) return true;
+          const nx = pieceX + x + dx, ny = pieceY + y + dy;
+          if (nx < 0 || nx >= COLS || ny >= ROWS) return true;
+          if (ny >= 0 && board[ny][nx]) return true;
         }
       }
     }
@@ -3343,260 +3327,161 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   function merge() {
     for (let y = 0; y < piece.shape.length; y++) {
       for (let x = 0; x < piece.shape[y].length; x++) {
-        if (piece.shape[y][x] && pieceY + y >= 0) {
-          board[pieceY + y][pieceX + x] = piece.color;
+        if (piece.shape[y][x]) {
+          const boardY = pieceY + y;
+          if (boardY >= 0) board[boardY][pieceX + x] = piece.color + 1;
         }
       }
     }
   }
   
-  function clearRows() {
+  function clearLines() {
     let cleared = 0;
     for (let y = ROWS - 1; y >= 0; y--) {
-      if (board[y].every(c => c)) {
-        board.splice(y, 1);
-        board.unshift(Array(COLS).fill(0));
-        cleared++;
-        y++;
-      }
+      if (board[y].every(c => c)) { board.splice(y, 1); board.unshift(Array(COLS).fill(0)); cleared++; y++; }
     }
     if (cleared) {
-      score += cleared * 100 * level;
-      document.getElementById('sludgeScore').textContent = score;
-      if (score >= level * 500) {
-        level++;
-        dropInterval = Math.max(100, 800 - level * 80);
-        document.getElementById('sludgeLevel').textContent = level;
-      }
+      lines += cleared;
+      score += [0, 100, 300, 500, 800][cleared] * level;
+      level = Math.floor(lines / 10) + 1;
+      dropInterval = Math.max(100, 800 - (level - 1) * 80);
+      updateHUD();
     }
   }
   
-  function rotate() {
-    const rotated = piece.shape[0].map((_, i) => piece.shape.map(row => row[i]).reverse());
-    if (!collides(pieceX, pieceY, rotated)) piece.shape = rotated;
-  }
+  function move(dx) { if (!collides(dx, 0)) pieceX += dx; }
+  function drop() { if (!collides(0, 1)) { pieceY++; return true; } merge(); clearLines(); spawnPiece(); return false; }
+  function hardDrop() { while (!collides(0, 1)) pieceY++; merge(); clearLines(); spawnPiece(); }
+  function rotate() { const rotated = piece.shape[0].map((_, i) => piece.shape.map(r => r[i]).reverse()); if (!collides(0, 0, rotated)) piece.shape = rotated; }
   
-  function move(dx) {
-    if (!collides(pieceX + dx, pieceY)) pieceX += dx;
-  }
-  
-  function drop() {
-    if (!collides(pieceX, pieceY + 1)) {
-      pieceY++;
-    } else {
-      merge();
-      clearRows();
-      spawnPiece();
-    }
-  }
-  
-  function hardDrop() {
-    while (!collides(pieceX, pieceY + 1)) pieceY++;
-    merge();
-    clearRows();
-    spawnPiece();
-  }
-  
-  function drawSludgeBlock(x, y, color, isGhost = false) {
-    const px = x * BLOCK, py = y * BLOCK;
-    
-    if (isGhost) {
-      ctx.fillStyle = 'rgba(139, 110, 99, 0.3)';
-      ctx.fillRect(px + 2, py + 2, BLOCK - 4, BLOCK - 4);
-      return;
-    }
-    
-    // Base sludge color
-    ctx.fillStyle = color.base;
-    ctx.fillRect(px + 1, py + 1, BLOCK - 2, BLOCK - 2);
-    
-    // Sludge texture - bubbles (scaled for smaller blocks)
-    ctx.fillStyle = color.dark;
-    ctx.beginPath();
-    ctx.arc(px + 5, py + 6, 2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(px + 13, py + 11, 1.5, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(px + 8, py + 14, 2, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Highlight
-    ctx.fillStyle = color.light;
-    ctx.globalAlpha = 0.4;
-    ctx.fillRect(px + 2, py + 2, BLOCK - 6, 3);
-    ctx.globalAlpha = 1;
-    
-    // Drip effect on bottom
-    ctx.fillStyle = color.dark;
-    ctx.beginPath();
-    ctx.ellipse(px + BLOCK/2, py + BLOCK - 1, 3, 1.5, 0, 0, Math.PI * 2);
-    ctx.fill();
+  function drawBlock(context, x, y, colorIdx, size) {
+    const c = COLORS[colorIdx];
+    context.fillStyle = c.base; context.fillRect(x, y, size, size);
+    context.fillStyle = c.light; context.fillRect(x, y, size, 3); context.fillRect(x, y, 3, size);
+    context.fillStyle = c.dark; context.fillRect(x + size - 3, y, 3, size); context.fillRect(x, y + size - 3, size, 3);
+    context.fillStyle = c.dark;
+    context.beginPath(); context.arc(x + size * 0.3, y + size * 0.4, size * 0.12, 0, Math.PI * 2); context.fill();
+    context.beginPath(); context.arc(x + size * 0.7, y + size * 0.6, size * 0.08, 0, Math.PI * 2); context.fill();
   }
   
   function draw() {
-    // Background with subtle sludge pattern
-    ctx.fillStyle = '#1A1A1A';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // Grid
-    ctx.strokeStyle = '#2A2A2A';
-    ctx.lineWidth = 1;
-    for (let x = 0; x <= COLS; x++) {
-      ctx.beginPath(); ctx.moveTo(x * BLOCK, 0); ctx.lineTo(x * BLOCK, ROWS * BLOCK); ctx.stroke();
-    }
-    for (let y = 0; y <= ROWS; y++) {
-      ctx.beginPath(); ctx.moveTo(0, y * BLOCK); ctx.lineTo(COLS * BLOCK, y * BLOCK); ctx.stroke();
-    }
-    
-    // Side pipes decoration
-    ctx.fillStyle = '#3E2723';
-    ctx.fillRect(0, 0, 2, canvas.height);
-    ctx.fillRect(canvas.width - 2, 0, 2, canvas.height);
-    
-    // Board
-    for (let y = 0; y < ROWS; y++) {
-      for (let x = 0; x < COLS; x++) {
-        if (board[y][x]) {
-          drawSludgeBlock(x, y, board[y][x]);
-        }
-      }
-    }
-    
-    // Ghost piece
-    if (piece) {
-      let ghostY = pieceY;
-      while (!collides(pieceX, ghostY + 1)) ghostY++;
-      if (ghostY !== pieceY) {
-        for (let y = 0; y < piece.shape.length; y++) {
-          for (let x = 0; x < piece.shape[y].length; x++) {
-            if (piece.shape[y][x]) {
-              drawSludgeBlock(pieceX + x, ghostY + y, piece.color, true);
-            }
-          }
-        }
-      }
-    }
-    
-    // Current piece
-    if (piece) {
-      for (let y = 0; y < piece.shape.length; y++) {
-        for (let x = 0; x < piece.shape[y].length; x++) {
-          if (piece.shape[y][x]) {
-            drawSludgeBlock(pieceX + x, pieceY + y, piece.color);
-          }
-        }
-      }
-    }
+    ctx.fillStyle = '#0d0a08'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = 'rgba(93,64,55,0.2)'; ctx.lineWidth = 1;
+    for (let x = 0; x <= COLS; x++) { ctx.beginPath(); ctx.moveTo(x * BLOCK, 0); ctx.lineTo(x * BLOCK, ROWS * BLOCK); ctx.stroke(); }
+    for (let y = 0; y <= ROWS; y++) { ctx.beginPath(); ctx.moveTo(0, y * BLOCK); ctx.lineTo(COLS * BLOCK, y * BLOCK); ctx.stroke(); }
+    for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) if (board[y][x]) drawBlock(ctx, x * BLOCK, y * BLOCK, board[y][x] - 1, BLOCK);
+    if (piece && gameRunning) for (let y = 0; y < piece.shape.length; y++) for (let x = 0; x < piece.shape[y].length; x++) if (piece.shape[y][x]) drawBlock(ctx, (pieceX + x) * BLOCK, (pieceY + y) * BLOCK, piece.color, BLOCK);
+  }
+  
+  function drawNextPiece() {
+    nextCtx.fillStyle = 'rgba(0,0,0,0.5)'; nextCtx.fillRect(0, 0, 70, 70);
+    if (!nextPiece) return;
+    const shape = nextPiece.shape, blockSize = 14;
+    const offsetX = (70 - shape[0].length * blockSize) / 2, offsetY = (70 - shape.length * blockSize) / 2;
+    for (let y = 0; y < shape.length; y++) for (let x = 0; x < shape[y].length; x++) if (shape[y][x]) drawBlock(nextCtx, offsetX + x * blockSize, offsetY + y * blockSize, nextPiece.color, blockSize);
+  }
+  
+  function updateHUD() { document.getElementById('sludgeScore').textContent = score; document.getElementById('sludgeLevel').textContent = level; document.getElementById('sludgeLines').textContent = lines; }
+  function gameOver() { gameRunning = false; gameState = 'gameover'; document.getElementById('sludgeFinalScore').textContent = score; document.getElementById('sludgeGameOver').style.display = 'flex'; }
+  
+  function startGame() {
+    init(); score = 0; level = 1; lines = 0; dropInterval = 800; updateHUD();
+    document.getElementById('sludgeStart').style.display = 'none';
+    document.getElementById('sludgeGameOver').style.display = 'none';
+    nextPiece = randomPiece(); spawnPiece(); gameRunning = true; gameState = 'playing';
+    lastDrop = performance.now(); requestAnimationFrame(gameLoop);
   }
   
   function gameLoop(time) {
-    if (!gameRunning) return;
-    if (time - lastDrop > dropInterval) {
-      drop();
-      lastDrop = time;
-    }
-    draw();
-    requestAnimationFrame(gameLoop);
-  }
-  
-  function startGame() {
-    init();
-    gameRunning = true;
-    document.getElementById('sludgeStart').style.display = 'none';
-    document.getElementById('sludgeGameOver').style.display = 'none';
-    lastDrop = performance.now();
-    requestAnimationFrame(gameLoop);
-  }
-  
-  function shareScore() {
-    const text = `I scored ${score} points in Sl*dge Happens! Think you can handle the flow? Play at watermaxxing.com`;
-    if (navigator.share) {
-      navigator.share({ title: 'Sl*dge Happens', text: text, url: 'https://watermaxxing.com' });
-    } else {
-      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-      window.open(tweetUrl, '_blank');
-    }
-  }
-  
-  // Controls
-  document.addEventListener('keydown', e => {
     if (document.getElementById('sludgeOverlay').style.display === 'none') return;
     if (!gameRunning) return;
+    if (time - lastDrop > dropInterval) { drop(); lastDrop = time; }
+    draw(); requestAnimationFrame(gameLoop);
+  }
+  
+  function handleA() { if (gameState === 'start' || gameState === 'gameover') startGame(); else if (gameState === 'playing') rotate(); draw(); }
+  function handleB() { if (gameState === 'playing') hardDrop(); draw(); }
+  
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('sludgeOverlay').style.display === 'none') return;
     if (e.key === 'ArrowLeft') { move(-1); draw(); }
     if (e.key === 'ArrowRight') { move(1); draw(); }
-    if (e.key === 'ArrowUp') { rotate(); draw(); }
+    if (e.key === 'ArrowUp') { handleA(); }
     if (e.key === 'ArrowDown') { drop(); draw(); lastDrop = performance.now(); }
-    if (e.key === ' ') { hardDrop(); draw(); }
+    if (e.key === ' ') { handleB(); }
+    if (e.key === 'a' || e.key === 'A') handleA();
+    if (e.key === 'b' || e.key === 'B') handleB();
   });
   
-  document.getElementById('sludgeLeft')?.addEventListener('click', () => { if (gameRunning) { move(-1); draw(); } });
-  document.getElementById('sludgeRight')?.addEventListener('click', () => { if (gameRunning) { move(1); draw(); } });
-  document.getElementById('sludgeRotate')?.addEventListener('click', () => { if (gameRunning) { rotate(); draw(); } });
-  document.getElementById('sludgeDrop')?.addEventListener('click', () => { if (gameRunning) { hardDrop(); draw(); } });
-  document.getElementById('sludgeShareBtn')?.addEventListener('click', shareScore);
+  document.getElementById('sludgeBtnLeft')?.addEventListener('click', () => { move(-1); draw(); });
+  document.getElementById('sludgeBtnRight')?.addEventListener('click', () => { move(1); draw(); });
+  document.getElementById('sludgeBtnUp')?.addEventListener('click', () => handleA());
+  document.getElementById('sludgeBtnDown')?.addEventListener('click', () => { if (gameRunning) { drop(); draw(); lastDrop = performance.now(); } });
+  document.getElementById('sludgeBtnA')?.addEventListener('click', () => handleA());
+  document.getElementById('sludgeBtnB')?.addEventListener('click', () => handleB());
   
   document.getElementById('launchSludgeBtn')?.addEventListener('click', () => {
     document.getElementById('sludgeOverlay').style.display = 'block';
-    draw();
+    document.getElementById('sludgeConsole').style.transform = 'translateY(0)';
+    draw(); drawNextPiece();
   });
   document.getElementById('closeSludgeBtn')?.addEventListener('click', () => {
-    document.getElementById('sludgeOverlay').style.display = 'none';
+    document.getElementById('sludgeConsole').style.transform = 'translateY(100%)';
+    setTimeout(() => { document.getElementById('sludgeOverlay').style.display = 'none'; }, 500);
     gameRunning = false;
   });
-  document.getElementById('sludgeStartBtn')?.addEventListener('click', startGame);
-  document.getElementById('sludgeRestartBtn')?.addEventListener('click', startGame);
+  
+  init(); draw();
 })();
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════════════════════
-     SHIFT SHUFFLE - MEMORY MATCHING CARD GAME (BETA)
+     WATER TRIVIA - JEOPARDY STYLE QUIZ GAME (BETA)
 ═══════════════════════════════════════════════════════════════════════════ -->
 
-<div id="shiftOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #4A148C 0%, #7B1FA2 50%, #6A1B9A 100%); z-index: 1000; overflow: hidden;">
+<div id="shiftOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(180deg, #1a237e 0%, #283593 50%, #3949ab 100%); z-index: 1000; overflow: hidden;">
 
-<button id="closeShiftBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #7B1FA2; border-radius: 50%; color: #7B1FA2; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
+<button id="closeShiftBtn" style="position: absolute; top: 12px; right: 12px; width: 40px; height: 40px; background: rgba(255,255,255,0.9); border: 2px solid #3949ab; border-radius: 50%; color: #3949ab; font-size: 20px; cursor: pointer; z-index: 1002;">×</button>
 
-  <div style="max-width: 420px; margin: 0 auto; padding: 15px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+  <div style="max-width: 420px; margin: 0 auto; padding: 15px; height: 100%; display: flex; flex-direction: column;">
 
 ```
 <div style="text-align: center; margin-bottom: 12px;">
   <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 6px;">BETA</div>
-  <div style="font-family: 'Orbitron', sans-serif; font-size: 24px; font-weight: bold; color: #E1BEE7; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">SHIFT SHUFFLE</div>
-  <div style="font-family: Georgia, serif; font-size: 11px; color: #CE93D8; font-style: italic;">Match the plant equipment</div>
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: bold; color: #FFD54F; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">💧 WATER TRIVIA 💧</div>
+  <div style="font-family: Georgia, serif; font-size: 11px; color: #90CAF9; font-style: italic;">Test your H₂O knowledge!</div>
 </div>
 
-<div id="shiftHUD" style="display: flex; justify-content: center; gap: 30px; margin-bottom: 12px;">
-  <div style="background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 10px; text-align: center;">
-    <div style="font-family: Georgia, serif; font-size: 10px; color: #CE93D8;">MOVES</div>
-    <div id="shiftMoves" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E1BEE7; font-weight: bold;">0</div>
+<!-- Score display -->
+<div id="triviaHUD" style="display: flex; justify-content: center; gap: 20px; margin-bottom: 12px;">
+  <div style="background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 8px; text-align: center;">
+    <div style="font-family: Georgia, serif; font-size: 9px; color: #90CAF9;">SCORE</div>
+    <div id="triviaScore" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #FFD54F; font-weight: bold;">$0</div>
   </div>
-  <div style="background: rgba(0,0,0,0.3); padding: 8px 16px; border-radius: 10px; text-align: center;">
-    <div style="font-family: Georgia, serif; font-size: 10px; color: #CE93D8;">PAIRS</div>
-    <div id="shiftPairs" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #E1BEE7; font-weight: bold;">0/8</div>
+  <div style="background: rgba(0,0,0,0.3); padding: 6px 14px; border-radius: 8px; text-align: center;">
+    <div style="font-family: Georgia, serif; font-size: 9px; color: #90CAF9;">QUESTIONS</div>
+    <div id="triviaProgress" style="font-family: 'Orbitron', sans-serif; font-size: 18px; color: #FFD54F; font-weight: bold;">0/15</div>
   </div>
 </div>
 
-<div id="shiftBoard" style="display: grid; grid-template-columns: repeat(4, 70px); gap: 8px; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 16px; border: 2px solid #9C27B0;"></div>
+<!-- Jeopardy Board -->
+<div id="triviaBoard" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; flex: 1; max-height: 400px;"></div>
 
-<div id="shiftWin" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.95); padding: 24px 36px; border-radius: 20px; border: 3px solid #E1BEE7; z-index: 1010;">
-  <div style="font-family: 'Orbitron', sans-serif; font-size: 20px; color: #CE93D8; margin-bottom: 6px;">SHIFT COMPLETE!</div>
-  <div style="font-family: Georgia, serif; font-size: 14px; color: #E1BEE7; margin-bottom: 14px;">Completed in <span id="shiftFinalMoves" style="font-weight: bold;">0</span> moves</div>
-  
-  <div style="display: flex; gap: 8px; margin-bottom: 12px;">
-    <button id="shiftPlayAgain" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #AB47BC, #7B1FA2); border: 2px solid #CE93D8; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-      PLAY AGAIN
-    </button>
-    <button id="shiftShareBtn" style="flex: 1; padding: 10px 16px; background: linear-gradient(180deg, #43A047, #2E7D32); border: 2px solid #66BB6A; border-radius: 12px; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">
-      SHARE
-    </button>
-  </div>
-  
-  <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 16px; background: rgba(0,119,181,0.9); border: 2px solid #0077B5; border-radius: 12px; color: #fff; text-decoration: none; font-family: Georgia, serif; font-size: 11px;">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
-    Connect with Barron
-  </a>
+<!-- Question Modal -->
+<div id="triviaQuestion" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 380px; background: linear-gradient(180deg, #1565C0, #0D47A1); border-radius: 16px; padding: 20px; border: 3px solid #FFD54F; box-shadow: 0 10px 40px rgba(0,0,0,0.5); z-index: 100;">
+  <div id="triviaCategory" style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #FFD54F; text-align: center; letter-spacing: 0.1em; margin-bottom: 4px;"></div>
+  <div id="triviaValue" style="font-family: 'Orbitron', sans-serif; font-size: 14px; color: #FFD54F; text-align: center; margin-bottom: 12px;"></div>
+  <div id="triviaText" style="font-family: Georgia, serif; font-size: 15px; color: #fff; text-align: center; line-height: 1.5; margin-bottom: 16px;"></div>
+  <div id="triviaAnswers" style="display: flex; flex-direction: column; gap: 8px;"></div>
+</div>
+
+<!-- Result -->
+<div id="triviaResult" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 380px; background: linear-gradient(180deg, #1565C0, #0D47A1); border-radius: 16px; padding: 24px; border: 3px solid #FFD54F; text-align: center; z-index: 100;">
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 22px; color: #FFD54F; margin-bottom: 8px;">GAME OVER!</div>
+  <div style="font-family: Georgia, serif; font-size: 14px; color: #90CAF9; margin-bottom: 8px;">Final Score</div>
+  <div id="triviaFinalScore" style="font-family: 'Orbitron', sans-serif; font-size: 36px; color: #FFD54F; font-weight: bold; margin-bottom: 16px;">$0</div>
+  <div id="triviaRank" style="font-family: Georgia, serif; font-size: 14px; color: #fff; margin-bottom: 20px;"></div>
+  <button id="triviaPlayAgain" style="padding: 12px 32px; background: linear-gradient(180deg, #FFD54F, #FFC107); border: 2px solid #FF8F00; border-radius: 12px; color: #1a237e; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: bold; cursor: pointer;">PLAY AGAIN</button>
 </div>
 ```
 
@@ -3605,126 +3490,146 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 <script>
 (function() {
-  // SVG icons for plant equipment (no emojis)
-  const ICONS = [
-    { name: 'gear', svg: '<svg viewBox="0 0 24 24" fill="#78909C"><path d="M12 15.5A3.5 3.5 0 0 1 8.5 12 3.5 3.5 0 0 1 12 8.5a3.5 3.5 0 0 1 3.5 3.5 3.5 3.5 0 0 1-3.5 3.5m7.43-2.53c.04-.32.07-.64.07-.97 0-.33-.03-.66-.07-1l2.11-1.63c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.31-.61-.22l-2.49 1c-.52-.39-1.06-.73-1.69-.98l-.37-2.65A.506.506 0 0 0 14 2h-4c-.25 0-.46.18-.5.42l-.37 2.65c-.63.25-1.17.59-1.69.98l-2.49-1c-.22-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64L4.57 11c-.04.34-.07.67-.07 1 0 .33.03.65.07.97l-2.11 1.66c-.19.15-.25.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.01c.52.4 1.06.74 1.69.99l.37 2.65c.04.24.25.42.5.42h4c.25 0 .46-.18.5-.42l.37-2.65c.63-.26 1.17-.59 1.69-.99l2.49 1.01c.22.08.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.66z"/></svg>' },
-    { name: 'pump', svg: '<svg viewBox="0 0 24 24" fill="#4FC3F7"><rect x="3" y="10" width="8" height="10" rx="1"/><rect x="13" y="6" width="6" height="4" rx="1"/><rect x="11" y="8" width="4" height="2"/><circle cx="7" cy="15" r="2" fill="#0288D1"/><path d="M19 8h3v2h-3z"/></svg>' },
-    { name: 'wrench', svg: '<svg viewBox="0 0 24 24" fill="#FF9800"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"/></svg>' },
-    { name: 'valve', svg: '<svg viewBox="0 0 24 24" fill="#4CAF50"><circle cx="12" cy="12" r="8" fill="none" stroke="#4CAF50" stroke-width="3"/><rect x="10" y="2" width="4" height="6" rx="1"/><rect x="8" y="1" width="8" height="3" rx="1"/><line x1="12" y1="8" x2="12" y2="16" stroke="#2E7D32" stroke-width="2"/></svg>' },
-    { name: 'tank', svg: '<svg viewBox="0 0 24 24" fill="#8D6E63"><rect x="4" y="6" width="16" height="14" rx="2"/><rect x="6" y="8" width="12" height="10" fill="#A1887F"/><ellipse cx="12" cy="6" rx="8" ry="2" fill="#6D4C41"/><rect x="10" y="2" width="4" height="4"/></svg>' },
-    { name: 'gauge', svg: '<svg viewBox="0 0 24 24" fill="#9C27B0"><circle cx="12" cy="12" r="9" fill="none" stroke="#9C27B0" stroke-width="2"/><path d="M12 12L16 8" stroke="#E91E63" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#7B1FA2"/><text x="12" y="19" text-anchor="middle" font-size="4" fill="#9C27B0">PSI</text></svg>' },
-    { name: 'alarm', svg: '<svg viewBox="0 0 24 24" fill="#F44336"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" fill="none"/><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 16c-3.86 0-7-3.14-7-7s3.14-7 7-7 7 3.14 7 7-3.14 7-7 7z"/><circle cx="12" cy="8" r="1.5"/><rect x="11" y="11" width="2" height="5"/></svg>' },
-    { name: 'clarifier', svg: '<svg viewBox="0 0 24 24"><ellipse cx="12" cy="16" rx="10" ry="4" fill="#B0BEC5" stroke="#78909C" stroke-width="1"/><ellipse cx="12" cy="16" rx="8" ry="3" fill="#4FC3F7"/><circle cx="12" cy="16" r="2" fill="#546E7A"/><line x1="12" y1="16" x2="19" y2="16" stroke="#455A64" stroke-width="2"/></svg>' }
+  const categories = [
+    { name: 'TREATMENT', color: '#4FC3F7' },
+    { name: 'FUN FACTS', color: '#81C784' },
+    { name: 'EQUIPMENT', color: '#FFB74D' }
   ];
   
-  let cards = [];
-  let flipped = [];
-  let matched = [];
-  let moves = 0;
-  let canFlip = true;
+  const questions = {
+    'TREATMENT': [
+      { q: 'What process removes suspended solids by allowing them to settle to the bottom?', a: ['Sedimentation', 'Filtration', 'Aeration', 'Chlorination'], correct: 0, value: 100 },
+      { q: 'BOD stands for Biochemical Oxygen _____.', a: ['Demand', 'Depletion', 'Density', 'Discharge'], correct: 0, value: 200 },
+      { q: 'What gas is commonly used to disinfect drinking water?', a: ['Chlorine', 'Oxygen', 'Nitrogen', 'Helium'], correct: 0, value: 300 },
+      { q: 'Activated sludge process primarily removes what type of pollutants?', a: ['Organic matter', 'Heavy metals', 'Sand', 'Salt'], correct: 0, value: 400 },
+      { q: 'What pH range is typically maintained in drinking water treatment?', a: ['6.5-8.5', '2-4', '10-12', '0-2'], correct: 0, value: 500 }
+    ],
+    'FUN FACTS': [
+      { q: 'What percentage of Earth\'s water is freshwater?', a: ['About 3%', 'About 50%', 'About 25%', 'About 10%'], correct: 0, value: 100 },
+      { q: 'How many gallons of water does the average American use daily?', a: ['80-100 gallons', '10-20 gallons', '200-300 gallons', '500+ gallons'], correct: 0, value: 200 },
+      { q: 'A dripping faucet can waste how many gallons per year?', a: ['3,000+ gallons', '100 gallons', '50 gallons', '10 gallons'], correct: 0, value: 300 },
+      { q: 'What animal can survive without water longer than a camel?', a: ['Giraffe', 'Elephant', 'Horse', 'Kangaroo rat'], correct: 3, value: 400 },
+      { q: 'Hot water freezes faster than cold water. This is called the ____ Effect.', a: ['Mpemba', 'Newton', 'Einstein', 'Celsius'], correct: 0, value: 500 }
+    ],
+    'EQUIPMENT': [
+      { q: 'A clarifier uses what motion to collect settled sludge?', a: ['Rotating rake arm', 'Vibration', 'Air bubbles', 'Magnetic field'], correct: 0, value: 100 },
+      { q: 'What type of pump moves fluid by trapping a fixed amount and forcing it through?', a: ['Positive displacement', 'Centrifugal', 'Jet', 'Airlift'], correct: 0, value: 200 },
+      { q: 'SCADA stands for Supervisory Control and Data _____.', a: ['Acquisition', 'Analysis', 'Application', 'Automation'], correct: 0, value: 300 },
+      { q: 'What device measures the flow rate of water in a pipe?', a: ['Flow meter', 'Pressure gauge', 'Level sensor', 'pH probe'], correct: 0, value: 400 },
+      { q: 'A belt filter press is used primarily for what process?', a: ['Sludge dewatering', 'Water softening', 'Disinfection', 'pH adjustment'], correct: 0, value: 500 }
+    ]
+  };
   
-  function shuffle(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
+  let score = 0, answered = 0, totalQuestions = 15;
+  let board = [];
+  let currentQuestion = null;
   
   function initGame() {
-    cards = shuffle([...ICONS, ...ICONS].map((icon, i) => ({ ...icon, id: i })));
-    flipped = [];
-    matched = [];
-    moves = 0;
-    canFlip = true;
-    document.getElementById('shiftMoves').textContent = '0';
-    document.getElementById('shiftPairs').textContent = '0/8';
-    document.getElementById('shiftWin').style.display = 'none';
+    score = 0; answered = 0;
+    document.getElementById('triviaScore').textContent = '$0';
+    document.getElementById('triviaProgress').textContent = '0/15';
+    document.getElementById('triviaResult').style.display = 'none';
+    document.getElementById('triviaQuestion').style.display = 'none';
+    
+    board = [];
+    categories.forEach(cat => {
+      questions[cat.name].forEach(q => {
+        board.push({ ...q, category: cat.name, color: cat.color, used: false });
+      });
+    });
+    
     renderBoard();
   }
   
   function renderBoard() {
-    const board = document.getElementById('shiftBoard');
-    board.innerHTML = '';
+    const boardEl = document.getElementById('triviaBoard');
+    boardEl.innerHTML = '';
     
-    cards.forEach((card, idx) => {
-      const div = document.createElement('div');
-      const isFlipped = flipped.includes(idx) || matched.includes(card.name);
-      
-      div.style.cssText = `
-        width: 70px; height: 80px; 
-        background: ${isFlipped ? 'linear-gradient(180deg, #E1BEE7, #CE93D8)' : 'linear-gradient(180deg, #7B1FA2, #4A148C)'};
-        border: 3px solid ${isFlipped ? '#9C27B0' : '#AB47BC'};
-        border-radius: 10px;
-        display: flex; align-items: center; justify-content: center;
-        cursor: ${matched.includes(card.name) ? 'default' : 'pointer'};
-        transition: all 0.3s ease;
-        box-shadow: 0 4px 0 ${isFlipped ? '#7B1FA2' : '#4A148C'};
-        opacity: ${matched.includes(card.name) ? '0.6' : '1'};
-      `;
-      
-      if (isFlipped) {
-        div.innerHTML = `<div style="width: 40px; height: 40px;">${card.svg}</div>`;
-      } else {
-        // Card back - question mark pattern
-        div.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#CE93D8" stroke-width="2">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M9 9c0-1.5 1.5-2.5 3-2.5s3 1 3 2.5c0 1.5-1.5 2-2 3v1"/>
-          <circle cx="12" cy="17" r="1" fill="#CE93D8"/>
-        </svg>`;
-      }
-      
-      div.addEventListener('click', () => flipCard(idx));
-      board.appendChild(div);
+    // Category headers
+    categories.forEach(cat => {
+      const header = document.createElement('div');
+      header.style.cssText = `background: ${cat.color}; padding: 8px 4px; border-radius: 8px; text-align: center; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: bold; color: #1a237e; letter-spacing: 0.05em;`;
+      header.textContent = cat.name;
+      boardEl.appendChild(header);
+    });
+    
+    // Question tiles by value
+    [100, 200, 300, 400, 500].forEach(value => {
+      categories.forEach(cat => {
+        const q = board.find(b => b.category === cat.name && b.value === value);
+        const tile = document.createElement('button');
+        tile.style.cssText = `background: ${q.used ? 'rgba(0,0,0,0.3)' : 'linear-gradient(180deg, #1565C0, #0D47A1)'}; border: 2px solid ${q.used ? 'rgba(255,255,255,0.1)' : '#FFD54F'}; border-radius: 8px; padding: 12px 4px; font-family: 'Orbitron', sans-serif; font-size: 16px; font-weight: bold; color: ${q.used ? 'rgba(255,255,255,0.2)' : '#FFD54F'}; cursor: ${q.used ? 'default' : 'pointer'}; transition: transform 0.2s;`;
+        tile.textContent = q.used ? '' : '$' + value;
+        if (!q.used) {
+          tile.onmouseover = () => tile.style.transform = 'scale(1.05)';
+          tile.onmouseout = () => tile.style.transform = 'scale(1)';
+          tile.onclick = () => showQuestion(q);
+        }
+        boardEl.appendChild(tile);
+      });
     });
   }
   
-  function flipCard(idx) {
-    if (!canFlip) return;
-    if (flipped.includes(idx)) return;
-    if (matched.includes(cards[idx].name)) return;
-    if (flipped.length >= 2) return;
+  function showQuestion(q) {
+    currentQuestion = q;
+    document.getElementById('triviaCategory').textContent = q.category;
+    document.getElementById('triviaValue').textContent = '$' + q.value;
+    document.getElementById('triviaText').textContent = q.q;
     
-    flipped.push(idx);
-    renderBoard();
+    const answersEl = document.getElementById('triviaAnswers');
+    answersEl.innerHTML = '';
     
-    if (flipped.length === 2) {
-      moves++;
-      document.getElementById('shiftMoves').textContent = moves;
-      canFlip = false;
-      
-      const [first, second] = flipped;
-      if (cards[first].name === cards[second].name) {
-        matched.push(cards[first].name);
-        document.getElementById('shiftPairs').textContent = `${matched.length}/8`;
-        flipped = [];
-        canFlip = true;
-        renderBoard();
-        
-        if (matched.length === 8) {
-          setTimeout(() => {
-            document.getElementById('shiftFinalMoves').textContent = moves;
-            document.getElementById('shiftWin').style.display = 'block';
-          }, 500);
-        }
-      } else {
-        setTimeout(() => {
-          flipped = [];
-          canFlip = true;
-          renderBoard();
-        }, 1000);
-      }
-    }
+    q.a.forEach((ans, idx) => {
+      const btn = document.createElement('button');
+      btn.style.cssText = 'padding: 10px 16px; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3); border-radius: 8px; color: #fff; font-family: Georgia, serif; font-size: 13px; cursor: pointer; text-align: left; transition: background 0.2s;';
+      btn.textContent = ans;
+      btn.onmouseover = () => btn.style.background = 'rgba(255,255,255,0.2)';
+      btn.onmouseout = () => btn.style.background = 'rgba(255,255,255,0.1)';
+      btn.onclick = () => answerQuestion(idx);
+      answersEl.appendChild(btn);
+    });
+    
+    document.getElementById('triviaQuestion').style.display = 'block';
   }
   
-  function shareScore() {
-    const text = `I completed Shift Shuffle in ${moves} moves! Can you match all the plant equipment faster? Play at watermaxxing.com`;
-    if (navigator.share) {
-      navigator.share({ title: 'Shift Shuffle', text: text, url: 'https://watermaxxing.com' });
-    } else {
-      const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-      window.open(tweetUrl, '_blank');
+  function answerQuestion(idx) {
+    const btns = document.getElementById('triviaAnswers').children;
+    const correct = currentQuestion.correct;
+    
+    for (let i = 0; i < btns.length; i++) {
+      btns[i].style.pointerEvents = 'none';
+      if (i === correct) {
+        btns[i].style.background = '#4CAF50';
+        btns[i].style.borderColor = '#4CAF50';
+      } else if (i === idx && idx !== correct) {
+        btns[i].style.background = '#f44336';
+        btns[i].style.borderColor = '#f44336';
+      }
     }
+    
+    if (idx === correct) score += currentQuestion.value;
+    answered++;
+    currentQuestion.used = true;
+    
+    document.getElementById('triviaScore').textContent = '$' + score;
+    document.getElementById('triviaProgress').textContent = answered + '/15';
+    
+    setTimeout(() => {
+      document.getElementById('triviaQuestion').style.display = 'none';
+      renderBoard();
+      if (answered >= totalQuestions) endGame();
+    }, 1500);
+  }
+  
+  function endGame() {
+    document.getElementById('triviaFinalScore').textContent = '$' + score;
+    let rank = 'Trainee Operator';
+    if (score >= 4000) rank = 'Master Operator 🏆';
+    else if (score >= 3000) rank = 'Senior Operator 🌟';
+    else if (score >= 2000) rank = 'Certified Operator';
+    else if (score >= 1000) rank = 'Junior Operator';
+    document.getElementById('triviaRank').textContent = 'Rank: ' + rank;
+    document.getElementById('triviaResult').style.display = 'block';
   }
   
   document.getElementById('launchShiftBtn')?.addEventListener('click', () => {
@@ -3736,8 +3641,7 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     document.getElementById('shiftOverlay').style.display = 'none';
   });
   
-  document.getElementById('shiftPlayAgain')?.addEventListener('click', initGame);
-  document.getElementById('shiftShareBtn')?.addEventListener('click', shareScore);
+  document.getElementById('triviaPlayAgain')?.addEventListener('click', initGame);
 })();
 </script>
 
@@ -3788,7 +3692,6 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 </body>
 </html>
-
      
 
 </body>
