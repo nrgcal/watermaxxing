@@ -1392,11 +1392,45 @@ function shareGame() {
   const CELL = 52;
   const PIPE_W = 14;
   
+  // Storage helper with fallback to localStorage
+  async function storageGet(key) {
+    // Try artifact storage first
+    if (window.storage && typeof window.storage.get === 'function') {
+      try {
+        const result = await window.storage.get(key, true);
+        if (result && result.value) return result.value;
+      } catch (e) {}
+    }
+    // Fallback to localStorage
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return null;
+    }
+  }
+  
+  async function storageSet(key, value) {
+    // Try artifact storage first
+    if (window.storage && typeof window.storage.set === 'function') {
+      try {
+        await window.storage.set(key, value, true);
+        return true;
+      } catch (e) {}
+    }
+    // Fallback to localStorage
+    try {
+      localStorage.setItem(key, value);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+  
   async function loadLeaderboard() {
     try {
-      const result = await window.storage.get('pipepanic:leaderboard', true);
-      if (result && result.value) {
-        leaderboard = JSON.parse(result.value);
+      const data = await storageGet('pipepanic:leaderboard');
+      if (data) {
+        leaderboard = JSON.parse(data);
       }
     } catch (e) {
       leaderboard = [];
@@ -1405,7 +1439,7 @@ function shareGame() {
   
   async function saveLeaderboard() {
     try {
-      await window.storage.set('pipepanic:leaderboard', JSON.stringify(leaderboard), true);
+      await storageSet('pipepanic:leaderboard', JSON.stringify(leaderboard));
     } catch (e) {
       console.log('Could not save leaderboard');
     }
