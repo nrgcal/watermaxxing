@@ -614,48 +614,105 @@ html[data-theme="light"] {
   </div>
 </div>
 
-<!-- === LIVE WATER SIGNALS TELEMETRY === -->
-<div id="telemetryPanel" style="margin-top: 20px; padding: 14px 16px; background: linear-gradient(135deg, rgba(0,30,40,0.9) 0%, rgba(0,20,30,0.95) 100%); border: 1px solid rgba(0,255,255,0.25); border-radius: 12px; position: relative;">
-  <div style="position: absolute; top: -10px; left: 16px; background: linear-gradient(90deg, #0a1520, #0d1a25); padding: 2px 12px; border-radius: 10px; border: 1px solid rgba(0,255,255,0.3);">
-    <span style="font-family: 'Orbitron', sans-serif; font-size: 8px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,255,255,0.8); text-shadow: 0 0 8px rgba(0,255,255,0.4);">LIVE WATER SIGNALS</span>
+<!-- === WESTERN WATER TELEMETRY === -->
+<div id="telemetryPanel" style="margin-top: 20px; margin-left: -1.5rem; margin-right: -1.5rem; padding: 16px 1.5rem; background: linear-gradient(135deg, rgba(0,25,35,0.95) 0%, rgba(0,15,25,0.98) 100%); border-top: 1px solid rgba(0,255,255,0.2); border-bottom: 1px solid rgba(0,255,255,0.2); position: relative;">
+  <div style="max-width: 500px; margin: 0 auto;">
+    <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,255,255,0.85); text-shadow: 0 0 10px rgba(0,255,255,0.5);">⬡ WESTERN WATER TELEMETRY</span>
+      <span id="telemetryTimestamp" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3);">UPDATED: --:--</span>
+    </div>
+    
+    <div id="telemetryGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+    <!-- Colorado River Flow -->
+    <div class="telemetry-block" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">COLORADO RIVER FLOW</div>
+        <div style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 6px #00ff88; animation: telemetryPulse 2s ease-in-out infinite;"></div>
+      </div>
+      <div id="telemetryColorado" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>
+      </div>
+    </div>
+    
+    <!-- Great Salt Lake Level -->
+    <div class="telemetry-block" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">GREAT SALT LAKE LEVEL</div>
+        <div style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 6px #00ff88; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 0.3s;"></div>
+      </div>
+      <div id="telemetrySaltLake" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">FT</span>
+      </div>
+    </div>
+    
+    <!-- Lake Mead Storage -->
+    <div class="telemetry-block" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">LAKE MEAD STORAGE</div>
+        <div style="width: 6px; height: 6px; background: #ffaa00; border-radius: 50%; box-shadow: 0 0 6px #ffaa00; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 0.6s;"></div>
+      </div>
+      <div id="telemetryMead" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">% CAP</span>
+      </div>
+    </div>
+    
+    <!-- Sierra Snowpack -->
+    <div class="telemetry-block" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">SIERRA SNOWPACK</div>
+        <div style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 6px #00ff88; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 0.9s;"></div>
+      </div>
+      <div id="telemetrySnowpack" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">% MED</span>
+      </div>
+    </div>
+    
+    <!-- Columbia River Flow -->
+    <div class="telemetry-block" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">COLUMBIA RIVER FLOW</div>
+        <div style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 6px #00ff88; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 1.2s;"></div>
+      </div>
+      <div id="telemetryColumbia" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>
+      </div>
+    </div>
+    
+    <!-- Western Drought Status -->
+    <div class="telemetry-block" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">WESTERN DROUGHT STATUS</div>
+        <div style="width: 6px; height: 6px; background: #ffaa00; border-radius: 50%; box-shadow: 0 0 6px #ffaa00; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 1.5s;"></div>
+      </div>
+      <div id="telemetryDrought" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span>
+      </div>
+    </div>
   </div>
-  
-  <div id="telemetryGrid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 6px;">
-    <!-- USGS River Flow -->
-    <div class="telemetry-block" style="padding: 10px; background: rgba(0,50,70,0.4); border: 1px solid rgba(0,200,255,0.2); border-radius: 8px;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.6); letter-spacing: 0.08em; margin-bottom: 4px;">HYDRO TELEMETRY</div>
-      <div id="telemetryUSGS" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ffff; text-shadow: 0 0 6px rgba(0,255,255,0.4);">
-        <span style="color: rgba(255,255,255,0.5);">Loading...</span>
-      </div>
-    </div>
-    
-    <!-- Reservoir Status -->
-    <div class="telemetry-block" style="padding: 10px; background: rgba(0,50,70,0.4); border: 1px solid rgba(0,200,255,0.2); border-radius: 8px;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.6); letter-spacing: 0.08em; margin-bottom: 4px;">RESERVOIR STATUS</div>
-      <div id="telemetryReservoir" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ffff; text-shadow: 0 0 6px rgba(0,255,255,0.4);">
-        <span style="color: rgba(255,255,255,0.5);">Loading...</span>
-      </div>
-    </div>
-    
-    <!-- Water Quality -->
-    <div class="telemetry-block" style="padding: 10px; background: rgba(0,50,70,0.4); border: 1px solid rgba(0,200,255,0.2); border-radius: 8px;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.6); letter-spacing: 0.08em; margin-bottom: 4px;">WATER QUALITY</div>
-      <div id="telemetryQuality" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ffff; text-shadow: 0 0 6px rgba(0,255,255,0.4);">
-        <span style="color: rgba(255,255,255,0.5);">Loading...</span>
-      </div>
-    </div>
   </div>
 </div>
 
 <style>
-  @media (max-width: 600px) {
+  @keyframes telemetryPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  
+  #telemetryGrid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+  
+  @media (max-width: 480px) {
     #telemetryGrid {
       grid-template-columns: 1fr !important;
     }
     .telemetry-block {
-      padding: 8px !important;
+      padding: 8px 10px !important;
     }
   }
+  
   [data-theme="light"] #telemetryPanel {
     background: linear-gradient(135deg, rgba(220,235,245,0.95) 0%, rgba(200,220,235,0.95) 100%);
     border-color: rgba(0,150,180,0.3);
@@ -669,65 +726,123 @@ html[data-theme="light"] {
     text-shadow: none;
   }
   [data-theme="light"] .telemetry-block {
-    background: rgba(255,255,255,0.5) !important;
+    background: rgba(255,255,255,0.6) !important;
+    border-color: rgba(0,150,180,0.2) !important;
   }
-  [data-theme="light"] #telemetryUSGS,
-  [data-theme="light"] #telemetryReservoir,
-  [data-theme="light"] #telemetryQuality { color: #0088aa; text-shadow: none; }
+  [data-theme="light"] .telemetry-block div[id^="telemetry"] {
+    color: #0088aa !important;
+    text-shadow: none !important;
+  }
 </style>
 
 <script>
 (function() {
-  // USGS River Flow data
-  const riverFlowData = [
-    "Colorado River: 8,140 cfs",
-    "Rio Grande: 1,240 cfs", 
-    "Salt River: 890 cfs",
-    "Gila River: 456 cfs",
-    "Pecos River: 312 cfs",
-    "Arkansas River: 2,890 cfs",
-    "Green River: 4,120 cfs",
-    "San Juan River: 1,560 cfs",
-    "Virgin River: 245 cfs"
-  ];
+  // Simulated telemetry data for Western US water metrics
+  const telemetryData = {
+    colorado: {
+      values: [8140, 7890, 8320, 7650, 8510, 7980, 8250, 8080],
+      unit: 'CFS'
+    },
+    saltLake: {
+      values: [4191.3, 4191.1, 4191.5, 4190.8, 4191.7, 4191.0, 4191.4, 4191.2],
+      unit: 'FT'
+    },
+    mead: {
+      values: [34, 33, 35, 32, 34, 33, 34, 35],
+      unit: '% CAP',
+      warning: true
+    },
+    snowpack: {
+      values: [104, 98, 112, 95, 108, 101, 106, 99],
+      unit: '% MED'
+    },
+    columbia: {
+      values: [287000, 275000, 298000, 268000, 291000, 282000, 294000, 279000],
+      unit: 'CFS'
+    },
+    drought: {
+      values: ['MODERATE', 'MODERATE', 'SEVERE', 'MODERATE', 'ABNORMAL', 'MODERATE', 'SEVERE', 'MODERATE'],
+      unit: ''
+    }
+  };
   
-  // Bureau of Reclamation reservoir data
-  const reservoirData = [
-    "Lake Powell: 37% capacity",
-    "Lake Mead: 28% capacity",
-    "Flaming Gorge: 72% capacity",
-    "Blue Mesa: 54% capacity",
-    "Navajo Reservoir: 68% capacity",
-    "Elephant Butte: 22% capacity",
-    "Fontenelle: 81% capacity"
-  ];
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
   
-  // USGS Water Quality data
-  const waterQualityData = [
-    "Turbidity: 3.2 NTU",
-    "Temp: 18.4°C",
-    "Conductivity: 842 µS/cm",
-    "pH: 7.8",
-    "DO: 8.2 mg/L",
-    "Turbidity: 5.1 NTU",
-    "Temp: 21.2°C",
-    "Conductivity: 1,240 µS/cm"
-  ];
+  function getDroughtColor(status) {
+    const colors = {
+      'NONE': '#00ff88',
+      'ABNORMAL': '#ffff00',
+      'MODERATE': '#ffaa00',
+      'SEVERE': '#ff6600',
+      'EXTREME': '#ff0000',
+      'EXCEPTIONAL': '#990000'
+    };
+    return colors[status] || '#00ffff';
+  }
   
   function updateTelemetry() {
-    const usgsEl = document.getElementById('telemetryUSGS');
-    const reservoirEl = document.getElementById('telemetryReservoir');
-    const qualityEl = document.getElementById('telemetryQuality');
+    // Colorado River
+    const coloradoEl = document.getElementById('telemetryColorado');
+    if (coloradoEl) {
+      const val = telemetryData.colorado.values[Math.floor(Math.random() * telemetryData.colorado.values.length)];
+      coloradoEl.innerHTML = `${formatNumber(val)} <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>`;
+    }
     
-    if (usgsEl) usgsEl.textContent = riverFlowData[Math.floor(Math.random() * riverFlowData.length)];
-    if (reservoirEl) reservoirEl.textContent = reservoirData[Math.floor(Math.random() * reservoirData.length)];
-    if (qualityEl) qualityEl.textContent = waterQualityData[Math.floor(Math.random() * waterQualityData.length)];
+    // Great Salt Lake
+    const saltLakeEl = document.getElementById('telemetrySaltLake');
+    if (saltLakeEl) {
+      const val = telemetryData.saltLake.values[Math.floor(Math.random() * telemetryData.saltLake.values.length)];
+      saltLakeEl.innerHTML = `${val.toFixed(1)} <span style="font-size: 10px; color: rgba(0,255,255,0.6);">FT</span>`;
+    }
+    
+    // Lake Mead
+    const meadEl = document.getElementById('telemetryMead');
+    if (meadEl) {
+      const val = telemetryData.mead.values[Math.floor(Math.random() * telemetryData.mead.values.length)];
+      const color = val < 35 ? '#ffaa00' : '#00ffff';
+      meadEl.innerHTML = `<span style="color: ${color};">${val}</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">% CAP</span>`;
+    }
+    
+    // Sierra Snowpack
+    const snowpackEl = document.getElementById('telemetrySnowpack');
+    if (snowpackEl) {
+      const val = telemetryData.snowpack.values[Math.floor(Math.random() * telemetryData.snowpack.values.length)];
+      const color = val >= 100 ? '#00ff88' : (val >= 80 ? '#00ffff' : '#ffaa00');
+      snowpackEl.innerHTML = `<span style="color: ${color};">${val}</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">% MED</span>`;
+    }
+    
+    // Columbia River
+    const columbiaEl = document.getElementById('telemetryColumbia');
+    if (columbiaEl) {
+      const val = telemetryData.columbia.values[Math.floor(Math.random() * telemetryData.columbia.values.length)];
+      columbiaEl.innerHTML = `${formatNumber(val)} <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>`;
+    }
+    
+    // Drought Status
+    const droughtEl = document.getElementById('telemetryDrought');
+    if (droughtEl) {
+      const val = telemetryData.drought.values[Math.floor(Math.random() * telemetryData.drought.values.length)];
+      droughtEl.innerHTML = `<span style="color: ${getDroughtColor(val)};">${val}</span>`;
+    }
+    
+    // Update timestamp
+    const timestampEl = document.getElementById('telemetryTimestamp');
+    if (timestampEl) {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+      timestampEl.textContent = `UPDATED: ${timeStr}`;
+    }
   }
   
   // Initial update
   setTimeout(updateTelemetry, 500);
   
-  // Update every 30 seconds
+  // Update every 10 minutes (600000ms)
+  setInterval(updateTelemetry, 600000);
+  
+  // Also do a visual refresh every 30 seconds to feel more "live"
   setInterval(updateTelemetry, 30000);
 })();
 </script>
