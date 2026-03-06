@@ -348,6 +348,15 @@ html[data-theme="light"] {
 
 <div id="mainContainer" data-theme="dark" style="font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; background: var(--bg-primary); color: var(--text-primary); max-width: 100%; margin: 0; padding: 0; overflow-x: hidden; transition: background 0.4s ease, color 0.4s ease;">
 
+<!-- === PLANT STATUS TICKER === -->
+
+<div class="ticker-wrapper">
+  <div class="ticker-label-above">PLANT STATUS FEED</div>
+  <div id="plantStatusTicker" class="plant-status-ticker" role="marquee" aria-live="off" aria-label="Plant status updates">
+    <div class="ticker-track" id="tickerTrack"></div>
+  </div>
+</div>
+
 <!-- === HERO === -->
 
 <div class="hero-section" style="padding: 3rem 1.5rem 2rem; position: relative; overflow: hidden; min-height: 480px;">
@@ -878,15 +887,6 @@ html[data-theme="light"] {
 </div>
 ```
 
-  </div>
-</div>
-
-<!-- === PLANT STATUS TICKER === -->
-
-<div class="ticker-wrapper">
-  <div class="ticker-label-above">PLANT STATUS FEED</div>
-  <div id="plantStatusTicker" class="plant-status-ticker" role="marquee" aria-live="off" aria-label="Plant status updates">
-    <div class="ticker-track" id="tickerTrack"></div>
   </div>
 </div>
 
