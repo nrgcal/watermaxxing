@@ -415,31 +415,58 @@ html[data-theme="light"] {
   display: none !important;
 }
 
-/* Hide arcade section */
-[data-operator="true"] .arcade-section,
-[data-operator="true"] [style*="OFF-SHIFT ARCADE"],
-[data-operator="true"] .game-button {
+/* Hide arcade section completely */
+[data-operator="true"] .arcade-section {
   display: none !important;
 }
 
-/* Hide logo/branding */
-[data-operator="true"] [style*="WATERMAXXING"][style*="font-size: 2.5rem"],
-[data-operator="true"] [data-glitch],
-[data-operator="true"] .glitch-wrapper {
+/* Hide header section - logo, title, social icons, bio */
+[data-operator="true"] .header-section,
+[data-operator="true"] #headerSection {
   display: none !important;
 }
 
-/* Hide profile photo and bio */
-[data-operator="true"] .profile-image-container,
-[data-operator="true"] [style*="border-radius: 50%"][style*="width: 120px"],
-[data-operator="true"] img[style*="border-radius: 50%"] {
+/* Hide everything except ticker and telemetry - use class-based hiding */
+[data-operator="true"] .accordion-section,
+[data-operator="true"] .cta-section,
+[data-operator="true"] .footer-section,
+[data-operator="true"] #breakroomBtn,
+[data-operator="true"] #systemUptime,
+[data-operator="true"] .lang-toggle,
+[data-operator="true"] [style*="Bend, OR"] {
   display: none !important;
 }
 
-/* Hide bio text */
-[data-operator="true"] [style*="water treatment solutions"],
-[data-operator="true"] [style*="full wtp & wwtp"] {
+/* Remove gaps in operator mode */
+[data-operator="true"] .plant-status-ticker {
+  margin-bottom: 0 !important;
+}
+
+[data-operator="true"] #telemetryPanel {
+  margin-top: 0 !important;
+  border-top: none !important;
+}
+
+[data-operator="true"] .depth-layer {
+  padding-top: 0 !important;
+}
+
+/* Show expanded telemetry only in operator mode */
+.operator-only {
   display: none !important;
+}
+
+[data-operator="true"] .operator-only {
+  display: block !important;
+}
+
+[data-operator="true"] .operator-only.telemetry-block {
+  display: block !important;
+}
+
+/* Keep operator toggle visible */
+[data-operator="true"] #operatorToggle {
+  display: flex !important;
 }
 
 /* Terminal green text throughout */
@@ -475,30 +502,6 @@ html[data-theme="light"] {
   border-color: rgba(0,255,102,0.2) !important;
 }
 
-/* Links and buttons */
-[data-operator="true"] a,
-[data-operator="true"] button,
-[data-operator="true"] .link-item,
-[data-operator="true"] .accordion-header {
-  color: #00ff66 !important;
-  border-color: rgba(0,255,102,0.3) !important;
-  background: rgba(0,20,0,0.3) !important;
-}
-
-[data-operator="true"] a:hover,
-[data-operator="true"] button:hover,
-[data-operator="true"] .link-item:hover {
-  background: rgba(0,40,0,0.5) !important;
-  border-color: rgba(0,255,102,0.5) !important;
-}
-
-[data-operator="true"] .accordion-header span,
-[data-operator="true"] .link-item div,
-[data-operator="true"] .link-icon svg {
-  color: #00ff66 !important;
-  stroke: #00ff66 !important;
-}
-
 /* Tooltips */
 [data-operator="true"] .telemetry-tooltip {
   background: rgba(0,10,0,0.98) !important;
@@ -507,49 +510,23 @@ html[data-theme="light"] {
   box-shadow: 0 0 20px rgba(0,255,102,0.3) !important;
 }
 
-[data-operator="true"] .telemetry-tooltip::after {
-  border-top-color: rgba(0,255,102,0.4) !important;
-}
-
-/* Contact buttons */
-[data-operator="true"] [href*="linkedin"],
-[data-operator="true"] [href*="mailto"],
-[data-operator="true"] [href*="calendly"] {
-  background: rgba(0,20,0,0.5) !important;
-  border-color: rgba(0,255,102,0.3) !important;
-}
-
-/* Footer */
-[data-operator="true"] .lang-toggle,
-[data-operator="true"] #operatorToggle {
-  background: rgba(0,20,0,0.5) !important;
-  border-color: rgba(0,255,102,0.3) !important;
-}
-
-[data-operator="true"] .lang-toggle span,
-[data-operator="true"] #operatorToggle span {
-  color: #00ff66 !important;
-}
-
-/* Remove all gradients */
-[data-operator="true"] [style*="gradient"] {
-  background: #0a0a0a !important;
-}
-
 /* Keep telemetry panel gradient but green-tinted */
 [data-operator="true"] #telemetryPanel {
   background: linear-gradient(135deg, rgba(0,15,0,0.95) 0%, rgba(0,10,0,0.98) 100%) !important;
 }
 
-/* SVG icons to green */
-[data-operator="true"] svg {
-  stroke: #00ff66 !important;
+/* Map styling in operator mode */
+[data-operator="true"] #telemetryMap circle {
+  fill: #00ff66 !important;
 }
 
-[data-operator="true"] svg text,
-[data-operator="true"] svg rect {
-  fill: rgba(0,255,102,0.2) !important;
-  stroke: #00ff66 !important;
+[data-operator="true"] #telemetryMap path {
+  stroke: rgba(0,255,102,0.3) !important;
+  fill: rgba(0,255,102,0.05) !important;
+}
+
+[data-operator="true"] #telemetryMap text {
+  fill: rgba(0,255,102,0.5) !important;
 }
 
 /* === FLOW ANIMATION BACKGROUND === */
@@ -646,11 +623,27 @@ html[data-theme="light"] {
   }
   
   const bootSequences = [
-    ["INITIALIZING WATERMAXXING SYSTEM", "loading plant telemetry...", "connecting to field operators...", "status feed online"],
     ["BOOTING HYDRO SYSTEM", "checking clarifier rotation...", "synchronizing telemetry...", "system operational"],
-    ["INITIALIZING FIELD NETWORK", "loading operator logs...", "connecting instrumentation...", "watermaxxing online"],
-    ["STARTING PROCESS CONTROL", "verifying pump status...", "loading telemetry signals...", "console ready"],
-    ["HYDRO SYSTEM BOOT", "checking basin levels...", "loading flow metrics...", "plant interface ready"]
+    ["INITIALIZING WATER SYSTEM", "loading western telemetry...", "connecting field instrumentation...", "interface ready"],
+    ["STARTING PROCESS CONTROL", "verifying pump status...", "loading basin levels...", "system operational"],
+    ["HYDRO SYSTEM BOOT", "checking clarifier rotation...", "optimizing watermaxxing parameters...", "system performance: maxxed"],
+    ["HYDRO SYSTEM BOOT", "checking pump vibration...", "checking operator morale...", "status: complicated"],
+    ["HYDRO SYSTEM BOOT", "checking clarifier rotation...", "signal latency detected...", "connection stable"]
+  ];
+  
+  // 10% chance to add a rare watermaxxing message
+  const rareMessages = [
+    "watermaxxing protocols active",
+    "flow optimization protocol: MAXXING",
+    "hydrology efficiency parameters increasing"
+  ];
+  
+  // 5% chance for system message after boot
+  const systemMessages = [
+    "SYSTEM MESSAGE: instrument calibration scheduled",
+    "SYSTEM MESSAGE: night shift stabilized flow at 03:17",
+    "SYSTEM MESSAGE: telemetry network synchronized",
+    "SYSTEM MESSAGE: polymer dosing optimized"
   ];
   
   const overlay = document.getElementById('bootOverlay');
@@ -659,21 +652,70 @@ html[data-theme="light"] {
   
   overlay.style.display = 'flex';
   
-  const sequence = bootSequences[Math.floor(Math.random() * bootSequences.length)];
+  let sequence = [...bootSequences[Math.floor(Math.random() * bootSequences.length)]];
+  
+  // 10% chance to add rare message before final line
+  if (Math.random() < 0.1) {
+    const rareMsg = rareMessages[Math.floor(Math.random() * rareMessages.length)];
+    sequence.splice(sequence.length - 1, 0, rareMsg);
+  }
+  
   let lineIdx = 0;
   let charIdx = 0;
   let currentLine = '';
+  let skipBoot = false;
+  
+  // Tap/click to skip boot sequence
+  overlay.addEventListener('click', () => {
+    skipBoot = true;
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.2s ease';
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      sessionStorage.setItem('watermaxxing-booted', 'true');
+    }, 200);
+  });
+  
+  // Add skip hint
+  const skipHint = document.createElement('div');
+  skipHint.style.cssText = 'position: absolute; bottom: 20px; font-size: 10px; color: rgba(0,255,136,0.4); letter-spacing: 0.1em;';
+  skipHint.textContent = 'tap to skip';
+  overlay.appendChild(skipHint);
+  
+  function finishBoot() {
+    // 5% chance for system message
+    if (Math.random() < 0.05) {
+      const sysMsg = systemMessages[Math.floor(Math.random() * systemMessages.length)];
+      linesEl.innerHTML += '<div style="margin-top: 8px; color: #ffaa00;">' + sysMsg + '</div>';
+      setTimeout(() => {
+        if (!skipBoot) {
+          overlay.style.opacity = '0';
+          overlay.style.transition = 'opacity 0.3s ease';
+          setTimeout(() => {
+            overlay.style.display = 'none';
+            sessionStorage.setItem('watermaxxing-booted', 'true');
+          }, 300);
+        }
+      }, 1500);
+    } else {
+      setTimeout(() => {
+        if (!skipBoot) {
+          overlay.style.opacity = '0';
+          overlay.style.transition = 'opacity 0.3s ease';
+          setTimeout(() => {
+            overlay.style.display = 'none';
+            sessionStorage.setItem('watermaxxing-booted', 'true');
+          }, 300);
+        }
+      }, 300);
+    }
+  }
   
   function typeChar() {
+    if (skipBoot) return;
+    
     if (lineIdx >= sequence.length) {
-      setTimeout(() => {
-        overlay.style.opacity = '0';
-        overlay.style.transition = 'opacity 0.3s ease';
-        setTimeout(() => {
-          overlay.style.display = 'none';
-          sessionStorage.setItem('watermaxxing-booted', 'true');
-        }, 300);
-      }, 400);
+      finishBoot();
       return;
     }
     
@@ -682,18 +724,18 @@ html[data-theme="light"] {
       linesEl.innerHTML = linesEl.innerHTML.replace(/<span class="current-line">.*<\/span>/, '') + 
         '<span class="current-line">' + (lineIdx === 0 ? '> ' : '  ') + currentLine + '</span>';
       charIdx++;
-      setTimeout(typeChar, 25 + Math.random() * 25);
+      setTimeout(typeChar, 18 + Math.random() * 18); // Faster typing (was 25+25)
     } else {
       linesEl.innerHTML = linesEl.innerHTML.replace(/<span class="current-line">.*<\/span>/, '') + 
         '<div style="margin-bottom: 4px;">' + (lineIdx === 0 ? '> ' : '  ') + currentLine + '</div>';
       lineIdx++;
       charIdx = 0;
       currentLine = '';
-      setTimeout(typeChar, 150);
+      setTimeout(typeChar, 100); // Faster line delay (was 150)
     }
   }
   
-  setTimeout(typeChar, 300);
+  setTimeout(typeChar, 200); // Faster start (was 300)
 })();
 
 // Flow animation lines
@@ -868,6 +910,7 @@ window.watermaxxingSounds.init();
 </div>
 
 <!-- Large Avatar with rings and glitch -->
+<div id="headerSection" class="header-section">
 <div class="float" style="text-align: center; margin-bottom: 1.25rem;">
   <div style="position: relative; display: inline-block;">
     <div class="ring" style="position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px; border: 2px solid rgba(255,0,255,0.3); border-radius: 50%;"></div>
@@ -924,6 +967,7 @@ window.watermaxxingSounds.init();
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.33-3.022.88-.73 2.082-1.146 3.39-1.17 1.016-.02 1.97.14 2.849.476-.03-.986-.18-1.79-.45-2.404-.387-.882-1.065-1.325-2.073-1.357-1.521-.047-2.404.655-2.62 2.082l-2.032-.309c.34-2.334 2.074-3.643 4.608-3.593 1.634.032 2.893.674 3.638 1.855.547.866.84 1.97.898 3.375.535.212 1.02.47 1.453.772 1.133.79 1.948 1.86 2.366 3.105.603 1.796.506 4.396-1.673 6.527-1.87 1.826-4.215 2.64-7.378 2.664z"/></svg>
   </a>
 </div>
+</div><!-- end headerSection -->
 ```
 
   </div>
@@ -944,7 +988,7 @@ window.watermaxxingSounds.init();
     </div>
     <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
   </div>
-  <div class="accordion-content">
+  <div class="accordion-content" style="max-height: 0;">
     <div style="display: flex; flex-direction: column; gap: 8px;">
       <a href="https://www.linkedin.com/pulse/why-so-many-industries-outsourcing-water-operations-us-sawyer-jd-tbrfc" target="_blank" class="link-item" style="padding: 12px 14px;">
         <div class="link-icon" style="width: 36px; height: 36px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
@@ -1044,10 +1088,23 @@ window.watermaxxingSounds.init();
 <!-- === WESTERN WATER TELEMETRY === -->
 <div id="telemetryPanel" style="margin-top: 20px; margin-left: -1.5rem; margin-right: -1.5rem; padding: 16px 1.5rem; background: linear-gradient(135deg, rgba(0,25,35,0.95) 0%, rgba(0,15,25,0.98) 100%); border-top: 1px solid rgba(0,255,255,0.2); border-bottom: 1px solid rgba(0,255,255,0.2); position: relative;">
   <div style="max-width: 500px; margin: 0 auto;">
-    <div style="margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
-      <span style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,255,255,0.85); text-shadow: 0 0 10px rgba(0,255,255,0.5);">⬡ WESTERN WATER TELEMETRY</span>
-      <span id="telemetryTimestamp" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3);">UPDATED: --:--</span>
+    <div style="margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div id="telemetryStatusLed" style="width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; animation: heartbeatPulse 3s ease-in-out infinite;"></div>
+          <span style="font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(0,255,255,0.85); text-shadow: 0 0 10px rgba(0,255,255,0.5);">WESTERN WATER TELEMETRY</span>
+        </div>
+        <span id="telemetryTimestamp" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3);">SIGNAL: --:--</span>
+      </div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(0,255,255,0.4); margin-top: 2px; letter-spacing: 0.05em;">regional hydrology interface</div>
     </div>
+    
+    <style>
+      @keyframes heartbeatPulse {
+        0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 8px #00ff88; }
+        50% { opacity: 0.6; transform: scale(0.9); box-shadow: 0 0 4px #00ff88; }
+      }
+    </style>
     
     <div id="telemetryGrid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
     <!-- Colorado River Flow -->
@@ -1145,6 +1202,187 @@ window.watermaxxingSounds.init();
         <span style="color: rgba(255,255,255,0.4);">---</span>
       </div>
     </div>
+    
+    <!-- Snake River Flow (Idaho) - OPERATOR MODE ONLY -->
+    <div class="telemetry-block operator-only" data-metric="snake" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div class="telemetry-tooltip">
+        <div style="color: rgba(255,255,255,0.5); margin-bottom: 4px;">MILNER DAM, ID</div>
+        <div>SOURCE: USGS</div>
+        <div>LATENCY: ~15 MIN</div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">SNAKE RIVER FLOW</div>
+        <div style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 6px #00ff88; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 1.8s;"></div>
+      </div>
+      <div id="telemetrySnake" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>
+      </div>
+    </div>
+    
+    <!-- Lake Powell Level (Utah/Arizona) - OPERATOR MODE ONLY -->
+    <div class="telemetry-block operator-only" data-metric="powell" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div class="telemetry-tooltip">
+        <div style="color: rgba(255,255,255,0.5); margin-bottom: 4px;">GLEN CANYON DAM</div>
+        <div>SOURCE: USBR</div>
+        <div>CAPACITY: 24.3 MAF</div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">LAKE POWELL LEVEL</div>
+        <div style="width: 6px; height: 6px; background: #ffaa00; border-radius: 50%; box-shadow: 0 0 6px #ffaa00; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 2.1s;"></div>
+      </div>
+      <div id="telemetryPowell" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">FT</span>
+      </div>
+    </div>
+    
+    <!-- Rio Grande Flow (New Mexico) - OPERATOR MODE ONLY -->
+    <div class="telemetry-block operator-only" data-metric="riogrande" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div class="telemetry-tooltip">
+        <div style="color: rgba(255,255,255,0.5); margin-bottom: 4px;">OTOWI BRIDGE, NM</div>
+        <div>SOURCE: USGS</div>
+        <div>LATENCY: ~15 MIN</div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">RIO GRANDE FLOW</div>
+        <div style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 6px #00ff88; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 2.4s;"></div>
+      </div>
+      <div id="telemetryRioGrande" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>
+      </div>
+    </div>
+    
+    <!-- Klamath River Flow (Oregon/California) - OPERATOR MODE ONLY -->
+    <div class="telemetry-block operator-only" data-metric="klamath" style="padding: 10px 12px; background: rgba(0,40,60,0.5); border: 1px solid rgba(0,255,255,0.15); border-radius: 6px;">
+      <div class="telemetry-tooltip">
+        <div style="color: rgba(255,255,255,0.5); margin-bottom: 4px;">KENO, OR</div>
+        <div>SOURCE: USGS</div>
+        <div>LATENCY: ~15 MIN</div>
+      </div>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 7px; color: rgba(0,200,255,0.5); letter-spacing: 0.06em;">KLAMATH RIVER FLOW</div>
+        <div style="width: 6px; height: 6px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 6px #00ff88; animation: telemetryPulse 2s ease-in-out infinite; animation-delay: 2.7s;"></div>
+      </div>
+      <div id="telemetryKlamath" style="font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 600; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4); margin-top: 4px;">
+        <span style="color: rgba(255,255,255,0.4);">---</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Western US Telemetry Map - OPERATOR MODE ONLY -->
+  <div class="operator-only" style="margin-top: 16px; padding: 12px; background: rgba(0,20,30,0.6); border: 1px solid rgba(0,255,255,0.2); border-radius: 8px;">
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 8px; color: rgba(0,255,255,0.6); letter-spacing: 0.1em; margin-bottom: 8px; text-align: center;">TELEMETRY SOURCE LOCATIONS</div>
+    <svg id="telemetryMap" viewBox="0 0 240 180" style="width: 100%; max-width: 320px; margin: 0 auto; display: block;">
+      <!-- State boundaries - simplified but geographically accurate -->
+      <!-- Washington -->
+      <path d="M20,15 L75,15 L75,10 L85,10 L85,20 L90,25 L90,45 L20,45 L20,15" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Oregon -->
+      <path d="M20,45 L90,45 L90,75 L20,75 L20,45" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- California -->
+      <path d="M20,75 L55,75 L55,85 L65,95 L55,130 L40,155 L20,155 L20,75" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Nevada -->
+      <path d="M55,75 L90,75 L90,130 L65,130 L55,130 L65,95 L55,85 L55,75" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Idaho -->
+      <path d="M90,25 L100,20 L115,20 L115,75 L90,75 L90,25" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Montana -->
+      <path d="M100,20 L115,20 L175,20 L175,55 L115,55 L115,20" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Wyoming -->
+      <path d="M115,55 L175,55 L175,95 L115,95 L115,55" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Utah -->
+      <path d="M90,75 L115,75 L115,130 L90,130 L90,75" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Colorado -->
+      <path d="M115,95 L175,95 L175,135 L115,135 L115,95" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- Arizona -->
+      <path d="M65,130 L115,130 L115,165 L55,165 L40,155 L55,130 L65,130" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      <!-- New Mexico -->
+      <path d="M115,130 L175,130 L175,165 L115,165 L115,130" fill="rgba(0,255,255,0.03)" stroke="rgba(0,255,255,0.25)" stroke-width="0.75"/>
+      
+      <!-- State labels -->
+      <text x="50" y="32" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">WA</text>
+      <text x="55" y="62" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">OR</text>
+      <text x="38" y="115" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">CA</text>
+      <text x="72" y="105" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">NV</text>
+      <text x="102" y="52" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">ID</text>
+      <text x="145" y="40" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">MT</text>
+      <text x="145" y="78" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">WY</text>
+      <text x="102" y="105" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">UT</text>
+      <text x="145" y="118" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">CO</text>
+      <text x="85" y="150" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">AZ</text>
+      <text x="145" y="150" fill="rgba(0,255,255,0.2)" font-family="JetBrains Mono" font-size="7" text-anchor="middle">NM</text>
+      
+      <!-- Telemetry location dots - colors match legend exactly -->
+      <!-- Columbia River - The Dalles, OR (NORMAL = cyan) -->
+      <circle cx="45" cy="55" r="5" fill="#00ffff" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite"/>
+      </circle>
+      <text x="45" y="48" fill="rgba(0,255,255,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">COLUMBIA</text>
+      
+      <!-- Klamath River - Keno, OR (NORMAL = cyan) -->
+      <circle cx="35" cy="72" r="5" fill="#00ffff" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="0.3s"/>
+      </circle>
+      <text x="35" y="80" fill="rgba(0,255,255,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">KLAMATH</text>
+      
+      <!-- Sierra Snowpack - CA (NORMAL = cyan) -->
+      <circle cx="38" cy="100" r="5" fill="#00ffff" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="0.6s"/>
+      </circle>
+      <text x="38" y="93" fill="rgba(0,255,255,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">SIERRA</text>
+      
+      <!-- Snake River - Milner, ID (NORMAL = cyan) -->
+      <circle cx="100" cy="65" r="5" fill="#00ffff" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="0.9s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="0.9s"/>
+      </circle>
+      <text x="100" y="58" fill="rgba(0,255,255,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">SNAKE</text>
+      
+      <!-- Great Salt Lake - UT (NORMAL = cyan) -->
+      <circle cx="100" cy="85" r="5" fill="#00ffff" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="1.2s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="1.2s"/>
+      </circle>
+      <text x="100" y="92" fill="rgba(0,255,255,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">GSL</text>
+      
+      <!-- Lake Mead - NV/AZ (WATCH = amber) -->
+      <circle cx="75" cy="135" r="5" fill="#ffaa00" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+      </circle>
+      <text x="75" y="143" fill="rgba(255,170,0,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">MEAD</text>
+      
+      <!-- Lake Powell - UT/AZ (WATCH = amber) -->
+      <circle cx="105" cy="128" r="5" fill="#ffaa00" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="1.8s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="1.8s"/>
+      </circle>
+      <text x="105" y="121" fill="rgba(255,170,0,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">POWELL</text>
+      
+      <!-- Colorado River - Lee Ferry, AZ (NORMAL = cyan) -->
+      <circle cx="108" cy="145" r="5" fill="#00ffff" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="2.1s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="2.1s"/>
+      </circle>
+      <text x="108" y="153" fill="rgba(0,255,255,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">COLORADO</text>
+      
+      <!-- Rio Grande - Otowi, NM (NORMAL = cyan) -->
+      <circle cx="145" cy="145" r="5" fill="#00ffff" opacity="0.9">
+        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" begin="2.4s"/>
+        <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2s" repeatCount="indefinite" begin="2.4s"/>
+      </circle>
+      <text x="145" y="138" fill="rgba(0,255,255,0.6)" font-family="JetBrains Mono" font-size="5" text-anchor="middle">RIO GRANDE</text>
+    </svg>
+    <div style="display: flex; justify-content: center; gap: 16px; margin-top: 8px;">
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <div style="width: 8px; height: 8px; background: #00ffff; border-radius: 50%;"></div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.4);">NORMAL</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 4px;">
+        <div style="width: 8px; height: 8px; background: #ffaa00; border-radius: 50%;"></div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.4);">WATCH</span>
+      </div>
+    </div>
   </div>
   </div>
 </div>
@@ -1220,6 +1458,22 @@ window.watermaxxingSounds.init();
     drought: {
       values: ['MODERATE', 'MODERATE', 'SEVERE', 'MODERATE', 'ABNORMAL', 'MODERATE', 'SEVERE', 'MODERATE'],
       unit: ''
+    },
+    snake: {
+      values: [4850, 4620, 5120, 4380, 4980, 4710, 5050, 4590],
+      unit: 'CFS'
+    },
+    powell: {
+      values: [3525.4, 3524.8, 3526.1, 3523.9, 3525.7, 3524.2, 3525.9, 3524.5],
+      unit: 'FT'
+    },
+    rioGrande: {
+      values: [1240, 1180, 1320, 1090, 1280, 1150, 1310, 1200],
+      unit: 'CFS'
+    },
+    klamath: {
+      values: [1890, 1780, 2010, 1650, 1950, 1820, 1980, 1740],
+      unit: 'CFS'
     }
   };
   
@@ -1284,12 +1538,41 @@ window.watermaxxingSounds.init();
       droughtEl.innerHTML = `<span style="color: ${getDroughtColor(val)};">${val}</span>`;
     }
     
+    // Snake River
+    const snakeEl = document.getElementById('telemetrySnake');
+    if (snakeEl) {
+      const val = telemetryData.snake.values[Math.floor(Math.random() * telemetryData.snake.values.length)];
+      snakeEl.innerHTML = `${formatNumber(val)} <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>`;
+    }
+    
+    // Lake Powell
+    const powellEl = document.getElementById('telemetryPowell');
+    if (powellEl) {
+      const val = telemetryData.powell.values[Math.floor(Math.random() * telemetryData.powell.values.length)];
+      const color = val < 3525 ? '#ffaa00' : '#00ffff';
+      powellEl.innerHTML = `<span style="color: ${color};">${val.toFixed(1)}</span> <span style="font-size: 10px; color: rgba(0,255,255,0.6);">FT</span>`;
+    }
+    
+    // Rio Grande
+    const rioGrandeEl = document.getElementById('telemetryRioGrande');
+    if (rioGrandeEl) {
+      const val = telemetryData.rioGrande.values[Math.floor(Math.random() * telemetryData.rioGrande.values.length)];
+      rioGrandeEl.innerHTML = `${formatNumber(val)} <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>`;
+    }
+    
+    // Klamath River
+    const klamathEl = document.getElementById('telemetryKlamath');
+    if (klamathEl) {
+      const val = telemetryData.klamath.values[Math.floor(Math.random() * telemetryData.klamath.values.length)];
+      klamathEl.innerHTML = `${formatNumber(val)} <span style="font-size: 10px; color: rgba(0,255,255,0.6);">CFS</span>`;
+    }
+    
     // Update timestamp
     const timestampEl = document.getElementById('telemetryTimestamp');
     if (timestampEl) {
       const now = new Date();
       const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
-      timestampEl.textContent = `UPDATED: ${timeStr}`;
+      timestampEl.textContent = `SIGNAL: ${timeStr}`;
     }
   }
   
@@ -1314,7 +1597,7 @@ window.watermaxxingSounds.init();
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4"/><circle cx="17" cy="10" r="1" fill="#ff00ff"/><circle cx="17" cy="14" r="1" fill="#ff00ff"/></svg>
   </div>
   
-  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 4px; margin-bottom: 14px; font-style: italic;">for breakroom use only · not for use during operations</div>
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.4); text-align: center; margin-top: 4px; margin-bottom: 14px; font-style: italic;">authorized during break periods · not for use during operations</div>
   
   <style>
     @keyframes pipePulse { 
@@ -1753,12 +2036,31 @@ window.watermaxxingSounds.init();
     return arr;
   }
   
+  // Rare ticker messages (1 in 30 chance)
+  const rareMessages = [
+    "night shift stabilized flow at 03:17 ⭐",
+    "pump two apologized and resumed operation ⭐",
+    "clarifier torque returned to polite levels ⭐",
+    "operator claims basin feels calmer tonight ⭐",
+    "SCADA and operator reached agreement ⭐",
+    "sludge blanket achieved personal best ⭐",
+    "pH probe calibrated on first try ⭐",
+    "all three clarifiers synchronized perfectly ⭐"
+  ];
+  
   function initTicker() {
     const track = document.getElementById('tickerTrack');
     if (!track) return;
     
     const shuffledStatus = shuffle(statusMessages);
     const shuffledChaos = shuffle(chaosAlerts);
+    
+    // 1 in 30 chance to include a rare message
+    const includeRare = Math.random() < (1/30);
+    if (includeRare) {
+      const rareMsg = rareMessages[Math.floor(Math.random() * rareMessages.length)];
+      shuffledStatus.unshift(rareMsg);
+    }
     
     // Interleave: 2 status messages, then 1 chaos alert
     const combined = [];
@@ -1831,21 +2133,21 @@ window.watermaxxingSounds.init();
   <div style="max-width: 420px; margin: 0 auto; position: relative; z-index: 1;">
 
 ```
-<div style="width: 60px; height: 2px; background: linear-gradient(90deg, #00ffff, #ff00ff); margin: 0 auto 1.5rem; border-radius: 2px;"></div>
+<div style="width: 60px; height: 2px; background: linear-gradient(90deg, #00ffff, #ff00ff); margin: 0 auto 2rem; border-radius: 2px;"></div>
 
 <!-- Book Call Button -->
-<a href="https://calendly.com/bsaw" target="_blank" class="cta-button glow-border" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; background: linear-gradient(135deg, #ff00ff, #cc00cc); color: #fff; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 12px; border: none; width: 100%; max-width: 280px; margin-bottom: 12px;">
+<a href="https://calendly.com/bsaw" target="_blank" class="cta-button glow-border" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; background: linear-gradient(135deg, #ff00ff, #cc00cc); color: #fff; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 600; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 12px; border: none; width: 100%; max-width: 260px; margin-bottom: 14px;">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
   Book Call with Barron
 </a>
 
 <!-- Call Now Button -->
-<a href="tel:+18012905565" class="cta-button" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 28px; background: linear-gradient(135deg, #00ffff, #0099aa); color: #000; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 12px; border: 2px solid rgba(0,255,255,0.5); width: 100%; max-width: 280px; box-shadow: 0 0 20px rgba(0,255,255,0.3);">
+<a href="tel:+18012905565" class="cta-button" style="display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 14px 24px; background: linear-gradient(135deg, #00ffff, #0099aa); color: #000; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; text-decoration: none; text-transform: uppercase; letter-spacing: 0.08em; border-radius: 12px; border: 2px solid rgba(0,255,255,0.5); width: 100%; max-width: 260px; box-shadow: 0 0 20px rgba(0,255,255,0.3);">
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
   Call Barron Now
 </a>
 
-<div style="margin-top: 2rem;">
+<div style="margin-top: 2.5rem;">
   <style>
     @keyframes glitchIntense {
       0%, 100% { transform: translate(0); text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff; }
@@ -1864,18 +2166,19 @@ window.watermaxxingSounds.init();
   <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.2); margin-top: 8px; letter-spacing: 0.15em;">iykyk</div>
 </div>
 
-<!-- Language Toggle (English/Spanish) -->
-<button class="lang-toggle" id="langToggle" aria-label="Toggle language" style="position: relative; margin-top: 1.5rem; top: auto; right: auto; display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 20px; cursor: pointer; transition: all 0.3s ease;">
-  <span class="lang-en" style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 600; color: #00ffff;">EN</span>
-  <span style="color: rgba(255,255,255,0.3);">|</span>
-  <span class="lang-es" style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.4);">ES</span>
-</button>
-
-<!-- Operator Mode Toggle -->
-<button id="operatorToggle" aria-label="Toggle operator mode" style="margin-top: 0.75rem; display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(0,255,0,0.05); border: 1px solid rgba(0,255,0,0.2); border-radius: 20px; cursor: pointer; transition: all 0.3s ease;">
-  <span style="width: 8px; height: 8px; background: rgba(0,255,0,0.4); border-radius: 50%; transition: all 0.3s ease;" id="operatorLed"></span>
-  <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; color: rgba(0,255,0,0.6); letter-spacing: 0.1em;">OPERATOR MODE</span>
-</button>
+<!-- Language Toggle & Operator Mode (side by side) -->
+<div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 1.5rem; flex-wrap: wrap;">
+  <button class="lang-toggle" id="langToggle" aria-label="Toggle language" style="display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 20px; cursor: pointer; transition: all 0.3s ease;">
+    <span class="lang-en" style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 600; color: #00ffff;">EN</span>
+    <span style="color: rgba(255,255,255,0.3);">|</span>
+    <span class="lang-es" style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.4);">ES</span>
+  </button>
+  
+  <button id="operatorToggle" aria-label="Toggle operator mode" style="display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(0,255,0,0.05); border: 1px solid rgba(0,255,0,0.2); border-radius: 20px; cursor: pointer; transition: all 0.3s ease;">
+    <span style="width: 8px; height: 8px; background: rgba(0,255,0,0.4); border-radius: 50%; transition: all 0.3s ease;" id="operatorLed"></span>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; color: rgba(0,255,0,0.6); letter-spacing: 0.1em;">OPERATOR</span>
+  </button>
+</div>
 <style>
   #operatorToggle:hover { background: rgba(0,255,0,0.1); border-color: rgba(0,255,0,0.4); }
   [data-operator="true"] #operatorToggle { background: rgba(0,255,0,0.15); border-color: rgba(0,255,0,0.5); }
@@ -1896,6 +2199,96 @@ window.watermaxxingSounds.init();
     Bend, OR · Salt Lake City, UT · Los Angeles, CA
   </div>
 </div>
+
+<!-- System Uptime Counter -->
+<div id="systemUptime" style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(0,255,255,0.3); letter-spacing: 0.08em;">
+  SYSTEM UPTIME: <span id="uptimeCounter">---</span> DAYS
+</div>
+<script>
+  (function() {
+    // Deploy date: March 1, 2024 (fictional start date for the "system")
+    const deployDate = new Date('2024-03-01T00:00:00Z');
+    const now = new Date();
+    const daysSinceDeploy = Math.floor((now - deployDate) / (1000 * 60 * 60 * 24));
+    document.getElementById('uptimeCounter').textContent = daysSinceDeploy;
+  })();
+</script>
+
+<!-- Breakroom Terminal Button -->
+<button id="breakroomBtn" style="margin-top: 1rem; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); border-radius: 16px; cursor: pointer; transition: all 0.3s ease;">
+  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#ff00ff" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>
+  <span style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,0,255,0.7); letter-spacing: 0.08em;">BREAKROOM</span>
+</button>
+<style>
+  #breakroomBtn:hover { background: rgba(255,0,255,0.2); border-color: rgba(255,0,255,0.5); }
+</style>
+
+<!-- Breakroom Panel -->
+<div id="breakroomPanel" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a0015; border: 2px solid rgba(255,0,255,0.5); border-radius: 12px; padding: 20px; max-width: 360px; width: 90%; z-index: 10001; max-height: 80vh; overflow-y: auto;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,0,255,0.3); padding-bottom: 10px;">
+    <span style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ff00ff; letter-spacing: 0.1em;">BREAKROOM TERMINAL</span>
+    <button id="closeBreakroom" style="background: none; border: none; color: #ff6666; font-size: 18px; cursor: pointer;">×</button>
+  </div>
+  
+  <div style="margin-bottom: 16px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,0,255,0.6); margin-bottom: 6px;">FIELD OPERATOR WISDOM</div>
+    <div id="breakroomQuote" style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #fff; font-style: italic; padding: 10px; background: rgba(255,0,255,0.1); border-radius: 6px;"></div>
+  </div>
+  
+  <div style="margin-bottom: 16px;">
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,0,255,0.6); margin-bottom: 6px;">LATEST SHIFT LOG</div>
+    <div id="breakroomLog" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.7); padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px; border-left: 2px solid rgba(255,0,255,0.4);"></div>
+  </div>
+  
+  <div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,0,255,0.6); margin-bottom: 6px;">KEYBOARD SHORTCUT</div>
+    <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.5);">Press <span style="color: #00ffff; background: rgba(0,255,255,0.1); padding: 2px 6px; border-radius: 4px;">SHIFT + T</span> for console</div>
+  </div>
+</div>
+<div id="breakroomOverlay" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000;"></div>
+
+<script>
+  (function() {
+    const quotes = [
+      '"If the pump is running and nobody\'s complaining, don\'t touch anything."',
+      '"The manual is wrong. Ask someone who\'s been here 20 years."',
+      '"SCADA knows everything. SCADA lies."',
+      '"A quiet plant at 3 AM means something\'s about to break."',
+      '"Trust the process. The biological one, not management\'s."',
+      '"Every alarm is real until it proves otherwise."',
+      '"The coffee fund is sacred. The honor system is a myth."'
+    ];
+    const logs = [
+      "05:42 - Basin 3 acting suspiciously calm",
+      "14:17 - RAS pumps synchronized without argument",
+      "23:05 - Night operator found the good flashlight",
+      "08:33 - Morning lab results within spec (barely)",
+      "19:22 - Clarifier rake arm speed adjusted by feel",
+      "02:14 - SCADA alarm acknowledged and ignored (correctly)"
+    ];
+    
+    const btn = document.getElementById('breakroomBtn');
+    const panel = document.getElementById('breakroomPanel');
+    const overlay = document.getElementById('breakroomOverlay');
+    const closeBtn = document.getElementById('closeBreakroom');
+    
+    function openBreakroom() {
+      document.getElementById('breakroomQuote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+      document.getElementById('breakroomLog').textContent = logs[Math.floor(Math.random() * logs.length)];
+      panel.style.display = 'block';
+      overlay.style.display = 'block';
+    }
+    
+    function closeBreakroom() {
+      panel.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+    
+    btn?.addEventListener('click', openBreakroom);
+    closeBtn?.addEventListener('click', closeBreakroom);
+    overlay?.addEventListener('click', closeBreakroom);
+  })();
+</script>
 
 <!-- Copyright -->
 <div style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.2); letter-spacing: 0.08em;">
@@ -1967,8 +2360,8 @@ window.watermaxxingSounds.init();
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.5);">Rotate ↺</div>
           </div>
           <div style="text-align: center; padding: 5px 8px; background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 6px;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #ffcc00; font-weight: bold;">HOLD B</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.5);">Swap</div>
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #ffcc00; font-weight: bold;">GRAB</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.5);">Pick/Drop</div>
           </div>
         </div>
         
@@ -2098,26 +2491,30 @@ window.watermaxxingSounds.init();
   <!-- Controls -->
   <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; padding: 0 6px;">
     
-    <div style="position: relative; width: 110px; height: 110px;">
-      <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▲</button>
-      <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▼</button>
-      <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">◀</button>
-      <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 14px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▶</button>
-      <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 24px; height: 24px; background: radial-gradient(circle, #3a3a6a, #2a2a4a); border-radius: 50%; border: 2px solid #4a4a7a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);"></div>
+    <div style="position: relative; width: 120px; height: 120px;">
+      <button id="btnUp" style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 16px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▲</button>
+      <button id="btnDown" style="position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 16px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▼</button>
+      <button id="btnLeft" style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 16px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">◀</button>
+      <button id="btnRight" style="position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; background: linear-gradient(180deg, #5a5a8a, #3a3a6a); border: 3px solid #6a6a9a; border-radius: 50%; color: #00ffff; font-size: 16px; cursor: pointer; box-shadow: 0 4px 0 #2a2a4a, 0 0 12px rgba(0,255,255,0.3), inset 0 2px 0 rgba(255,255,255,0.2); transition: all 0.1s; -webkit-tap-highlight-color: transparent;">▶</button>
+      <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 28px; height: 28px; background: radial-gradient(circle, #3a3a6a, #2a2a4a); border-radius: 50%; border: 2px solid #4a4a7a; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);"></div>
     </div>
     
     <div style="text-align: center;">
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 5px; color: rgba(255,255,255,0.12); letter-spacing: 0.15em;">WATERMAXXING</div>
     </div>
     
-    <div style="display: flex; gap: 14px;">
+    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
       <div style="text-align: center;">
-        <button id="btnB" style="width: 52px; height: 52px; background: linear-gradient(180deg, #ff00ff, #cc00cc); border: 3px solid #ff66ff; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #880088, 0 0 25px rgba(255,0,255,0.5); -webkit-tap-highlight-color: transparent;">B</button>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #ff00ff; margin-top: 4px;">↺</div>
+        <button id="btnGrab" style="width: 56px; height: 56px; background: linear-gradient(180deg, #ffcc00, #cc9900); border: 3px solid #ffdd66; border-radius: 50%; color: #442200; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #886600, 0 0 25px rgba(255,204,0,0.5); -webkit-tap-highlight-color: transparent;">GRAB</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #ffcc00; margin-top: 3px;">swap</div>
       </div>
       <div style="text-align: center;">
-        <button id="btnA" style="width: 52px; height: 52px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5); -webkit-tap-highlight-color: transparent;">A</button>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: #00ffff; margin-top: 4px;">↻</div>
+        <button id="btnB" style="width: 56px; height: 56px; background: linear-gradient(180deg, #ff00ff, #cc00cc); border: 3px solid #ff66ff; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #880088, 0 0 25px rgba(255,0,255,0.5); -webkit-tap-highlight-color: transparent;">B</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #ff00ff; margin-top: 3px;">↺</div>
+      </div>
+      <div style="text-align: center;">
+        <button id="btnA" style="width: 56px; height: 56px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5); -webkit-tap-highlight-color: transparent;">A</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #00ffff; margin-top: 3px;">↻</div>
       </div>
     </div>
     
@@ -3150,6 +3547,7 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   // Button bindings
   const btnA = document.getElementById('btnA');
   const btnB = document.getElementById('btnB');
+  const btnGrab = document.getElementById('btnGrab');
   
   let bHoldTimer = null;
   
@@ -3157,22 +3555,15 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   btnA.addEventListener('touchstart', e => e.preventDefault());
   btnA.addEventListener('touchend', e => { e.preventDefault(); handleA(); });
   
-  btnB.addEventListener('mousedown', () => {
-    bHoldTimer = setTimeout(handleBHold, 400); // Hold for 400ms to swap
-  });
-  btnB.addEventListener('mouseup', () => {
-    if (bHoldTimer) { clearTimeout(bHoldTimer); bHoldTimer = null; }
-    if (!swapMode) handleB(); // Only rotate if we didn't enter swap mode
-  });
-  btnB.addEventListener('touchstart', e => {
-    e.preventDefault();
-    bHoldTimer = setTimeout(handleBHold, 400);
-  });
-  btnB.addEventListener('touchend', e => {
-    e.preventDefault();
-    if (bHoldTimer) { clearTimeout(bHoldTimer); bHoldTimer = null; }
-    if (!swapMode) handleB();
-  });
+  // B button now only rotates counter-clockwise
+  btnB.addEventListener('click', handleB);
+  btnB.addEventListener('touchstart', e => e.preventDefault());
+  btnB.addEventListener('touchend', e => { e.preventDefault(); handleB(); });
+  
+  // GRAB button handles pick up / drop
+  btnGrab.addEventListener('click', handleBHold);
+  btnGrab.addEventListener('touchstart', e => e.preventDefault());
+  btnGrab.addEventListener('touchend', e => { e.preventDefault(); handleBHold(); });
   
   document.getElementById('btnUp').onclick = () => moveCursor(0, -1);
   document.getElementById('btnDown').onclick = () => moveCursor(0, 1);
@@ -3198,16 +3589,13 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       case ' ': case 'z': e.preventDefault(); handleA(); break;
       case 'x': 
         e.preventDefault();
-        xHoldTimer = setTimeout(handleBHold, 400);
+        handleB(); // Just rotate counter-clockwise
+        break;
+      case 'g': case 'c': // G or C key for grab/swap
+        e.preventDefault();
+        handleBHold();
         break;
       case 'Escape': hideGame(); break;
-    }
-  });
-  
-  document.addEventListener('keyup', e => {
-    if (e.key === 'x') {
-      if (xHoldTimer) { clearTimeout(xHoldTimer); xHoldTimer = null; }
-      if (!swapMode) handleB();
     }
   });
 })();
@@ -3316,12 +3704,12 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     </style>
     
     <!-- Title -->
-    <div style="font-family: Georgia, serif; font-size: 32px; font-weight: bold; color: #2d5a27; text-shadow: 2px 2px 0 rgba(255,255,255,0.9); margin-bottom: 4px;">FLOWSTATE RPG</div>
-    <div style="font-family: Georgia, serif; font-size: 11px; color: #5a8a54; font-style: italic; margin-bottom: 16px;">A Day at the Plant</div>
+    <div style="font-family: Georgia, serif; font-size: clamp(22px, 6vw, 32px); font-weight: bold; color: #2d5a27; text-shadow: 2px 2px 0 rgba(255,255,255,0.9); margin-bottom: 4px;">FLOWSTATE RPG</div>
+    <div style="font-family: Georgia, serif; font-size: clamp(9px, 3vw, 11px); color: #5a8a54; font-style: italic; margin-bottom: 12px;">A Day at the Plant</div>
     
     <!-- Grady character -->
-    <div style="width: 60px; height: 80px; margin-bottom: 12px;">
-      <svg width="60" height="80" viewBox="0 0 70 90">
+    <div style="width: 50px; height: 70px; margin-bottom: 10px;">
+      <svg width="50" height="70" viewBox="0 0 70 90">
         <ellipse cx="35" cy="85" rx="16" ry="4" fill="rgba(0,0,0,0.2)"/>
         <rect x="22" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
         <rect x="38" y="70" width="10" height="14" rx="2" fill="#5D4037"/>
@@ -3346,35 +3734,35 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     </div>
     
     <!-- Description -->
-    <div style="font-family: Georgia, serif; font-size: 12px; color: #3a5a3a; text-align: center; line-height: 1.5; max-width: 280px; margin-bottom: 20px;">
+    <div style="font-family: Georgia, serif; font-size: clamp(10px, 3vw, 12px); color: #3a5a3a; text-align: center; line-height: 1.4; max-width: 260px; margin-bottom: 16px; padding: 0 8px;">
       You're <strong>Grady Watts</strong>, veteran operator.<br>
       Flip switches. Control equipment.<br>
       Read signs. Survive the shift.
     </div>
     
     <!-- Start button -->
-    <button id="fsStartBtn" style="padding: 14px 44px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 25px; color: #fff; font-family: Georgia, serif; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20, 0 6px 12px rgba(0,0,0,0.2);">
+    <button id="fsStartBtn" style="padding: 12px 36px; background: linear-gradient(180deg, #4CAF50, #388E3C); border: 3px solid #2E7D32; border-radius: 25px; color: #fff; font-family: Georgia, serif; font-size: clamp(14px, 4vw, 16px); font-weight: bold; cursor: pointer; box-shadow: 0 4px 0 #1B5E20, 0 6px 12px rgba(0,0,0,0.2);">
       START SHIFT
     </button>
     
     <!-- Desktop note -->
-    <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; margin-top: 12px; opacity: 0.8;">
-      💻 Best experienced on desktop
+    <div style="font-family: Georgia, serif; font-size: 9px; color: #5a8a54; margin-top: 10px; opacity: 0.8;">
+      💻 Best on desktop
     </div>
     
-    <!-- Controls hint (smaller, at bottom) -->
-    <div style="position: absolute; bottom: 35px; display: flex; gap: 20px; opacity: 0.7;">
-      <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
+    <!-- Controls hint - responsive positioning -->
+    <div style="margin-top: 8px; display: flex; gap: 16px; opacity: 0.7;">
+      <div style="font-family: Georgia, serif; font-size: 9px; color: #5a8a54; text-align: center;">
         <span style="font-weight: bold;">WASD</span> Move
       </div>
-      <div style="font-family: Georgia, serif; font-size: 10px; color: #5a8a54; text-align: center;">
+      <div style="font-family: Georgia, serif; font-size: 9px; color: #5a8a54; text-align: center;">
         <span style="font-weight: bold;">SPACE</span> Interact
       </div>
     </div>
     
-    <!-- Newsletter link -->
-    <a href="https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/" target="_blank" style="position: absolute; bottom: 12px; font-family: Georgia, serif; font-size: 10px; color: #2d5a27; text-decoration: none; opacity: 0.8;">
-      📰 Subscribe to the FLOWSTATE parody newsletter →
+    <!-- Newsletter link - responsive positioning -->
+    <a href="https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/" target="_blank" style="margin-top: 10px; font-family: Georgia, serif; font-size: 9px; color: #2d5a27; text-decoration: none; opacity: 0.8;">
+      📰 FLOWSTATE newsletter →
     </a>
   </div>
   
@@ -5703,21 +6091,15 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       content.classList.add('open');
       header.classList.add('active');
     }
+    if (window.watermaxxingSounds) window.watermaxxingSounds.playClick();
   };
   
-  // Initialize first accordion as open
-  const firstAccordion = document.querySelector('.accordion-content');
-  if (firstAccordion) {
-    firstAccordion.classList.add('open');
-    firstAccordion.previousElementSibling?.classList.add('active');
-  }
+  // Accordions start collapsed (no auto-open)
   
-  // Operator Mode Toggle
+  // Operator Mode Toggle - do NOT default to operator mode on launch
   const operatorToggle = document.getElementById('operatorToggle');
-  const savedOperator = localStorage.getItem('watermaxxing-operator') === 'true';
-  if (savedOperator) {
-    mainContainer.setAttribute('data-operator', 'true');
-  }
+  // Only restore operator mode if explicitly saved as true
+  // Remove auto-restore to prevent defaulting to operator mode
   
   operatorToggle?.addEventListener('click', () => {
     const isOperator = mainContainer.getAttribute('data-operator') === 'true';
@@ -5746,11 +6128,104 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       if (window.watermaxxingSounds) window.watermaxxingSounds.playRelay();
     };
   }
+  
+  // === KEYBOARD TERMINAL (SHIFT+T) ===
+  const terminalOverlay = document.createElement('div');
+  terminalOverlay.id = 'terminalOverlay';
+  terminalOverlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,5,10,0.95); z-index: 10000; align-items: center; justify-content: center;';
+  terminalOverlay.innerHTML = `
+    <div style="background: #000; border: 2px solid #00ff66; border-radius: 8px; padding: 20px; max-width: 400px; width: 90%; font-family: 'JetBrains Mono', monospace;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(0,255,102,0.3); padding-bottom: 8px;">
+        <span style="color: #00ff66; font-size: 11px; letter-spacing: 0.1em;">WATERMAXXING CONSOLE</span>
+        <button id="closeTerminal" style="background: none; border: none; color: #ff4444; font-size: 16px; cursor: pointer;">×</button>
+      </div>
+      <div id="terminalOutput" style="color: #00ff66; font-size: 11px; min-height: 100px; max-height: 200px; overflow-y: auto; margin-bottom: 12px;"></div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span style="color: #00ff66;">></span>
+        <input id="terminalInput" type="text" placeholder="type command" style="flex: 1; background: transparent; border: none; color: #00ff66; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none;">
+      </div>
+      <div style="margin-top: 12px; color: rgba(0,255,102,0.4); font-size: 9px;">commands: status, telemetry, arcade, shiftlog, help</div>
+    </div>
+  `;
+  document.body.appendChild(terminalOverlay);
+  
+  const shiftLogs = [
+    "03:17 - night shift stabilized flow. clarifier 2 behaving.",
+    "14:22 - pump two apologized and resumed operation.",
+    "09:45 - clarifier torque returned to polite levels.",
+    "23:58 - operator claims basin feels calmer tonight.",
+    "06:30 - morning check complete. coffee machine functional.",
+    "11:15 - SCADA alarm cleared itself. suspicious.",
+    "19:42 - pH probe asked for the weekend off.",
+    "02:08 - something moved in the thickener. probably fine.",
+    "16:33 - new operator trained on valve procedures. mostly.",
+    "08:17 - sludge blanket at target. rare victory."
+  ];
+  
+  const terminalCommands = {
+    status: () => {
+      const led = document.getElementById('telemetryStatusLed');
+      return "SYSTEM STATUS: OPERATIONAL\\nTELEMETRY: CONNECTED\\nOPERATOR MODE: " + (mainContainer.getAttribute('data-operator') === 'true' ? 'ACTIVE' : 'INACTIVE');
+    },
+    telemetry: () => {
+      document.getElementById('telemetryPanel')?.scrollIntoView({ behavior: 'smooth' });
+      return "Scrolling to telemetry console...";
+    },
+    arcade: () => {
+      document.querySelector('.arcade-section')?.scrollIntoView({ behavior: 'smooth' });
+      return "Scrolling to arcade section...";
+    },
+    shiftlog: () => {
+      return "SHIFT LOG ENTRY:\\n" + shiftLogs[Math.floor(Math.random() * shiftLogs.length)];
+    },
+    help: () => {
+      return "AVAILABLE COMMANDS:\\n  status - show system status\\n  telemetry - jump to telemetry\\n  arcade - jump to arcade\\n  shiftlog - random shift log entry";
+    }
+  };
+  
+  document.addEventListener('keydown', (e) => {
+    if (e.shiftKey && e.key === 'T') {
+      e.preventDefault();
+      terminalOverlay.style.display = 'flex';
+      document.getElementById('terminalInput').focus();
+    }
+    if (e.key === 'Escape' && terminalOverlay.style.display === 'flex') {
+      terminalOverlay.style.display = 'none';
+    }
+  });
+  
+  document.getElementById('closeTerminal')?.addEventListener('click', () => {
+    terminalOverlay.style.display = 'none';
+  });
+  
+  document.getElementById('terminalInput')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const input = e.target.value.trim().toLowerCase();
+      const output = document.getElementById('terminalOutput');
+      output.innerHTML += '<div style="color: rgba(0,255,102,0.6);">> ' + input + '</div>';
+      
+      if (terminalCommands[input]) {
+        const result = terminalCommands[input]();
+        output.innerHTML += '<div style="margin-bottom: 8px; white-space: pre-wrap;">' + result.replace(/\\n/g, '<br>') + '</div>';
+      } else if (input) {
+        output.innerHTML += '<div style="color: #ff6666; margin-bottom: 8px;">unknown command: ' + input + '</div>';
+      }
+      
+      e.target.value = '';
+      output.scrollTop = output.scrollHeight;
+    }
+  });
 })();
 </script>
 
 </body>
 </html>
+
+
+     
+
+
+     
 </body>
 </html>
      
