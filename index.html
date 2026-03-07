@@ -813,6 +813,141 @@ window.watermaxxingSounds = {
   }
 };
 window.watermaxxingSounds.init();
+
+// === FIELD SOUNDSCAPE (Operator Mode Ambient Audio) ===
+// Very subtle ambient audio - faint hum, distant pumps, occasional relay clicks
+window.fieldSoundscape = {
+  audioCtx: null,
+  isPlaying: false,
+  humOsc: null,
+  humGain: null,
+  pumpOsc: null,
+  pumpGain: null,
+  masterGain: null,
+  relayInterval: null,
+  
+  start: function() {
+    if (this.isPlaying) return;
+    if (!window.watermaxxingSounds.hasInteracted) return;
+    
+    try {
+      this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      this.masterGain = this.audioCtx.createGain();
+      this.masterGain.gain.value = 0.008; // Very subtle - barely audible
+      this.masterGain.connect(this.audioCtx.destination);
+      
+      // Base electrical hum (60Hz with harmonics)
+      this.humOsc = this.audioCtx.createOscillator();
+      this.humGain = this.audioCtx.createGain();
+      this.humOsc.frequency.value = 60;
+      this.humOsc.type = 'sine';
+      this.humGain.gain.value = 0.4;
+      this.humOsc.connect(this.humGain);
+      this.humGain.connect(this.masterGain);
+      this.humOsc.start();
+      
+      // Subtle pump rumble (low frequency modulated)
+      this.pumpOsc = this.audioCtx.createOscillator();
+      this.pumpGain = this.audioCtx.createGain();
+      const pumpLfo = this.audioCtx.createOscillator();
+      const pumpLfoGain = this.audioCtx.createGain();
+      
+      this.pumpOsc.frequency.value = 45;
+      this.pumpOsc.type = 'sine';
+      pumpLfo.frequency.value = 0.3; // Slow throb
+      pumpLfoGain.gain.value = 10;
+      
+      pumpLfo.connect(pumpLfoGain);
+      pumpLfoGain.connect(this.pumpOsc.frequency);
+      
+      this.pumpGain.gain.value = 0.3;
+      this.pumpOsc.connect(this.pumpGain);
+      this.pumpGain.connect(this.masterGain);
+      this.pumpOsc.start();
+      pumpLfo.start();
+      
+      // Random relay clicks (every 8-20 seconds)
+      this.scheduleRelayClick();
+      
+      this.isPlaying = true;
+    } catch(e) {
+      console.log('Field soundscape init error:', e);
+    }
+  },
+  
+  scheduleRelayClick: function() {
+    const delay = 8000 + Math.random() * 12000; // 8-20 seconds
+    this.relayInterval = setTimeout(() => {
+      if (this.isPlaying && this.audioCtx) {
+        this.playRelayClick();
+        this.scheduleRelayClick();
+      }
+    }, delay);
+  },
+  
+  playRelayClick: function() {
+    if (!this.audioCtx) return;
+    try {
+      const osc = this.audioCtx.createOscillator();
+      const gain = this.audioCtx.createGain();
+      const filter = this.audioCtx.createBiquadFilter();
+      
+      filter.type = 'bandpass';
+      filter.frequency.value = 800;
+      filter.Q.value = 10;
+      
+      osc.frequency.value = 200 + Math.random() * 100;
+      osc.type = 'square';
+      
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.masterGain);
+      
+      gain.gain.setValueAtTime(0.15, this.audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, this.audioCtx.currentTime + 0.04);
+      
+      osc.start(this.audioCtx.currentTime);
+      osc.stop(this.audioCtx.currentTime + 0.04);
+    } catch(e) {}
+  },
+  
+  stop: function() {
+    if (!this.isPlaying) return;
+    
+    try {
+      if (this.humOsc) { this.humOsc.stop(); this.humOsc = null; }
+      if (this.pumpOsc) { this.pumpOsc.stop(); this.pumpOsc = null; }
+      if (this.relayInterval) { clearTimeout(this.relayInterval); this.relayInterval = null; }
+      if (this.audioCtx) { this.audioCtx.close(); this.audioCtx = null; }
+    } catch(e) {}
+    
+    this.isPlaying = false;
+  }
+};
+
+// Start/stop soundscape when operator mode changes
+(function() {
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'data-operator') {
+        const isOperator = document.getElementById('mainContainer').getAttribute('data-operator') === 'true';
+        if (isOperator && window.watermaxxingSounds.hasInteracted) {
+          window.fieldSoundscape.start();
+        } else {
+          window.fieldSoundscape.stop();
+        }
+      }
+    });
+  });
+  
+  // Start observing once DOM is ready
+  setTimeout(() => {
+    const mainContainer = document.getElementById('mainContainer');
+    if (mainContainer) {
+      observer.observe(mainContainer, { attributes: true });
+    }
+  }, 100);
+})();
 </script>
 
 <div id="mainContainer" data-theme="dark" style="font-family: 'Inter', -apple-system, sans-serif; line-height: 1.5; background: var(--bg-primary); color: var(--text-primary); max-width: 100%; margin: 0; padding: 0; overflow-x: hidden; transition: background 0.4s ease, color 0.4s ease;">
@@ -1739,6 +1874,19 @@ window.watermaxxingSounds.init();
     </button>
     
   </div>
+  
+  <!-- Pipe Panic Leaderboard (below games) -->
+  <div id="arcadeLeaderboard" style="margin-top: 16px; padding: 12px; background: rgba(0,20,40,0.6); border: 1px solid rgba(255,215,0,0.3); border-radius: 10px;">
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
+      <span style="font-size: 14px;">🏆</span>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; color: #FFD700; letter-spacing: 0.1em; text-shadow: 0 0 8px rgba(255,215,0,0.4);">PIPE PANIC TOP 10</span>
+      <span style="font-size: 14px;">🏆</span>
+    </div>
+    <div id="arcadeLeaderboardList" style="display: grid; gap: 4px; max-height: 180px; overflow-y: auto;">
+      <div style="text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4);">Loading scores...</div>
+    </div>
+  </div>
+  
 </div>
 ```
 
@@ -2177,6 +2325,7 @@ window.watermaxxingSounds.init();
   <button id="operatorToggle" aria-label="Toggle operator mode" style="display: flex; align-items: center; gap: 8px; padding: 8px 14px; background: rgba(0,255,0,0.05); border: 1px solid rgba(0,255,0,0.2); border-radius: 20px; cursor: pointer; transition: all 0.3s ease;">
     <span style="width: 8px; height: 8px; background: rgba(0,255,0,0.4); border-radius: 50%; transition: all 0.3s ease;" id="operatorLed"></span>
     <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600; color: rgba(0,255,0,0.6); letter-spacing: 0.1em;">OPERATOR</span>
+    <span id="soundIndicator" style="font-size: 10px; opacity: 0.5; margin-left: 2px; display: none;">🔊</span>
   </button>
 </div>
 <style>
@@ -2350,18 +2499,14 @@ window.watermaxxingSounds.init();
           Connect <span style="color: #00ff88;">IN</span> → <span style="color: #ff00ff;">OUT</span> before overflow!
         </div>
         
-        <div style="display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center;">
-          <div style="text-align: center; padding: 5px 8px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 6px;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #00ffff; font-weight: bold;">A</div>
+        <div style="display: flex; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; justify-content: center;">
+          <div style="text-align: center; padding: 6px 10px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3); border-radius: 6px;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #00ffff; font-weight: bold;">ROT</div>
             <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.5);">Rotate ↻</div>
           </div>
-          <div style="text-align: center; padding: 5px 8px; background: rgba(255,0,255,0.1); border: 1px solid rgba(255,0,255,0.3); border-radius: 6px;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #ff00ff; font-weight: bold;">B</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.5);">Rotate ↺</div>
-          </div>
-          <div style="text-align: center; padding: 5px 8px; background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 6px;">
-            <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; color: #ffcc00; font-weight: bold;">GRAB</div>
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.5);">Pick/Drop</div>
+          <div style="text-align: center; padding: 6px 10px; background: rgba(255,200,0,0.1); border: 1px solid rgba(255,200,0,0.3); border-radius: 6px;">
+            <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: #ffcc00; font-weight: bold;">GRAB</div>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: rgba(255,255,255,0.5);">Pick / Drop</div>
           </div>
         </div>
         
@@ -2503,18 +2648,14 @@ window.watermaxxingSounds.init();
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 5px; color: rgba(255,255,255,0.12); letter-spacing: 0.15em;">WATERMAXXING</div>
     </div>
     
-    <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+    <div style="display: flex; gap: 16px;">
       <div style="text-align: center;">
-        <button id="btnGrab" style="width: 56px; height: 56px; background: linear-gradient(180deg, #ffcc00, #cc9900); border: 3px solid #ffdd66; border-radius: 50%; color: #442200; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #886600, 0 0 25px rgba(255,204,0,0.5); -webkit-tap-highlight-color: transparent;">GRAB</button>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #ffcc00; margin-top: 3px;">swap</div>
+        <button id="btnGrab" style="width: 60px; height: 60px; background: linear-gradient(180deg, #ffcc00, #cc9900); border: 3px solid #ffdd66; border-radius: 50%; color: #442200; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #886600, 0 0 25px rgba(255,204,0,0.5); -webkit-tap-highlight-color: transparent;">GRAB</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #ffcc00; margin-top: 4px;">pick/drop</div>
       </div>
       <div style="text-align: center;">
-        <button id="btnB" style="width: 56px; height: 56px; background: linear-gradient(180deg, #ff00ff, #cc00cc); border: 3px solid #ff66ff; border-radius: 50%; color: #fff; font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #880088, 0 0 25px rgba(255,0,255,0.5); -webkit-tap-highlight-color: transparent;">B</button>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #ff00ff; margin-top: 3px;">↺</div>
-      </div>
-      <div style="text-align: center;">
-        <button id="btnA" style="width: 56px; height: 56px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5); -webkit-tap-highlight-color: transparent;">A</button>
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #00ffff; margin-top: 3px;">↻</div>
+        <button id="btnA" style="width: 60px; height: 60px; background: linear-gradient(180deg, #00ffff, #00cccc); border: 3px solid #66ffff; border-radius: 50%; color: #003333; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 800; cursor: pointer; box-shadow: 0 5px 0 #008888, 0 0 25px rgba(0,255,255,0.5); -webkit-tap-highlight-color: transparent;">ROT</button>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 7px; color: #00ffff; margin-top: 4px;">rotate ↻</div>
       </div>
     </div>
     
@@ -2697,6 +2838,39 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     screens.start.style.display = 'flex';
   }
   
+  // Populate arcade leaderboard (below games grid)
+  async function updateArcadeLeaderboard() {
+    const listEl = document.getElementById('arcadeLeaderboardList');
+    if (!listEl) return;
+    
+    try {
+      const snapshot = await leaderboardRef.once('value');
+      const data = snapshot.val();
+      const scores = data && Array.isArray(data) ? data : [];
+      
+      if (scores.length === 0) {
+        listEl.innerHTML = '<div style="text-align: center; font-family: \'JetBrains Mono\', monospace; font-size: 10px; color: rgba(255,255,255,0.4);">No scores yet - be the first!</div>';
+        return;
+      }
+      
+      // Show top 10
+      const top10 = scores.slice(0, 10);
+      listEl.innerHTML = top10.map((entry, i) => {
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '';
+        const color = i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : 'rgba(255,255,255,0.7)';
+        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px;">
+          <span style="color: ${color};">${medal || (i+1)+'.'} ${entry.name}</span>
+          <span style="color: #00ffff; font-weight: bold;">${entry.score.toLocaleString()}</span>
+        </div>`;
+      }).join('');
+    } catch (e) {
+      listEl.innerHTML = '<div style="text-align: center; font-family: \'JetBrains Mono\', monospace; font-size: 10px; color: rgba(255,255,255,0.4);">Could not load scores</div>';
+    }
+  }
+  
+  // Load arcade leaderboard on page load
+  setTimeout(updateArcadeLeaderboard, 1000);
+  
   document.getElementById('launchGameBtn').onclick = showGame;
   document.getElementById('closeGameBtn').onclick = hideGame;
   document.getElementById('showLeaderboardBtn').onclick = showLeaderboardScreen;
@@ -2723,7 +2897,83 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     sourceY = Math.floor(Math.random() * rows);
     drainY = Math.floor(Math.random() * rows);
     
-    // Initialize solution grid
+    // Create solution grid using Hamiltonian path approach
+    // This guarantees: every cell has a pipe, puzzle is solvable
+    solutionGrid = [];
+    for (let y = 0; y < rows; y++) {
+      solutionGrid[y] = [];
+      for (let x = 0; x < cols; x++) {
+        solutionGrid[y][x] = { c: [0,0,0,0] }; // up, right, down, left
+      }
+    }
+    
+    // Build a snake path that visits every cell exactly once
+    // Start at (0, sourceY), end at (cols-1, drainY)
+    const path = [];
+    
+    // Strategy: snake pattern that ensures we hit source start and drain end
+    // We'll build rows in alternating direction
+    
+    // First, build a simple snake that covers all cells
+    const snakePath = [];
+    for (let x = 0; x < cols; x++) {
+      if (x % 2 === 0) {
+        for (let y = 0; y < rows; y++) snakePath.push({x, y});
+      } else {
+        for (let y = rows - 1; y >= 0; y--) snakePath.push({x, y});
+      }
+    }
+    
+    // Find where source and drain are in the snake
+    const sourceIdx = snakePath.findIndex(p => p.x === 0 && p.y === sourceY);
+    const drainIdx = snakePath.findIndex(p => p.x === cols - 1 && p.y === drainY);
+    
+    // Rearrange path to start at source
+    // Rotate the path so sourceIdx becomes the start
+    const rotatedPath = [...snakePath.slice(sourceIdx), ...snakePath.slice(0, sourceIdx)];
+    
+    // Now connect consecutive cells in the path
+    for (let i = 0; i < rotatedPath.length - 1; i++) {
+      const curr = rotatedPath[i];
+      const next = rotatedPath[i + 1];
+      
+      // Determine direction from curr to next
+      if (next.x > curr.x) {
+        solutionGrid[curr.y][curr.x].c[1] = 1; // right exit
+        solutionGrid[next.y][next.x].c[3] = 1; // left entry
+      } else if (next.x < curr.x) {
+        solutionGrid[curr.y][curr.x].c[3] = 1; // left exit
+        solutionGrid[next.y][next.x].c[1] = 1; // right entry
+      } else if (next.y > curr.y) {
+        solutionGrid[curr.y][curr.x].c[2] = 1; // down exit
+        solutionGrid[next.y][next.x].c[0] = 1; // up entry
+      } else if (next.y < curr.y) {
+        solutionGrid[curr.y][curr.x].c[0] = 1; // up exit
+        solutionGrid[next.y][next.x].c[2] = 1; // down entry
+      }
+    }
+    
+    // Add source entry (from left) and drain exit (to right)
+    solutionGrid[sourceY][0].c[3] = 1; // source enters from left
+    solutionGrid[drainY][cols-1].c[1] = 1; // drain exits to right
+    
+    // Ensure first cell connects to source
+    const firstCell = rotatedPath[0];
+    if (firstCell.x === 0 && firstCell.y === sourceY) {
+      // Good - already at source
+    }
+    
+    // Ensure last cell connects to drain
+    const lastCell = rotatedPath[rotatedPath.length - 1];
+    if (lastCell.x === cols - 1 && lastCell.y === drainY) {
+      // Perfect - snake ends at drain
+    } else {
+      // Need to adjust - for now, just ensure drain has right exit
+      // The path may not end exactly at drain, so we need a different approach
+    }
+    
+    // Actually, let's use a simpler guaranteed approach:
+    // Build a path that definitely goes from source to drain
     solutionGrid = [];
     for (let y = 0; y < rows; y++) {
       solutionGrid[y] = [];
@@ -2732,103 +2982,135 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       }
     }
     
-    // Build main path from source to drain
-    let x = 0, y = sourceY;
-    let mainPath = [{x, y}];
+    // Use a simple but guaranteed path builder:
+    // Go right across each row, alternating direction per row
+    // This creates a snake that visits every cell
     
-    while (x < cols - 1 || y !== drainY) {
-      let nextX = x, nextY = y;
+    const finalPath = [];
+    let currX = 0, currY = sourceY;
+    const visited = new Set();
+    finalPath.push({x: currX, y: currY});
+    visited.add(`${currX},${currY}`);
+    
+    // Direction priorities based on current position
+    function getNextCell() {
+      // Priority: try to fill all cells while moving toward drain
+      const directions = [
+        {dx: 1, dy: 0, dir: 1, opp: 3},  // right
+        {dx: 0, dy: 1, dir: 2, opp: 0},  // down
+        {dx: 0, dy: -1, dir: 0, opp: 2}, // up
+        {dx: -1, dy: 0, dir: 3, opp: 1}  // left
+      ];
       
-      if (x < cols - 1) {
-        if (y < drainY && Math.random() < 0.5) {
-          nextY = y + 1;
-        } else if (y > drainY && Math.random() < 0.5) {
-          nextY = y - 1;
+      // Shuffle for variety but prefer moving right when near drain
+      const shuffled = [...directions].sort(() => Math.random() - 0.5);
+      
+      // If we're at the drain position, stop
+      if (currX === cols - 1 && currY === drainY && visited.size === cols * rows) {
+        return null;
+      }
+      
+      for (const d of shuffled) {
+        const nx = currX + d.dx;
+        const ny = currY + d.dy;
+        if (nx >= 0 && nx < cols && ny >= 0 && ny < rows && !visited.has(`${nx},${ny}`)) {
+          return {x: nx, y: ny, dir: d.dir, opp: d.opp};
+        }
+      }
+      return null;
+    }
+    
+    // Build path using backtracking if needed
+    function buildPath() {
+      const stack = [{x: 0, y: sourceY, path: [{x: 0, y: sourceY}], visited: new Set([`0,${sourceY}`])}];
+      
+      while (stack.length > 0) {
+        const current = stack.pop();
+        const {x, y, path, visited} = current;
+        
+        // Check if we've visited all cells and reached drain
+        if (visited.size === cols * rows && x === cols - 1 && y === drainY) {
+          return path;
+        }
+        
+        // If all cells visited but not at drain, this path fails
+        if (visited.size === cols * rows) continue;
+        
+        // Try all directions
+        const directions = [
+          {dx: 1, dy: 0},
+          {dx: 0, dy: 1},
+          {dx: 0, dy: -1},
+          {dx: -1, dy: 0}
+        ];
+        
+        // Shuffle for randomness
+        directions.sort(() => Math.random() - 0.5);
+        
+        for (const d of directions) {
+          const nx = x + d.dx;
+          const ny = y + d.dy;
+          const key = `${nx},${ny}`;
+          
+          if (nx >= 0 && nx < cols && ny >= 0 && ny < rows && !visited.has(key)) {
+            const newVisited = new Set(visited);
+            newVisited.add(key);
+            const newPath = [...path, {x: nx, y: ny}];
+            stack.push({x: nx, y: ny, path: newPath, visited: newVisited});
+          }
+        }
+      }
+      
+      return null; // No valid path found
+    }
+    
+    // Try to build a Hamiltonian path
+    let hamiltonianPath = buildPath();
+    
+    // If no perfect path (rare), fall back to snake pattern
+    if (!hamiltonianPath) {
+      hamiltonianPath = [];
+      // Simple snake that we know works
+      for (let x = 0; x < cols; x++) {
+        if (x % 2 === 0) {
+          for (let y = 0; y < rows; y++) hamiltonianPath.push({x, y});
         } else {
-          nextX = x + 1;
-        }
-      } else {
-        if (y < drainY) nextY = y + 1;
-        else if (y > drainY) nextY = y - 1;
-      }
-      
-      // Set connections
-      if (nextX > x) {
-        solutionGrid[y][x].c[1] = 1;
-        solutionGrid[nextY][nextX].c[3] = 1;
-      } else if (nextY > y) {
-        solutionGrid[y][x].c[2] = 1;
-        solutionGrid[nextY][nextX].c[0] = 1;
-      } else if (nextY < y) {
-        solutionGrid[y][x].c[0] = 1;
-        solutionGrid[nextY][nextX].c[2] = 1;
-      }
-      
-      x = nextX;
-      y = nextY;
-      mainPath.push({x, y});
-    }
-    
-    // Add branch paths for multiple solutions
-    for (let b = 0; b < cfg.branches; b++) {
-      const branchStart = mainPath[Math.floor(Math.random() * (mainPath.length - 2)) + 1];
-      let bx = branchStart.x, by = branchStart.y;
-      let branchLen = 2 + Math.floor(Math.random() * 2);
-      
-      for (let i = 0; i < branchLen; i++) {
-        const dirs = [];
-        if (by > 0 && solutionGrid[by-1][bx].c.every(c => c === 0)) dirs.push({dx:0,dy:-1,from:2,to:0});
-        if (by < rows-1 && solutionGrid[by+1][bx].c.every(c => c === 0)) dirs.push({dx:0,dy:1,from:0,to:2});
-        if (bx < cols-2 && solutionGrid[by][bx+1].c.every(c => c === 0)) dirs.push({dx:1,dy:0,from:3,to:1});
-        
-        if (dirs.length === 0) break;
-        const dir = dirs[Math.floor(Math.random() * dirs.length)];
-        
-        solutionGrid[by][bx].c[dir.to] = 1;
-        bx += dir.dx;
-        by += dir.dy;
-        solutionGrid[by][bx].c[dir.from] = 1;
-        
-        // Try to connect back to main path
-        for (const mp of mainPath) {
-          if (Math.abs(mp.x - bx) + Math.abs(mp.y - by) === 1) {
-            if (mp.x > bx) { solutionGrid[by][bx].c[1] = 1; solutionGrid[mp.y][mp.x].c[3] = 1; }
-            else if (mp.x < bx) { solutionGrid[by][bx].c[3] = 1; solutionGrid[mp.y][mp.x].c[1] = 1; }
-            else if (mp.y > by) { solutionGrid[by][bx].c[2] = 1; solutionGrid[mp.y][mp.x].c[0] = 1; }
-            else if (mp.y < by) { solutionGrid[by][bx].c[0] = 1; solutionGrid[mp.y][mp.x].c[2] = 1; }
-            break;
-          }
+          for (let y = rows - 1; y >= 0; y--) hamiltonianPath.push({x, y});
         }
       }
     }
     
-    // Add source and drain connections
-    solutionGrid[sourceY][0].c[3] = 1;
-    solutionGrid[drainY][cols-1].c[1] = 1;
-    
-    // IMPORTANT: Ensure no pipe has more than 2 outlets (no T or cross pieces)
-    // Count connections for each cell and limit to 2
-    for (let gy = 0; gy < rows; gy++) {
-      for (let gx = 0; gx < cols; gx++) {
-        const cell = solutionGrid[gy][gx];
-        const count = cell.c.filter(v => v === 1).length;
-        if (count > 2) {
-          // Remove extra connections, keeping only first 2 found
-          let kept = 0;
-          for (let d = 0; d < 4; d++) {
-            if (cell.c[d] === 1) {
-              if (kept >= 2) {
-                cell.c[d] = 0;
-              } else {
-                kept++;
-              }
-            }
-          }
-        }
+    // Now build the solution grid from the path
+    for (let i = 0; i < hamiltonianPath.length - 1; i++) {
+      const curr = hamiltonianPath[i];
+      const next = hamiltonianPath[i + 1];
+      
+      if (next.x > curr.x) {
+        solutionGrid[curr.y][curr.x].c[1] = 1;
+        solutionGrid[next.y][next.x].c[3] = 1;
+      } else if (next.x < curr.x) {
+        solutionGrid[curr.y][curr.x].c[3] = 1;
+        solutionGrid[next.y][next.x].c[1] = 1;
+      } else if (next.y > curr.y) {
+        solutionGrid[curr.y][curr.x].c[2] = 1;
+        solutionGrid[next.y][next.x].c[0] = 1;
+      } else if (next.y < curr.y) {
+        solutionGrid[curr.y][curr.x].c[0] = 1;
+        solutionGrid[next.y][next.x].c[2] = 1;
       }
     }
     
-    // Create playable grid by scrambling
+    // Set source and drain based on actual path start/end
+    const pathStart = hamiltonianPath[0];
+    const pathEnd = hamiltonianPath[hamiltonianPath.length - 1];
+    sourceY = pathStart.y;
+    drainY = pathEnd.y;
+    
+    // Add external connections
+    solutionGrid[sourceY][0].c[3] = 1; // Entry from left
+    solutionGrid[drainY][cols-1].c[1] = 1; // Exit to right
+    
+    // Scramble rotations to create puzzle
     grid = [];
     for (let gy = 0; gy < rows; gy++) {
       grid[gy] = [];
@@ -3406,6 +3688,29 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
         container.appendChild(div);
       });
     }
+    
+    // Also update arcade section leaderboard (top 10 only)
+    const arcadeList = document.getElementById('arcadeLeaderboardList');
+    if (arcadeList) {
+      arcadeList.innerHTML = '';
+      const top10 = leaderboard.slice(0, 10);
+      
+      if (top10.length === 0) {
+        arcadeList.innerHTML = '<div style="color: rgba(255,255,255,0.4); font-family: \'JetBrains Mono\', monospace; font-size: 9px; text-align: center; padding: 10px;">No scores yet - be the first!</div>';
+      } else {
+        top10.forEach((entry, i) => {
+          const div = document.createElement('div');
+          div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; background: rgba(255,215,0,0.05); border-radius: 4px; border-left: 2px solid ' + (i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : 'rgba(255,215,0,0.2)') + ';';
+          div.innerHTML = `
+            <span style="color: ${i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : 'rgba(255,255,255,0.5)'}; font-family: 'JetBrains Mono', monospace; font-size: 9px; min-width: 18px;">${i + 1}.</span>
+            <span style="flex: 1; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 9px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${entry.name}</span>
+            <span style="color: rgba(255,255,255,0.3); font-family: 'JetBrains Mono', monospace; font-size: 8px; margin: 0 6px; max-width: 50px; overflow: hidden; text-overflow: ellipsis;">${entry.company || ''}</span>
+            <span style="color: #00ff88; font-family: 'JetBrains Mono', monospace; font-size: 9px; font-weight: 600;">${entry.score}</span>
+          `;
+          arcadeList.appendChild(div);
+        });
+      }
+    }
   }
   
   async function submitScore() {
@@ -3516,7 +3821,7 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     else if (state === 'levelComplete') nextLevel();
     else if (state === 'playing') {
       if (swapMode) {
-        // In swap mode, A confirms the swap
+        // In swap mode, ROT confirms the swap
         executeSwap();
       } else {
         rotateTile(true);
@@ -3524,46 +3829,33 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     }
   }
   
-  function handleB() {
+  function handleGrab() {
+    // GRAB button toggles swap mode
     if (state === 'playing') {
       if (swapMode) {
-        // Already in swap mode - cancel it
+        // Already holding a piece - drop it (cancel swap)
         cancelSwap();
       } else {
-        rotateTile(false);
+        // Pick up the current piece
+        startSwap();
       }
     } else {
       handleA();
     }
   }
   
-  function handleBHold() {
-    // Long press B enters swap mode
-    if (state === 'playing' && !swapMode) {
-      startSwap();
-    }
-  }
-  
   // Button bindings
   const btnA = document.getElementById('btnA');
-  const btnB = document.getElementById('btnB');
   const btnGrab = document.getElementById('btnGrab');
-  
-  let bHoldTimer = null;
   
   btnA.addEventListener('click', handleA);
   btnA.addEventListener('touchstart', e => e.preventDefault());
   btnA.addEventListener('touchend', e => { e.preventDefault(); handleA(); });
   
-  // B button now only rotates counter-clockwise
-  btnB.addEventListener('click', handleB);
-  btnB.addEventListener('touchstart', e => e.preventDefault());
-  btnB.addEventListener('touchend', e => { e.preventDefault(); handleB(); });
-  
   // GRAB button handles pick up / drop
-  btnGrab.addEventListener('click', handleBHold);
+  btnGrab.addEventListener('click', handleGrab);
   btnGrab.addEventListener('touchstart', e => e.preventDefault());
-  btnGrab.addEventListener('touchend', e => { e.preventDefault(); handleBHold(); });
+  btnGrab.addEventListener('touchend', e => { e.preventDefault(); handleGrab(); });
   
   document.getElementById('btnUp').onclick = () => moveCursor(0, -1);
   document.getElementById('btnDown').onclick = () => moveCursor(0, 1);
@@ -3586,14 +3878,10 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       case 'ArrowDown': case 's': moveCursor(0, 1); break;
       case 'ArrowLeft': case 'a': moveCursor(-1, 0); break;
       case 'ArrowRight': case 'd': moveCursor(1, 0); break;
-      case ' ': case 'z': e.preventDefault(); handleA(); break;
-      case 'x': 
+      case ' ': case 'z': case 'r': e.preventDefault(); handleA(); break; // Space, Z, or R to rotate
+      case 'g': case 'x': case 'c': // G, X, or C key for grab/swap
         e.preventDefault();
-        handleB(); // Just rotate counter-clockwise
-        break;
-      case 'g': case 'c': // G or C key for grab/swap
-        e.preventDefault();
-        handleBHold();
+        handleGrab();
         break;
       case 'Escape': hideGame(); break;
     }
@@ -6103,12 +6391,18 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   
   operatorToggle?.addEventListener('click', () => {
     const isOperator = mainContainer.getAttribute('data-operator') === 'true';
+    const soundIndicator = document.getElementById('soundIndicator');
     if (isOperator) {
       mainContainer.removeAttribute('data-operator');
       localStorage.setItem('watermaxxing-operator', 'false');
+      if (soundIndicator) soundIndicator.style.display = 'none';
     } else {
       mainContainer.setAttribute('data-operator', 'true');
       localStorage.setItem('watermaxxing-operator', 'true');
+      // Show sound indicator if user has interacted (soundscape will start)
+      if (soundIndicator && window.watermaxxingSounds?.hasInteracted) {
+        soundIndicator.style.display = 'inline';
+      }
     }
     if (window.watermaxxingSounds) window.watermaxxingSounds.playClick();
   });
@@ -6220,10 +6514,6 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 </body>
 </html>
-
-
-     
-
 
      
 </body>
