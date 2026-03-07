@@ -833,7 +833,7 @@ window.fieldSoundscape = {
     try {
       this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       this.masterGain = this.audioCtx.createGain();
-      this.masterGain.gain.value = 0.008; // Very subtle - barely audible
+      this.masterGain.gain.value = 0.024; // Subtle ambient - faint but perceptible
       this.masterGain.connect(this.audioCtx.destination);
       
       // Base electrical hum (60Hz with harmonics)
@@ -1047,13 +1047,55 @@ window.fieldSoundscape = {
 <!-- Large Avatar with rings and glitch -->
 <div id="headerSection" class="header-section">
 <div class="float" style="text-align: center; margin-bottom: 1.25rem;">
-  <div style="position: relative; display: inline-block;">
+  <div id="profilePicContainer" style="position: relative; display: inline-block; cursor: pointer;" onclick="toggleThugGlasses()">
     <div class="ring" style="position: absolute; top: -12px; left: -12px; right: -12px; bottom: -12px; border: 2px solid rgba(255,0,255,0.3); border-radius: 50%;"></div>
     <div class="ring" style="position: absolute; top: -6px; left: -6px; right: -6px; bottom: -6px; border: 1px solid rgba(0,255,255,0.4); border-radius: 50%; animation-delay: 0.5s;"></div>
-    <img src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" class="photo-glitch-pro" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
+    <img id="barronPhoto" src="https://ugc.production.linktr.ee/5dad016f-c443-42e7-8c23-c6d49785ae72_IMG-0940.jpeg?io=true&size=avatar-v3_0" alt="Barron Sawyer" class="photo-glitch-pro" style="width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #ff00ff; box-shadow: 0 0 40px rgba(255,0,255,0.6), 0 0 80px rgba(255,0,255,0.3), inset 0 0 30px rgba(255,0,255,0.1);">
+    <!-- Thug Life Pixel Glasses Overlay (hidden by default) -->
+    <svg id="thugGlasses" viewBox="0 0 100 30" style="position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); width: 90px; pointer-events: none; display: none; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.6));">
+      <!-- Left temple -->
+      <rect x="0" y="6" width="8" height="4" fill="#000"/>
+      <rect x="0" y="10" width="4" height="4" fill="#000"/>
+      <!-- Left lens frame -->
+      <rect x="8" y="4" width="4" height="2" fill="#000"/>
+      <rect x="8" y="6" width="32" height="4" fill="#000"/>
+      <rect x="8" y="10" width="4" height="14" fill="#000"/>
+      <rect x="36" y="10" width="4" height="14" fill="#000"/>
+      <rect x="8" y="24" width="32" height="4" fill="#000"/>
+      <!-- Left lens interior (reflections) -->
+      <rect x="12" y="10" width="24" height="14" fill="#000"/>
+      <rect x="14" y="12" width="4" height="4" fill="#fff" opacity="0.3"/>
+      <rect x="20" y="14" width="4" height="4" fill="#fff" opacity="0.2"/>
+      <!-- Bridge -->
+      <rect x="40" y="10" width="20" height="4" fill="#000"/>
+      <!-- Right lens frame -->
+      <rect x="56" y="4" width="4" height="2" fill="#000"/>
+      <rect x="56" y="6" width="32" height="4" fill="#000"/>
+      <rect x="56" y="10" width="4" height="14" fill="#000"/>
+      <rect x="84" y="10" width="4" height="14" fill="#000"/>
+      <rect x="56" y="24" width="32" height="4" fill="#000"/>
+      <!-- Right lens interior (reflections) -->
+      <rect x="60" y="10" width="24" height="14" fill="#000"/>
+      <rect x="62" y="12" width="4" height="4" fill="#fff" opacity="0.3"/>
+      <rect x="68" y="14" width="4" height="4" fill="#fff" opacity="0.2"/>
+      <!-- Right temple -->
+      <rect x="88" y="6" width="12" height="4" fill="#000"/>
+      <rect x="96" y="10" width="4" height="4" fill="#000"/>
+    </svg>
     <div class="status-dot" style="position: absolute; bottom: 8px; right: 8px; width: 22px; height: 22px; background: #00ff88; border-radius: 50%; border: 4px solid var(--status-border);"></div>
   </div>
 </div>
+<script>
+  let thugMode = false;
+  function toggleThugGlasses() {
+    thugMode = !thugMode;
+    const glasses = document.getElementById('thugGlasses');
+    glasses.style.display = thugMode ? 'block' : 'none';
+    if (thugMode && window.watermaxxingSounds) {
+      window.watermaxxingSounds.playChime();
+    }
+  }
+</script>
 
 <!-- Name & Bio -->
 <div style="text-align: center; margin-bottom: 1.5rem;">
@@ -1875,16 +1917,20 @@ window.fieldSoundscape = {
     
   </div>
   
-  <!-- Pipe Panic Leaderboard (below games) -->
-  <div id="arcadeLeaderboard" style="margin-top: 16px; padding: 12px; background: rgba(0,20,40,0.6); border: 1px solid rgba(255,215,0,0.3); border-radius: 10px;">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px;">
+  <!-- Pipe Panic Leaderboard (below games) - tappable to launch game -->
+  <div id="arcadeLeaderboard" onclick="document.getElementById('launchGameBtn').click();" style="margin-top: 16px; padding: 12px; background: rgba(0,20,40,0.6); border: 1px solid rgba(255,215,0,0.3); border-radius: 10px; cursor: pointer; transition: all 0.2s ease;">
+    <style>
+      #arcadeLeaderboard:hover { background: rgba(0,30,60,0.7); border-color: rgba(255,215,0,0.5); }
+    </style>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 8px;">
       <span style="font-size: 14px;">🏆</span>
-      <span style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; color: #FFD700; letter-spacing: 0.1em; text-shadow: 0 0 8px rgba(255,215,0,0.4);">PIPE PANIC TOP 10</span>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; color: #FFD700; letter-spacing: 0.1em; text-shadow: 0 0 8px rgba(255,215,0,0.4);">PIPE PANIC LEADERBOARD</span>
       <span style="font-size: 14px;">🏆</span>
     </div>
-    <div id="arcadeLeaderboardList" style="display: grid; gap: 4px; max-height: 180px; overflow-y: auto;">
+    <div id="arcadeLeaderboardList" style="display: grid; gap: 4px;">
       <div style="text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: rgba(255,255,255,0.4);">Loading scores...</div>
     </div>
+    <div style="text-align: center; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(0,255,255,0.5);">tap to play ▶</div>
   </div>
   
 </div>
@@ -2838,7 +2884,7 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     screens.start.style.display = 'flex';
   }
   
-  // Populate arcade leaderboard (below games grid)
+  // Populate arcade leaderboard (below games grid) - TOP 3 ONLY
   async function updateArcadeLeaderboard() {
     const listEl = document.getElementById('arcadeLeaderboardList');
     if (!listEl) return;
@@ -2853,13 +2899,13 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
         return;
       }
       
-      // Show top 10
-      const top10 = scores.slice(0, 10);
-      listEl.innerHTML = top10.map((entry, i) => {
-        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '';
-        const color = i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : 'rgba(255,255,255,0.7)';
-        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; background: rgba(255,255,255,0.03); border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 10px;">
-          <span style="color: ${color};">${medal || (i+1)+'.'} ${entry.name}</span>
+      // Show top 3 only
+      const top3 = scores.slice(0, 3);
+      listEl.innerHTML = top3.map((entry, i) => {
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉';
+        const color = i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : '#CD7F32';
+        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: rgba(255,255,255,0.05); border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
+          <span style="color: ${color}; font-weight: bold;">${medal} ${entry.name}</span>
           <span style="color: #00ffff; font-weight: bold;">${entry.score.toLocaleString()}</span>
         </div>`;
       }).join('');
@@ -2897,228 +2943,186 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     sourceY = Math.floor(Math.random() * rows);
     drainY = Math.floor(Math.random() * rows);
     
-    // Create solution grid using Hamiltonian path approach
-    // This guarantees: every cell has a pipe, puzzle is solvable
+    // Create solution grid
     solutionGrid = [];
     for (let y = 0; y < rows; y++) {
       solutionGrid[y] = [];
       for (let x = 0; x < cols; x++) {
-        solutionGrid[y][x] = { c: [0,0,0,0] }; // up, right, down, left
+        solutionGrid[y][x] = { c: [0,0,0,0], isEmpty: false };
       }
     }
     
-    // Build a snake path that visits every cell exactly once
-    // Start at (0, sourceY), end at (cols-1, drainY)
-    const path = [];
+    // Build PRIMARY path from source to drain
+    let px = 0, py = sourceY;
+    const pathCells = new Set([`0,${sourceY}`]);
     
-    // Strategy: snake pattern that ensures we hit source start and drain end
-    // We'll build rows in alternating direction
-    
-    // First, build a simple snake that covers all cells
-    const snakePath = [];
-    for (let x = 0; x < cols; x++) {
-      if (x % 2 === 0) {
-        for (let y = 0; y < rows; y++) snakePath.push({x, y});
+    while (px < cols - 1 || py !== drainY) {
+      let nextX = px, nextY = py;
+      
+      // Move toward drain with some randomness
+      if (px < cols - 1 && (py === drainY || Math.random() < 0.6)) {
+        nextX = px + 1;
+      } else if (py < drainY) {
+        nextY = py + 1;
+      } else if (py > drainY) {
+        nextY = py - 1;
       } else {
-        for (let y = rows - 1; y >= 0; y--) snakePath.push({x, y});
-      }
-    }
-    
-    // Find where source and drain are in the snake
-    const sourceIdx = snakePath.findIndex(p => p.x === 0 && p.y === sourceY);
-    const drainIdx = snakePath.findIndex(p => p.x === cols - 1 && p.y === drainY);
-    
-    // Rearrange path to start at source
-    // Rotate the path so sourceIdx becomes the start
-    const rotatedPath = [...snakePath.slice(sourceIdx), ...snakePath.slice(0, sourceIdx)];
-    
-    // Now connect consecutive cells in the path
-    for (let i = 0; i < rotatedPath.length - 1; i++) {
-      const curr = rotatedPath[i];
-      const next = rotatedPath[i + 1];
-      
-      // Determine direction from curr to next
-      if (next.x > curr.x) {
-        solutionGrid[curr.y][curr.x].c[1] = 1; // right exit
-        solutionGrid[next.y][next.x].c[3] = 1; // left entry
-      } else if (next.x < curr.x) {
-        solutionGrid[curr.y][curr.x].c[3] = 1; // left exit
-        solutionGrid[next.y][next.x].c[1] = 1; // right entry
-      } else if (next.y > curr.y) {
-        solutionGrid[curr.y][curr.x].c[2] = 1; // down exit
-        solutionGrid[next.y][next.x].c[0] = 1; // up entry
-      } else if (next.y < curr.y) {
-        solutionGrid[curr.y][curr.x].c[0] = 1; // up exit
-        solutionGrid[next.y][next.x].c[2] = 1; // down entry
-      }
-    }
-    
-    // Add source entry (from left) and drain exit (to right)
-    solutionGrid[sourceY][0].c[3] = 1; // source enters from left
-    solutionGrid[drainY][cols-1].c[1] = 1; // drain exits to right
-    
-    // Ensure first cell connects to source
-    const firstCell = rotatedPath[0];
-    if (firstCell.x === 0 && firstCell.y === sourceY) {
-      // Good - already at source
-    }
-    
-    // Ensure last cell connects to drain
-    const lastCell = rotatedPath[rotatedPath.length - 1];
-    if (lastCell.x === cols - 1 && lastCell.y === drainY) {
-      // Perfect - snake ends at drain
-    } else {
-      // Need to adjust - for now, just ensure drain has right exit
-      // The path may not end exactly at drain, so we need a different approach
-    }
-    
-    // Actually, let's use a simpler guaranteed approach:
-    // Build a path that definitely goes from source to drain
-    solutionGrid = [];
-    for (let y = 0; y < rows; y++) {
-      solutionGrid[y] = [];
-      for (let x = 0; x < cols; x++) {
-        solutionGrid[y][x] = { c: [0,0,0,0] };
-      }
-    }
-    
-    // Use a simple but guaranteed path builder:
-    // Go right across each row, alternating direction per row
-    // This creates a snake that visits every cell
-    
-    const finalPath = [];
-    let currX = 0, currY = sourceY;
-    const visited = new Set();
-    finalPath.push({x: currX, y: currY});
-    visited.add(`${currX},${currY}`);
-    
-    // Direction priorities based on current position
-    function getNextCell() {
-      // Priority: try to fill all cells while moving toward drain
-      const directions = [
-        {dx: 1, dy: 0, dir: 1, opp: 3},  // right
-        {dx: 0, dy: 1, dir: 2, opp: 0},  // down
-        {dx: 0, dy: -1, dir: 0, opp: 2}, // up
-        {dx: -1, dy: 0, dir: 3, opp: 1}  // left
-      ];
-      
-      // Shuffle for variety but prefer moving right when near drain
-      const shuffled = [...directions].sort(() => Math.random() - 0.5);
-      
-      // If we're at the drain position, stop
-      if (currX === cols - 1 && currY === drainY && visited.size === cols * rows) {
-        return null;
+        nextX = px + 1;
       }
       
-      for (const d of shuffled) {
-        const nx = currX + d.dx;
-        const ny = currY + d.dy;
-        if (nx >= 0 && nx < cols && ny >= 0 && ny < rows && !visited.has(`${nx},${ny}`)) {
-          return {x: nx, y: ny, dir: d.dir, opp: d.opp};
-        }
+      // Set connections
+      if (nextX > px) {
+        solutionGrid[py][px].c[1] = 1;
+        solutionGrid[nextY][nextX].c[3] = 1;
+      } else if (nextY > py) {
+        solutionGrid[py][px].c[2] = 1;
+        solutionGrid[nextY][nextX].c[0] = 1;
+      } else if (nextY < py) {
+        solutionGrid[py][px].c[0] = 1;
+        solutionGrid[nextY][nextX].c[2] = 1;
       }
-      return null;
+      
+      px = nextX;
+      py = nextY;
+      pathCells.add(`${px},${py}`);
     }
     
-    // Build path using backtracking if needed
-    function buildPath() {
-      const stack = [{x: 0, y: sourceY, path: [{x: 0, y: sourceY}], visited: new Set([`0,${sourceY}`])}];
+    // Build SECONDARY path (alternative route) - creates a branch from primary
+    // Pick a random cell on the primary path and branch from it
+    const pathArray = Array.from(pathCells).map(s => {
+      const [x, y] = s.split(',').map(Number);
+      return {x, y};
+    });
+    
+    if (pathArray.length > 3) {
+      // Pick a branch point (not start or end)
+      const branchIdx = 1 + Math.floor(Math.random() * (pathArray.length - 3));
+      const branchStart = pathArray[branchIdx];
       
-      while (stack.length > 0) {
-        const current = stack.pop();
-        const {x, y, path, visited} = current;
+      // Try to create an alternate route that rejoins the main path
+      let bx = branchStart.x, by = branchStart.y;
+      let branchLen = 2 + Math.floor(Math.random() * 2);
+      
+      for (let i = 0; i < branchLen; i++) {
+        const dirs = [];
+        // Check available directions
+        if (by > 0 && !pathCells.has(`${bx},${by-1}`)) dirs.push({dx:0, dy:-1, dir:0, opp:2});
+        if (by < rows-1 && !pathCells.has(`${bx},${by+1}`)) dirs.push({dx:0, dy:1, dir:2, opp:0});
+        if (bx < cols-1 && !pathCells.has(`${bx+1},${by}`)) dirs.push({dx:1, dy:0, dir:1, opp:3});
         
-        // Check if we've visited all cells and reached drain
-        if (visited.size === cols * rows && x === cols - 1 && y === drainY) {
-          return path;
-        }
+        if (dirs.length === 0) break;
         
-        // If all cells visited but not at drain, this path fails
-        if (visited.size === cols * rows) continue;
+        const d = dirs[Math.floor(Math.random() * dirs.length)];
         
-        // Try all directions
-        const directions = [
-          {dx: 1, dy: 0},
-          {dx: 0, dy: 1},
-          {dx: 0, dy: -1},
-          {dx: -1, dy: 0}
-        ];
-        
-        // Shuffle for randomness
-        directions.sort(() => Math.random() - 0.5);
-        
-        for (const d of directions) {
-          const nx = x + d.dx;
-          const ny = y + d.dy;
-          const key = `${nx},${ny}`;
+        // Only add if cell doesn't already have 2 connections
+        const currConns = solutionGrid[by][bx].c.filter(v => v === 1).length;
+        if (currConns < 2) {
+          solutionGrid[by][bx].c[d.dir] = 1;
+          bx += d.dx;
+          by += d.dy;
+          solutionGrid[by][bx].c[d.opp] = 1;
+          pathCells.add(`${bx},${by}`);
           
-          if (nx >= 0 && nx < cols && ny >= 0 && ny < rows && !visited.has(key)) {
-            const newVisited = new Set(visited);
-            newVisited.add(key);
-            const newPath = [...path, {x: nx, y: ny}];
-            stack.push({x: nx, y: ny, path: newPath, visited: newVisited});
+          // Try to connect back to main path
+          for (const mp of pathArray) {
+            if (Math.abs(mp.x - bx) + Math.abs(mp.y - by) === 1) {
+              const targetConns = solutionGrid[mp.y][mp.x].c.filter(v => v === 1).length;
+              const branchConns = solutionGrid[by][bx].c.filter(v => v === 1).length;
+              if (targetConns < 2 && branchConns < 2) {
+                if (mp.x > bx) { solutionGrid[by][bx].c[1] = 1; solutionGrid[mp.y][mp.x].c[3] = 1; }
+                else if (mp.x < bx) { solutionGrid[by][bx].c[3] = 1; solutionGrid[mp.y][mp.x].c[1] = 1; }
+                else if (mp.y > by) { solutionGrid[by][bx].c[2] = 1; solutionGrid[mp.y][mp.x].c[0] = 1; }
+                else if (mp.y < by) { solutionGrid[by][bx].c[0] = 1; solutionGrid[mp.y][mp.x].c[2] = 1; }
+              }
+              break;
+            }
           }
         }
       }
-      
-      return null; // No valid path found
     }
     
-    // Try to build a Hamiltonian path
-    let hamiltonianPath = buildPath();
+    // Add source and drain external connections
+    solutionGrid[sourceY][0].c[3] = 1;
+    solutionGrid[drainY][cols-1].c[1] = 1;
     
-    // If no perfect path (rare), fall back to snake pattern
-    if (!hamiltonianPath) {
-      hamiltonianPath = [];
-      // Simple snake that we know works
+    // Select 3 random empty cells (cells with no connections that aren't on the path)
+    const emptyPositions = [];
+    for (let y = 0; y < rows; y++) {
       for (let x = 0; x < cols; x++) {
-        if (x % 2 === 0) {
-          for (let y = 0; y < rows; y++) hamiltonianPath.push({x, y});
-        } else {
-          for (let y = rows - 1; y >= 0; y--) hamiltonianPath.push({x, y});
+        if (!pathCells.has(`${x},${y}`) && solutionGrid[y][x].c.every(c => c === 0)) {
+          emptyPositions.push({x, y});
         }
       }
     }
     
-    // Now build the solution grid from the path
-    for (let i = 0; i < hamiltonianPath.length - 1; i++) {
-      const curr = hamiltonianPath[i];
-      const next = hamiltonianPath[i + 1];
-      
-      if (next.x > curr.x) {
-        solutionGrid[curr.y][curr.x].c[1] = 1;
-        solutionGrid[next.y][next.x].c[3] = 1;
-      } else if (next.x < curr.x) {
-        solutionGrid[curr.y][curr.x].c[3] = 1;
-        solutionGrid[next.y][next.x].c[1] = 1;
-      } else if (next.y > curr.y) {
-        solutionGrid[curr.y][curr.x].c[2] = 1;
-        solutionGrid[next.y][next.x].c[0] = 1;
-      } else if (next.y < curr.y) {
-        solutionGrid[curr.y][curr.x].c[0] = 1;
-        solutionGrid[next.y][next.x].c[2] = 1;
+    // Shuffle and pick up to 3 empty cells
+    emptyPositions.sort(() => Math.random() - 0.5);
+    const emptyCells = emptyPositions.slice(0, 3);
+    emptyCells.forEach(cell => {
+      solutionGrid[cell.y][cell.x].isEmpty = true;
+    });
+    
+    // Fill remaining non-path cells with decorative pipes
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const cell = solutionGrid[y][x];
+        if (cell.isEmpty) continue; // Leave empty cells empty
+        
+        const connCount = cell.c.filter(v => v === 1).length;
+        if (connCount === 0) {
+          // Add a random decorative pipe (straight or corner)
+          const shapes = [
+            [0,1,0,1], // horizontal
+            [1,0,1,0], // vertical
+            [1,1,0,0], // corner
+            [0,1,1,0],
+            [0,0,1,1],
+            [1,0,0,1]
+          ];
+          cell.c = [...shapes[Math.floor(Math.random() * shapes.length)]];
+        } else if (connCount === 1) {
+          // Make it a corner or straight
+          const existingDir = cell.c.findIndex(v => v === 1);
+          if (Math.random() < 0.5) {
+            cell.c[(existingDir + 1) % 4] = 1;
+          } else {
+            cell.c[(existingDir + 2) % 4] = 1;
+          }
+        }
       }
     }
     
-    // Set source and drain based on actual path start/end
-    const pathStart = hamiltonianPath[0];
-    const pathEnd = hamiltonianPath[hamiltonianPath.length - 1];
-    sourceY = pathStart.y;
-    drainY = pathEnd.y;
-    
-    // Add external connections
-    solutionGrid[sourceY][0].c[3] = 1; // Entry from left
-    solutionGrid[drainY][cols-1].c[1] = 1; // Exit to right
+    // Ensure no cell has more than 2 connections
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const cell = solutionGrid[y][x];
+        if (cell.isEmpty) continue;
+        const count = cell.c.filter(v => v === 1).length;
+        if (count > 2) {
+          let kept = 0;
+          for (let d = 0; d < 4; d++) {
+            if (cell.c[d] === 1) {
+              if (kept >= 2) cell.c[d] = 0;
+              else kept++;
+            }
+          }
+        }
+      }
+    }
     
     // Scramble rotations to create puzzle
     grid = [];
     for (let gy = 0; gy < rows; gy++) {
       grid[gy] = [];
       for (let gx = 0; gx < cols; gx++) {
-        let c = [...solutionGrid[gy][gx].c];
-        const rots = 1 + Math.floor(Math.random() * 3);
-        for (let r = 0; r < rots; r++) c = rotateCW(c);
-        grid[gy][gx] = { c };
+        if (solutionGrid[gy][gx].isEmpty) {
+          grid[gy][gx] = { c: [0,0,0,0], isEmpty: true };
+        } else {
+          let c = [...solutionGrid[gy][gx].c];
+          const rots = 1 + Math.floor(Math.random() * 3);
+          for (let r = 0; r < rots; r++) c = rotateCW(c);
+          grid[gy][gx] = { c };
+        }
       }
     }
     
@@ -3639,6 +3643,11 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   }
   
   function gameOver() {
+    // Award points for cells the water flowed through (even on failure)
+    const cellsFlowed = flowPath.filter(f => !f.complete).length;
+    const flowBonus = cellsFlowed * 15; // 15 points per cell
+    score += flowBonus;
+    
     state = 'gameOver';
     pendingScore = score;
     document.getElementById('finalScore').textContent = score;
@@ -6106,6 +6115,9 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   let score = 0, answered = 0, totalQuestions = 15;
   let board = [];
   let currentQuestion = null;
+  let dailyDoubleIdx = -1; // Index of Daily Double question
+  let isWagering = false;
+  let currentWager = 0;
   
   function initGame() {
     score = 0; answered = 0;
@@ -6113,13 +6125,19 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     document.getElementById('triviaProgress').textContent = '0/15';
     document.getElementById('triviaResult').style.display = 'none';
     document.getElementById('triviaQuestion').style.display = 'none';
+    document.getElementById('triviaWager')?.remove(); // Remove any leftover wager UI
     
     board = [];
     categories.forEach(cat => {
       questions[cat.name].forEach(q => {
-        board.push({ ...q, category: cat.name, color: cat.color, used: false });
+        board.push({ ...q, category: cat.name, color: cat.color, used: false, isDailyDouble: false });
       });
     });
+    
+    // Pick ONE random question to be the Daily Double (not $100 questions)
+    const eligibleIdxs = board.map((q, i) => q.value >= 200 ? i : -1).filter(i => i >= 0);
+    dailyDoubleIdx = eligibleIdxs[Math.floor(Math.random() * eligibleIdxs.length)];
+    if (dailyDoubleIdx >= 0) board[dailyDoubleIdx].isDailyDouble = true;
     
     renderBoard();
   }
@@ -6155,8 +6173,60 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   
   function showQuestion(q) {
     currentQuestion = q;
+    isWagering = false;
+    currentWager = q.value;
+    
+    // Check if this is the Daily Double!
+    if (q.isDailyDouble) {
+      showDailyDouble(q);
+      return;
+    }
+    
+    displayQuestion(q);
+  }
+  
+  function showDailyDouble(q) {
+    isWagering = true;
+    const questionPanel = document.getElementById('triviaQuestion');
+    questionPanel.style.display = 'block';
+    
+    document.getElementById('triviaCategory').textContent = '⭐ DAILY DOUBLE! ⭐';
+    document.getElementById('triviaValue').textContent = q.category;
+    document.getElementById('triviaText').innerHTML = `
+      <div style="text-align: center;">
+        <div style="font-size: 28px; color: #FFD700; text-shadow: 0 0 20px rgba(255,215,0,0.8); margin-bottom: 16px; animation: pulse 1s infinite;">💰 DAILY DOUBLE! 💰</div>
+        <div style="font-size: 14px; color: rgba(255,255,255,0.8); margin-bottom: 20px;">Wager up to your current score ($${score}) or $500 minimum</div>
+        <div id="wagerInput" style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+          <input type="number" id="wagerAmount" min="${Math.max(100, 100)}" max="${Math.max(score, 500)}" value="${Math.min(Math.max(score, 500), 500)}" style="width: 100px; padding: 10px; font-family: 'Orbitron', sans-serif; font-size: 18px; background: rgba(0,0,0,0.5); border: 2px solid #FFD700; border-radius: 8px; color: #FFD700; text-align: center;">
+          <button onclick="confirmWager()" style="padding: 10px 24px; background: linear-gradient(180deg, #FFD700, #FFA000); border: none; border-radius: 8px; color: #000; font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: bold; cursor: pointer;">WAGER</button>
+        </div>
+        <div style="margin-top: 12px; display: flex; gap: 8px; justify-content: center;">
+          <button onclick="setWager(100)" style="padding: 6px 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; color: #fff; font-size: 11px; cursor: pointer;">$100</button>
+          <button onclick="setWager(${Math.floor(score/2) || 250})" style="padding: 6px 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; color: #fff; font-size: 11px; cursor: pointer;">HALF</button>
+          <button onclick="setWager(${Math.max(score, 500)})" style="padding: 6px 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); border-radius: 4px; color: #fff; font-size: 11px; cursor: pointer;">ALL IN</button>
+        </div>
+      </div>
+    `;
+    document.getElementById('triviaAnswers').innerHTML = '';
+  }
+  
+  window.setWager = function(amount) {
+    const input = document.getElementById('wagerAmount');
+    if (input) input.value = Math.max(100, Math.min(amount, Math.max(score, 500)));
+  };
+  
+  window.confirmWager = function() {
+    const input = document.getElementById('wagerAmount');
+    let wager = parseInt(input?.value) || 100;
+    wager = Math.max(100, Math.min(wager, Math.max(score, 500)));
+    currentWager = wager;
+    isWagering = false;
+    displayQuestion(currentQuestion);
+  };
+  
+  function displayQuestion(q) {
     document.getElementById('triviaCategory').textContent = q.category;
-    document.getElementById('triviaValue').textContent = '$' + q.value;
+    document.getElementById('triviaValue').textContent = q.isDailyDouble ? '💰 $' + currentWager + ' WAGER' : '$' + q.value;
     document.getElementById('triviaText').textContent = q.q;
     
     const answersEl = document.getElementById('triviaAnswers');
@@ -6176,6 +6246,8 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   }
   
   function answerQuestion(idx) {
+    if (isWagering) return; // Don't process answers while wagering
+    
     const btns = document.getElementById('triviaAnswers').children;
     const correct = currentQuestion.correct;
     
@@ -6190,7 +6262,13 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       }
     }
     
-    if (idx === correct) score += currentQuestion.value;
+    // Use currentWager for Daily Double, or question value otherwise
+    const pointValue = currentQuestion.isDailyDouble ? currentWager : currentQuestion.value;
+    if (idx === correct) {
+      score += pointValue;
+    } else if (currentQuestion.isDailyDouble) {
+      score = Math.max(0, score - currentWager); // Lose wager on Daily Double wrong answer
+    }
     answered++;
     currentQuestion.used = true;
     
@@ -6514,7 +6592,7 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 </body>
 </html>
-
+     
      
 </body>
 </html>
