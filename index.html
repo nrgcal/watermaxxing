@@ -2895,22 +2895,25 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       const scores = data && Array.isArray(data) ? data : [];
       
       if (scores.length === 0) {
-        listEl.innerHTML = '<div style="text-align: center; font-family: \'JetBrains Mono\', monospace; font-size: 10px; color: rgba(255,255,255,0.4);">No scores yet - be the first!</div>';
+        listEl.innerHTML = '<div style="text-align: center; font-family: \'Press Start 2P\', monospace; font-size: 8px; color: rgba(255,255,255,0.4);">NO SCORES YET</div>';
         return;
       }
       
-      // Show top 3 only
+      // Show top 3 only with Press Start 2P font (same as in-game leaderboard)
       const top3 = scores.slice(0, 3);
       listEl.innerHTML = top3.map((entry, i) => {
         const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : '🥉';
         const color = i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : '#CD7F32';
-        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: rgba(255,255,255,0.05); border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 11px;">
-          <span style="color: ${color}; font-weight: bold;">${medal} ${entry.name}</span>
-          <span style="color: #00ffff; font-weight: bold;">${entry.score.toLocaleString()}</span>
+        const borderColor = i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : 'rgba(0,255,255,0.3)';
+        return `<div style="display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; background: rgba(0,255,255,0.08); border-radius: 4px; border-left: 3px solid ${borderColor};">
+          <span style="color: ${color}; font-family: 'Press Start 2P', monospace; font-size: 8px; min-width: 20px; text-shadow: 1px 1px 0 rgba(0,0,0,0.5);">${String(i + 1).padStart(2, '0')}</span>
+          <span style="flex: 1; color: #fff; font-family: 'Press Start 2P', monospace; font-size: 7px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 6px;">${entry.name}</span>
+          <span style="color: rgba(255,255,255,0.4); font-family: 'Press Start 2P', monospace; font-size: 6px; margin: 0 6px; max-width: 50px; overflow: hidden; text-overflow: ellipsis;">${entry.company || ''}</span>
+          <span style="color: #00ff88; font-family: 'Press Start 2P', monospace; font-size: 8px; text-shadow: 0 0 8px rgba(0,255,136,0.5);">${entry.score}</span>
         </div>`;
       }).join('');
     } catch (e) {
-      listEl.innerHTML = '<div style="text-align: center; font-family: \'JetBrains Mono\', monospace; font-size: 10px; color: rgba(255,255,255,0.4);">Could not load scores</div>';
+      listEl.innerHTML = '<div style="text-align: center; font-family: \'Press Start 2P\', monospace; font-size: 8px; color: rgba(255,255,255,0.4);">OFFLINE</div>';
     }
   }
   
@@ -4374,9 +4377,15 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
         { type: 'whiteboard', x: 100, y: 80, w: 120, h: 80 },
         // Fridge
         { type: 'fridge', x: 680, y: 100, w: 50, h: 100 },
+        // BULLETIN BOARD with links
+        { type: 'bulletin_board', x: 100, y: 180, w: 80, h: 100, links: [
+          { label: '𝕏 BARRON', url: 'https://x.com/BarronSawyer' },
+          { label: '🎬 VIDEOS', url: 'https://www.linkedin.com/in/sawyerlaw/recent-activity/videos/' },
+          { label: '📰 FLOWSTATE', url: 'https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/' }
+        ]},
         // Signs
-        { type: 'sign', x: 100, y: 320, text: 'BREAKROOM\n"Clean up after\nyourself." — Nobody' },
-        { type: 'sign', x: 620, y: 320, text: 'COFFEE FUND:\n$0.50/cup\nHonor system (lol)' },
+        { type: 'sign', x: 300, y: 340, text: 'COFFEE FUND:\n$0.50/cup\nHonor system (lol)' },
+        { type: 'sign', x: 550, y: 340, text: 'REMINDER:\ngo outside.\ntouch grass. 🌿' },
         // Coins
         { type: 'coin', x: 350, y: 350, collected: false },
         // Doors
@@ -4828,6 +4837,61 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     state = 'playing';
   }
   
+  // Bulletin board modal
+  let bulletinLinks = [];
+  let bulletinSelection = 0;
+  
+  function showBulletinBoard(links) {
+    bulletinLinks = links;
+    bulletinSelection = 0;
+    state = 'bulletin';
+    
+    // Create bulletin modal if it doesn't exist
+    let modal = document.getElementById('fsBulletinModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'fsBulletinModal';
+      modal.style.cssText = 'position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 240px; background: linear-gradient(180deg, #8D6E63, #6D4C41); border: 4px solid #5D4037; border-radius: 12px; padding: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.4); z-index: 100;';
+      modal.innerHTML = `
+        <div style="text-align: center; font-family: Georgia; font-size: 14px; font-weight: bold; color: #fff; margin-bottom: 12px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">📌 BULLETIN BOARD</div>
+        <div id="fsBulletinItems" style="display: flex; flex-direction: column; gap: 6px;"></div>
+        <div style="margin-top: 12px; text-align: center; font-family: Georgia; font-size: 10px; color: rgba(255,255,255,0.7);">↑↓ select · A open · B close</div>
+      `;
+      document.getElementById('flowstateGame').appendChild(modal);
+    }
+    
+    renderBulletin();
+    modal.style.display = 'block';
+  }
+  
+  function closeBulletin() {
+    const modal = document.getElementById('fsBulletinModal');
+    if (modal) modal.style.display = 'none';
+    state = 'playing';
+  }
+  
+  function renderBulletin() {
+    const container = document.getElementById('fsBulletinItems');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    const noteColors = ['#FFF59D', '#80DEEA', '#F48FB1'];
+    bulletinLinks.forEach((link, i) => {
+      const div = document.createElement('div');
+      div.style.cssText = `padding: 10px 12px; background: ${noteColors[i % noteColors.length]}; border: 2px solid ${i === bulletinSelection ? '#F44336' : 'rgba(0,0,0,0.2)'}; border-radius: 6px; cursor: pointer; transform: ${i === bulletinSelection ? 'scale(1.05)' : 'scale(1)'}; transition: transform 0.1s;`;
+      div.innerHTML = `<div style="font-family: Georgia; font-size: 12px; color: #333; font-weight: bold; text-align: center;">${link.label}</div>`;
+      div.onclick = () => { bulletinSelection = i; renderBulletin(); };
+      container.appendChild(div);
+    });
+  }
+  
+  function bulletinAction() {
+    const link = bulletinLinks[bulletinSelection];
+    if (link && link.url) {
+      window.open(link.url, '_blank');
+    }
+  }
+  
   // Shop close button handlers
   document.getElementById('fsShopClose')?.addEventListener('click', closeShop);
   document.getElementById('fsShopCloseBtn')?.addEventListener('click', closeShop);
@@ -4928,6 +4992,12 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       // Sign - read it
       if (obj.type === 'sign' && dist < 50) {
         showDialog(obj.text.replace(/\n/g, ' '));
+        return;
+      }
+      
+      // Bulletin board - show links menu
+      if (obj.type === 'bulletin_board' && dist < 60 && obj.links) {
+        showBulletinBoard(obj.links);
         return;
       }
       
@@ -5489,6 +5559,59 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       }
     }
     
+    // Bulletin board with clickable links
+    if (obj.type === 'bulletin_board') {
+      // Cork board background
+      ctx.fillStyle = '#8D6E63';
+      ctx.fillRect(obj.x, obj.y, obj.w, obj.h);
+      ctx.fillStyle = '#A1887F';
+      ctx.fillRect(obj.x + 4, obj.y + 4, obj.w - 8, obj.h - 8);
+      // Wood frame
+      ctx.strokeStyle = '#5D4037';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(obj.x, obj.y, obj.w, obj.h);
+      // Pinned notes
+      if (obj.links) {
+        const noteColors = ['#FFF59D', '#80DEEA', '#F48FB1'];
+        obj.links.forEach((link, i) => {
+          const noteY = obj.y + 12 + i * 28;
+          // Note
+          ctx.fillStyle = noteColors[i % noteColors.length];
+          ctx.fillRect(obj.x + 8, noteY, obj.w - 16, 22);
+          // Shadow
+          ctx.fillStyle = 'rgba(0,0,0,0.1)';
+          ctx.fillRect(obj.x + 10, noteY + 2, obj.w - 16, 22);
+          // Pin
+          ctx.fillStyle = '#F44336';
+          ctx.beginPath();
+          ctx.arc(obj.x + obj.w/2, noteY + 2, 4, 0, Math.PI * 2);
+          ctx.fill();
+          // Text
+          ctx.fillStyle = '#333';
+          ctx.font = 'bold 8px Arial';
+          ctx.textAlign = 'center';
+          ctx.fillText(link.label, obj.x + obj.w/2, noteY + 14);
+        });
+      }
+      // Title
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 7px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('BOARD', obj.x + obj.w/2, obj.y - 3);
+      
+      // Interaction hint when nearby
+      const px = player.x + player.w/2;
+      const py = player.y + player.h/2;
+      if (Math.hypot(px - obj.x - obj.w/2, py - obj.y - obj.h/2) < 60 && state === 'playing') {
+        ctx.fillStyle = '#2196F3';
+        ctx.fillRect(obj.x - 10, obj.y - 20, obj.w + 20, 14);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 8px Georgia';
+        ctx.textAlign = 'center';
+        ctx.fillText('PRESS A', obj.x + obj.w/2, obj.y - 10);
+      }
+    }
+    
     if (obj.type === 'npc') {
       const bob = Math.sin(gameTime * 2 + obj.x) * 1.5;
       const nx = obj.x, ny = obj.y;
@@ -5689,11 +5812,13 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     if (state === 'dialog') advanceDialog();
     else if (state === 'npc_dialog') advanceNpcDialogue();
     else if (state === 'shop') shopAction();
+    else if (state === 'bulletin') bulletinAction();
     else if (state === 'playing') interact();
   }
   
   function handleB() {
     if (state === 'shop') closeShop();
+    else if (state === 'bulletin') closeBulletin();
     else if (state === 'npc_dialog') {
       dialogBox.style.display = 'none';
       state = 'playing';
@@ -5714,6 +5839,10 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     if (state === 'shop') {
       if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') { shopSelection = Math.max(0, shopSelection - 1); renderShop(); }
       if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') { shopSelection = Math.min(shopItems.length - 1, shopSelection + 1); renderShop(); }
+    }
+    if (state === 'bulletin') {
+      if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w') { bulletinSelection = Math.max(0, bulletinSelection - 1); renderBulletin(); }
+      if (e.key === 'ArrowDown' || e.key.toLowerCase() === 's') { bulletinSelection = Math.min(bulletinLinks.length - 1, bulletinSelection + 1); renderBulletin(); }
     }
   });
   
@@ -6592,7 +6721,6 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 </body>
 </html>
-     
      
 </body>
 </html>
