@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+w<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
@@ -1143,6 +1143,15 @@ window.fieldSoundscape = {
   <a href="https://www.threads.com/bearsaw" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; color: #fff; text-decoration: none;">
     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.017c.03-3.579.879-6.43 2.525-8.482C5.845 1.205 8.6.024 12.18 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.96-3.898-5.984-8.304-6.015-2.91.022-5.11.936-6.54 2.717C4.307 6.504 3.616 8.914 3.59 12c.025 3.086.718 5.496 2.057 7.164 1.43 1.783 3.631 2.698 6.54 2.717 2.623-.02 4.358-.631 5.8-2.045 1.647-1.613 1.618-3.593 1.09-4.798-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.96-.065-1.182.408-2.256 1.33-3.022.88-.73 2.082-1.146 3.39-1.17 1.016-.02 1.97.14 2.849.476-.03-.986-.18-1.79-.45-2.404-.387-.882-1.065-1.325-2.073-1.357-1.521-.047-2.404.655-2.62 2.082l-2.032-.309c.34-2.334 2.074-3.643 4.608-3.593 1.634.032 2.893.674 3.638 1.855.547.866.84 1.97.898 3.375.535.212 1.02.47 1.453.772 1.133.79 1.948 1.86 2.366 3.105.603 1.796.506 4.396-1.673 6.527-1.87 1.826-4.215 2.64-7.378 2.664z"/></svg>
   </a>
+  <!-- 7. Kick -->
+  <a href="https://kick.com/watermaxxing" target="_blank" style="display: flex; align-items: center; justify-content: center; width: 46px; height: 46px; background: rgba(83,252,24,0.1); border: 1px solid rgba(83,252,24,0.3); border-radius: 50%; color: #53FC18; text-decoration: none;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M6 4v16"/>
+      <path d="M6 12l6-6"/>
+      <path d="M12 12l6 6"/>
+      <path d="M12 12l6-6"/>
+    </svg>
+  </a>
 </div>
 </div><!-- end headerSection -->
 ```
@@ -1165,7 +1174,7 @@ window.fieldSoundscape = {
     </div>
     <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
   </div>
-  <div class="accordion-content" style="max-height: 0;">
+  <div class="accordion-content">
     <div style="display: flex; flex-direction: column; gap: 8px;">
       <a href="https://www.linkedin.com/pulse/why-so-many-industries-outsourcing-water-operations-us-sawyer-jd-tbrfc" target="_blank" class="link-item" style="padding: 12px 14px;">
         <div class="link-icon" style="width: 36px; height: 36px; background: rgba(0,255,255,0.1); border: 1px solid rgba(0,255,255,0.3);">
@@ -6679,17 +6688,39 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     shiftlog: () => {
       return "SHIFT LOG ENTRY:\\n" + shiftLogs[Math.floor(Math.random() * shiftLogs.length)];
     },
+    x: () => {
+      window.open('https://x.com/BarronSawyer', '_blank');
+      return "Opening Barron's X feed...";
+    },
+    twitter: () => {
+      window.open('https://x.com/BarronSawyer', '_blank');
+      return "Opening Barron's X feed...";
+    },
+    videos: () => {
+      window.open('https://www.linkedin.com/in/sawyerlaw/recent-activity/videos/', '_blank');
+      return "Opening Barron's LinkedIn videos...";
+    },
+    newsletter: () => {
+      window.open('https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/', '_blank');
+      return "Opening FLOWSTATE newsletter...";
+    },
+    flowstate: () => {
+      window.open('https://www.linkedin.com/newsletters/flowstate-it%25E2%2580%2599s-probably-ok-7332189682052554753/', '_blank');
+      return "Opening FLOWSTATE newsletter...";
+    },
+    grass: () => {
+      return "🌿 REMINDER: go outside. touch grass.\\n\\nSeriously. Step away from the screen.\\nThe clarifier can wait.";
+    },
+    links: () => {
+      return "BREAKROOM LINKS:\\n  x - Barron's X/Twitter\\n  videos - LinkedIn videos\\n  newsletter - FLOWSTATE newsletter\\n  grass - important reminder";
+    },
     help: () => {
-      return "AVAILABLE COMMANDS:\\n  status - show system status\\n  telemetry - jump to telemetry\\n  arcade - jump to arcade\\n  shiftlog - random shift log entry";
+      return "AVAILABLE COMMANDS:\\n  status - show system status\\n  telemetry - jump to telemetry\\n  arcade - jump to arcade\\n  shiftlog - random shift log entry\\n  links - breakroom resources\\n  x - Barron's X feed\\n  videos - LinkedIn videos\\n  newsletter - FLOWSTATE\\n  grass - touch grass reminder";
     }
   };
   
+  // Terminal can only be accessed via operator mode UI, not keyboard shortcut
   document.addEventListener('keydown', (e) => {
-    if (e.shiftKey && e.key === 'T') {
-      e.preventDefault();
-      terminalOverlay.style.display = 'flex';
-      document.getElementById('terminalInput').focus();
-    }
     if (e.key === 'Escape' && terminalOverlay.style.display === 'flex') {
       terminalOverlay.style.display = 'none';
     }
