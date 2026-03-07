@@ -36,7 +36,7 @@
   const firebaseDB = firebase.database();
 </script>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
 /* === THEME VARIABLES === */
@@ -1983,11 +1983,11 @@ window.watermaxxingSounds.init();
       
       <!-- Leaderboard Screen -->
       <div id="leaderboardScreen" style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(0,30,60,0.98) 0%, rgba(0,10,30,0.99) 100%); display: none; flex-direction: column; align-items: center; justify-content: flex-start; z-index: 60; padding: 15px; overflow-y: auto;">
-        <div style="font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900; color: #FFD700; text-shadow: 0 0 20px rgba(255,215,0,0.5); margin-bottom: 4px;">🏆 TOP 10 🏆</div>
+        <div style="font-family: 'Press Start 2P', 'Orbitron', sans-serif; font-size: 14px; font-weight: 900; color: #FFD700; text-shadow: 0 0 20px rgba(255,215,0,0.5), 2px 2px 0 #aa8800; margin-bottom: 4px; letter-spacing: 2px;">TOP 20</div>
         <div style="width: 80px; height: 2px; background: linear-gradient(90deg, transparent, #FFD700, transparent); margin-bottom: 12px;"></div>
-        <div id="startLeaderboardList" style="width: 100%; max-width: 280px;"></div>
+        <div id="startLeaderboardList" style="width: 100%; max-width: 300px;"></div>
         <button id="backFromLeaderboardBtn" style="margin-top: 12px; padding: 8px 20px; background: rgba(0,255,255,0.15); border: 1px solid rgba(0,255,255,0.4); border-radius: 8px; color: #00ffff; font-family: 'Orbitron', sans-serif; font-size: 10px; cursor: pointer;">
-          ← BACK
+          BACK
         </button>
       </div>
       
@@ -2031,16 +2031,16 @@ window.watermaxxingSounds.init();
         <!-- Leaderboard Form -->
         <div id="scoreForm" style="background: rgba(0,0,0,0.4); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(0,255,255,0.3); margin-bottom: 8px; width: 90%;">
           <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; color: #00ffff; margin-bottom: 6px; text-align: center;">SUBMIT TO LEADERBOARD</div>
-          <input type="text" id="playerName" placeholder="Name (8 chars)" maxlength="8" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,255,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
-          <input type="text" id="playerCompany" placeholder="Company (8 chars)" maxlength="8" style="width: 100%; padding: 6px 10px; margin-bottom: 8px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,255,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
+          <input type="text" id="playerName" placeholder="Name (10 chars)" maxlength="10" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,255,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
+          <input type="text" id="playerCompany" placeholder="Company (10 chars)" maxlength="10" style="width: 100%; padding: 6px 10px; margin-bottom: 8px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,255,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
           <button onclick="submitPipePanicScore()" style="width: 100%; padding: 8px; background: linear-gradient(180deg, #00ffff, #0099aa); border: none; border-radius: 6px; color: #000; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">SUBMIT SCORE</button>
         </div>
         <div id="scoreSubmitted" style="display: none; color: #00ff88; font-size: 10px; margin-bottom: 8px;">✓ Score submitted!</div>
         
         <!-- Leaderboard Display -->
         <div id="gameOverLeaderboard" style="background: rgba(0,0,0,0.3); padding: 8px 10px; border-radius: 8px; width: 90%; margin-bottom: 8px;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; color: #FFD700; margin-bottom: 6px; text-align: center;">🏆 TOP 10</div>
-          <div id="leaderboardList" style="max-height: 120px; overflow-y: auto;"></div>
+          <div style="font-family: 'Press Start 2P', 'Orbitron', sans-serif; font-size: 10px; color: #FFD700; margin-bottom: 6px; text-align: center; text-shadow: 1px 1px 0 #aa8800;">TOP 20</div>
+          <div id="leaderboardList" style="max-height: 180px; overflow-y: auto;"></div>
         </div>
         
         <div style="font-family: 'Orbitron', sans-serif; font-size: 11px; color: rgba(255,255,255,0.6);">▶ PRESS A TO RESTART ◀</div>
@@ -2065,9 +2065,9 @@ window.watermaxxingSounds.init();
         
         <!-- Leaderboard Form -->
         <div id="victoryScoreForm" style="background: rgba(0,0,0,0.4); padding: 10px 14px; border-radius: 10px; border: 1px solid rgba(0,255,136,0.3); margin-bottom: 8px; width: 90%; position: relative; z-index: 1;">
-          <div style="font-family: 'Orbitron', sans-serif; font-size: 9px; color: #00ff88; margin-bottom: 6px; text-align: center;">🏆 SUBMIT TO LEADERBOARD</div>
-          <input type="text" id="victoryPlayerName" placeholder="Name (8 chars)" maxlength="8" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,136,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
-          <input type="text" id="victoryPlayerCompany" placeholder="Company (8 chars)" maxlength="8" style="width: 100%; padding: 6px 10px; margin-bottom: 8px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,136,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
+          <div style="font-family: 'Press Start 2P', 'Orbitron', sans-serif; font-size: 8px; color: #00ff88; margin-bottom: 6px; text-align: center; text-shadow: 1px 1px 0 #008844;">SUBMIT TO LEADERBOARD</div>
+          <input type="text" id="victoryPlayerName" placeholder="Name (10 chars)" maxlength="10" style="width: 100%; padding: 6px 10px; margin-bottom: 6px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,136,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
+          <input type="text" id="victoryPlayerCompany" placeholder="Company (10 chars)" maxlength="10" style="width: 100%; padding: 6px 10px; margin-bottom: 8px; background: rgba(0,50,80,0.5); border: 1px solid rgba(0,255,136,0.3); border-radius: 6px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 11px; outline: none; box-sizing: border-box;">
           <button onclick="submitVictoryScore()" style="width: 100%; padding: 8px; background: linear-gradient(180deg, #00ff88, #00aa55); border: none; border-radius: 6px; color: #000; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: bold; cursor: pointer;">SUBMIT SCORE</button>
         </div>
         <div id="victoryScoreSubmitted" style="display: none; color: #00ff88; font-size: 10px; margin-bottom: 8px; position: relative; z-index: 1;">✓ Score submitted!</div>
@@ -2408,6 +2408,28 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     // Add source and drain connections
     solutionGrid[sourceY][0].c[3] = 1;
     solutionGrid[drainY][cols-1].c[1] = 1;
+    
+    // IMPORTANT: Ensure no pipe has more than 2 outlets (no T or cross pieces)
+    // Count connections for each cell and limit to 2
+    for (let gy = 0; gy < rows; gy++) {
+      for (let gx = 0; gx < cols; gx++) {
+        const cell = solutionGrid[gy][gx];
+        const count = cell.c.filter(v => v === 1).length;
+        if (count > 2) {
+          // Remove extra connections, keeping only first 2 found
+          let kept = 0;
+          for (let d = 0; d < 4; d++) {
+            if (cell.c[d] === 1) {
+              if (kept >= 2) {
+                cell.c[d] = 0;
+              } else {
+                kept++;
+              }
+            }
+          }
+        }
+      }
+    }
     
     // Create playable grid by scrambling
     grid = [];
@@ -2968,21 +2990,21 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
       if (!container) continue;
       
       container.innerHTML = '';
-      const top10 = leaderboard.slice(0, 10);
+      const top20 = leaderboard.slice(0, 20);
       
-      if (top10.length === 0) {
-        container.innerHTML = '<div style="color: rgba(255,255,255,0.5); font-size: 10px; text-align: center;">No scores yet. Be the first!</div>';
+      if (top20.length === 0) {
+        container.innerHTML = '<div style="color: rgba(255,255,255,0.5); font-family: \'Press Start 2P\', monospace; font-size: 8px; text-align: center; padding: 10px;">NO SCORES YET</div>';
         continue;
       }
       
-      top10.forEach((entry, i) => {
+      top20.forEach((entry, i) => {
         const div = document.createElement('div');
-        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; background: rgba(0,255,255,0.1); border-radius: 4px; margin-bottom: 3px;';
+        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; background: rgba(0,255,255,0.08); border-radius: 4px; margin-bottom: 3px; border-left: 3px solid ' + (i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : 'rgba(0,255,255,0.3)') + ';';
         div.innerHTML = `
-          <span style="color: ${i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : '#fff'}; font-weight: bold; font-size: 10px; min-width: 18px;">${i + 1}.</span>
-          <span style="flex: 1; color: #fff; font-size: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${entry.name}</span>
-          <span style="color: rgba(255,255,255,0.5); font-size: 9px; margin: 0 6px;">${entry.company || ''}</span>
-          <span style="color: #00ffff; font-weight: bold; font-size: 11px;">${entry.score}</span>
+          <span style="color: ${i === 0 ? '#FFD700' : i === 1 ? '#C0C0C0' : i === 2 ? '#CD7F32' : '#00ffff'}; font-family: 'Press Start 2P', monospace; font-size: 8px; min-width: 24px; text-shadow: 1px 1px 0 rgba(0,0,0,0.5);">${String(i + 1).padStart(2, '0')}</span>
+          <span style="flex: 1; color: #fff; font-family: 'Press Start 2P', monospace; font-size: 7px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; margin-left: 6px;">${entry.name}</span>
+          <span style="color: rgba(255,255,255,0.4); font-family: 'Press Start 2P', monospace; font-size: 6px; margin: 0 6px; max-width: 60px; overflow: hidden; text-overflow: ellipsis;">${entry.company || ''}</span>
+          <span style="color: #00ff88; font-family: 'Press Start 2P', monospace; font-size: 8px; text-shadow: 0 0 8px rgba(0,255,136,0.5);">${entry.score}</span>
         `;
         container.appendChild(div);
       });
@@ -3009,8 +3031,8 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     
     // Add to leaderboard
     leaderboard.push({
-      name: name.substring(0, 8),
-      company: company.substring(0, 8),
+      name: name.substring(0, 10),
+      company: company.substring(0, 10),
       score: pendingScore,
       date: new Date().toISOString()
     });
@@ -3058,8 +3080,8 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
     }
     
     leaderboard.push({
-      name: name.substring(0, 8),
-      company: company.substring(0, 8),
+      name: name.substring(0, 10),
+      company: company.substring(0, 10),
       score: pendingScore,
       date: new Date().toISOString()
     });
@@ -3374,66 +3396,75 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 <!-- Plant Map - Shows all rooms and current location -->
 <div id="fsPlantMap" style="display: none; margin-top: 12px; padding: 12px; background: rgba(0,30,45,0.95); border: 2px solid rgba(0,255,255,0.4); border-radius: 8px;">
-  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #00ffff; text-align: center; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.1em; text-shadow: 0 0 8px rgba(0,255,255,0.5);">⬡ FACILITY MAP</div>
-  <svg id="fsMapSvg" width="100%" height="140" viewBox="0 0 320 140" style="display: block; margin: 0 auto;">
+  <div style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #00ffff; text-align: center; margin-bottom: 8px; font-weight: bold; letter-spacing: 0.1em; text-shadow: 0 0 8px rgba(0,255,255,0.5);">FACILITY MAP</div>
+  <svg id="fsMapSvg" width="100%" height="160" viewBox="0 0 280 160" style="display: block; margin: 0 auto;">
     <!-- Blueprint grid background -->
     <defs>
       <pattern id="blueprintGrid" patternUnits="userSpaceOnUse" width="20" height="20">
         <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,255,255,0.1)" stroke-width="0.5"/>
       </pattern>
     </defs>
-    <rect width="320" height="140" fill="url(#blueprintGrid)"/>
+    <rect width="280" height="160" fill="url(#blueprintGrid)"/>
     
-    <!-- Row 1: Breakroom - Control - Pumps -->
-    <rect id="mapBreakroom" x="10" y="10" width="55" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="37" y="32" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">BREAK</text>
+    <!-- Layout based on actual door connections:
+         Row 1: Toolcrib - Breakroom - Control - Pumps
+         Row 2: ThickenerPit - ClarifierDeck - ChemStorage
+         Row 3: (empty) - InstrumentLab - FilterGallery
+    -->
     
-    <rect id="mapControl" x="80" y="5" width="70" height="45" rx="3" fill="none" stroke="#00ffff" stroke-width="2"/>
-    <text x="115" y="32" font-family="JetBrains Mono, monospace" font-size="7" fill="#00ffff" text-anchor="middle">CONTROL</text>
+    <!-- Row 1 -->
+    <rect id="mapToolcrib" x="10" y="10" width="50" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="35" y="30" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">TOOLS</text>
     
-    <rect id="mapPumps" x="165" y="10" width="55" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="192" y="32" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">PUMPS</text>
+    <rect id="mapBreakroom" x="70" y="10" width="50" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="95" y="30" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">BREAK</text>
     
-    <!-- Row 2: Tool Crib - Clarifier Deck - Chemical Storage -->
-    <rect id="mapToolcrib" x="10" y="55" width="55" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="37" y="77" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">TOOLS</text>
+    <rect id="mapControl" x="130" y="5" width="60" height="42" rx="3" fill="none" stroke="#00ffff" stroke-width="2"/>
+    <text x="160" y="30" font-family="JetBrains Mono, monospace" font-size="7" fill="#00ffff" text-anchor="middle">CONTROL</text>
     
-    <rect id="mapClarifierDeck" x="80" y="55" width="70" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="115" y="77" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">CLARIFIER</text>
+    <rect id="mapPumps" x="200" y="10" width="50" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="225" y="30" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">PUMPS</text>
     
-    <rect id="mapChemStorage" x="165" y="55" width="55" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="192" y="77" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">CHEMICAL</text>
+    <!-- Row 2 -->
+    <rect id="mapThickenerPit" x="10" y="60" width="50" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="35" y="80" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">THICKENER</text>
     
-    <!-- Row 3: Thickener Pit - Filter Gallery - Instrument Lab -->
-    <rect id="mapThickenerPit" x="10" y="100" width="55" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="37" y="122" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">THICKENER</text>
+    <rect id="mapClarifierDeck" x="100" y="60" width="60" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="130" y="80" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">CLARIFIER</text>
     
-    <rect id="mapFilterGallery" x="80" y="100" width="70" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="115" y="122" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">FILTERS</text>
+    <rect id="mapChemStorage" x="200" y="60" width="50" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="225" y="80" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">CHEMICAL</text>
     
-    <rect id="mapInstrumentLab" x="165" y="100" width="55" height="35" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
-    <text x="192" y="122" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">LAB</text>
+    <!-- Row 3 -->
+    <rect id="mapInstrumentLab" x="100" y="110" width="60" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="130" y="130" font-family="JetBrains Mono, monospace" font-size="6" fill="#00ffff" text-anchor="middle">LAB</text>
     
-    <!-- Connection lines (pipes) -->
-    <line x1="65" y1="27" x2="80" y2="27" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="150" y1="27" x2="165" y2="27" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="115" y1="50" x2="115" y2="55" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="37" y1="45" x2="37" y2="55" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="65" y1="72" x2="80" y2="72" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="150" y1="72" x2="165" y2="72" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="37" y1="90" x2="37" y2="100" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="115" y1="90" x2="115" y2="100" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="192" y1="90" x2="192" y2="100" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
-    <line x1="150" y1="117" x2="165" y2="117" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+    <rect id="mapFilterGallery" x="200" y="110" width="50" height="32" rx="3" fill="none" stroke="#00ffff" stroke-width="1.5"/>
+    <text x="225" y="130" font-family="JetBrains Mono, monospace" font-size="5" fill="#00ffff" text-anchor="middle">FILTERS</text>
     
-    <!-- Legend -->
-    <text x="250" y="25" font-family="JetBrains Mono, monospace" font-size="6" fill="rgba(0,255,255,0.5)">YOU ARE</text>
-    <text x="250" y="35" font-family="JetBrains Mono, monospace" font-size="6" fill="rgba(0,255,255,0.5)">HERE ↓</text>
-    <circle cx="265" cy="50" r="6" fill="#FF6F00" stroke="#fff" stroke-width="1.5">
-      <animate attributeName="r" values="5;7;5" dur="1s" repeatCount="indefinite"/>
-    </circle>
+    <!-- Connection lines (matching actual doors) -->
+    <!-- Toolcrib <-> Breakroom -->
+    <line x1="60" y1="26" x2="70" y2="26" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- Breakroom <-> Control -->
+    <line x1="120" y1="26" x2="130" y2="26" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- Control <-> Pumps -->
+    <line x1="190" y1="26" x2="200" y2="26" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- Control <-> ClarifierDeck -->
+    <line x1="160" y1="47" x2="130" y2="60" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- Toolcrib <-> ThickenerPit -->
+    <line x1="35" y1="42" x2="35" y2="60" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- ThickenerPit <-> ClarifierDeck -->
+    <line x1="60" y1="76" x2="100" y2="76" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- ClarifierDeck <-> ChemStorage -->
+    <line x1="160" y1="76" x2="200" y2="76" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- ClarifierDeck <-> InstrumentLab -->
+    <line x1="130" y1="92" x2="130" y2="110" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- ChemStorage <-> FilterGallery -->
+    <line x1="225" y1="92" x2="225" y2="110" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+    <!-- FilterGallery <-> InstrumentLab -->
+    <line x1="160" y1="126" x2="200" y2="126" stroke="#00ffff" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
     
-    <!-- Player indicator (will be moved by JS) -->
+    <!-- Single Player indicator (moved by JS) -->
     <g id="mapPlayerIndicator">
       <circle r="8" fill="none" stroke="#FF6F00" stroke-width="2" opacity="0.5">
         <animate attributeName="r" values="8;12;8" dur="1.5s" repeatCount="indefinite"/>
@@ -3857,75 +3888,90 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   
   const npcDialogue = {
     Chase: [
-      { speaker: 'Chase', text: "Grady! I read this LinkedIn post about optimizing our biosolids with machine learning..." },
-      { speaker: 'Grady', text: "Chase. See that pump? It's making a noise." },
-      { speaker: 'Chase', text: "But the algorithm could predict—" },
-      { speaker: 'Grady', text: "The algorithm can wait. That noise means something. Listen." }
+      { speaker: 'Chase', text: "Grady! I just got back from a webinar on synergizing our treatment processes." },
+      { speaker: 'Grady', text: "Did you learn anything?" },
+      { speaker: 'Chase', text: "I learned we need to leverage our core competencies to optimize throughput." },
+      { speaker: 'Grady', text: "What does that mean?" },
+      { speaker: 'Chase', text: "I was hoping you could tell me. The webinar was three hours." },
+      { speaker: 'Grady', text: "Chase. See that pump making a noise?" },
+      { speaker: 'Chase', text: "Should I schedule a cross-functional meeting about it?" },
+      { speaker: 'Grady', text: "No. Just... listen to it. With your ears." }
     ],
     Sly: [
       { speaker: 'Sly', text: "..." },
-      { speaker: 'Grady', text: "How's Pump 2?" },
-      { speaker: 'Sly', text: "Thinking." },
-      { speaker: 'Grady', text: "Pumps don't think, Sly." },
-      { speaker: 'Sly', text: "This one does. Started yesterday." },
-      { speaker: 'Grady', text: "...I'll add it to the log." }
+      { speaker: 'Grady', text: "Sly. Pump 2 status?" },
+      { speaker: 'Sly', text: "It filed a grievance." },
+      { speaker: 'Grady', text: "Pumps can't file grievances." },
+      { speaker: 'Sly', text: "HR disagrees. They've assigned it a case number." },
+      { speaker: 'Grady', text: "...What's the complaint?" },
+      { speaker: 'Sly', text: "Hostile work environment. The other pumps are too loud." }
     ],
     Ian: [
-      { speaker: 'Ian', text: "Grady. The BOD results came back. You're not gonna like it." },
-      { speaker: 'Grady', text: "High?" },
-      { speaker: 'Ian', text: "Let's just say the microbes are having a party and we weren't invited." },
-      { speaker: 'Grady', text: "Same as last month then." },
-      { speaker: 'Ian', text: "Consistency is key. That's what I tell the regulators anyway." }
+      { speaker: 'Ian', text: "Grady. Management wants the lab results in a different format." },
+      { speaker: 'Grady', text: "What's wrong with the current format?" },
+      { speaker: 'Ian', text: "Nothing. But the new director prefers pie charts." },
+      { speaker: 'Grady', text: "For BOD data?" },
+      { speaker: 'Ian', text: "Everything. He says circles are more 'holistic.'" },
+      { speaker: 'Grady', text: "Did he explain what that means?" },
+      { speaker: 'Ian', text: "He showed us a PowerPoint. It had forty-seven slides." }
     ],
     Brett: [
-      { speaker: 'Brett', text: "Grady. Management wants a report on the clarifier situation." },
-      { speaker: 'Grady', text: "What situation?" },
-      { speaker: 'Brett', text: "Exactly. They want a report on the lack of situation." },
-      { speaker: 'Grady', text: "So... things are working and they're concerned?" },
-      { speaker: 'Brett', text: "It's been three weeks without an incident. That's suspicious." }
+      { speaker: 'Brett', text: "Grady. We need to talk about the new initiative." },
+      { speaker: 'Grady', text: "Which one?" },
+      { speaker: 'Brett', text: "The initiative to reduce the number of initiatives." },
+      { speaker: 'Grady', text: "How many initiatives is that now?" },
+      { speaker: 'Brett', text: "Seventeen. But this one will streamline everything." },
+      { speaker: 'Grady', text: "When's the meeting?" },
+      { speaker: 'Brett', text: "There are four meetings. To discuss the meeting schedule." }
     ],
     Jack: [
-      { speaker: 'Jack', text: "Grady! Got the estimate back on fixing that bearing." },
+      { speaker: 'Jack', text: "Grady! Got the estimate back on that bearing." },
       { speaker: 'Grady', text: "How much?" },
-      { speaker: 'Jack', text: "Well, the part is $47. Labor is $200. But the 'emergency procurement fee' is $1,800." },
-      { speaker: 'Grady', text: "What's the emergency procurement fee?" },
-      { speaker: 'Jack', text: "That's what they charge when you need something before the fiscal year ends in 2027." },
-      { speaker: 'Grady', text: "..." },
-      { speaker: 'Jack', text: "Oh, and there's a $500 'estimate preparation fee' for telling you about the fees." },
-      { speaker: 'Grady', text: "Can we just use duct tape?" },
-      { speaker: 'Jack', text: "Now you're thinking like management." }
+      { speaker: 'Jack', text: "Part: $47. Labor: $200. Consultant fee to approve the purchase: $3,400." },
+      { speaker: 'Grady', text: "What consultant?" },
+      { speaker: 'Jack', text: "The one who wrote the policy requiring consultant approval." },
+      { speaker: 'Grady', text: "That's... convenient for them." },
+      { speaker: 'Jack', text: "Oh, and there's an 'urgency surcharge' because we needed it before the next fiscal year." },
+      { speaker: 'Grady', text: "The fiscal year is eleven months away." },
+      { speaker: 'Jack', text: "Exactly. Very urgent." }
     ],
     Carl: [
-      { speaker: 'Carl', text: "*peers into clarifier* Sludge blanket's at three feet." },
-      { speaker: 'Grady', text: "That good?" },
-      { speaker: 'Carl', text: "Define 'good.' It's not at five feet, which is when things get... interesting." },
-      { speaker: 'Grady', text: "The rake arms look slow today." },
-      { speaker: 'Carl', text: "They've been slow for two years. It's character at this point." }
+      { speaker: 'Carl', text: "*stares at clarifier* The sludge blanket asked for a performance review." },
+      { speaker: 'Grady', text: "Sludge can't have performance reviews." },
+      { speaker: 'Carl', text: "HR sent a form anyway. It's been settling at three feet consistently." },
+      { speaker: 'Grady', text: "That's... good?" },
+      { speaker: 'Carl', text: "Meets expectations. But it hasn't shown leadership potential." },
+      { speaker: 'Grady', text: "It's sludge." },
+      { speaker: 'Carl', text: "That's what I told HR. They scheduled a development plan meeting." }
     ],
     Linda: [
-      { speaker: 'Linda', text: "*sips coffee* Fourth cup. Shift's barely started." },
-      { speaker: 'Grady', text: "Rough night?" },
-      { speaker: 'Linda', text: "Alarm went off at 2 AM. Wet well level." },
-      { speaker: 'Grady', text: "False alarm?" },
-      { speaker: 'Linda', text: "No. Just a rat. A very fat rat. Set off the float switch." },
-      { speaker: 'Grady', text: "...Did you log it?" },
-      { speaker: 'Linda', text: "I logged 'biological interference with level instrumentation.' Sounds more professional." }
+      { speaker: 'Linda', text: "*holding coffee* Did you hear about the new wellness initiative?" },
+      { speaker: 'Grady', text: "No?" },
+      { speaker: 'Linda', text: "They want us to take breaks every hour to reduce stress." },
+      { speaker: 'Grady', text: "During a 12-hour shift watching critical systems?" },
+      { speaker: 'Linda', text: "They sent a mandatory 90-minute training video about it." },
+      { speaker: 'Grady', text: "Did watching it reduce your stress?" },
+      { speaker: 'Linda', text: "I had to fill out a survey afterward ranking my stress levels. That was stressful." }
     ],
     Mike: [
-      { speaker: 'Mike', text: "*checking gauge* Diff pressure is climbing again." },
-      { speaker: 'Grady', text: "Time for backwash?" },
-      { speaker: 'Mike', text: "Should've been backwashed yesterday. And the day before." },
-      { speaker: 'Grady', text: "So why wasn't it?" },
-      { speaker: 'Mike', text: "Night shift said they'd do it. Day shift said night shift said that. Circle of life." }
+      { speaker: 'Mike', text: "Grady. The backwash schedule got optimized." },
+      { speaker: 'Grady', text: "By who?" },
+      { speaker: 'Mike', text: "An algorithm. Management bought software." },
+      { speaker: 'Grady', text: "Does it work?" },
+      { speaker: 'Mike', text: "It scheduled a backwash during peak flow yesterday." },
+      { speaker: 'Grady', text: "That's the worst possible time." },
+      { speaker: 'Mike', text: "The algorithm disagrees. It sent me a report explaining why I'm wrong." }
     ],
     Jaron: [
-      { speaker: 'Jaron', text: "*adjusts glasses* pH probe's drifting again. Third time this week." },
-      { speaker: 'Grady', text: "Calibration issue?" },
-      { speaker: 'Jaron', text: "No. I think it's existential. The probe is questioning its purpose." },
-      { speaker: 'Grady', text: "Can you... talk to it?" },
-      { speaker: 'Jaron', text: "I tried. It responded with 6.8 pH. That's probe for 'leave me alone.'" },
-      { speaker: 'Grady', text: "What's the actual pH?" },
-      { speaker: 'Jaron', text: "7.2. Close enough for government work." }
+      { speaker: 'Jaron', text: "*adjusts glasses* The new calibration procedure arrived." },
+      { speaker: 'Grady', text: "How is it?" },
+      { speaker: 'Jaron', text: "It's 47 pages. For a pH probe." },
+      { speaker: 'Grady', text: "The old procedure was one page." },
+      { speaker: 'Jaron', text: "Yes, but this one has a flowchart with decision trees." },
+      { speaker: 'Grady', text: "Does it make calibration faster?" },
+      { speaker: 'Jaron', text: "No. But there's a section on 'calibration mindfulness' now." },
+      { speaker: 'Grady', text: "What's calibration mindfulness?" },
+      { speaker: 'Jaron', text: "Being present with the probe. Acknowledging its journey." }
     ]
   };
   
@@ -3955,15 +4001,15 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
   
   // Map positions for each zone (center of each room on the SVG)
   const mapPositions = {
-    breakroom: { x: 37, y: 27 },
-    control: { x: 115, y: 27 },
-    pumps: { x: 192, y: 27 },
-    toolcrib: { x: 37, y: 72 },
-    clarifierDeck: { x: 115, y: 72 },
-    chemStorage: { x: 192, y: 72 },
-    thickenerPit: { x: 37, y: 117 },
-    filterGallery: { x: 115, y: 117 },
-    instrumentLab: { x: 192, y: 117 }
+    toolcrib: { x: 35, y: 26 },
+    breakroom: { x: 95, y: 26 },
+    control: { x: 160, y: 26 },
+    pumps: { x: 225, y: 26 },
+    thickenerPit: { x: 35, y: 76 },
+    clarifierDeck: { x: 130, y: 76 },
+    chemStorage: { x: 225, y: 76 },
+    instrumentLab: { x: 130, y: 126 },
+    filterGallery: { x: 225, y: 126 }
   };
   
   function updateMap() {
@@ -3996,16 +4042,9 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
           el.setAttribute('stroke-width', '3');
           el.setAttribute('stroke', '#FF6F00');
         } else {
-          el.setAttribute('stroke-width', '2');
-          // Reset to original stroke colors
-          const strokes = {
-            mapToolcrib: '#5D4037',
-            mapControl: '#2D3748',
-            mapPumps: '#546E7A',
-            mapClarifiers: '#558B2F',
-            mapLabArea: '#1976D2'
-          };
-          el.setAttribute('stroke', strokes[id]);
+          el.setAttribute('stroke-width', '1.5');
+          // Reset to blueprint cyan
+          el.setAttribute('stroke', '#00ffff');
         }
       }
     });
@@ -5316,7 +5355,7 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 ```
 <div style="text-align: center; margin-bottom: 12px;">
   <div style="display: inline-block; background: #FF6F00; padding: 2px 10px; border-radius: 4px; font-family: 'Orbitron', sans-serif; font-size: 9px; font-weight: 800; color: #fff; margin-bottom: 6px;">BETA</div>
-  <div style="font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: bold; color: #FFD54F; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">💧 WATER TRIVIA 💧</div>
+  <div style="font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: bold; color: #FFD54F; text-shadow: 2px 2px 0 rgba(0,0,0,0.3);">WATER TRIVIA</div>
   <div style="font-family: Georgia, serif; font-size: 11px; color: #90CAF9; font-style: italic;">Test your H₂O knowledge!</div>
 </div>
 
@@ -5712,9 +5751,6 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 </body>
 </html>
-
-     
-
 </body>
 </html>
      
