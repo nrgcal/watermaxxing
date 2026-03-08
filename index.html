@@ -46,6 +46,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <style>
+/* === CSS RESET === */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #0d0221;
+}
+
 /* === THEME VARIABLES === */
 :root {
   --bg-primary: #0d0221;
@@ -1175,6 +1186,40 @@ window.fieldSoundscape = {
   <div style="max-width: 420px; margin: 0 auto;">
 
 ```
+<!-- === ABOUT ACCORDION === -->
+<div class="accordion-section" style="margin-bottom: 12px;">
+  <div class="accordion-header" onclick="toggleAccordion(this)" role="button" aria-expanded="false" aria-controls="about-section-content" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAccordion(this);}">
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+      <span style="font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary);">About</span>
+    </div>
+    <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+  </div>
+  <div id="about-section-content" class="accordion-content">
+    <div style="display: flex; flex-direction: column; gap: 14px; padding: 4px 0;">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; color: var(--text-secondary);">
+        As of July 2024, I work exclusively for WesTech Engineering (Swire Water) as Solutions Lead for the Western U.S., focused on industrial WTP/WWTP acquisitions and Design-Build-Own-Operate-Maintain projects.
+      </p>
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; color: var(--text-secondary);">
+        I'm an Energy & Resources market developer who grew up without electricity on a cattle ranch near the world's largest diatomite mine. After a decade in Houston (2012–2022), I relocated back to the Pacific Northwest.
+      </p>
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; color: var(--text-secondary);">
+        Along the way I've had the opportunity to work with and learn from leaders across the energy and resources sectors, building relationships throughout the industries we serve.
+      </p>
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; color: var(--text-secondary);">
+        Most of my work sits at the intersection of industrial water, infrastructure, and long-term operations.
+      </p>
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.7; color: var(--text-secondary);">
+        If you're working on something interesting in industrial water, energy, or resource infrastructure, I'm always interested in hearing about it.
+      </p>
+      <div style="margin-top: 6px; padding-top: 10px; border-top: 1px solid var(--glass-border);">
+        <p style="margin: 0 0 4px 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);">J.D. — University of Oregon</p>
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted);">B.A. — UCLA</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- === INSIGHTS & MEDIA ACCORDION === -->
 <div class="accordion-section">
   <div class="accordion-header" onclick="toggleAccordion(this)">
