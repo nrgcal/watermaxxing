@@ -8,7 +8,6 @@
 <body style="margin:0; padding:0;">
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2217,7 +2216,7 @@ window.fieldSoundscape = {
           <div id="intelTimestamp" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3);">--:--</div>
         </div>
         
-        <div id="intelGrid" style="display: grid; grid-template-columns: 1fr; gap: 6px; overflow: hidden;">
+        <div id="intelGrid" style="display: grid; grid-template-columns: 1fr; gap: 5px; overflow: hidden;">
           <!-- All 11 states rendered here by JS -->
         </div>
       </div>
@@ -2229,7 +2228,7 @@ window.fieldSoundscape = {
         }
         .intel-state-row {
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           padding: 8px 10px;
           background: rgba(0,0,0,0.2);
           border-radius: 6px;
@@ -2248,12 +2247,13 @@ window.fieldSoundscape = {
           font-weight: 700;
           color: #ff00ff;
           background: rgba(255,0,255,0.12);
-          padding: 2px 5px;
+          padding: 3px 5px;
           border-radius: 3px;
           min-width: 24px;
           text-align: center;
           margin-right: 10px;
           flex-shrink: 0;
+          margin-top: 1px;
         }
         .intel-headline-text {
           font-family: 'JetBrains Mono', monospace;
@@ -2261,10 +2261,12 @@ window.fieldSoundscape = {
           color: #00ffff;
           flex: 1;
           min-width: 0;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
+          line-height: 1.4;
           transition: opacity 0.4s ease;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
         .intel-state-row:hover .intel-headline-text {
           text-shadow: 0 0 6px rgba(0,255,255,0.4);
@@ -2272,52 +2274,52 @@ window.fieldSoundscape = {
       </style>
       
       <script>
-        // Water Intel Feed - All 11 Western states with rotating headlines
+        // Water Intel Feed - Recent headlines from Western states (updated Mar 2026)
         (function() {
           const STATE_NEWS = {
             'AZ': [
-              'microsoft plans water recycling for mesa campus',
-              'palo verde nuclear plant cooling upgrades approved'
+              'Tech giants flock to Arizona despite water crisis; data centers use less than 1% of Phoenix water supply',
+              'Chandler caps data center water at 115 gal/day per 1000 sqft; Marana bans potable water entirely'
             ],
             'CA': [
-              'meta data center in san jose taps recycled water',
-              'intel fab expansion requires zero liquid discharge'
+              'State lawmakers consider bills requiring data centers to submit monthly water usage reports',
+              'Silicon Valley fabs adopt zero liquid discharge as drought restrictions tighten statewide'
             ],
             'CO': [
-              'meta expands water-cooled ai cluster in eagle county',
-              'xcel energy coal ash pond remediation underway'
+              'Front Range utilities partner with data centers on recycled water infrastructure projects',
+              'Mining sector invests in selenium treatment systems ahead of stricter EPA discharge limits'
             ],
             'ID': [
-              'micron boise fab water permit under epa review',
-              'idaho phosphate mines invest in selenium removal'
+              'Micron Boise fab expansion faces EPA water permit review amid Snake River concerns',
+              'Idaho phosphate mines upgrade selenium removal systems under state compliance orders'
             ],
             'MT': [
-              'colstrip coal plant faces ccr compliance deadline',
-              'hyperscale data center proposed near billings'
+              'US Critical Materials eyes 2026 production from Sheep Creek rare earth deposit',
+              'Colstrip coal plant faces CCR compliance deadline; groundwater monitoring expanded'
             ],
             'NM': [
-              'facebook los lunas data center water use scrutinized',
-              'permian basin produced water recycling expands'
+              'Meta Los Lunas data center water use under scrutiny as drought conditions persist',
+              'Permian Basin produced water recycling projects expand with new treatment facilities'
             ],
             'NV': [
-              'google reno campus achieves 1.1 pue with air cooling',
-              'lithium americas thacker pass water plan approved'
+              'Lithium Americas Thacker Pass water plan advances through state permitting process',
+              'Google Reno achieves 1.1 PUE using air cooling; reduces regional water demand'
             ],
             'OR': [
-              'intel hillsboro fab water recycling up 40%',
-              'google the dalles data center river intake debated'
+              'Gov. Kotek forms Data Center Advisory Committee to develop statewide water policies',
+              'Google uses one-third of The Dalles water supply; city seeks Mt Hood reservoir expansion'
             ],
             'UT': [
-              'facebook eagle mountain data center taps great salt lake',
-              'rio tinto kennecott copper tailings expansion reviewed'
+              'Utah bill would require data centers to report water use as Great Salt Lake dries',
+              'NSA Bluffdale facility consumed 126M gallons; newer DataBank uses fraction of that'
             ],
             'WA': [
-              'microsoft quincy data center water rights challenged',
-              'hanford nuclear site groundwater treatment ongoing'
+              'Microsoft Quincy data center cuts potable water use 97% with on-site reuse facility',
+              'Puget Sound industrial discharge limits tighten; data centers adopt closed-loop cooling'
             ],
             'WY': [
-              'microsoft cheyenne campus water supply secured',
-              'powder river basin coal mines face water limits'
+              'American Rare Earths secures $456M EXIM letter of interest for Halleck Creek project',
+              'Powder River Basin coal operations face new water permit restrictions from DEQ'
             ]
           };
           
@@ -2386,8 +2388,8 @@ window.fieldSoundscape = {
           updateTimestamp();
           setTimeout(staggerInit, 100);
           
-          // Rotate every 10 seconds
-          setInterval(rotateHeadlines, 10000);
+          // Rotate every 12 seconds
+          setInterval(rotateHeadlines, 12000);
           
           // Update timestamp every minute
           setInterval(updateTimestamp, 60000);
@@ -7525,6 +7527,7 @@ function shareGame() {
 
 </body>
 </html>
+
      
 </body>
 </html>
