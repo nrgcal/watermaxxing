@@ -8,6 +8,7 @@
 <body style="margin:0; padding:0;">
 
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2216,7 +2217,7 @@ window.fieldSoundscape = {
           <div id="intelTimestamp" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3);">--:--</div>
         </div>
         
-        <div id="intelGrid" style="display: grid; grid-template-columns: 1fr; gap: 6px;">
+        <div id="intelGrid" style="display: grid; grid-template-columns: 1fr; gap: 6px; overflow: hidden;">
           <!-- All 11 states rendered here by JS -->
         </div>
       </div>
@@ -2234,6 +2235,8 @@ window.fieldSoundscape = {
           border-radius: 6px;
           border-left: 2px solid rgba(0,255,255,0.3);
           transition: all 0.3s ease;
+          overflow: hidden;
+          min-width: 0;
         }
         .intel-state-row:hover {
           background: rgba(0,255,255,0.06);
@@ -2257,6 +2260,7 @@ window.fieldSoundscape = {
           font-size: 10px;
           color: #00ffff;
           flex: 1;
+          min-width: 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -7521,7 +7525,6 @@ function shareGame() {
 
 </body>
 </html>
-
 
      
 </body>
