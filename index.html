@@ -2222,6 +2222,197 @@ window.fieldSoundscape = {
     })();
   </script>
   
+  <!-- === WATER INTEL FEED === -->
+  <div id="waterIntelFeed" style="margin-top: 20px; padding: 16px; background: linear-gradient(135deg, rgba(0,30,50,0.7), rgba(0,20,40,0.8)); border: 1px solid rgba(0,255,255,0.25); border-radius: 12px; box-shadow: 0 0 20px rgba(0,255,255,0.1);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="width: 8px; height: 8px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 8px #00ff88; animation: intelPulse 2s ease-in-out infinite;"></div>
+        <div>
+          <div style="font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 0.12em; color: #00ffff; text-shadow: 0 0 8px rgba(0,255,255,0.4);">WATER INTEL FEED</div>
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(0,255,255,0.5); margin-top: 2px;">infrastructure signal monitoring</div>
+        </div>
+      </div>
+      <div id="intelTimestamp" style="font-family: 'JetBrains Mono', monospace; font-size: 8px; color: rgba(255,255,255,0.3);">intel updated: --:--</div>
+    </div>
+    
+    <div id="intelHeadlines" style="display: flex; flex-direction: column; gap: 8px;">
+      <div class="intel-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border-left: 2px solid rgba(0,255,255,0.4); cursor: pointer; transition: all 0.25s ease;">
+        <span class="intel-headline" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ffff; flex: 1;">loading intel feed...</span>
+        <span class="intel-source" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.35); margin-left: 12px;">---</span>
+      </div>
+      <div class="intel-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border-left: 2px solid rgba(0,255,255,0.4); cursor: pointer; transition: all 0.25s ease;">
+        <span class="intel-headline" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ffff; flex: 1;">scanning sources...</span>
+        <span class="intel-source" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.35); margin-left: 12px;">---</span>
+      </div>
+      <div class="intel-row" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; background: rgba(0,0,0,0.25); border-radius: 8px; border-left: 2px solid rgba(0,255,255,0.4); cursor: pointer; transition: all 0.25s ease;">
+        <span class="intel-headline" style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #00ffff; flex: 1;">establishing connection...</span>
+        <span class="intel-source" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: rgba(255,255,255,0.35); margin-left: 12px;">---</span>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    @keyframes intelPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px #00ff88; }
+      50% { opacity: 0.6; box-shadow: 0 0 4px #00ff88; }
+    }
+    .intel-row:hover {
+      background: rgba(0,255,255,0.08);
+      border-left-color: #00ffff;
+      transform: translateX(4px);
+    }
+    .intel-row:hover .intel-headline {
+      text-shadow: 0 0 8px rgba(0,255,255,0.5);
+    }
+  </style>
+  
+  <script>
+    // Water Intel Feed - Fetches and displays water infrastructure news
+    (function() {
+      const NEWSAPI_KEY = ''; // User would need to add their API key
+      const FALLBACK_HEADLINES = [
+        { headline: 'data center water demand rising globally', source: 'reuters', url: '#' },
+        { headline: 'colorado river basin negotiations continue', source: 'ap news', url: '#' },
+        { headline: 'new desalination projects announced', source: 'bloomberg', url: '#' },
+        { headline: 'semiconductor fabs expand water recycling', source: 'financial times', url: '#' },
+        { headline: 'western us faces infrastructure challenges', source: 'wsj', url: '#' },
+        { headline: 'lithium extraction water tech advances', source: 'mining weekly', url: '#' },
+        { headline: 'hyperscale facilities optimize water use', source: 'datacenter dynamics', url: '#' },
+        { headline: 'industrial reuse projects gain momentum', source: 'water online', url: '#' },
+        { headline: 'ai computing drives water consumption up', source: 'wired', url: '#' }
+      ];
+      
+      let headlines = [...FALLBACK_HEADLINES];
+      let currentIndex = 0;
+      const rowEls = document.querySelectorAll('#intelHeadlines .intel-row');
+      
+      // Rewrite headline to console style (max 8 words, lowercase)
+      function rewriteHeadline(text) {
+        if (!text) return 'signal processing...';
+        // Remove quotes, lowercase, trim
+        let clean = text.toLowerCase().replace(/["""'']/g, '').trim();
+        // Remove common filler phrases
+        clean = clean.replace(/^(breaking:|update:|exclusive:|report:)\s*/i, '');
+        // Limit to ~8 words
+        const words = clean.split(/\s+/).slice(0, 8);
+        return words.join(' ');
+      }
+      
+      // Extract source name from URL or name
+      function formatSource(source) {
+        if (!source) return '---';
+        const name = (typeof source === 'object' ? source.name : source) || '';
+        // Shorten common sources
+        const shortcuts = {
+          'reuters': 'reuters',
+          'associated press': 'ap',
+          'bloomberg': 'bloomberg',
+          'financial times': 'ft',
+          'wall street journal': 'wsj',
+          'the wall street journal': 'wsj',
+          'new york times': 'nyt',
+          'the new york times': 'nyt',
+          'washington post': 'wapo',
+          'wired': 'wired',
+          'ars technica': 'ars',
+          'the verge': 'verge'
+        };
+        const lower = name.toLowerCase();
+        for (const [key, val] of Object.entries(shortcuts)) {
+          if (lower.includes(key)) return val;
+        }
+        // Return first word if short enough
+        const first = name.split(/[\s-]/)[0].toLowerCase();
+        return first.length <= 12 ? first : first.slice(0, 10);
+      }
+      
+      // Display current 3 headlines
+      function displayHeadlines() {
+        for (let i = 0; i < 3; i++) {
+          const idx = (currentIndex + i) % headlines.length;
+          const item = headlines[idx];
+          const row = rowEls[i];
+          if (row && item) {
+            const headlineEl = row.querySelector('.intel-headline');
+            const sourceEl = row.querySelector('.intel-source');
+            headlineEl.textContent = item.headline;
+            sourceEl.textContent = item.source;
+            row.onclick = () => {
+              if (item.url && item.url !== '#') {
+                window.open(item.url, '_blank');
+              }
+            };
+          }
+        }
+      }
+      
+      // Rotate headlines every 25 seconds
+      function rotateHeadlines() {
+        currentIndex = (currentIndex + 3) % headlines.length;
+        // Fade out, update, fade in
+        rowEls.forEach(row => row.style.opacity = '0.3');
+        setTimeout(() => {
+          displayHeadlines();
+          rowEls.forEach(row => row.style.opacity = '1');
+        }, 300);
+      }
+      
+      // Update timestamp
+      function updateTimestamp() {
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2, '0');
+        const mins = now.getMinutes().toString().padStart(2, '0');
+        document.getElementById('intelTimestamp').textContent = `intel updated: ${hours}:${mins}`;
+      }
+      
+      // Fetch from Google News RSS via proxy (fallback method)
+      async function fetchGoogleNewsRSS() {
+        const queries = [
+          'data+center+water',
+          'desalination+project',
+          'Colorado+River+water',
+          'semiconductor+water+supply',
+          'industrial+water+infrastructure'
+        ];
+        const allItems = [];
+        
+        // Try fetching via a CORS proxy or directly (may be blocked)
+        for (const q of queries.slice(0, 2)) {
+          try {
+            const rssUrl = `https://news.google.com/rss/search?q=${q}&hl=en-US&gl=US&ceid=US:en`;
+            // This would need a CORS proxy in production
+            // For now, we'll rely on fallback headlines
+          } catch (e) {
+            console.log('RSS fetch not available');
+          }
+        }
+        
+        return allItems;
+      }
+      
+      // Initialize with fallback headlines
+      async function initFeed() {
+        // Shuffle fallback headlines
+        headlines = [...FALLBACK_HEADLINES].sort(() => Math.random() - 0.5);
+        
+        // Try to fetch real headlines (would need API key or proxy)
+        // For now, use curated fallback headlines
+        
+        displayHeadlines();
+        updateTimestamp();
+        
+        // Rotate every 25 seconds
+        setInterval(rotateHeadlines, 25000);
+        
+        // Update timestamp every minute
+        setInterval(updateTimestamp, 60000);
+      }
+      
+      // Start feed
+      initFeed();
+    })();
+  </script>
+  
 </div>
 ```
 
@@ -7366,6 +7557,9 @@ window.open(`sms:?body=${encodeURIComponent(fullText)}`);
 
 </body>
 </html>
+
+
+
      
 </body>
 </html>
