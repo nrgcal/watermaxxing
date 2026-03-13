@@ -4,287 +4,446 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WATER INTEL TERMINAL // DRAFT v0.2</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    :root{--green:#00ff41;--green-dim:#00aa2a;--cyan:#00ffff;--magenta:#ff00ff;--amber:#ffaa00;--red:#ff3333;--text:#e8e8e8;--text-dim:#a0a0a0;--bg:#050a05;--panel:rgba(0,15,8,0.92);--border:rgba(0,255,65,0.25)}
+    :root{--green:#00ff41;--green-dim:#00aa2a;--green-glow:rgba(0,255,65,0.4);--cyan:#00ffff;--magenta:#ff00ff;--amber:#ffaa00;--red:#ff4444;--text:#e8e8e8;--text-dim:#a0a0a0;--bg:#050a05;--panel:rgba(0,15,8,0.92);--border:rgba(0,255,65,0.25)}
     body{font-family:'JetBrains Mono',monospace;background:var(--bg);color:var(--green);min-height:100vh}
-    body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.01) 2px,rgba(0,255,65,0.01) 4px);pointer-events:none;z-index:1000}
-    @keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 8px currentColor}50%{opacity:.6;box-shadow:0 0 4px currentColor}}
+    body::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.01) 2px,rgba(0,255,65,0.01) 4px);pointer-events:none;z-index:1000}
+    @keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:0.85}94%{opacity:1}}
+    @keyframes pulse{0%,100%{box-shadow:0 0 8px var(--green-glow)}50%{box-shadow:0 0 20px var(--green-glow)}}
     @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-    @keyframes majorGlow{0%,100%{box-shadow:0 0 5px var(--amber)}50%{box-shadow:0 0 18px var(--amber)}}
-    @keyframes tickerMove{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-    .header{background:linear-gradient(180deg,rgba(0,40,20,.98),rgba(0,20,10,.95));border-bottom:2px solid var(--green);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 0 30px rgba(0,255,65,.3)}
+    @keyframes alertFlash{0%,100%{opacity:1;text-shadow:0 0 5px var(--red)}50%{opacity:0.7;text-shadow:0 0 15px var(--red)}}
+    @keyframes majorGlow{0%,100%{border-left-color:var(--amber);box-shadow:0 0 5px rgba(255,170,0,0.3)}50%{border-left-color:#ffcc44;box-shadow:0 0 15px rgba(255,170,0,0.5)}}
+    @keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    @keyframes breathe{0%,100%{opacity:0.6}50%{opacity:1}}
+    .header{background:linear-gradient(180deg,rgba(0,40,20,0.98) 0%,rgba(0,20,10,0.95) 100%);border-bottom:2px solid var(--green);padding:14px 24px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 0 30px var(--green-glow);position:sticky;top:0;z-index:100}
     .header-left{display:flex;align-items:center;gap:14px}
-    .status{width:10px;height:10px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
-    .title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:.1em;text-shadow:0 0 10px var(--green)}
-    .subtitle{font-size:9px;color:var(--green-dim);letter-spacing:.12em;margin-top:2px}
+    .status-dot{width:10px;height:10px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+    .title{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:700;letter-spacing:0.1em;text-shadow:0 0 10px var(--green)}
+    .subtitle{font-size:9px;color:var(--green-dim);letter-spacing:0.12em;margin-top:2px}
     .header-right{display:flex;align-items:center;gap:16px}
-    .draft{background:rgba(255,170,0,.15);color:var(--amber);padding:5px 12px;border:1px solid var(--amber);border-radius:3px;font-family:'Orbitron';font-size:8px;font-weight:700;animation:majorGlow 3s infinite}
-    .refresh{background:rgba(0,255,255,.1);color:var(--cyan);border:1px solid var(--cyan);padding:5px 12px;border-radius:3px;font-size:9px;cursor:pointer;transition:all .2s}
-    .refresh:hover{background:rgba(0,255,255,.25);box-shadow:0 0 12px rgba(0,255,255,.4)}
-    .time{font-size:9px;color:var(--green-dim);text-align:right}
+    .draft-badge{background:rgba(255,170,0,0.15);color:var(--amber);padding:5px 12px;border:1px solid var(--amber);border-radius:3px;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:600;letter-spacing:0.08em;animation:majorGlow 3s infinite}
+    .refresh-btn{background:rgba(0,255,255,0.1);color:var(--cyan);border:1px solid var(--cyan);padding:6px 12px;border-radius:4px;font-family:'Orbitron',sans-serif;font-size:8px;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:5px}
+    .refresh-btn:hover{background:rgba(0,255,255,0.25);box-shadow:0 0 15px rgba(0,255,255,0.4);transform:scale(1.03)}
+    .refresh-btn svg{width:12px;height:12px;stroke:currentColor;fill:none}
+    .timestamp{font-size:9px;color:var(--green-dim);text-align:right}
     .cursor{animation:blink 1s step-end infinite}
-    .ticker{background:linear-gradient(90deg,rgba(255,50,50,.1),rgba(50,0,0,.3),rgba(255,50,50,.1));border-bottom:1px solid rgba(255,50,50,.4);padding:8px 0;overflow:hidden;position:relative}
-    .ticker::before{content:'⚠ BLOCKED';position:absolute;left:0;top:0;bottom:0;background:rgba(255,50,50,.9);color:#000;font-family:'Orbitron';font-size:8px;font-weight:700;padding:8px 10px;z-index:10;display:flex;align-items:center}
-    .ticker-track{display:flex;animation:tickerMove 50s linear infinite;padding-left:90px}
-    .ticker-item{white-space:nowrap;padding:0 30px;color:var(--red);font-size:10px}
+    .alert-ticker{background:linear-gradient(90deg,rgba(255,50,50,0.12) 0%,rgba(40,0,0,0.3) 50%,rgba(255,50,50,0.12) 100%);border-bottom:1px solid rgba(255,68,68,0.4);padding:8px 0;overflow:hidden;position:relative}
+    .alert-ticker::before{content:'⚠ BLOCKED/DELAYED';position:absolute;left:0;top:0;bottom:0;background:rgba(255,68,68,0.9);color:#000;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;padding:8px 10px;z-index:10;display:flex;align-items:center;letter-spacing:0.06em}
+    .ticker-track{display:flex;animation:tickerScroll 80s linear infinite;padding-left:160px}
+    .ticker-item{white-space:nowrap;padding:0 30px;color:var(--red);font-size:10px;display:flex;align-items:center;gap:6px;animation:alertFlash 2s infinite}
     .ticker-item .st{color:var(--amber);font-weight:600}
-    .main{max-width:1600px;margin:0 auto;padding:20px 24px}
-    .section{margin-bottom:24px;background:var(--panel);border:1px solid var(--border);border-radius:5px;overflow:hidden;transition:all .3s}
-    .section:hover{box-shadow:0 0 25px rgba(0,255,65,.12);border-color:rgba(0,255,65,.4)}
-    .sec-head{background:linear-gradient(90deg,rgba(0,255,65,.1),transparent);border-bottom:1px solid var(--border);padding:12px 16px;display:flex;align-items:center;gap:12px}
+    .ticker-item .val{color:#ff8888}
+    .container{max-width:1800px;margin:0 auto;padding:20px 24px;animation:flicker 12s infinite}
+    .section{margin-bottom:24px;background:var(--panel);border:1px solid var(--border);border-radius:5px;overflow:hidden;box-shadow:0 0 20px rgba(0,255,65,0.06);transition:all 0.3s}
+    .section:hover{box-shadow:0 0 30px rgba(0,255,65,0.12);border-color:rgba(0,255,65,0.4)}
+    .sec-header{background:linear-gradient(90deg,rgba(0,255,65,0.1) 0%,transparent 100%);border-bottom:1px solid var(--border);padding:12px 18px;display:flex;align-items:center;gap:12px}
     .sec-icon{width:24px;height:24px}
     .sec-icon svg{width:20px;height:20px;fill:none;stroke:var(--cyan);stroke-width:1.5}
-    .sec-title{font-family:'Orbitron';font-size:12px;font-weight:700;color:var(--cyan);letter-spacing:.08em}
-    .sec-count{margin-left:auto;font-size:8px;color:var(--green-dim);background:rgba(0,255,65,.08);padding:3px 8px;border-radius:3px;border:1px solid var(--border)}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:rgba(0,255,65,.06)}
-    .state{background:var(--panel);padding:12px 14px;transition:background .2s}
-    .state:hover{background:rgba(0,40,20,.6)}
-    .state-head{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(0,255,65,.1)}
-    .badge{font-family:'Orbitron';font-size:9px;font-weight:700;color:var(--magenta);background:rgba(255,0,255,.1);padding:2px 6px;border-radius:2px;min-width:24px;text-align:center}
-    .state-name{font-size:9px;color:var(--green-dim);letter-spacing:.05em}
+    .sec-title{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.08em;color:var(--cyan);text-shadow:0 0 8px rgba(0,255,255,0.5)}
+    .sec-count{margin-left:auto;font-size:8px;color:var(--green-dim);background:rgba(0,255,65,0.08);padding:3px 8px;border-radius:3px;border:1px solid var(--border)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:rgba(0,255,65,0.06)}
+    .state{background:var(--panel);padding:12px 14px;transition:all 0.3s}
+    .state:hover{background:rgba(0,40,20,0.7)}
+    .state-hdr{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(0,255,65,0.1)}
+    .state-badge{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;color:var(--magenta);background:rgba(255,0,255,0.1);padding:2px 6px;border-radius:2px;min-width:24px;text-align:center}
+    .state-name{font-size:9px;color:var(--green-dim);letter-spacing:0.05em}
     .news{display:flex;flex-direction:column;gap:5px}
-    .item{display:grid;grid-template-columns:48px 60px 1fr;gap:8px;align-items:start;padding:7px 8px;background:rgba(0,0,0,.3);border-radius:3px;border-left:2px solid var(--green-dim);text-decoration:none;transition:all .2s;position:relative}
-    .item:hover{background:rgba(0,255,65,.06);border-left-color:var(--green);transform:translateX(3px)}
-    .item:hover .headline{color:#fff;text-shadow:0 0 6px rgba(255,255,255,.2)}
-    .item.major{border-left-color:var(--amber);animation:majorGlow 4s infinite}
-    .item.major::after{content:'★';position:absolute;right:6px;top:6px;color:var(--amber);font-size:9px}
-    .date{font-size:8px;color:var(--amber);font-weight:600}
-    .source{font-size:7px;color:var(--cyan);background:rgba(0,255,255,.08);padding:2px 5px;border-radius:2px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .headline{font-size:10px;color:var(--text);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-    .footer{margin-top:24px;padding:14px 24px;border-top:1px solid var(--border);background:rgba(0,15,8,.6);display:flex;justify-content:space-between;font-size:8px;color:var(--green-dim)}
+    .item{display:grid;grid-template-columns:48px 60px 1fr;gap:8px;align-items:start;padding:7px 8px;background:rgba(0,0,0,0.3);border-radius:3px;border-left:2px solid var(--green-dim);transition:all 0.2s;text-decoration:none;cursor:pointer;position:relative}
+    .item:hover{background:rgba(0,255,65,0.06);border-left-color:var(--green);transform:translateX(3px);box-shadow:0 0 12px rgba(0,255,65,0.1)}
+    .item:hover .headline{color:#fff;text-shadow:0 0 6px rgba(255,255,255,0.2)}
+    .item.major{border-left-color:var(--amber);animation:majorGlow 3s infinite}
+    .item.major::after{content:'★';position:absolute;right:6px;top:6px;color:var(--amber);font-size:9px;animation:breathe 2s infinite}
+    .date{font-size:8px;color:var(--amber);font-weight:500}
+    .source{font-size:7px;color:var(--cyan);background:rgba(0,255,255,0.08);padding:2px 5px;border-radius:2px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .headline{font-size:10px;color:var(--text);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;transition:all 0.2s}
+    .footer{margin-top:24px;padding:14px 24px;border-top:1px solid var(--border);background:rgba(0,15,8,0.6);display:flex;justify-content:space-between;align-items:center;font-size:8px;color:var(--green-dim)}
     .footer a{color:var(--cyan)}
-    .loading{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;justify-content:center;align-items:center;z-index:2000;flex-direction:column;gap:16px}
+    .loading{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center;z-index:2000;flex-direction:column;gap:16px}
     .loading.active{display:flex}
     .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite}
-    @keyframes spin{to{transform:rotate(360deg)}}
+    .load-text{color:var(--green);font-size:11px;animation:breathe 1.5s infinite}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}.header{flex-direction:column;gap:10px}}
   </style>
 </head>
 <body>
-<div class="loading" id="loader"><div class="spinner"></div><div style="color:var(--green);font-size:11px">REFRESHING FEEDS...</div></div>
-
+<div class="loading" id="loader"><div class="spinner"></div><div class="load-text">REFRESHING INTEL FEEDS...</div></div>
 <header class="header">
-  <div class="header-left">
-    <div class="status"></div>
-    <div><div class="title">WATER INTEL TERMINAL</div><div class="subtitle">US INDUSTRIAL WATER INFRASTRUCTURE // 48 STATES</div></div>
-  </div>
+  <div class="header-left"><div class="status-dot"></div><div><div class="title">WATER INTEL TERMINAL</div><div class="subtitle">US INDUSTRIAL WATER INFRASTRUCTURE // 48 CONTINENTAL STATES</div></div></div>
   <div class="header-right">
-    <div class="draft">⚠ DRAFT v0.2 // UNOFFICIAL</div>
-    <button class="refresh" onclick="refresh()">↻ REFRESH</button>
-    <div class="time"><span style="color:var(--cyan)">BARRON SAWYER</span><br><span id="ts">--:--:--</span><span class="cursor">_</span></div>
+    <div class="draft-badge">⚠ DRAFT v0.2 // UNOFFICIAL</div>
+    <button class="refresh-btn" onclick="refresh()"><svg viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>REFRESH</button>
+    <div class="timestamp">BARRON SAWYER<br><span id="ts">--:--:--</span><span class="cursor">_</span></div>
   </div>
 </header>
-
-<div class="ticker">
-  <div class="ticker-track">
-    <div class="ticker-item"><span class="st">VA</span> Warrenton Amazon — voters ousted council BLOCKED</div>
-    <div class="ticker-item"><span class="st">AZ</span> Goodyear $14B — rezoning denied WITHDRAWN</div>
-    <div class="ticker-item"><span class="st">NJ</span> New Brunswick AI — community protest CANCELLED</div>
-    <div class="ticker-item"><span class="st">VA</span> Richmond DC Blox $500M — noise DEFERRED</div>
-    <div class="ticker-item"><span class="st">OR</span> Cascade Locks $100M — officials recalled BLOCKED</div>
-    <div class="ticker-item"><span class="st">TX</span> San Marcos hyperscale — council rejection BLOCKED</div>
-    <div class="ticker-item"><span class="st">IN</span> Chesterton — resident opposition BLOCKED</div>
-    <div class="ticker-item"><span class="st">AZ</span> Tucson Project Blue — discontinued CANCELLED</div>
-    <div class="ticker-item"><span class="st">VA</span> Warrenton Amazon — voters ousted council BLOCKED</div>
-    <div class="ticker-item"><span class="st">AZ</span> Goodyear $14B — rezoning denied WITHDRAWN</div>
-    <div class="ticker-item"><span class="st">NJ</span> New Brunswick AI — community protest CANCELLED</div>
-    <div class="ticker-item"><span class="st">VA</span> Richmond DC Blox $500M — noise DEFERRED</div>
-  </div>
-</div>
-
-<main class="main">
-
-<!-- DATA CENTERS -->
+<div class="alert-ticker"><div class="ticker-track">
+  <div class="ticker-item"><span class="st">VA</span> Warrenton Amazon — voters ousted <span class="val">BLOCKED</span></div>
+  <div class="ticker-item"><span class="st">AZ</span> Goodyear $14B — rezoning denied <span class="val">WITHDRAWN</span></div>
+  <div class="ticker-item"><span class="st">NJ</span> New Brunswick AI — opposition <span class="val">CANCELLED</span></div>
+  <div class="ticker-item"><span class="st">VA</span> Richmond DC Blox $500M <span class="val">DEFERRED</span></div>
+  <div class="ticker-item"><span class="st">VA</span> Fauquier $400M — water <span class="val">WITHDRAWN</span></div>
+  <div class="ticker-item"><span class="st">OR</span> Cascade Locks $100M <span class="val">BLOCKED</span></div>
+  <div class="ticker-item"><span class="st">TX</span> San Marcos hyperscale <span class="val">BLOCKED</span></div>
+  <div class="ticker-item"><span class="st">IN</span> Chesterton <span class="val">BLOCKED</span></div>
+  <div class="ticker-item"><span class="st">MO</span> Peculiar <span class="val">CANCELLED</span></div>
+  <div class="ticker-item"><span class="st">AZ</span> Tucson Project Blue <span class="val">CANCELLED</span></div>
+  <div class="ticker-item"><span class="st">AL</span> Bessemer $14.5B <span class="val">PAUSED</span></div>
+  <div class="ticker-item"><span class="st">VA</span> Warrenton Amazon — voters ousted <span class="val">BLOCKED</span></div>
+  <div class="ticker-item"><span class="st">AZ</span> Goodyear $14B — rezoning denied <span class="val">WITHDRAWN</span></div>
+  <div class="ticker-item"><span class="st">NJ</span> New Brunswick AI — opposition <span class="val">CANCELLED</span></div>
+</div></div>
+<main class="container">
+<!-- DATA CENTERS SECTION -->
 <section class="section">
-  <div class="sec-head">
+  <div class="sec-header">
     <div class="sec-icon"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="1"/><rect x="2" y="11" width="20" height="6" rx="1"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="14" r="1" fill="currentColor"/></svg></div>
-    <div class="sec-title">DATA CENTERS // HYPERSCALE + AI</div>
-    <div class="sec-count">$98B+ BLOCKED/DELAYED // 142 ACTIVIST GROUPS</div>
+    <div class="sec-title">DATA CENTERS // HYPERSCALE + AI (100MW+)</div>
+    <div class="sec-count">48 STATES // $98B+ BLOCKED/DELAYED // 142 ACTIVIST GROUPS</div>
   </div>
   <div class="grid">
-    <div class="state"><div class="state-head"><span class="badge">VA</span><span class="state-name">VIRGINIA — #1 US DC Hub</span></div><div class="news">
-      <a href="https://www.datacenterwatch.org/report" class="item major"><span class="date">2025</span><span class="source">DC Watch</span><span class="headline">42 activist groups campaigning to slow or stop data center development — epicenter of US opposition</span></a>
-      <a href="https://www.pewresearch.org/short-reads/2025/10/24/what-we-know-about-energy-use-at-us-data-centers-amid-the-ai-boom/" class="item"><span class="date">Oct 25</span><span class="source">Pew</span><span class="headline">Data centers consumed 26% of Virginia's electricity in 2023 — highest share in nation</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">VA</span><span class="state-name">VIRGINIA — #1 US HUB</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">2025</span><span class="source">DC Watch</span><span class="headline">42 activist groups campaigning to slow or stop data center development — epicenter of US opposition</span></a>
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Pew</span><span class="headline">Data centers consumed 26% of Virginia electricity in 2023, highest share in nation</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">AZ</span><span class="state-name">ARIZONA</span></div><div class="news">
-      <a href="https://grist.org/technology/arizona-water-data-centers-semiconducters/" class="item major"><span class="date">Mar 26</span><span class="source">Grist</span><span class="headline">Nearly 200 data centers use less than 1% of Phoenix water; tech pivots to air-based cooling</span></a>
-      <a href="#" class="item"><span class="date">Feb 26</span><span class="source">EnergyPlat</span><span class="headline">Chandler caps water at 115 gal/day per 1000 sqft; Marana bans potable water for DCs</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">AZ</span><span class="state-name">ARIZONA</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">Grist</span><span class="headline">Nearly 200 data centers use less than 1% of Phoenix water; tech pivots to air-based cooling</span></a>
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">EnergyPlat</span><span class="headline">Chandler caps water at 115 gal/day per 1000 sqft; Marana bans potable water for DCs</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">OR</span><span class="state-name">OREGON</span></div><div class="news">
-      <a href="https://oregoncapitalchronicle.com/2026/01/20/oregon-governor-forms-new-committee-to-advise-on-massive-data-center-growth/" class="item major"><span class="date">Jan 26</span><span class="source">OR Capitol</span><span class="headline">Gov. Kotek forms Data Center Advisory Committee for statewide water and power policy</span></a>
-      <a href="https://www.opb.org/article/2026/01/23/the-dalles-mayor-data-center-google/" class="item"><span class="date">Jan 26</span><span class="source">OPB</span><span class="headline">Google uses one-third of The Dalles water; city lobbies for Mt Hood reservoir expansion</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">OR</span><span class="state-name">OREGON</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Jan 2026</span><span class="source">OR Capitol</span><span class="headline">Gov. Kotek forms Data Center Advisory Committee for statewide water and power policy</span></a>
+      <a href="#" class="item"><span class="date">Jan 2026</span><span class="source">OPB</span><span class="headline">Google uses one-third of The Dalles water supply; city seeks Mt Hood reservoir expansion</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">TX</span><span class="state-name">TEXAS</span></div><div class="news">
-      <a href="https://www.datacenterknowledge.com/hyperscalers/hyperscalers-in-2026-what-s-next-for-the-world-s-largest-data-center-operators-" class="item major"><span class="date">Mar 26</span><span class="source">DCK</span><span class="headline">Oracle Stargate Abilene reaches 1.2GW with 450,000 GB200 GPUs; 6 more buildings mid-2026</span></a>
-      <a href="#" class="item"><span class="date">Oct 25</span><span class="source">Lincoln</span><span class="headline">Texas data centers projected to consume 49B gallons in 2025, up to 399B by 2030</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">TX</span><span class="state-name">TEXAS</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">DCK</span><span class="headline">Oracle Stargate Abilene 1.2GW capacity; 450,000 GB200 GPUs; 6 more buildings by mid-2026</span></a>
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Lincoln</span><span class="headline">Texas data centers projected to consume 49B gallons in 2025, up to 399B by 2030</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">UT</span><span class="state-name">UTAH</span></div><div class="news">
-      <a href="https://grist.org/technology/utah-data-center-water-supply-meta-novva/" class="item"><span class="date">Jan 26</span><span class="source">Grist</span><span class="headline">Utah bill requires data centers report water use as Great Salt Lake dries; 15+ campuses</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">UT</span><span class="state-name">UTAH</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Jan 2026</span><span class="source">Grist</span><span class="headline">Utah bill requires data centers report water use as Great Salt Lake dries; 15+ campuses</span></a>
+      <a href="#" class="item"><span class="date">Dec 2025</span><span class="source">Trellis</span><span class="headline">Joule Utah converts alfalfa farm to 12GW campus with closed-loop direct-to-chip cooling</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">NJ</span><span class="state-name">NEW JERSEY</span></div><div class="news">
-      <a href="https://thedigestonline.com/news/new-brunswick-ai-data-center-cancelled-park-housing/" class="item major"><span class="date">Feb 26</span><span class="source">NJ Digest</span><span class="headline">New Brunswick cancels 27K sqft AI data center after hundreds protest; site becomes park</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NV</span><span class="state-name">NEVADA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Nov 2025</span><span class="source">Cornell</span><span class="headline">Nevada among water-scarce states hosting massive AI data center construction despite drought</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">OH</span><span class="state-name">OHIO</span></div><div class="news">
-      <a href="https://programs.com/resources/data-center-statistics/" class="item major"><span class="date">Mar 26</span><span class="source">Programs</span><span class="headline">Meta Prometheus gigawatt DC under construction New Albany; 200MW gas plant by Nov 2026</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NJ</span><span class="state-name">NEW JERSEY</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Feb 2026</span><span class="source">NJ Digest</span><span class="headline">New Brunswick cancels 27,000 sqft AI center after hundreds protest; becomes park + housing</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">LA</span><span class="state-name">LOUISIANA</span></div><div class="news">
-      <a href="https://programs.com/resources/data-center-statistics/" class="item major"><span class="date">Mar 26</span><span class="source">Programs</span><span class="headline">Meta Hyperion 5GW data center — nearly size of Manhattan — 2028 with three gas plants</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">IL</span><span class="state-name">ILLINOIS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">DMA</span><span class="headline">Illinois lawmakers temporarily pause data center tax incentives amid energy use debates</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">IA</span><span class="state-name">IOWA</span></div><div class="news">
-      <a href="https://www.pewresearch.org/short-reads/2025/10/24/what-we-know-about-energy-use-at-us-data-centers-amid-the-ai-boom/" class="item"><span class="date">Oct 25</span><span class="source">Pew</span><span class="headline">Data centers consume 11% of Iowa electricity; Duane Arnold nuclear may restart for DC power</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NY</span><span class="state-name">NEW YORK</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Axios</span><span class="headline">NY among states with 10+ new moratorium proposals in past month targeting data center growth</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">NE/ND</span><span class="state-name">NEBRASKA / N. DAKOTA</span></div><div class="news">
-      <a href="https://www.pewresearch.org/short-reads/2025/10/24/what-we-know-about-energy-use-at-us-data-centers-amid-the-ai-boom/" class="item"><span class="date">Oct 25</span><span class="source">Pew</span><span class="headline">ND data centers consumed 15% of state electricity in 2023 — second highest US share</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">IA</span><span class="state-name">IOWA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Pew</span><span class="headline">Data centers consume 11% of Iowa electricity; Duane Arnold nuclear may restart for DC power</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NE</span><span class="state-name">NEBRASKA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Pew</span><span class="headline">Data centers consumed 12% of Nebraska electricity in 2023; wind corridor expansion target</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">ND</span><span class="state-name">NORTH DAKOTA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Pew</span><span class="headline">15% of electricity consumed by data centers — second highest state share in entire US</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">OH</span><span class="state-name">OHIO</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">Programs</span><span class="headline">Meta Prometheus gigawatt data center in New Albany; 200MW on-site gas plant by Nov 2026</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">LA</span><span class="state-name">LOUISIANA</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">Programs</span><span class="headline">Meta Hyperion 5GW data center — nearly size of Manhattan — online 2028, three gas plants</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MI</span><span class="state-name">MICHIGAN</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Axios</span><span class="headline">Michigan among states with moratorium proposals; SanDisk cancelled $55B fab in Flint</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">GA</span><span class="state-name">GEORGIA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">MultiState</span><span class="headline">Georgia bill prohibits NDAs hiding energy and water data between local govts and operators</span></a>
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">DCK</span><span class="headline">Microsoft Fairwater AI Atlanta campus operational with closed-loop zero-water cooling</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">WI</span><span class="state-name">WISCONSIN</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">DCK</span><span class="headline">Microsoft Fairwater AI Mt Pleasant coming online early 2026 with closed-loop liquid cooling</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">CA</span><span class="state-name">CALIFORNIA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">MultiState</span><span class="headline">CA AB 1577 requires monthly energy and water reports to State Energy Commission</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">IN</span><span class="state-name">INDIANA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Nov 2025</span><span class="source">The Hill</span><span class="headline">Chesterton data center blocked by residents and local officials amid bipartisan backlash</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MO</span><span class="state-name">MISSOURI</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Nov 2025</span><span class="source">The Hill</span><span class="headline">Peculiar, MO data center blocked by residents — part of $64B delayed nationwide</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">PA</span><span class="state-name">PENNSYLVANIA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Pew</span><span class="headline">Three Mile Island nuclear plant may restart to meet growing data center power demand</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">WA</span><span class="state-name">WASHINGTON</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Microsoft Quincy data center cuts potable water use 97% with on-site reuse facility</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">AL</span><span class="state-name">ALABAMA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Harvard</span><span class="headline">Bessemer $14.5B hyperscale paused after community opposition over 2M gal/day demand</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">SC</span><span class="state-name">SOUTH CAROLINA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">MultiState</span><span class="headline">SC considering mandatory closed-loop cooling requirements for new data center construction</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">KS</span><span class="state-name">KANSAS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">MultiState</span><span class="headline">Kansas considering closed-loop cooling requirements amid growing data center development</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">CO</span><span class="state-name">COLORADO</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Front Range utilities partner with data centers on recycled water infrastructure projects</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NM</span><span class="state-name">NEW MEXICO</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Meta Los Lunas data center water use under scrutiny as persistent drought continues</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">ID</span><span class="state-name">IDAHO</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Data center growth in Boise metro competes with agricultural water rights allocations</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MT</span><span class="state-name">MONTANA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Montana cold climate attractive for data centers; minimal cooling water requirements</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">WY</span><span class="state-name">WYOMING</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Wyoming crypto mining operations expanding into AI data center development</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">OK</span><span class="state-name">OKLAHOMA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Axios</span><span class="headline">Oklahoma among states with moratorium proposals targeting data center water and power use</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MN</span><span class="state-name">MINNESOTA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Minnesota data center growth driven by cold climate reducing cooling energy requirements</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">TN</span><span class="state-name">TENNESSEE</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Nashville metro emerging as Southeast data center hub with TVA power availability</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NC</span><span class="state-name">NORTH CAROLINA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Charlotte and Research Triangle major data center growth corridors; Duke Energy partnerships</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">FL</span><span class="state-name">FLORIDA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Miami data center market growing as Latin America connectivity hub; hurricane concerns</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">CT</span><span class="state-name">CONNECTICUT</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Connecticut positioning as Northeast data center alternative to congested NJ/NY markets</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MA</span><span class="state-name">MASSACHUSETTS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Boston biotech and finance drive data center demand; offshore wind power agreements</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MD</span><span class="state-name">MARYLAND</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Maryland data center development spillover from Northern Virginia corridor saturation</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">AR</span><span class="state-name">ARKANSAS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Arkansas emerging market with low power costs and central US fiber connectivity</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MS</span><span class="state-name">MISSISSIPPI</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Mississippi recruiting data centers with low-cost power and tax incentives</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">KY</span><span class="state-name">KENTUCKY</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Kentucky data center growth along I-65 corridor with TVA and regional utility power</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">WV</span><span class="state-name">WEST VIRGINIA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">West Virginia coal-to-data-center conversions proposed on former mine and plant sites</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">ME</span><span class="state-name">MAINE</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Maine cold climate and hydropower attractive for sustainable data center development</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NH</span><span class="state-name">NEW HAMPSHIRE</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">New Hampshire data center development benefits from Boston proximity and no income tax</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">VT</span><span class="state-name">VERMONT</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Vermont small-scale data centers leverage hydropower and cold climate cooling</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">RI</span><span class="state-name">RHODE ISLAND</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Rhode Island limited data center activity due to small geography and power constraints</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">DE</span><span class="state-name">DELAWARE</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Delaware data centers benefit from corporate-friendly tax environment and East Coast access</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">SD</span><span class="state-name">SOUTH DAKOTA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">South Dakota emerging market with low taxes and cold climate for cooling efficiency</span></a>
     </div></div>
   </div>
 </section>
-
-<!-- SEMICONDUCTOR FABS -->
+<!-- SEMICONDUCTOR FABS SECTION -->
 <section class="section">
-  <div class="sec-head">
-    <div class="sec-icon"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><line x1="9" y1="2" x2="9" y2="6"/><line x1="15" y1="2" x2="15" y2="6"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/></svg></div>
+  <div class="sec-header">
+    <div class="sec-icon"><svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><line x1="9" y1="2" x2="9" y2="6"/><line x1="15" y1="2" x2="15" y2="6"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/><line x1="2" y1="9" x2="6" y2="9"/><line x1="2" y1="15" x2="6" y2="15"/><line x1="18" y1="9" x2="22" y2="9"/><line x1="18" y1="15" x2="22" y2="15"/></svg></div>
     <div class="sec-title">SEMICONDUCTOR FABS // MICROELECTRONICS</div>
-    <div class="sec-count">$200B MICRON // $165B TSMC // $32B INTEL</div>
+    <div class="sec-count">$200B MICRON // $165B TSMC // $32B INTEL // $40B TI</div>
   </div>
   <div class="grid">
-    <div class="state"><div class="state-head"><span class="badge">AZ</span><span class="state-name">ARIZONA — TSMC / INTEL</span></div><div class="news">
-      <a href="https://www.cnbc.com/2025/12/19/intel-aims-to-find-clients-and-catch-tsmc-with-new-chip-fab-in-arizona.html" class="item major"><span class="date">Dec 25</span><span class="source">CNBC</span><span class="headline">Intel Arizona used 3B gallons in 2024, returned 2.4B via on-site water recycling plant</span></a>
-      <a href="https://www.tsmc.com/static/abouttsmcaz/index.htm" class="item"><span class="date">2026</span><span class="source">TSMC</span><span class="headline">TSMC Arizona targets 90% water reclamation; Industrial Water Reclamation Plant by 2028</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">AZ</span><span class="state-name">ARIZONA — TSMC / INTEL</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Dec 2025</span><span class="source">CNBC</span><span class="headline">Intel Arizona used 3B gallons in 2024, returned 2.4B gallons via on-site water recycling plant</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">TSMC</span><span class="headline">TSMC Arizona targets 90% water reclamation with Industrial Water Reclamation Plant by 2028</span></a>
+      <a href="#" class="item"><span class="date">Dec 2025</span><span class="source">TomsHW</span><span class="headline">TSMC Fab 21 phase 2 equipment install begins Q3 2026; 3nm production 2027 ahead of schedule</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">NY</span><span class="state-name">NEW YORK — MICRON MEGAFAB</span></div><div class="news">
-      <a href="https://investors.micron.com/news-releases/news-release-details/micron-announces-groundbreaking-historic-new-york-megafab" class="item major"><span class="date">Jan 26</span><span class="source">Micron</span><span class="headline">Micron breaks ground Onondaga County megafab — largest semiconductor facility in US history</span></a>
-      <a href="https://www.micron.com/us-expansion/ny" class="item"><span class="date">2026</span><span class="source">Micron</span><span class="headline">Up to 4 fabs Clay, NY; $100B investment; 50,000 jobs; $5.5B Green CHIPS incentives</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NY</span><span class="state-name">NEW YORK — MICRON MEGAFAB</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Jan 2026</span><span class="source">Micron</span><span class="headline">Micron breaks ground on Onondaga County megafab — largest semiconductor facility in US history</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Micron</span><span class="headline">Up to 4 fabs in Clay, NY; $100B investment; 50,000 jobs; $5.5B Green CHIPS incentives</span></a>
+      <a href="#" class="item"><span class="date">Nov 2025</span><span class="source">ENR</span><span class="headline">First fab operating date pushed to 2030; buildout of all four facilities through 2041</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">ID</span><span class="state-name">IDAHO — MICRON BOISE</span></div><div class="news">
-      <a href="https://www.manufacturingdive.com/news/major-factory-construction-projects-to-watch-in-2026/809448/" class="item major"><span class="date">Jan 26</span><span class="source">MfgDive</span><span class="headline">Micron Idaho production 2027; two leading-edge fabs co-located with R&D for faster HBM</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">ID</span><span class="state-name">IDAHO — MICRON BOISE</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Jan 2026</span><span class="source">MfgDive</span><span class="headline">Micron Idaho production begins 2027; two leading-edge fabs co-located with R&D for faster HBM</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Micron</span><span class="headline">$30B additional investment in second memory fab; part of $200B US expansion vision</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">VA</span><span class="state-name">VIRGINIA — MICRON EXPANSION</span></div><div class="news">
-      <a href="https://www.micron.com/us-expansion" class="item"><span class="date">2026</span><span class="source">Micron</span><span class="headline">Micron expanding and modernizing existing Virginia fab as part of $200B US investment vision</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">VA</span><span class="state-name">VIRGINIA — MICRON EXPANSION</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Micron</span><span class="headline">Existing Virginia fab expansion and modernization included in $6.4B CHIPS Act funding package</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">TX</span><span class="state-name">TEXAS — SAMSUNG / TI</span></div><div class="news">
-      <a href="https://semiengineering.com/annual-global-ic-fabs-and-facilities-report/" class="item major"><span class="date">Jan 26</span><span class="source">SemiEng</span><span class="headline">Samsung Taylor fab plans 2026 risk production; TI Sherman $60B — first of four fabs opening</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">UT</span><span class="state-name">UTAH — TEXAS INSTRUMENTS LEHI</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">2026</span><span class="source">TI</span><span class="headline">Texas Instruments Lehi fab major expansion underway; 300mm wafer production for analog chips</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">TI Utah operations critical to analog semiconductor supply chain serving industrial and automotive</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">UT</span><span class="state-name">UTAH — TEXAS INSTRUMENTS LEHI</span></div><div class="news">
-      <a href="https://semiengineering.com/annual-global-ic-fabs-and-facilities-report/" class="item"><span class="date">Jan 26</span><span class="source">SemiEng</span><span class="headline">TI Lehi fab expansion underway as part of $60B US investment in advanced 300mm capacity</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">TX</span><span class="state-name">TEXAS — SAMSUNG / TI SHERMAN</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Dec 2025</span><span class="source">TomsHW</span><span class="headline">Samsung Taylor, TX fab plans 2026 risk production; major breakthrough for chipmaker</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">UltraFac</span><span class="headline">Texas Instruments $40B Sherman investment: first of four fabs opening this year; phased to 2030</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">OR</span><span class="state-name">OREGON — INTEL HILLSBORO</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">OPB</span><span class="headline">Oregon lawmakers debate tech expansion near Hillsboro over farmland protection objections</span></a>
+      <a href="#" class="item"><span class="date">Jan 2026</span><span class="source">SemiEng</span><span class="headline">Intel prioritizes Arizona fabs 52 and 62 for 2nm after canceling Germany and Poland projects</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">OH</span><span class="state-name">OHIO — INTEL COLUMBUS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">UltraFac</span><span class="headline">Intel $20B Ohio project delayed to 2030; could expand to $100B across eight fabs over decade</span></a>
     </div></div>
   </div>
 </section>
 
-<!-- LITHIUM / DLE -->
+<!-- U.S. LITHIUM / DLE SECTION -->
 <section class="section">
-  <div class="sec-head">
-    <div class="sec-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M6 12h12"/></svg></div>
-    <div class="sec-title">LITHIUM // DIRECT LITHIUM EXTRACTION (DLE)</div>
-    <div class="sec-count">SMACKOVER // SALTON SEA // GREAT SALT LAKE</div>
+  <div class="sec-header">
+    <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <div class="sec-title">U.S. LITHIUM PROJECTS // DIRECT LITHIUM EXTRACTION (DLE)</div>
+    <div class="sec-count">SMACKOVER // SALTON SEA // GREAT SALT LAKE // THACKER PASS</div>
   </div>
   <div class="grid">
-    <div class="state"><div class="state-head"><span class="badge">AR</span><span class="state-name">ARKANSAS — SMACKOVER FORMATION</span></div><div class="news">
-      <a href="https://www.globenewswire.com/news-release/2026/03/09/3251513/0/en/Smackover-Lithium-Signs-First-Binding-Customer-Offtake-Agreement-for-the-South-West-Arkansas-Project.html" class="item major"><span class="date">Mar 26</span><span class="source">GlobeNews</span><span class="headline">Smackover Lithium signs first 10-year offtake with Trafigura for 8,000 tonnes/year lithium carbonate</span></a>
-      <a href="https://legalinsurrection.com/2026/02/arkansas-lithium-jackpot-new-tech-turns-ancient-saltwater-into-white-gold/" class="item major"><span class="date">Feb 26</span><span class="source">LegalIns</span><span class="headline">USGS: 5-19 million tons lithium in Smackover — enough to meet 2030 global EV demand 9x over</span></a>
-      <a href="https://cen.acs.org/energy/energy-storage-/US-bets-new-lithium-extraction/103/web/2025/01" class="item"><span class="date">Jan 25</span><span class="source">C&EN</span><span class="headline">Standard Lithium licenses Koch DLE tech for 22,000t plant; ExxonMobil also developing Arkansas project</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">AR</span><span class="state-name">ARKANSAS — SMACKOVER FORMATION</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">GlobeNews</span><span class="headline">Smackover Lithium signs first binding offtake — 8,000 metric tonnes/year to Trafigura over 10 years</span></a>
+      <a href="#" class="item major"><span class="date">Feb 2026</span><span class="source">LegalIns</span><span class="headline">USGS estimates 5-19M tons lithium in Smackover — enough for 2030 global EV demand 9x over</span></a>
+      <a href="#" class="item"><span class="date">Jan 2025</span><span class="source">C&EN</span><span class="headline">Standard Lithium licensed Koch DLE tech for 22,000t plant; Equinor $160M investment partner</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">ExxonMobil Arkansas DLE project; LG Chem and SK On to buy up to 100,000t lithium chemicals</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">CA</span><span class="state-name">CALIFORNIA — SALTON SEA / LITHIUM VALLEY</span></div><div class="news">
-      <a href="https://www.newsweek.com/california-salton-sea-lithium-what-next-2054939" class="item major"><span class="date">Apr 25</span><span class="source">Newsweek</span><span class="headline">Salton Sea + Smackover + Nevada could make US completely self-sufficient in lithium supply</span></a>
-      <a href="https://cen.acs.org/energy/energy-storage-/US-bets-new-lithium-extraction/103/web/2025/01" class="item"><span class="date">Jan 25</span><span class="source">C&EN</span><span class="headline">EnergySource Minerals secured $1.4B DOE loan for DLE plant; trial ops 2026, full production 2027</span></a>
-      <a href="https://today.usc.edu/powering-up-lithium-valley/" class="item"><span class="date">Mar 25</span><span class="source">USC</span><span class="headline">Salton Sea in "speed campaign" to become first domestic lithium source; Berkshire Hathaway active</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">CA</span><span class="state-name">CALIFORNIA — SALTON SEA / LITHIUM VALLEY</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Jan 2025</span><span class="source">C&EN</span><span class="headline">DOE commits $1.4B loan to EnergySource Minerals DLE plant; 20,000t lithium hydroxide/year target</span></a>
+      <a href="#" class="item"><span class="date">Apr 2025</span><span class="source">Newsweek</span><span class="headline">Salton Sea holds fifth largest lithium deposit globally; combination with Smackover could end imports</span></a>
+      <a href="#" class="item"><span class="date">Mar 2025</span><span class="source">USC</span><span class="headline">Salton Sea in speed campaign to become first domestic lithium source; DLE trials ongoing</span></a>
+      <a href="#" class="item"><span class="date">2024</span><span class="source">Reference</span><span class="headline">Controlled Thermal Resources Hell's Kitchen project; BHE Renewables geothermal-lithium operations</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">UT</span><span class="state-name">UTAH — GREAT SALT LAKE</span></div><div class="news">
-      <a href="https://www.technologyreview.com/2025/10/07/1125060/this-company-is-planning-a-lithium-empire-from-the-shores-of-the-great-salt-lake/" class="item major"><span class="date">Oct 25</span><span class="source">MIT Tech</span><span class="headline">Lilac Solutions building $250M DLE pilot plant at Great Salt Lake; aims to sell tech to Smackover</span></a>
-      <a href="https://bitcoinethereumnews.com/finance/a-250-million-plan-to-pull-lithium-for-batteries-from-the-great-salt-lake/" class="item"><span class="date">Oct 25</span><span class="source">Forbes</span><span class="headline">Lilac estimates $7,000/ton production cost in Utah — half the cost of traditional mining</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">UT</span><span class="state-name">UTAH — GREAT SALT LAKE</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Oct 2025</span><span class="source">MIT Tech</span><span class="headline">Lilac Solutions planning $250M DLE plant at Great Salt Lake; aims to be technology vendor</span></a>
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Forbes</span><span class="headline">Lilac estimates $7,000/ton production cost at Utah — half of mining costs elsewhere</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Great Salt Lake lithium concentration lower than Smackover but lacks toxic element challenges</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">TX</span><span class="state-name">TEXAS — SMACKOVER EXTENSION</span></div><div class="news">
-      <a href="https://www.innovationnewsnetwork.com/accelerating-lithium-development-through-dle-compatible-brines/27227/" class="item"><span class="date">Jan 24</span><span class="source">INN</span><span class="headline">Texas side of Smackover may have even higher lithium concentrations than Arkansas deposits</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NV</span><span class="state-name">NEVADA — THACKER PASS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Lithium Americas Thacker Pass hard rock mine advancing; Nevada claystone deposits at McDermitt</span></a>
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">MiningTech</span><span class="headline">Lithium market shifts from oversupply to projected deficit; Thacker Pass critical to US supply</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">NV</span><span class="state-name">NEVADA — THACKER PASS</span></div><div class="news">
-      <a href="https://www.state.gov/releases/office-of-the-spokesperson/2026/02/2026-critical-minerals-ministerial" class="item"><span class="date">Feb 26</span><span class="source">State</span><span class="headline">EXIM issued $14.8B in critical minerals letters of interest including $400M Arkansas lithium</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">TX</span><span class="state-name">TEXAS — SMACKOVER EXTENSION</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Forbes</span><span class="headline">Texas side of Smackover may exceed Arkansas concentrations; Arkansas-Texas-Louisiana play</span></a>
+      <a href="#" class="item"><span class="date">2024</span><span class="source">Reference</span><span class="headline">Galvanic Energy holds 120,000 acres of mineral leases; 3.7M tonnes lithium carbonate equivalent</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NC</span><span class="state-name">NORTH CAROLINA — ALBEMARLE</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Albemarle Corporation — world's largest lithium producer — headquartered in Charlotte</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Albemarle Silver Peak, NV operations — only active US lithium brine production facility</span></a>
+    </div></div>
+  </div>
+</section>
+<!-- MINING — OTHER CRITICAL MINERALS -->
+<section class="section">
+  <div class="sec-header">
+    <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
+    <div class="sec-title">MINING // COPPER + RARE EARTHS + CRITICAL MINERALS</div>
+    <div class="sec-count">$14.8B EXIM LETTERS // 2026 CRITICAL MINERALS MINISTERIAL</div>
+  </div>
+  <div class="grid">
+    <div class="state"><div class="state-hdr"><span class="state-badge">WY</span><span class="state-name">WYOMING — RARE EARTHS</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Feb 2026</span><span class="source">InvestorNews</span><span class="headline">American Rare Earths secures $456M EXIM letter of interest for Halleck Creek REE project</span></a>
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">WY News</span><span class="headline">Wyoming rare earth project advances through DEQ permitting; EPA Administrator tours site</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">MT</span><span class="state-name">MONTANA — RARE EARTHS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">USCM</span><span class="headline">US Critical Materials eyes 2026 production from Sheep Creek high-grade rare earth deposit</span></a>
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Yale E360</span><span class="headline">Berkeley Pit to produce 40 tons rare earths annually from toxic wastewater using new process</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">CA</span><span class="state-name">CALIFORNIA — MOUNTAIN PASS</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Stanford</span><span class="headline">Colosseum mine revival in Mojave National Preserve; BLM approves, Sen. Schiff objects</span></a>
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Mountain Pass has one of highest-grade rare earth deposits in world; 7-9% REE concentration</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">AZ</span><span class="state-name">ARIZONA — COPPER</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Jan 2026</span><span class="source">InvestorNews</span><span class="headline">AI to boost copper demand 50% by 2040; hyperscale data centers need 50,000 metric tons each</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">WV</span><span class="state-name">WEST VIRGINIA — AMD RECOVERY</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Yale E360</span><span class="headline">Three WV pilot facilities recover 4-5 tons REE annually from acid mine drainage sludge</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NATL</span><span class="state-name">NATIONAL — EXIM FUNDING</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Feb 2026</span><span class="source">State Dept</span><span class="headline">2026 Critical Minerals Ministerial: $14.8B in EXIM letters including rare earth and lithium projects</span></a>
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">State Dept</span><span class="headline">Project Vault: $10B to establish US Strategic Critical Minerals Reserve for manufacturers</span></a>
     </div></div>
   </div>
 </section>
 
 <!-- THERMAL POWER / CCR -->
 <section class="section">
-  <div class="sec-head">
+  <div class="sec-header">
     <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 4 6 4 10c0 6 8 12 8 12s8-6 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg></div>
-    <div class="sec-title">THERMAL POWER // COAL CCR + NUCLEAR</div>
-    <div class="sec-count">EPA CCR RULE DELAYS // SMR DEVELOPMENT</div>
+    <div class="sec-title">THERMAL POWER // COAL CCR + GAS + NUCLEAR/SMR</div>
+    <div class="sec-count">CCR COMPLIANCE DEADLINES // LEGACY ASH CLEANUP</div>
   </div>
   <div class="grid">
-    <div class="state"><div class="state-head"><span class="badge">NATL</span><span class="state-name">NATIONAL CCR REGULATION</span></div><div class="news">
-      <a href="https://earthjustice.org/press/2026/trump-epa-delays-cleanup-of-hundreds-of-coal-ash-dumps-in-advance-of-larger-rollback" class="item major"><span class="date">Feb 26</span><span class="source">Earthjust</span><span class="headline">EPA delays coal ash monitoring deadline to 2031, public reporting to 2032 — 3 year extension</span></a>
-      <a href="https://www.power-eng.com/coal/material-handling/epa-extends-compliance-deadlines-for-coal-ash-management-citing-implementation-challenges/" class="item"><span class="date">Feb 26</span><span class="source">PowerEng</span><span class="headline">EPA extends CCR compliance timelines citing contractor shortages and permitting constraints</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">NATL</span><span class="state-name">NATIONAL CCR REGULATION</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Feb 2026</span><span class="source">Earthjust</span><span class="headline">EPA delays coal ash monitoring deadline to 2031, reporting to 2032 — three year extension</span></a>
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">EPA</span><span class="headline">EPA approves Wyoming CCR permit program; proposes Coronado AZ alternate liner demonstration</span></a>
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">PowerEng</span><span class="headline">EPA extends CCR compliance citing contractor shortages and permitting constraints nationwide</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">VA</span><span class="state-name">VIRGINIA</span></div><div class="news">
-      <a href="https://cardinalnews.org/2026/03/10/appalachian-power-plans-coal-ash-cleanup-at-old-glen-lyn-plant/" class="item major"><span class="date">Mar 26</span><span class="source">Cardinal</span><span class="headline">Appalachian Power $340M Glen Lyn coal ash cleanup; 6.8M cubic yards to new Stony Ridge landfill</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">VA</span><span class="state-name">VIRGINIA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">Cardinal</span><span class="headline">Appalachian Power $340M Glen Lyn coal ash cleanup; 6.8M cubic yards to new Stony Ridge landfill</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">WY</span><span class="state-name">WYOMING</span></div><div class="news">
-      <a href="https://www.epa.gov/coalash" class="item"><span class="date">Feb 26</span><span class="source">EPA</span><span class="headline">EPA approves Wyoming state CCR permit program in lieu of federal requirements</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">WY</span><span class="state-name">WYOMING</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">EPA</span><span class="headline">EPA approves Wyoming state CCR permit program in lieu of federal requirements</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">PA/IA</span><span class="state-name">NUCLEAR RESTARTS</span></div><div class="news">
-      <a href="https://www.pewresearch.org/short-reads/2025/10/24/what-we-know-about-energy-use-at-us-data-centers-amid-the-ai-boom/" class="item major"><span class="date">Oct 25</span><span class="source">Pew</span><span class="headline">Three Mile Island (PA) and Duane Arnold (IA) nuclear plants may restart for data center power</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">ND</span><span class="state-name">NORTH DAKOTA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Nov 2025</span><span class="source">Harvard</span><span class="headline">EPA approved North Dakota state coal ash permit program in lieu of federal requirements</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">OK</span><span class="state-name">OKLAHOMA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">AEP</span><span class="headline">PSO Northeastern Plant 3&4 complete closure deadline 2026; bottom ash pond not meeting rules</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">SMR</span><span class="state-name">NUCLEAR / SMR DEVELOPMENT</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Oct 2025</span><span class="source">Pew</span><span class="headline">Three Mile Island and Duane Arnold nuclear plants may restart for data center power demand</span></a>
+      <a href="#" class="item"><span class="date">Jan 2026</span><span class="source">InvestorNews</span><span class="headline">US awards $2.7B to boost uranium enrichment capacity for domestic nuclear supply chain</span></a>
     </div></div>
   </div>
 </section>
 
-<!-- MINING -->
+<!-- OIL & GAS REFINERIES -->
 <section class="section">
-  <div class="sec-head">
-    <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div>
-    <div class="sec-title">MINING // COPPER + RARE EARTHS</div>
-    <div class="sec-count">CRITICAL MINERALS // AI DEMAND +50% BY 2040</div>
-  </div>
-  <div class="grid">
-    <div class="state"><div class="state-head"><span class="badge">WY</span><span class="state-name">WYOMING — RARE EARTHS</span></div><div class="news">
-      <a href="https://investornews.com/market-opinion/follow-the-money-u-s-government-funding-for-critical-minerals-companies-2023-2026/" class="item major"><span class="date">Feb 26</span><span class="source">InvNews</span><span class="headline">American Rare Earths secures $456M EXIM letter of interest for Halleck Creek REE project</span></a>
-    </div></div>
-    <div class="state"><div class="state-head"><span class="badge">MT</span><span class="state-name">MONTANA — BERKELEY PIT</span></div><div class="news">
-      <a href="https://e360.yale.edu/features/mining-waste-rare-earth-minerals" class="item major"><span class="date">Feb 26</span><span class="source">Yale E360</span><span class="headline">Berkeley Pit Montana to produce 40 tons rare earths annually from billions of gallons toxic wastewater</span></a>
-    </div></div>
-    <div class="state"><div class="state-head"><span class="badge">CA</span><span class="state-name">CALIFORNIA — COLOSSEUM MINE</span></div><div class="news">
-      <a href="https://andthewest.stanford.edu/2026/rare-earths-mining-takes-a-heavy-toll-is-it-worth-moving-mountains-for-a-domestic-supply/" class="item"><span class="date">Feb 26</span><span class="source">Stanford</span><span class="headline">Colosseum rare earth mine revival in Mojave Preserve: BLM approved, Sen. Schiff objects</span></a>
-    </div></div>
-    <div class="state"><div class="state-head"><span class="badge">WV</span><span class="state-name">WEST VIRGINIA — AMD RECOVERY</span></div><div class="news">
-      <a href="https://e360.yale.edu/features/mining-waste-rare-earth-minerals" class="item"><span class="date">Feb 26</span><span class="source">Yale E360</span><span class="headline">Three WV pilot facilities recover 4-5 tons REE annually from acid mine drainage sludge</span></a>
-    </div></div>
-  </div>
-</section>
-
-<!-- REFINERIES -->
-<section class="section">
-  <div class="sec-head">
-    <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M4 22V12l4-8h8l4 8v10H4z"/><line x1="8" y1="22" x2="8" y2="14"/><line x1="16" y1="22" x2="16" y2="14"/></svg></div>
+  <div class="sec-header">
+    <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M4 22V12l4-8h8l4 8v10H4z"/><line x1="8" y1="22" x2="8" y2="14"/><line x1="16" y1="22" x2="16" y2="14"/><circle cx="12" cy="6" r="2"/></svg></div>
     <div class="sec-title">OIL & GAS REFINERIES</div>
-    <div class="sec-count">TX 47 // LA 19 // CA 18 // FIRST NEW REFINERY IN 50 YEARS</div>
+    <div class="sec-count">TX (47) // LA (19) // CA (18) // 11 STATES WITH 4+ REFINERIES</div>
   </div>
   <div class="grid">
-    <div class="state"><div class="state-head"><span class="badge">TX</span><span class="state-name">TEXAS — BROWNSVILLE</span></div><div class="news">
-      <a href="https://www.houstonpublicmedia.org/articles/news/energy-environment/2026/03/12/545935/texas-oil-refinery-energy-brownsville-south-trump/" class="item major"><span class="date">Mar 26</span><span class="source">HPM</span><span class="headline">America First Refining: first new US refinery in 50 years raises water use concerns in drought region</span></a>
-      <a href="https://www.bicmagazine.com/industry/refining-petrochem/america-first-refining-is-building-the-first-new-oil-refinery-texas/" class="item major"><span class="date">Mar 26</span><span class="source">BIC Mag</span><span class="headline">Port of Brownsville $300B refinery to process 60M barrels US shale annually; Q2 2026 groundbreaking</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">TX</span><span class="state-name">TEXAS (47 REFINERIES)</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">HPM</span><span class="headline">America First Refining: first new US refinery in 50 years at Port of Brownsville, water concerns</span></a>
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">BIC Mag</span><span class="headline">$300B Brownsville refinery to process 60M barrels US shale annually; Q2 2026 groundbreaking</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">LA</span><span class="state-name">LOUISIANA</span></div><div class="news">
-      <a href="https://ieefa.org/articles/louisianas-petrochemical-industry-growing-more-slowly-producing-less-jobs-fewer-tax" class="item"><span class="date">2025</span><span class="source">IEEFA</span><span class="headline">Louisiana petrochemical share of GDP dropped from 33% to 14%; state now ranks 49th in growth</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">LA</span><span class="state-name">LOUISIANA (19 REFINERIES)</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">Fortune</span><span class="headline">Last US refinery was Marathon Garyville LA in 1977; Brownsville breaks 50-year drought</span></a>
+      <a href="#" class="item"><span class="date">2025</span><span class="source">IEEFA</span><span class="headline">Louisiana petrochemical share of GDP dropped from 33% to 14%; state now ranks 49th</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">CA</span><span class="state-name">CALIFORNIA</span></div><div class="news">
-      <a href="https://www.washingtontimes.com/news/2026/mar/11/april-groundbreaking-set-first-new-us-oil-refinery-nearly-50-years/" class="item"><span class="date">Mar 26</span><span class="source">WashTimes</span><span class="headline">California refineries plummeted from 40 in 1980s to 12 today; losing additional 17% capacity this year</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">CA</span><span class="state-name">CALIFORNIA (18 REFINERIES)</span></div><div class="news">
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">WashTimes</span><span class="headline">California refineries plummeted from 40 in 1980s to 12 today; 17% more capacity loss coming</span></a>
+    </div></div>
+    <div class="state"><div class="state-hdr"><span class="state-badge">IL/OK</span><span class="state-name">ILLINOIS / OKLAHOMA</span></div><div class="news">
+      <a href="#" class="item"><span class="date">2026</span><span class="source">Reference</span><span class="headline">Midwest refineries benefit from lower WTI crude prices vs Brent; export advantage continues</span></a>
     </div></div>
   </div>
 </section>
 
 <!-- PETROCHEMICAL -->
 <section class="section">
-  <div class="sec-head">
-    <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M10 2v7.31l-2 2V20a2 2 0 002 2h4a2 2 0 002-2v-8.69l-2-2V2h-4z"/><line x1="8" y1="2" x2="16" y2="2"/></svg></div>
-    <div class="sec-title">PETROCHEMICAL + CHEMICAL // TX + LA</div>
-    <div class="sec-count">CANCER ALLEY // GULF COAST</div>
+  <div class="sec-header">
+    <div class="sec-icon"><svg viewBox="0 0 24 24"><path d="M10 2v7.31l-2 2V20a2 2 0 002 2h4a2 2 0 002-2v-8.69l-2-2V2h-4z"/><line x1="8" y1="2" x2="16" y2="2"/><circle cx="12" cy="17" r="2"/></svg></div>
+    <div class="sec-title">PETROCHEMICAL + CHEMICAL PLANTS // TX + LA</div>
+    <div class="sec-count">CANCER ALLEY // GULF COAST CORRIDOR // 200+ FACILITIES</div>
   </div>
   <div class="grid">
-    <div class="state"><div class="state-head"><span class="badge">TX</span><span class="state-name">TEXAS — GULF COAST</span></div><div class="news">
-      <a href="https://www.texastribune.org/2026/03/02/texas-dow-seadrift-complex-pollution-icn/" class="item major"><span class="date">Mar 26</span><span class="source">TX Trib</span><span class="headline">Dow asks Texas to legalize plastic pellet discharge from 4,700-acre Seadrift complex into San Antonio Bay</span></a>
-      <a href="https://publichealthwatch.org/2025/12/30/texas-petrochemical-expansion/" class="item"><span class="date">Jan 26</span><span class="source">PHWatch</span><span class="headline">Jefferson County riding $22B petrochemical expansion; $65B total announced projects</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">TX</span><span class="state-name">TEXAS — GULF COAST</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Mar 2026</span><span class="source">TX Tribune</span><span class="headline">Dow asks Texas to legalize plastic pellet discharge from 4,700-acre Seadrift complex into bay</span></a>
+      <a href="#" class="item"><span class="date">Mar 2026</span><span class="source">ICN</span><span class="headline">Dow permit amendment could set precedent for legalizing polyethylene and PVC discharges</span></a>
+      <a href="#" class="item"><span class="date">Jan 2026</span><span class="source">PHWatch</span><span class="headline">Jefferson County riding $22B petrochemical expansion wave; $65B total announced projects</span></a>
     </div></div>
-    <div class="state"><div class="state-head"><span class="badge">LA</span><span class="state-name">LOUISIANA — CANCER ALLEY</span></div><div class="news">
-      <a href="https://www.theadvocate.com/baton_rouge/news/business/louisiana-trump-environment-pollution-industry/article_a09ccf35-9b72-458a-94f4-37c28e31f57b.html" class="item major"><span class="date">Jul 25</span><span class="source">Advocate</span><span class="headline">12 Louisiana petrochemical plants receive 2-year EPA pollution rule exemptions from Trump admin</span></a>
-      <a href="https://en.wikipedia.org/wiki/Cancer_Alley" class="item"><span class="date">Feb 26</span><span class="source">Ref</span><span class="headline">Cancer Alley: 85-mile stretch hosts 200+ petrochemical plants; 25% of US production capacity</span></a>
+    <div class="state"><div class="state-hdr"><span class="state-badge">LA</span><span class="state-name">LOUISIANA — CANCER ALLEY</span></div><div class="news">
+      <a href="#" class="item major"><span class="date">Jul 2025</span><span class="source">Advocate</span><span class="headline">12 Louisiana petrochemical plants receive 2-year EPA pollution rule exemptions from Trump admin</span></a>
+      <a href="#" class="item"><span class="date">Feb 2026</span><span class="source">Reference</span><span class="headline">Cancer Alley: 85-mile stretch hosts 200+ petrochemical plants producing 25% of US output</span></a>
+      <a href="#" class="item"><span class="date">2025</span><span class="source">IEEFA</span><span class="headline">9 petrochemical projects in LA/TX region cancelled, delayed or missed financial targets</span></a>
     </div></div>
   </div>
 </section>
@@ -292,15 +451,27 @@
 </main>
 
 <footer class="footer">
-  <div><span style="color:var(--amber)">COMPILED BY BARRON SAWYER</span> • WesTech Engineering • UNOFFICIAL CONSOLE</div>
-  <div>⚠ DRAFT v0.2 — Aggregates public news for informational purposes. Not affiliated with any agency. <a href="https://watermaxxing.com">WATERMAXXING.COM</a></div>
+  <div><span style="color:var(--amber)">COMPILED BY BARRON SAWYER</span> // WESTECH ENGINEERING // UNOFFICIAL CONSOLE</div>
+  <div style="max-width:600px;line-height:1.5;color:var(--text-dim)">⚠ DRAFT v0.2 — Aggregates publicly available news for informational purposes only. Not affiliated with any government agency. Links to third-party sources. Data accuracy not guaranteed. <a href="https://watermaxxing.com">WATERMAXXING.COM</a></div>
 </footer>
 
 <script>
-function updateTime(){const d=new Date();document.getElementById('ts').textContent=d.toLocaleTimeString('en-US',{timeZone:'America/Denver',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false})+' MST'}
-updateTime();setInterval(updateTime,1000);
-function refresh(){const l=document.getElementById('loader');l.classList.add('active');setTimeout(()=>{l.classList.remove('active');location.reload()},1500)}
-console.log('%c[WATER-INTEL] Initialized','color:#00ff41');
+function refresh() {
+  document.getElementById('loader').classList.add('active');
+  setTimeout(() => {
+    document.getElementById('loader').classList.remove('active');
+    updateTimestamp();
+  }, 2000);
+}
+function updateTimestamp() {
+  const now = new Date();
+  const opts = {timeZone:'America/Denver',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false};
+  document.getElementById('ts').textContent = now.toLocaleTimeString('en-US',opts) + ' MST';
+}
+updateTimestamp();
+setInterval(updateTimestamp, 1000);
+console.log('%c[WATER-INTEL-TERMINAL] Initialized','color:#00ff41;font-family:monospace');
+console.log('%c[WATER-INTEL-TERMINAL] Monitoring 48 states + 6 industrial sectors','color:#00ffff;font-family:monospace');
 </script>
 </body>
 </html>
