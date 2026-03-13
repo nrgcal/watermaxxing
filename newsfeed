@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WATER INTEL TERMINAL // DRAFT v0.1</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --terminal-green: #00ff41;
+      --terminal-green-dim: #00aa2a;
+      --terminal-green-glow: rgba(0, 255, 65, 0.4);
+      --terminal-cyan: #00ffff;
+      --terminal-magenta: #ff00ff;
+      --terminal-amber: #ffaa00;
+      --terminal-red: #ff3333;
+      --bg-dark: #0a0f0a;
+      --bg-panel: rgba(0, 20, 10, 0.85);
+      --border-green: rgba(0, 255, 65, 0.3);
+    }
+
+    body {
+      font-family: 'JetBrains Mono', 'Share Tech Mono', monospace;
+      background: var(--bg-dark);
+      color: var(--terminal-green);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Scanline effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 255, 65, 0.015) 2px,
+        rgba(0, 255, 65, 0.015) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* CRT flicker */
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      92% { opacity: 1; }
+      93% { opacity: 0.8; }
+      94% { opacity: 1; }
+    }
+
+    /* Glow pulse */
+    @keyframes glowPulse {
+      0%, 100% { 
+        text-shadow: 0 0 5px var(--terminal-green), 0 0 10px var(--terminal-green), 0 0 20px var(--terminal-green-glow);
+        box-shadow: 0 0 10px var(--terminal-green-glow);
+      }
+      50% { 
+        text-shadow: 0 0 10px var(--terminal-green), 0 0 20px var(--terminal-green), 0 0 40px var(--terminal-green-glow);
+        box-shadow: 0 0 20px var(--terminal-green-glow);
+      }
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 8px currentColor; }
+      50% { opacity: 0.5; box-shadow: 0 0 4px currentColor; }
+    }
+
+    /* Header */
+    .terminal-header {
+      background: linear-gradient(180deg, rgba(0, 40, 20, 0.95) 0%, rgba(0, 20, 10, 0.9) 100%);
+      border-bottom: 2px solid var(--terminal-green);
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 0 30px var(--terminal-green-glow);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      background: var(--terminal-green);
+      border-radius: 50%;
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+
+    .terminal-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-shadow: 0 0 10px var(--terminal-green), 0 0 20px var(--terminal-green-glow);
+    }
+
+    .terminal-subtitle {
+      font-size: 10px;
+      color: var(--terminal-green-dim);
+      letter-spacing: 0.2em;
+      margin-top: 4px;
+    }
+
+    .header-right {
+      text-align: right;
+      font-size: 11px;
+    }
+
+    .draft-badge {
+      display: inline-block;
+      background: rgba(255, 170, 0, 0.2);
+      color: var(--terminal-amber);
+      padding: 4px 12px;
+      border: 1px solid var(--terminal-amber);
+      border-radius: 3px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+      animation: glowPulse 3s ease-in-out infinite;
+    }
+
+    .timestamp {
+      color: var(--terminal-green-dim);
+      font-size: 10px;
+    }
+
+    .cursor-blink {
+      animation: blink 1s step-end infinite;
+    }
+
+    /* Main container */
+    .terminal-container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 30px 40px;
+      animation: flicker 8s infinite;
+    }
+
+    /* Industry sections */
+    .industry-section {
+      margin-bottom: 40px;
+      background: var(--bg-panel);
+      border: 1px solid var(--border-green);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.1), inset 0 0 60px rgba(0, 20, 10, 0.5);
+    }
+
+    .industry-header {
+      background: linear-gradient(90deg, rgba(0, 255, 65, 0.15) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border-green);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .industry-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .industry-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: var(--terminal-cyan);
+      stroke-width: 1.5;
+    }
+
+    .industry-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--terminal-cyan);
+      text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+    }
+
+    .industry-count {
+      margin-left: auto;
+      font-size: 10px;
+      color: var(--terminal-green-dim);
+      background: rgba(0, 255, 65, 0.1);
+      padding: 4px 10px;
+      border-radius: 3px;
+      border: 1px solid var(--border-green);
+    }
+
+    /* State sections within industry */
+    .state-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+      gap: 1px;
+      background: var(--border-green);
+    }
+
+    .state-section {
+      background: var(--bg-panel);
+      padding: 16px 20px;
+    }
+
+    .state-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(0, 255, 65, 0.15);
+    }
+
+    .state-badge {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--terminal-magenta);
+      background: rgba(255, 0, 255, 0.12);
+      padding: 3px 8px;
+      border-radius: 3px;
+      min-width: 32px;
+      text-align: center;
+    }
+
+    .state-name {
+      font-size: 11px;
+      color: var(--terminal-green-dim);
+      letter-spacing: 0.08em;
+    }
+
+    /* News items */
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .news-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 8px 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      border-left: 2px solid var(--terminal-green-dim);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .news-item:hover {
+      background: rgba(0, 255, 65, 0.08);
+      border-left-color: var(--terminal-green);
+      transform: translateX(4px);
+    }
+
+    .news-item:hover .news-headline {
+      color: var(--terminal-green);
+      text-shadow: 0 0 8px var(--terminal-green-glow);
+    }
+
+    .news-date {
+      font-size: 9px;
+      color: var(--terminal-amber);
+      font-weight: 500;
+      min-width: 50px;
+      flex-shrink: 0;
+    }
+
+    .news-source {
+      font-size: 8px;
+      color: var(--terminal-cyan);
+      background: rgba(0, 255, 255, 0.1);
+      padding: 2px 6px;
+      border-radius: 2px;
+      min-width: 60px;
+      max-width: 80px;
+      text-align: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .news-headline {
+      font-size: 11px;
+      color: var(--terminal-green-dim);
+      line-height: 1.4;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      transition: all 0.3s ease;
+    }
+
+    /* Footer */
+    .terminal-footer {
+      margin-top: 40px;
+      padding: 20px 40px;
+      border-top: 1px solid var(--border-green);
+      background: rgba(0, 20, 10, 0.5);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--terminal-green-dim);
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .footer-credit {
+      color: var(--terminal-amber);
+    }
+
+    .footer-disclaimer {
+      font-size: 9px;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+
+    /* Command line prompt */
+    .command-line {
+      margin-top: 30px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-green);
+      border-radius: 6px;
+      font-size: 12px;
+    }
+
+    .prompt {
+      color: var(--terminal-cyan);
+    }
+
+    .command-text {
+      color: var(--terminal-green);
+    }
+
+    /* Legend */
+    .legend {
+      display: flex;
+      gap: 24px;
+      margin-bottom: 24px;
+      padding: 12px 20px;
+      background: rgba(0, 20, 10, 0.6);
+      border: 1px solid var(--border-green);
+      border-radius: 6px;
+      font-size: 10px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 2px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .state-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .terminal-header {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+      }
+      .terminal-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="terminal-header">
+  <div class="header-left">
+    <div class="status-indicator"></div>
+    <div>
+      <div class="terminal-title">WATER INTEL TERMINAL</div>
+      <div class="terminal-subtitle">WESTERN US INDUSTRIAL WATER INFRASTRUCTURE MONITORING</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="draft-badge">⚠ DRAFT v0.1 // UNOFFICIAL</div>
+    <div class="timestamp">
+      COMPILED BY: <span style="color: var(--terminal-cyan);">BARRON SAWYER</span><br>
+      LAST UPDATE: <span id="liveTimestamp">--:--:--</span><span class="cursor-blink">_</span>
+    </div>
+  </div>
+</header>
+
+<main class="terminal-container">
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-color" style="background: var(--terminal-amber);"></div>
+      <span>Date/Month</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: var(--terminal-cyan);"></div>
+      <span>Source</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: var(--terminal-green);"></div>
+      <span>Headline (click to read)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-color" style="background: var(--terminal-magenta);"></div>
+      <span>State Code</span>
+    </div>
+  </div>
+
+  <!-- DATA CENTERS -->
+  <section class="industry-section">
+    <div class="industry-header">
+      <div class="industry-icon">
+        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="6" rx="1"/><rect x="2" y="11" width="20" height="6" rx="1"/><circle cx="6" cy="6" r="1" fill="currentColor"/><circle cx="6" cy="14" r="1" fill="currentColor"/><line x1="10" y1="6" x2="18" y2="6"/><line x1="10" y1="14" x2="18" y2="14"/></svg>
+      </div>
+      <div class="industry-title">DATA CENTERS // HYPERSCALE + AI (100MW+)</div>
+      <div class="industry-count">12 STATES MONITORED</div>
+    </div>
+    <div class="state-grid">
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">AZ</span>
+          <span class="state-name">ARIZONA</span>
+        </div>
+        <div class="news-list">
+          <a href="https://grist.org/technology/arizona-water-data-centers-semiconducters/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">Grist</span>
+            <span class="news-headline">Arizona data centers use less than 1% of Phoenix water despite nearly 200 facilities...</span>
+          </a>
+          <a href="https://www.intelligentliving.co/intels-fab-52-vs-tsmc-arizona-fabs-water/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">IntLiving</span>
+            <span class="news-headline">Intel vs TSMC Arizona fabs test climate-resilient production in water-stressed desert...</span>
+          </a>
+          <a href="https://energy.policyplatform.news/environment/growth-data-centers-water-worries-persist" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">EnergyPlat</span>
+            <span class="news-headline">Chandler caps data center water at 115 gal/day per 1000 sqft; Marana bans potable...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">OR</span>
+          <span class="state-name">OREGON</span>
+        </div>
+        <div class="news-list">
+          <a href="https://oregoncapitalchronicle.com/2026/01/20/oregon-governor-forms-new-committee-to-advise-on-massive-data-center-growth/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">OR Capitol</span>
+            <span class="news-headline">Gov. Kotek forms Data Center Advisory Committee to develop statewide water policies...</span>
+          </a>
+          <a href="https://www.opb.org/article/2026/01/23/the-dalles-mayor-data-center-google/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">OPB</span>
+            <span class="news-headline">Google uses one-third of The Dalles water supply; city seeks Mt Hood reservoir expansion...</span>
+          </a>
+          <a href="https://hillsboroherald.com/hillsboro-data-centers-gain-ring-status-with-ai-china-involved-now-what-is-city-hall-not-telling-us/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">HillsHerald</span>
+            <span class="news-headline">Hillsboro approaches 30 data centers as trans-Pacific fiber hub status grows...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">UT</span>
+          <span class="state-name">UTAH</span>
+        </div>
+        <div class="news-list">
+          <a href="https://grist.org/technology/utah-data-center-water-supply-meta-novva/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">Grist</span>
+            <span class="news-headline">Utah bill would require data centers to report water use as Great Salt Lake dries...</span>
+          </a>
+          <a href="https://www.sltrib.com/news/politics/2026/01/12/does-utah-have-enough-water-be/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">SL Tribune</span>
+            <span class="news-headline">NSA Bluffdale consumed 126M gallons; newer DataBank facility uses fraction of that...</span>
+          </a>
+          <a href="https://trellis.net/article/utah-data-center-solve-water-power-scarcity/" target="_blank" class="news-item">
+            <span class="news-date">Dec 2025</span>
+            <span class="news-source">Trellis</span>
+            <span class="news-headline">Joule Utah data center uses closed-loop direct-to-chip cooling, scales to 12GW...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">TX</span>
+          <span class="state-name">TEXAS</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.datacenterknowledge.com/hyperscalers/hyperscalers-in-2026-what-s-next-for-the-world-s-largest-data-center-operators-" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">DCKnowledge</span>
+            <span class="news-headline">Oracle Stargate Abilene reaches 1.2GW capacity with 450,000 GB200 GPUs planned...</span>
+          </a>
+          <a href="https://www.lincolninst.edu/publications/land-lines-magazine/articles/land-water-impacts-data-centers/" target="_blank" class="news-item">
+            <span class="news-date">Oct 2025</span>
+            <span class="news-source">Lincoln Inst</span>
+            <span class="news-headline">Texas data centers projected to use 49B gallons in 2025, up to 399B by 2030...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">VA</span>
+          <span class="state-name">VIRGINIA</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.multistate.us/insider/2026/3/3/state-data-center-water-usage-legislation-gains-momentum-in-2025" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">MultiState</span>
+            <span class="news-headline">Virginia incentivizes reclaimed wastewater in cooling; conditions grants on treated water...</span>
+          </a>
+          <a href="https://www.pewresearch.org/short-reads/2025/10/24/what-we-know-about-energy-use-at-us-data-centers-amid-the-ai-boom/" target="_blank" class="news-item">
+            <span class="news-date">Oct 2025</span>
+            <span class="news-source">Pew</span>
+            <span class="news-headline">Data centers consumed 26% of Virginia's electricity supply in 2023, highest in US...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">NV</span>
+          <span class="state-name">NEVADA</span>
+        </div>
+        <div class="news-list">
+          <a href="https://news.cornell.edu/stories/2025/11/roadmap-shows-environmental-impact-ai-data-center-boom" target="_blank" class="news-item">
+            <span class="news-date">Nov 2025</span>
+            <span class="news-source">Cornell</span>
+            <span class="news-headline">Nevada among water-scarce regions hosting massive AI data center construction...</span>
+          </a>
+          <a href="https://www.theregister.com/2026/03/10/us_datacenters_water_consumption/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">Register</span>
+            <span class="news-headline">100MW AI data centers may require 0.5-2.5 million gallons per day depending on climate...</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEMICONDUCTOR FABS -->
+  <section class="industry-section">
+    <div class="industry-header">
+      <div class="industry-icon">
+        <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="1"/><line x1="9" y1="2" x2="9" y2="6"/><line x1="15" y1="2" x2="15" y2="6"/><line x1="9" y1="18" x2="9" y2="22"/><line x1="15" y1="18" x2="15" y2="22"/><line x1="2" y1="9" x2="6" y2="9"/><line x1="2" y1="15" x2="6" y2="15"/><line x1="18" y1="9" x2="22" y2="9"/><line x1="18" y1="15" x2="22" y2="15"/></svg>
+      </div>
+      <div class="industry-title">SEMICONDUCTOR FABS // MICROELECTRONICS</div>
+      <div class="industry-count">5 STATES MONITORED</div>
+    </div>
+    <div class="state-grid">
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">AZ</span>
+          <span class="state-name">ARIZONA - TSMC / INTEL</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.cnbc.com/2025/12/19/intel-aims-to-find-clients-and-catch-tsmc-with-new-chip-fab-in-arizona.html" target="_blank" class="news-item">
+            <span class="news-date">Dec 2025</span>
+            <span class="news-source">CNBC</span>
+            <span class="news-headline">Intel Arizona used 3B gallons in 2024, returned 2.4B via on-site water recycling plant...</span>
+          </a>
+          <a href="https://www.tomshardware.com/tech-industry/semiconductors/tsmc-brings-its-most-advanced-chipmaking-node-to-the-us-yet-to-begin-equipment-installation-for-3mn-months-ahead-of-schedule-arizona-fab-slated-for-production-in-2027" target="_blank" class="news-item">
+            <span class="news-date">Dec 2025</span>
+            <span class="news-source">TomsHW</span>
+            <span class="news-headline">TSMC Fab 21 phase 2 equipment install begins Q3 2026; 3nm production ahead of schedule...</span>
+          </a>
+          <a href="https://www.tsmc.com/static/abouttsmcaz/index.htm" target="_blank" class="news-item">
+            <span class="news-date">2026</span>
+            <span class="news-source">TSMC</span>
+            <span class="news-headline">TSMC Arizona targets 90% water reclamation with Industrial Water Reclamation Plant by 2028...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">OR</span>
+          <span class="state-name">OREGON - INTEL HILLSBORO</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.opb.org/article/2026/02/17/oregon-senators-tech-development-hillsboro-farm-group/" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">OPB</span>
+            <span class="news-headline">Oregon lawmakers debate tech expansion near Hillsboro over farmland protection objections...</span>
+          </a>
+          <a href="https://semiengineering.com/annual-global-ic-fabs-and-facilities-report/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">SemiEng</span>
+            <span class="news-headline">Intel prioritizes Arizona fabs 52 and 62 for 2nm after canceling Germany and Poland projects...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">ID</span>
+          <span class="state-name">IDAHO - MICRON BOISE</span>
+        </div>
+        <div class="news-list">
+          <a href="https://semiengineering.com/annual-global-ic-fabs-and-facilities-report/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">SemiEng</span>
+            <span class="news-headline">Micron building advanced memory fab in Boise with CHIPS Act funding support...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">TX</span>
+          <span class="state-name">TEXAS - SAMSUNG / TI</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.tomshardware.com/tech-industry/semiconductors/intels-fab-52-is-bigger-and-better-equipped-than-tsmcs-arizona-facilities-intels-production-volumes-dwarf-tsmcs-operations-in-the-u-s" target="_blank" class="news-item">
+            <span class="news-date">Dec 2025</span>
+            <span class="news-source">TomsHW</span>
+            <span class="news-headline">Samsung Taylor, TX fab plans 2026 risk production; major breakthrough for chipmaker...</span>
+          </a>
+          <a href="https://www.ultrafacilityportal.io/insights/semiconductor-in-numbers:-global-fab-construction-timelines,-from-breakthroughs-to-breakdowns" target="_blank" class="news-item">
+            <span class="news-date">2026</span>
+            <span class="news-source">UltraFacil</span>
+            <span class="news-headline">Texas Instruments $40B Sherman investment: first of four fabs opening this year...</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OIL & GAS REFINERIES -->
+  <section class="industry-section">
+    <div class="industry-header">
+      <div class="industry-icon">
+        <svg viewBox="0 0 24 24"><path d="M4 22V12l4-8h8l4 8v10H4z"/><line x1="8" y1="22" x2="8" y2="14"/><line x1="16" y1="22" x2="16" y2="14"/><circle cx="12" cy="6" r="2"/><line x1="12" y1="2" x2="12" y2="4"/></svg>
+      </div>
+      <div class="industry-title">OIL & GAS REFINERIES</div>
+      <div class="industry-count">11 STATES (4+ REFINERIES EACH)</div>
+    </div>
+    <div class="state-grid">
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">TX</span>
+          <span class="state-name">TEXAS (47 REFINERIES)</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.houstonpublicmedia.org/articles/news/energy-environment/2026/03/12/545935/texas-oil-refinery-energy-brownsville-south-trump/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">HPM</span>
+            <span class="news-headline">America First Refining: first new US refinery in 50 years raises water use concerns...</span>
+          </a>
+          <a href="https://www.bicmagazine.com/industry/refining-petrochem/america-first-refining-is-building-the-first-new-oil-refinery-texas/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">BIC Mag</span>
+            <span class="news-headline">Port of Brownsville $300B refinery to process 60M barrels US shale annually...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">LA</span>
+          <span class="state-name">LOUISIANA (19 REFINERIES)</span>
+        </div>
+        <div class="news-list">
+          <a href="https://fortune.com/2026/03/11/trump-us-open-first-new-oil-refinery-50-years-iran-bombing-oil-infrastructure/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">Fortune</span>
+            <span class="news-headline">Last US refinery was Marathon Garyville LA in 1977; Brownsville breaks 50-year drought...</span>
+          </a>
+          <a href="https://ieefa.org/articles/louisianas-petrochemical-industry-growing-more-slowly-producing-less-jobs-fewer-tax" target="_blank" class="news-item">
+            <span class="news-date">2025</span>
+            <span class="news-source">IEEFA</span>
+            <span class="news-headline">Louisiana petrochemical share of GDP dropped from 33% to 14%; state now ranks 49th...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">CA</span>
+          <span class="state-name">CALIFORNIA (18 REFINERIES)</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.washingtontimes.com/news/2026/mar/11/april-groundbreaking-set-first-new-us-oil-refinery-nearly-50-years/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">WashTimes</span>
+            <span class="news-headline">California refineries plummeted from 40 in 1980s to 12 today; 17% capacity loss coming...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">IL</span>
+          <span class="state-name">ILLINOIS</span>
+        </div>
+        <div class="news-list">
+          <a href="https://en.wikipedia.org/wiki/Petroleum_refining_in_the_United_States" target="_blank" class="news-item">
+            <span class="news-date">2026</span>
+            <span class="news-source">Reference</span>
+            <span class="news-headline">Midwest refineries benefit from lower WTI crude prices vs Brent; export advantage...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">OK</span>
+          <span class="state-name">OKLAHOMA</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.cccarto.com/atlas/refineries/" target="_blank" class="news-item">
+            <span class="news-date">2026</span>
+            <span class="news-source">CCCarto</span>
+            <span class="news-headline">PADD 2 Midwest refineries serve regional fuel demand with water from Arkansas River basin...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">PA/WA</span>
+          <span class="state-name">PENNSYLVANIA / WASHINGTON</span>
+        </div>
+        <div class="news-list">
+          <a href="https://en.wikipedia.org/wiki/Petroleum_refining_in_the_United_States" target="_blank" class="news-item">
+            <span class="news-date">2026</span>
+            <span class="news-source">Reference</span>
+            <span class="news-headline">Northeast and West Coast refineries face tighter environmental regulations than Gulf...</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THERMAL POWER GENERATION -->
+  <section class="industry-section">
+    <div class="industry-header">
+      <div class="industry-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2C8 2 4 6 4 10c0 6 8 12 8 12s8-6 8-12c0-4-4-8-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="industry-title">THERMAL POWER GENERATION // COAL + GAS + NUCLEAR/SMR</div>
+      <div class="industry-count">CCR COMPLIANCE + COOLING</div>
+    </div>
+    <div class="state-grid">
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">NATL</span>
+          <span class="state-name">NATIONAL CCR REGULATION</span>
+        </div>
+        <div class="news-list">
+          <a href="https://earthjustice.org/press/2026/trump-epa-delays-cleanup-of-hundreds-of-coal-ash-dumps-in-advance-of-larger-rollback" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">Earthjust</span>
+            <span class="news-headline">EPA delays coal ash monitoring deadline to 2031, reporting to 2032 - 3 year extension...</span>
+          </a>
+          <a href="https://www.epa.gov/coalash" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">EPA</span>
+            <span class="news-headline">EPA approves Wyoming CCR permit program; proposes Coronado AZ alternate liner demo...</span>
+          </a>
+          <a href="https://www.power-eng.com/coal/material-handling/epa-extends-compliance-deadlines-for-coal-ash-management-citing-implementation-challenges/" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">PowerEng</span>
+            <span class="news-headline">EPA extends CCR compliance timelines citing contractor shortages and permitting constraints...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">VA</span>
+          <span class="state-name">VIRGINIA</span>
+        </div>
+        <div class="news-list">
+          <a href="https://cardinalnews.org/2026/03/10/appalachian-power-plans-coal-ash-cleanup-at-old-glen-lyn-plant/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">Cardinal</span>
+            <span class="news-headline">Appalachian Power $340M Glen Lyn coal ash cleanup; 6.8M cubic yards to new landfill...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">WY</span>
+          <span class="state-name">WYOMING</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.epa.gov/coalash" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">EPA</span>
+            <span class="news-headline">EPA approves Wyoming state CCR permit program in lieu of federal requirements...</span>
+          </a>
+          <a href="https://eelp.law.harvard.edu/tracker/coal-ash-rule/" target="_blank" class="news-item">
+            <span class="news-date">Sep 2025</span>
+            <span class="news-source">Harvard</span>
+            <span class="news-headline">EPA proposes approving Wyoming state coal ash permit program; comments due Nov 2025...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">ND</span>
+          <span class="state-name">NORTH DAKOTA</span>
+        </div>
+        <div class="news-list">
+          <a href="https://eelp.law.harvard.edu/tracker/coal-ash-rule/" target="_blank" class="news-item">
+            <span class="news-date">Nov 2025</span>
+            <span class="news-source">Harvard</span>
+            <span class="news-headline">EPA approved North Dakota state coal ash permit program in lieu of federal requirements...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">OK</span>
+          <span class="state-name">OKLAHOMA</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.aep.com/environment/ccr/northeastern/" target="_blank" class="news-item">
+            <span class="news-date">2026</span>
+            <span class="news-source">AEP</span>
+            <span class="news-headline">PSO Northeastern Plant 3&4 complete closure deadline 2026; bottom ash pond not meeting...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">SMR</span>
+          <span class="state-name">NUCLEAR / SMR DEVELOPMENT</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.pewresearch.org/short-reads/2025/10/24/what-we-know-about-energy-use-at-us-data-centers-amid-the-ai-boom/" target="_blank" class="news-item">
+            <span class="news-date">Oct 2025</span>
+            <span class="news-source">Pew</span>
+            <span class="news-headline">Three Mile Island and Duane Arnold nuclear plants may restart for data center power...</span>
+          </a>
+          <a href="https://investornews.com/critical-minerals-rare-earths/the-critical-minerals-report-01-11-2026-the-worlds-scramble-for-critical-minerals-enters-a-new-phase/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">InvestorNews</span>
+            <span class="news-headline">US awards $2.7B to boost uranium enrichment capacity for domestic nuclear supply...</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MINING -->
+  <section class="industry-section">
+    <div class="industry-header">
+      <div class="industry-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="industry-title">MINING // LITHIUM + COPPER + RARE EARTHS</div>
+      <div class="industry-count">CRITICAL MINERALS</div>
+    </div>
+    <div class="state-grid">
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">WY</span>
+          <span class="state-name">WYOMING - RARE EARTHS</span>
+        </div>
+        <div class="news-list">
+          <a href="https://investornews.com/market-opinion/follow-the-money-u-s-government-funding-for-critical-minerals-companies-2023-2026/" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">InvestorNews</span>
+            <span class="news-headline">American Rare Earths secures $456M EXIM letter of interest for Halleck Creek REE project...</span>
+          </a>
+          <a href="https://www.wyomingnews.com/laramieboomerang/news/wyoming-rare-earth-project-expands-resources-technical-progress-and-regulatory-milestones/article_fee5ac10-bb3c-4886-b0de-fb1f97c237b1.html" target="_blank" class="news-item">
+            <span class="news-date">Oct 2025</span>
+            <span class="news-source">WY News</span>
+            <span class="news-headline">Wyoming rare earth project advances through DEQ permitting; EPA Administrator Zeldin tours...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">MT</span>
+          <span class="state-name">MONTANA - RARE EARTHS</span>
+        </div>
+        <div class="news-list">
+          <a href="https://uscriticalmaterials.com/" target="_blank" class="news-item">
+            <span class="news-date">2026</span>
+            <span class="news-source">USCM</span>
+            <span class="news-headline">US Critical Materials eyes 2026 production from Sheep Creek high-grade rare earth deposit...</span>
+          </a>
+          <a href="https://e360.yale.edu/features/mining-waste-rare-earth-minerals" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">Yale E360</span>
+            <span class="news-headline">Berkeley Pit Montana to produce 40 tons rare earths annually from toxic wastewater...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">NV</span>
+          <span class="state-name">NEVADA - LITHIUM</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.state.gov/releases/office-of-the-spokesperson/2026/02/2026-critical-minerals-ministerial" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">State Dept</span>
+            <span class="news-headline">2026 Critical Minerals Ministerial: $14.8B in EXIM letters including $400M Arkansas lithium...</span>
+          </a>
+          <a href="https://www.mining-technology.com/features/mining-in-2025-emerging-trends-and-predictions-for-2026/" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">MiningTech</span>
+            <span class="news-headline">Lithium Americas Thacker Pass advances; market shifts from oversupply to projected deficit...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">CA</span>
+          <span class="state-name">CALIFORNIA - RARE EARTHS</span>
+        </div>
+        <div class="news-list">
+          <a href="https://andthewest.stanford.edu/2026/rare-earths-mining-takes-a-heavy-toll-is-it-worth-moving-mountains-for-a-domestic-supply/" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">Stanford</span>
+            <span class="news-headline">Colosseum mine revival in Mojave Preserve: BLM approves, Sen. Schiff objects to extraction...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">AZ</span>
+          <span class="state-name">ARIZONA - COPPER</span>
+        </div>
+        <div class="news-list">
+          <a href="https://investornews.com/critical-minerals-rare-earths/the-critical-minerals-report-01-11-2026-the-worlds-scramble-for-critical-minerals-enters-a-new-phase/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">InvestorNews</span>
+            <span class="news-headline">AI to boost copper demand 50% by 2040; hyperscale data centers need 50,000 metric tons each...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">WV</span>
+          <span class="state-name">WEST VIRGINIA - AMD RECOVERY</span>
+        </div>
+        <div class="news-list">
+          <a href="https://e360.yale.edu/features/mining-waste-rare-earth-minerals" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">Yale E360</span>
+            <span class="news-headline">Three WV pilot facilities recover 4-5 tons REE annually from acid mine drainage sludge...</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PETROCHEMICAL / CHEMICAL -->
+  <section class="industry-section">
+    <div class="industry-header">
+      <div class="industry-icon">
+        <svg viewBox="0 0 24 24"><path d="M10 2v7.31l-2 2V20a2 2 0 002 2h4a2 2 0 002-2v-8.69l-2-2V2h-4z"/><line x1="8" y1="2" x2="16" y2="2"/><circle cx="12" cy="17" r="2"/></svg>
+      </div>
+      <div class="industry-title">PETROCHEMICAL + CHEMICAL PLANTS // TX + LA</div>
+      <div class="industry-count">CANCER ALLEY + GULF COAST</div>
+    </div>
+    <div class="state-grid">
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">TX</span>
+          <span class="state-name">TEXAS - GULF COAST</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.texastribune.org/2026/03/02/texas-dow-seadrift-complex-pollution-icn/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">TX Tribune</span>
+            <span class="news-headline">Dow asks Texas to legalize plastic pellet discharge from 4,700-acre Seadrift complex...</span>
+          </a>
+          <a href="https://insideclimatenews.org/news/02032026/dow-requests-texas-plastic-pollution-permit/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2026</span>
+            <span class="news-source">ICN</span>
+            <span class="news-headline">Dow permit amendment could set precedent for legalizing polyethylene and PVC discharges...</span>
+          </a>
+          <a href="https://publichealthwatch.org/2025/12/30/texas-petrochemical-expansion/" target="_blank" class="news-item">
+            <span class="news-date">Jan 2026</span>
+            <span class="news-source">PHWatch</span>
+            <span class="news-headline">Jefferson County riding $22B petrochemical expansion wave; $65B total announced projects...</span>
+          </a>
+          <a href="https://insideclimatenews.org/news/08032024/texas-coast-new-lake-petrochemical-expansion/" target="_blank" class="news-item">
+            <span class="news-date">Mar 2024</span>
+            <span class="news-source">ICN</span>
+            <span class="news-headline">Texas approves 2,500-acre reservoir for Formosa Plastics Point Comfort expansion...</span>
+          </a>
+        </div>
+      </div>
+      <div class="state-section">
+        <div class="state-header">
+          <span class="state-badge">LA</span>
+          <span class="state-name">LOUISIANA - CANCER ALLEY</span>
+        </div>
+        <div class="news-list">
+          <a href="https://www.theadvocate.com/baton_rouge/news/business/louisiana-trump-environment-pollution-industry/article_a09ccf35-9b72-458a-94f4-37c28e31f57b.html" target="_blank" class="news-item">
+            <span class="news-date">Jul 2025</span>
+            <span class="news-source">Advocate</span>
+            <span class="news-headline">12 Louisiana petrochemical plants receive 2-year EPA pollution rule exemptions from Trump...</span>
+          </a>
+          <a href="https://en.wikipedia.org/wiki/Cancer_Alley" target="_blank" class="news-item">
+            <span class="news-date">Feb 2026</span>
+            <span class="news-source">Reference</span>
+            <span class="news-headline">Cancer Alley: 85-mile stretch hosts 200+ petrochemical plants; 25% of US production...</span>
+          </a>
+          <a href="https://ieefa.org/articles/louisianas-petrochemical-industry-growing-more-slowly-producing-less-jobs-fewer-tax" target="_blank" class="news-item">
+            <span class="news-date">2025</span>
+            <span class="news-source">IEEFA</span>
+            <span class="news-headline">9 petrochemical projects in LA/TX region cancelled, delayed or missed financial goals...</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Command line -->
+  <div class="command-line">
+    <span class="prompt">barron@water-intel:~$</span> <span class="command-text">monitoring 6 industrial sectors across western US water infrastructure</span><span class="cursor-blink">_</span>
+  </div>
+
+</main>
+
+<footer class="terminal-footer">
+  <div class="footer-left">
+    <span class="footer-credit">COMPILED BY BARRON SAWYER // WESTECH ENGINEERING</span>
+    <span>•</span>
+    <span>UNOFFICIAL CONSOLE</span>
+  </div>
+  <div class="footer-disclaimer">
+    ⚠ DRAFT v0.1 — This terminal aggregates publicly available news for informational purposes only. Not affiliated with any government agency. Links to third-party sources. Data accuracy not guaranteed. For professional water treatment solutions, visit <a href="https://watermaxxing.com" style="color: var(--terminal-cyan);">WATERMAXXING.COM</a>
+  </div>
+</footer>
+
+<script>
+  // Update timestamp
+  function updateTimestamp() {
+    const now = new Date();
+    const options = { 
+      timeZone: 'America/Denver',
+      hour: '2-digit', 
+      minute: '2-digit', 
+      second: '2-digit',
+      hour12: false 
+    };
+    document.getElementById('liveTimestamp').textContent = now.toLocaleTimeString('en-US', options) + ' MST';
+  }
+  
+  updateTimestamp();
+  setInterval(updateTimestamp, 1000);
+
+  // Add hover sound effect simulation (visual feedback)
+  document.querySelectorAll('.news-item').forEach(item => {
+    item.addEventListener('mouseenter', () => {
+      item.style.transition = 'all 0.15s ease';
+    });
+  });
+
+  // Console log for authenticity
+  console.log('%c[WATER-INTEL-TERMINAL] Initialized', 'color: #00ff41; font-family: monospace;');
+  console.log('%c[WATER-INTEL-TERMINAL] Monitoring 6 industrial sectors', 'color: #00ffff; font-family: monospace;');
+  console.log('%c[WATER-INTEL-TERMINAL] Compiled by Barron Sawyer // WesTech Engineering', 'color: #ffaa00; font-family: monospace;');
+</script>
+
+</body>
+</html>
