@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Watermaxxing</title>
-</head>
-<body style="margin:0; padding:0;">
-
-
-<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -1071,10 +1061,100 @@ window.fieldSoundscape = {
       }
       .glitch-hard { animation: glitchHard 1.5s ease-in-out infinite; }
       .photo-glitch-pro { animation: photoGlitchPro 3s ease-in-out infinite; }
+      
+      /* Watermaxxing Title Tooltip */
+      .title-tooltip-wrap {
+        position: relative;
+        display: inline-block;
+        cursor: help;
+      }
+      .title-tooltip {
+        position: absolute;
+        top: calc(100% + 12px);
+        left: 50%;
+        transform: translateX(-50%) scale(0.95);
+        background: rgba(13, 2, 33, 0.96);
+        border: 1px solid rgba(0, 255, 255, 0.3);
+        border-radius: 8px;
+        padding: 14px 18px;
+        width: max-content;
+        max-width: 320px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.25s ease;
+        z-index: 1000;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.2), 0 0 40px rgba(255, 0, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+        pointer-events: none;
+      }
+      .title-tooltip::after {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 8px solid transparent;
+        border-bottom-color: rgba(0, 255, 255, 0.3);
+      }
+      .title-tooltip-wrap:hover .title-tooltip,
+      .title-tooltip-wrap:focus .title-tooltip,
+      .title-tooltip-wrap.active .title-tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) scale(1);
+      }
+      .tooltip-word {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #00ffff;
+        letter-spacing: 0.12em;
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+        margin-bottom: 2px;
+      }
+      .tooltip-pron {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        color: rgba(255, 0, 255, 0.8);
+        font-style: italic;
+        margin-bottom: 10px;
+        letter-spacing: 0.05em;
+      }
+      .tooltip-pos {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px;
+        color: rgba(0, 255, 255, 0.6);
+        font-style: italic;
+        margin-bottom: 8px;
+        letter-spacing: 0.03em;
+      }
+      .tooltip-def {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.85);
+        line-height: 1.5;
+        margin-bottom: 6px;
+        padding-left: 12px;
+        text-indent: -12px;
+      }
+      .tooltip-def span {
+        color: #ff00ff;
+        font-weight: 600;
+        margin-right: 6px;
+      }
     </style>
     <div class="glitch-hard" style="text-align: center; margin-bottom: 1.5rem;">
-      <div style="font-family: 'Orbitron', sans-serif; font-size: 1.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff, 2px 2px 0 #ff00ff, -2px -2px 0 #ff00ff;">
-        watermaxxing
+      <div class="title-tooltip-wrap" tabindex="0" onclick="this.classList.toggle('active')">
+        <div class="title-tooltip">
+          <div class="tooltip-word">WATERMAXXING</div>
+          <div class="tooltip-pron">/ WAH-ter max-ing /</div>
+          <div class="tooltip-pos">verb</div>
+          <div class="tooltip-def"><span>1.</span>Engineering industrial water systems for maximum performance, uptime, and scale.</div>
+          <div class="tooltip-def"><span>2.</span>Taking water infrastructure from "working" to "bulletproof."</div>
+        </div>
+        <div style="font-family: 'Orbitron', sans-serif; font-size: 1.65rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: #00ffff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 40px #00ffff, 2px 2px 0 #ff00ff, -2px -2px 0 #ff00ff;">
+          watermaxxing
+        </div>
       </div>
     </div>
     
@@ -7525,12 +7605,5 @@ function shareGame() {
 })();
 </script>
 
-</body>
-</html>
-
-     
-</body>
-</html>
-     
 </body>
 </html>
