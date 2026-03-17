@@ -1066,7 +1066,8 @@ window.fieldSoundscape = {
       .title-tooltip-wrap {
         position: relative;
         display: inline-block;
-        cursor: help;
+        cursor: pointer;
+        z-index: 999999;
       }
       .title-tooltip {
         position: absolute;
@@ -1082,7 +1083,7 @@ window.fieldSoundscape = {
         opacity: 0;
         visibility: hidden;
         transition: all 0.25s ease;
-        z-index: 999999;
+        z-index: 9999999;
         box-shadow: 0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 0, 255, 0.3), 0 0 120px rgba(0, 0, 0, 0.9);
         pointer-events: none;
       }
@@ -1105,8 +1106,6 @@ window.fieldSoundscape = {
         border-bottom-color: #080412;
         margin-bottom: -2px;
       }
-      .title-tooltip-wrap:hover .title-tooltip,
-      .title-tooltip-wrap:focus .title-tooltip,
       .title-tooltip-wrap.active .title-tooltip {
         opacity: 1;
         visibility: visible;
