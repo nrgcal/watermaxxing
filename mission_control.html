@@ -1253,27 +1253,78 @@ body::before {
         </ul>
       </div>
 
-      <div class="info-card">
-        <div class="info-card-title">
+      <div class="info-card" style="grid-column: 1 / -1; padding: 20px;">
+        <div class="info-card-title" style="margin-bottom: 16px;">
           <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          MASTERMIND GROUP
+          MASTERMIND GROUP <span style="color: var(--text-muted); font-size: 0.75em; font-weight: normal;">Est. October 2025</span>
         </div>
-        <ul class="info-list">
-          <li><span class="label">Alex Passini <span style="color: var(--accent-magenta); font-size: 0.85em;">(Co-Leader)</span></span><span class="value">109.7K<span class="tag" style="font-size: 0.8em;"><a href="https://www.linkedin.com/in/alexpassini/" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">LinkedIn</a></span></span></li>
-          <li style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 8px;">Video editing lead, product/ops strategy, focus on scale in industrial water ops.</li>
-          
-          <li><span class="label">Barron Sawyer <span style="color: var(--accent-magenta); font-size: 0.85em;">(Co-Leader)</span></span><span class="value">34.0K<span class="tag" style="font-size: 0.8em;"><a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">LinkedIn</a></span></span></li>
-          <li style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 8px;">Lead, Asset Acquisitions (Western U.S.) at WesTech Engineering; outsourced water infrastructure strategy.</li>
-          
-          <li><span class="label">Steve Coffee</span><span class="value">33.0K<span class="tag" style="font-size: 0.8em;"><a href="https://www.linkedin.com/in/stevecoffee/" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">LinkedIn</a></span></span></li>
-          <li style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 8px;">Senior strategist, deal origination and network cultivation.</li>
-          
-          <li><span class="label">Alejandro Sturniolo</span><span class="value">33.5K<span class="tag" style="font-size: 0.8em;"><a href="https://www.linkedin.com/in/alejandro-sturniolo/" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">LinkedIn</a></span></span></li>
-          <li style="font-size: 0.9em; color: var(--text-muted); margin-bottom: 8px;">Strategy & partnerships, regional outreach and content initiatives.</li>
-          
-          <li><span class="label">Walid Khoury</span><span class="value">37.2K<span class="tag" style="font-size: 0.8em;"><a href="https://www.linkedin.com/in/walidkhoury/" target="_blank" style="color: var(--accent-cyan); text-decoration: none;">LinkedIn</a></span></span></li>
-          <li style="font-size: 0.9em; color: var(--text-muted);">Technical advisor, integration lead, content strategy contributor.</li>
-        </ul>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+          <!-- Alex Passini -->
+          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(255,0,255,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Alex Passini <span style="color: var(--text-muted); font-size: 0.85em;">(Co-Leader)</span></h4>
+              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">109.7K</span>
+            </div>
+            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 Canada/Miami</div>
+            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Product/ops strategy, focus on scale in industrial water ops.</p>
+            <a href="https://www.linkedin.com/in/alexpassini/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
+          </div>
+
+          <!-- Barron Sawyer -->
+          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(0,255,255,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Barron Sawyer, J.D. <span style="color: var(--text-muted); font-size: 0.85em;">(Co-Leader)</span></h4>
+              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">34.0K</span>
+            </div>
+            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 Bend, Oregon</div>
+            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 6px 0 8px 0; line-height: 1.4;">Lead, Asset Acquisitions (Western U.S.) at WesTech Engineering; outsourced water infrastructure strategy.</p>
+            <div style="font-size: 0.75em; color: var(--text-muted); margin-bottom: 8px;">J.D. — University of Oregon | B.A. — UCLA</div>
+            <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
+          </div>
+
+          <!-- Steve Coffee -->
+          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(255,165,0,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Steve Coffee</h4>
+              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">33.0K</span>
+            </div>
+            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 California/UAE</div>
+            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Senior strategist, deal origination and network cultivation.</p>
+            <a href="https://www.linkedin.com/in/stevecoffee/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
+          </div>
+
+          <!-- Alejandro Sturniolo -->
+          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(0,255,136,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Alejandro Sturniolo</h4>
+              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">33.5K</span>
+            </div>
+            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 Spain</div>
+            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Strategy & partnerships, regional outreach and content initiatives.</p>
+            <a href="https://www.linkedin.com/in/alejandro-sturniolo/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
+          </div>
+
+          <!-- Walid Khoury -->
+          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(255,68,102,0.03);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Walid Khoury</h4>
+              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">37.2K</span>
+            </div>
+            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 UAE</div>
+            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Technical advisor, integration lead, content strategy contributor.</p>
+            <a href="https://www.linkedin.com/in/walidkhoury/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
+          </div>
+        </div>
+
+        <!-- Podcast Initiative -->
+        <div style="margin-top: 20px; padding: 16px; border: 1px solid var(--accent-magenta); border-radius: 8px; background: rgba(255,0,255,0.05);">
+          <h4 style="margin: 0 0 12px 0; color: var(--accent-magenta); font-size: 1em;">🎬 Podcast Launch: Summer 2026</h4>
+          <p style="font-size: 0.8em; color: var(--text-secondary); margin: 0 0 8px 0; line-height: 1.5;">Format: 4–7 minute video series exploring the intersection of water and global phenomena.</p>
+          <div style="font-size: 0.8em; color: var(--text-muted); line-height: 1.6;">
+            <div>📍 <strong>Themes:</strong> Water&Olympics · Water&World Cup · Water&Data Centers · Water&Mining · Water&Infrastructure</div>
+          </div>
+        </div>
       </div>
 
       <div class="info-card">
