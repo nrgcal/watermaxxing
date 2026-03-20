@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mission Control — WeSTech Engineering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+            background: #0a0e27;
+            color: #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .wrapper {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-bottom: 1px solid #334155;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+        }
+
+        .header-meta {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* Tabs */
+        .tabs-container {
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+            padding: 0;
+            display: flex;
+            gap: 0;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            background: transparent;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .tab-button:hover {
+            color: #cbd5e1;
+            background: rgba(148, 163, 184, 0.05);
+        }
+
+        .tab-button.active {
+            color: #0ea5e9;
+            border-bottom-color: #0ea5e9;
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        /* Main content area */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Deal Summary Dashboard */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .summary-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #0ea5e9;
+            margin-bottom: 8px;
+        }
+
+        .summary-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Deal Cards */
+        .deals-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+        }
+
+        .deal-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+
+        .deal-card:hover {
+            border-color: #64748b;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .deal-header {
+            padding: 16px;
+            background: #0f172a;
+            border-bottom: 1px solid #334155;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .deal-header:hover {
+            background: #1e293b;
+        }
+
+        .deal-title-section {
+            flex: 1;
+        }
+
+        .deal-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 6px;
+            word-break: break-word;
+        }
+
+        .deal-client {
+            font-size: 13px;
+            color: #0ea5e9;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .deal-meta {
+            font-size: 11px;
+            color: #64748b;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .deal-badges {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .badge.priority-1 {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .badge.priority-2 {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+        }
+
+        .badge.priority-3 {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .badge.stage-prospect {
+            background: rgba(148, 163, 184, 0.2);
+            color: #cbd5e1;
+        }
+
+        .badge.stage-meeting {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+        }
+
+        .badge.stage-negotiation {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+        }
+
+        .badge.stage-contract {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+        }
+
+        .toggle-icon {
+            font-size: 20px;
+            color: #64748b;
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .toggle-icon.open {
+            transform: rotate(180deg);
+        }
+
+        .deal-body {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .deal-card.open .deal-body {
+            max-height: 500px;
+        }
+
+        .deal-details {
+            padding: 16px;
+            background: #0f172a;
+            border-top: 1px solid #334155;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .detail-section {
+            margin-bottom: 16px;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .detail-value {
+            color: #cbd5e1;
+        }
+
+        .contact-list {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .contact-item {
+            font-size: 12px;
+            color: #cbd5e1;
+            padding: 6px 8px;
+            background: rgba(148, 163, 184, 0.1);
+            border-radius: 3px;
+        }
+
+        .contact-role {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        /* Priority/Size Indicator */
+        .scale-indicator {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+        }
+
+        .scale-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(148, 163, 184, 0.3);
+        }
+
+        .scale-dot.filled {
+            background: #10b981;
+        }
+
+        /* Status colors */
+        .status-urgent { color: #ef4444; }
+        .status-pending { color: #f59e0b; }
+        .status-active { color: #10b981; }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+
+        /* Tab-specific styles */
+        .flowstate-section {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .linkedin-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0ea5e9;
+            margin-bottom: 6px;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .deals-container {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .tabs-container {
+                overflow-x: auto;
+            }
+
+            .tab-button {
+                flex-shrink: 0;
+            }
+
+            .content {
+                padding: 16px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <div>
+                <h1>Mission Control</h1>
+                <div class="header-meta">WeSTech Engineering | Updated March 18, 2026</div>
+            </div>
+            <div class="header-meta">Deals: 10 Active | Pipeline Value: $Multiple 9-Figures</div>
+        </header>
+
+        <div class="tabs-container">
+            <button class="tab-button active" onclick="switchTab(event, 'wetech')">WeSTech Deals</button>
+            <button class="tab-button" onclick="switchTab(event, 'flowstate')">FLOWSTATE</button>
+            <button class="tab-button" onclick="switchTab(event, 'linkedin')">LinkedIn Strategy</button>
+            <button class="tab-button" onclick="switchTab(event, 'personal')">Personal</button>
+        </div>
+
+        <div class="content">
+            <!-- WETECH TAB -->
+            <div id="wetech" class="tab-content active">
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-number">10</div>
+                        <div class="summary-label">Active Deals</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">5</div>
+                        <div class="summary-label">SSM Priority 1</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">3</div>
+                        <div class="summary-label">Site Visits/Meetings (Next 14 Days)</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">1</div>
+                        <div class="summary-label">Executing (Stage C)</div>
+                    </div>
+                </div>
+
+                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">Deal Pipeline</h2>
+
+                <div class="deals-container">
+                    <!-- DEAL 1: NGM (GREEN - EXECUTING) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">NGM</div>
+                                <div class="deal-name">UF/RO/GM 12-Month</div>
+                                <div class="deal-meta">
+                                    <span class="status-active">● EXECUTING</span>
+                                    <span>Stage C</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-1">SSM 1</span>
+                                <span class="badge stage-contract">Active</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contact</div>
+                                    <div class="contact-list">
+                                        <div class="contact-item">
+                                            Taft <span class="contact-role">Site Execution</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Tao <span class="contact-role">Procurement</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Steve Ware <span class="contact-role">Strategic</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Strategy</div>
+                                    <div class="detail-value">Close cleanly with strong execution and visibility. Elevate discussion toward enterprise rental agreement across NGM sites. Position WeSTech as preferred mobile water treatment provider with repeatable deployment model.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Next Steps</div>
+                                    <div class="detail-value">📌 Set in Apple Reminders. Complete contract, submit Order Entry, finalize KDP 3/18, schedule external KDP.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 2: AWS Management (YELLOW - PENDING) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">AWS</div>
+                                <div class="deal-name">Management Level Meeting (WA)</div>
+                                <div class="deal-meta">
+                                    <span class="status-pending">● PENDING</span>
+                                    <span>March 24</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-1">SSM 1</span>
+                                <span class="badge stage-meeting">Meeting</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contacts</div>
+                                    <div class="contact-list">
+                                        <div class="contact-item">
+                                            Brady <span class="contact-role">AWS Water / Former Utilities</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Nathan Myers <span class="contact-role">Strategy & Alignment</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Dave Stanek <span class="contact-role">Technical</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Scope</div>
+                                    <div class="detail-value">Design Engineering / Data Center Water Treatment. Target: Design, Engineering/Technology, regional stakeholders tied to current and upcoming data center builds.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Strategy</div>
+                                    <div class="detail-value">Position WeSTech + partners as unified delivery team for repeatable water treatment approach supporting speed, modularity, and visibility across AWS sites.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Opportunity Scale</div>
+                                    <div class="scale-indicator">
+                                        <div class="scale-dot filled"></div>
+                                        <div class="scale-dot filled"></div>
+                                        <div class="scale-dot filled"></div>
+                                        <div class="scale-dot filled"></div>
+                                        <div class="scale-dot"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 3: E3 Platforms (YELLOW - PENDING) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">E3 Platforms</div>
+                                <div class="deal-name">Utah Power/Data Complex</div>
+                                <div class="deal-meta">
+                                    <span class="status-pending">● PENDING</span>
+                                    <span>March 23</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-1">SSM 1</span>
+                                <span class="badge stage-meeting">Meeting</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contacts</div>
+                                    <div class="contact-list">
+                                        <div class="contact-item">
+                                            Spencer Vierenes <span class="contact-role">CEO, E3 Platforms</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Brian Pritty <span class="contact-role">VP, Water West Geoscience</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Barron Sawyer <span class="contact-role">Lead Interface</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Scope</div>
+                                    <div class="detail-value">Capital Structuring / Water Strategy for Power + Data Infrastructure. Demand: 700–1,000 gpm (variable by cooling approach). Developer actively structuring capital with near-term close expected.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Commercial</div>
+                                    <div class="detail-value">Open to third-party infrastructure model; evaluating water-as-a-service concept. Concession structures including PID involvement and long-term O&M.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 4: Iliad DLE (YELLOW - MEETING) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">Iliad / GeoFrame</div>
+                                <div class="deal-name">DLE Lithium Extraction (TX)</div>
+                                <div class="deal-meta">
+                                    <span class="status-pending">● SITE VISIT</span>
+                                    <span>March 26</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-1">SSM 1</span>
+                                <span class="badge stage-meeting">Site Visit</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contacts</div>
+                                    <div class="contact-list">
+                                        <div class="contact-item">
+                                            Laura Zahn <span class="contact-role">Chief Geologist</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Aaron Prion <span class="contact-role">Commercial Director</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Barron Sawyer + Dave <span class="contact-role">On-site Visit</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Technical</div>
+                                    <div class="detail-value">High chloride brine; iron removal + solids management; ~1,750 gpm; modular footprint. Pretreatment proposal: carbon steel with liner and select alloys.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Commercial</div>
+                                    <div class="detail-value">Capital raise 250M+. Low price sensitivity (high lithium value). Preference for scalable, reliable solutions. Repeat deployment model across lithium projects.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 5: Mortonsen Fab (RED - URGENT) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">Mortonsen Lem</div>
+                                <div class="deal-name">Research Oregon Fab (Charter)</div>
+                                <div class="deal-meta">
+                                    <span class="status-urgent">● RED FLAG</span>
+                                    <span>Decision Pending</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-1">SSM 1</span>
+                                <span class="badge stage-prospect">At Risk</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Issue</div>
+                                    <div class="detail-value" style="color: #fca5a5;"><strong>Lost turnkey packaging approach. Owner driving sole-source equipment decisions based on prior vendor relationships.</strong></div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contacts</div>
+                                    <div class="contact-list">
+                                        <div class="contact-item">
+                                            Rick Nevot <span class="contact-role">Senior MEP Engineer (internal advocate)</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Mike Tucker <span class="contact-role">Mechanical Estimating (unresponsive)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Decision Required</div>
+                                    <div class="detail-value">Pursue selective equipment participation in remaining scope OR strategically disengage and redeploy to higher-probability semiconductor opportunities.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 6: American Battery (ACTIVE) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">American Battery</div>
+                                <div class="deal-name">Sparks, NV Lab Program</div>
+                                <div class="deal-meta">
+                                    <span class="status-active">● ACTIVE</span>
+                                    <span>Lab Phase</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-2">SSM 2</span>
+                                <span class="badge stage-negotiation">Negotiation</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Scope</div>
+                                    <div class="detail-value">Lab validation + Membrane testing program. Lab validation required step accepted by client and progressing toward authorization.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Strategy</div>
+                                    <div class="detail-value">Anchor as technical lead through lab validation of pretreatment. Use data to prove membrane life, utilization, recovery improvement. Maintain control of membrane testing scope to guide lifecycle decisions.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 7: TI LFAB2 (PENDING) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">Texas Instruments</div>
+                                <div class="deal-name">LFAB2 Utah</div>
+                                <div class="deal-meta">
+                                    <span class="status-pending">● PENDING</span>
+                                    <span>Packaging Decision</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-2">SSM 2</span>
+                                <span class="badge stage-prospect">Prospect</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Scope</div>
+                                    <div class="detail-value">Wastewater/packaging for semiconductor fab. Pending TI internal decision on OFCI (direct) vs contractor-led packaging approach.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contact</div>
+                                    <div class="contact-item">
+                                        Grant Jimenez <span class="contact-role">TI Internal Advocate</span>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Strategy</div>
+                                    <div class="detail-value">Stay aligned with TI timing; avoid forcing early engagement. Position as flexible across OFCI + contractor pathways. Lead with practical collection and access through EPC relationships.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 8: Iliad/Chevron (PENDING AWARD) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">Iliad / Chevron</div>
+                                <div class="deal-name">Arkansas DLE (Smackover)</div>
+                                <div class="deal-meta">
+                                    <span class="status-pending">● PENDING AWARD</span>
+                                    <span>1-2 Weeks</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-2">SSM 2</span>
+                                <span class="badge stage-prospect">Pending Award</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Status</div>
+                                    <div class="detail-value">Awaiting Iliad award decision within 1-2 weeks. No formal Chevron agenda yet defined.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contact</div>
+                                    <div class="contact-item">
+                                        Daniel Hernandez <span class="contact-role">Iliad Director of Operations (award gatekeeper)</span>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Strategy</div>
+                                    <div class="detail-value">Preferred pretreatment partner to Iliad. Leverage GeoFrame credibility. If awarded, pursue exclusive partnership model. Extend to broader Smackover development pipeline.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 9: AWS Reno (PARALLEL TRACK) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">AWS</div>
+                                <div class="deal-name">Reno Opp Call (Parallel)</div>
+                                <div class="deal-meta">
+                                    <span class="status-active">● ACTIVE</span>
+                                    <span>March 24</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-1">SSM 1</span>
+                                <span class="badge stage-meeting">Parallel Track</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contacts</div>
+                                    <div class="contact-list">
+                                        <div class="contact-item">
+                                            Qianyu Deng <span class="contact-role">AWS Water Strategy</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Rupert Malhotra <span class="contact-role">Capability Presentation</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Focus</div>
+                                    <div class="detail-value">Rental water treatment support. Running parallel to AWS Management Level meeting on same day (3/24) for dual-track engagement.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DEAL 10: Bunker Hill (Q2 ACQUISITION) -->
+                    <div class="deal-card" onclick="toggleDeal(this)">
+                        <div class="deal-header">
+                            <div class="deal-title-section">
+                                <div class="deal-client">Bunker Hill</div>
+                                <div class="deal-name">CTP Acquisition (Mining)</div>
+                                <div class="deal-meta">
+                                    <span class="status-pending">● FUTURE</span>
+                                    <span>Q2 2026</span>
+                                </div>
+                            </div>
+                            <div class="deal-badges">
+                                <span class="badge priority-2">SSM 2</span>
+                                <span class="badge stage-prospect">Acquisition</span>
+                            </div>
+                            <span class="toggle-icon">▼</span>
+                        </div>
+                        <div class="deal-body">
+                            <div class="deal-details">
+                                <div class="detail-section">
+                                    <div class="detail-label">Lead Contacts</div>
+                                    <div class="contact-list">
+                                        <div class="contact-item">
+                                            Tom Francis <span class="contact-role">General Manager (operating authority)</span>
+                                        </div>
+                                        <div class="contact-item">
+                                            Sam Ash <span class="contact-role">CEO (decision driver)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Opportunity</div>
+                                    <div class="detail-value">CTP acquisition expected in 1-2 year window. Capital deployment likely. Model supports recurring revenue and long-term contract.</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Strategy</div>
+                                    <div class="detail-value">Position as natural owner/operator before formal divestiture discussions. Build trust through direct engagement. Win by shaping structure early; avoid competitive bid environment.</div>
+                                </div>
+                                <div class="scale-indicator">
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot filled"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                    <div class="scale-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FLOWSTATE TAB -->
+            <div id="flowstate" class="tab-content">
+                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">FLOWSTATE Newsletter</h2>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">📌 Current Status</h3>
+                    <p><strong>Issues Published:</strong> 5 (May–August 2025)</p>
+                    <p><strong>Current Readers:</strong> ~3,900 subscribers (~3,500 at peak)</p>
+                    <p><strong>Email Notifications:</strong> ~80% enabled, ~20% have opted out</p>
+                    <p><strong>Next Issue:</strong> Issue 6 — "The Valve That Remembers" (drafted)</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">🎬 Issue 6 Draft</h3>
+                    <p><strong>Title:</strong> "The Valve That Remembers"</p>
+                    <p><strong>Theme:</strong> Grady Watts training younger operators; practical engineering + institutional knowledge</p>
+                    <p><strong>Status:</strong> Complete draft saved</p>
+                    <p><strong>Next Step:</strong> Review, edit, publish (📌 in Apple Reminders: coordinate timing)</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">🤝 Co-Creator</h3>
+                    <p><strong>Bob Smiley</strong> (Netflix comedy writer, close personal friend)</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">📊 Distribution Strategy</h3>
+                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                        <li>Personal newsletter tied to Bear's profile (cannot transfer to company page)</li>
+                        <li>New issues shared as posts to Bear's personal LinkedIn profile</li>
+                        <li>Linked from FLOWSTATE company page (510 followers, growing)</li>
+                        <li>Goal: Grow company page to ~1,000 followers, then push newsletter through it</li>
+                    </ul>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">🎥 Future: Podcast/Video Show</h3>
+                    <p><strong>Concept:</strong> Interview "Grady Watts" (Homer Simpson-style cartoon character)</p>
+                    <p><strong>Format:</strong> 3–7 minute clips</p>
+                    <p><strong>Tools:</strong> HeyGen + ElevenLabs</p>
+                    <p><strong>Content Source:</strong> Real operator stories submitted by water treatment workers</p>
+                    <p><strong>Status:</strong> Requires more planning, resources, and budget</p>
+                </div>
+            </div>
+
+            <!-- LINKEDIN TAB -->
+            <div id="linkedin" class="tab-content">
+                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">LinkedIn Strategy</h2>
+
+                <div class="linkedin-metrics">
+                    <div class="metric-card">
+                        <div class="metric-value">34.0K</div>
+                        <div class="metric-label">Followers</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">#1</div>
+                        <div class="metric-label">US Water Treatment</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">1–4</div>
+                        <div class="metric-label">Posts / Week (Goal: 4–7)</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value">30K</div>
+                        <div class="metric-label">LinkedIn Connections</div>
+                    </div>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">📈 Current Status</h3>
+                    <p><strong>Positioning:</strong> LinkedIn's #1 industrial water treatment resource</p>
+                    <p><strong>Current Cadence:</strong> 1x/week (target: 4–7x/week)</p>
+                    <p><strong>Benchmark:</strong> Alex Passini (Canada/Miami) — 109k followers, posts daily, high virality</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">🤝 Water Treatment Mastermind Group</h3>
+                    <p><strong>Members:</strong></p>
+                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                        <li>Alex Passini — 109k followers (Canada/Miami)</li>
+                        <li>Alejandro — 33k followers (Spain)</li>
+                        <li>Walid — 36k followers (UAE)</li>
+                        <li>Steve — 33k followers (California/UAE)</li>
+                    </ul>
+                    <p style="margin-top: 12px;"><strong>Insight:</strong> Only ~1,000–1,200 mutual connections each — large audience growth potential through cross-exposure</p>
+                    <p><strong>Opportunity:</strong> First-ever podcast episode being coordinated by Alex</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">📝 Content Strategy</h3>
+                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                        <li><strong>Tone:</strong> Thoughtful, grounded, slightly contrarian</li>
+                        <li><strong>Core Message:</strong> Water is infrastructure, not core business. Companies should outsource it.</li>
+                        <li><strong>Themes:</strong> Capital allocation, practical engineering, generational transition, FLOWSTATE universe (Grady Watts)</li>
+                        <li><strong>Formats:</strong> Market observations, deal context, operator stories, contrarian takes</li>
+                    </ul>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">🎯 Growth Levers</h3>
+                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                        <li>Increase posting cadence (1x → 4–7x/week)</li>
+                        <li>Cross-promote with mastermind group members</li>
+                        <li>Leverage 30K connections as warm audience</li>
+                        <li>FLOWSTATE newsletter as content feeder (stories → LinkedIn posts)</li>
+                        <li>Podcast series (Grady Watts video clips) as engagement driver</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PERSONAL TAB -->
+            <div id="personal" class="tab-content">
+                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">Personal / Home</h2>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">📍 Location & Context</h3>
+                    <p><strong>Base:</strong> Bend, Oregon (Pacific timezone)</p>
+                    <p><strong>Work Setup:</strong> Solo home office</p>
+                    <p><strong>Background:</strong> Grew up on cattle ranch near world's largest diatomite mine (no electricity); decade in Houston (2012–2022); relocated back to Pacific Northwest</p>
+                    <p><strong>Education:</strong> J.D. (University of Oregon), B.A. (UCLA)</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">👨‍👧 Family</h3>
+                    <p>Has a daughter</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">🚀 Upcoming Travel</h3>
+                    <p><strong>Data Center World Conference</strong> — Washington, DC (April 2026)</p>
+                    <p><strong>Objective:</strong> Position as infrastructure strategist; identify + warm-intro water treatment decision makers before design lock</p>
+                    <p><strong>Strategy:</strong> Monitor exhibitor/speaker lists; cross-check against pipeline contacts + 30K LinkedIn connections</p>
+                </div>
+
+                <div class="flowstate-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">⚙️ Tools & Integrations</h3>
+                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                        <li><strong>Reminders:</strong> Apple Reminders (all deal next-steps synced)</li>
+                        <li><strong>LLM:</strong> Ollama (Mistral, Gemma3, Qwen3.5) — ask before using to save API tokens</li>
+                        <li><strong>GitHub:</strong> Fine-grained PAT (HollisterRanch account)</li>
+                        <li><strong>Site:</strong> watermaxxing.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(event, tabName) {
+            // Hide all tabs
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function toggleDeal(card) {
+            card.classList.toggle('open');
+            const icon = card.querySelector('.toggle-icon');
+            icon.classList.toggle('open');
+        }
+
+        // Add keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.deal-card.open').forEach(card => {
+                    card.classList.remove('open');
+                    card.querySelector('.toggle-icon').classList.remove('open');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
