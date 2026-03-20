@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAWYER OPS TERMINAL — Barron Sawyer</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === RESET & BASE === */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #0d0221; min-height: 100vh; }
+
+:root {
+  --bg-primary: #0d0221;
+  --bg-secondary: #1a0a2e;
+  --bg-tertiary: #16082a;
+  --bg-card: rgba(13, 2, 33, 0.85);
+  --text-primary: #fff;
+  --text-secondary: rgba(255,255,255,0.7);
+  --text-muted: rgba(255,255,255,0.4);
+  --accent-magenta: #ff00ff;
+  --accent-cyan: #00ffff;
+  --accent-green: #00ff88;
+  --accent-amber: #ffaa00;
+  --accent-red: #ff4466;
+  --glass-border: rgba(255,255,255,0.08);
+}
+
+/* === ANIMATIONS === */
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.5} }
+@keyframes glow { 0%,100%{box-shadow:0 0 20px var(--accent-cyan),0 0 40px rgba(0,255,255,0.3)}50%{box-shadow:0 0 30px var(--accent-cyan),0 0 60px rgba(0,255,255,0.5)} }
+@keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+@keyframes scanline { 0%{top:-10%}100%{top:110%} }
+@keyframes borderPulse { 0%,100%{border-color:rgba(0,255,255,0.3)}50%{border-color:rgba(0,255,255,0.6)} }
+@keyframes tickerScroll { 0%{transform:translateX(0)}100%{transform:translateX(-50%)} }
+@keyframes statusBlink { 0%,100%{opacity:1}50%{opacity:0.4} }
+@keyframes breathe { 0%,100%{transform:scale(1);opacity:0.8}50%{transform:scale(1.02);opacity:1} }
+@keyframes watermaxxPulse {
+  0%,100%{box-shadow:0 0 15px var(--accent-magenta),0 0 30px rgba(255,0,255,0.4),inset 0 0 15px rgba(255,0,255,0.1)}
+  50%{box-shadow:0 0 25px var(--accent-magenta),0 0 50px rgba(255,0,255,0.6),inset 0 0 25px rgba(255,0,255,0.2)}
+}
+
+/* === LAYOUT === */
+body {
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--text-primary);
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Scanline overlay */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.015) 2px, rgba(0,255,255,0.015) 4px);
+  pointer-events: none;
+  z-index: 10000;
+}
+
+/* Grid floor effect */
+.grid-bg {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 40vh;
+  background: 
+    linear-gradient(to bottom, transparent 0%, rgba(13,2,33,0.8) 100%),
+    repeating-linear-gradient(90deg, rgba(255,0,255,0.1) 0px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(0deg, rgba(0,255,255,0.1) 0px, transparent 1px, transparent 60px);
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: bottom;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+/* === HEADER === */
+.header {
+  background: linear-gradient(180deg, rgba(26,10,46,0.95) 0%, rgba(13,2,33,0.9) 100%);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(12px);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  background: var(--accent-green);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 10px var(--accent-green);
+}
+
+.header-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 10px rgba(0,255,255,0.5);
+}
+
+.header-subtitle {
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-top: 2px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.draft-badge {
+  background: rgba(255,170,0,0.15);
+  border: 1px solid var(--accent-amber);
+  color: var(--accent-amber);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  animation: borderPulse 3s infinite;
+}
+
+.watermaxx-btn {
+  background: linear-gradient(135deg, rgba(255,0,255,0.2) 0%, rgba(0,255,255,0.1) 100%);
+  border: 2px solid var(--accent-magenta);
+  color: var(--accent-cyan);
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  animation: watermaxxPulse 2s infinite;
+  transition: all 0.3s;
+}
+.watermaxx-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, rgba(255,0,255,0.4) 0%, rgba(0,255,255,0.2) 100%);
+}
+
+.timestamp {
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: right;
+}
+.timestamp span { color: var(--accent-cyan); }
+
+/* === TICKER === */
+.ticker {
+  background: linear-gradient(90deg, rgba(0,255,255,0.05) 0%, rgba(255,0,255,0.05) 50%, rgba(0,255,255,0.05) 100%);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 8px 0;
+  overflow: hidden;
+  position: relative;
+}
+.ticker::before {
+  content: 'LIVE';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--accent-magenta);
+  color: #000;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 8px;
+  font-weight: 700;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  animation: statusBlink 1.5s infinite;
+}
+.ticker-track {
+  display: flex;
+  animation: tickerScroll 60s linear infinite;
+  padding-left: 60px;
+}
+.ticker-item {
+  white-space: nowrap;
+  padding: 0 40px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+.ticker-item .hl { color: var(--accent-cyan); }
+.ticker-item .mg { color: var(--accent-magenta); }
+.ticker-item .gr { color: var(--accent-green); }
+.ticker-item .am { color: var(--accent-amber); }
+
+/* === TABS === */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 24px;
+  background: rgba(13,2,33,0.5);
+  border-bottom: 1px solid var(--glass-border);
+  flex-wrap: wrap;
+}
+.tab {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tab:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  background: rgba(0,255,255,0.05);
+}
+.tab.active {
+  border-color: var(--accent-magenta);
+  color: var(--accent-magenta);
+  background: rgba(255,0,255,0.1);
+  box-shadow: 0 0 15px rgba(255,0,255,0.2);
+}
+.tab.coming-soon {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.tab.coming-soon::after {
+  content: 'SOON';
+  font-size: 7px;
+  background: var(--accent-amber);
+  color: #000;
+  padding: 2px 4px;
+  border-radius: 3px;
+  margin-left: 4px;
+}
+.tab svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+/* === MAIN CONTAINER === */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.tab-content {
+  display: none;
+}
+.tab-content.active {
+  display: block;
+  animation: breathe 4s ease-in-out infinite;
+}
+
+/* === STATS ROW === */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.stat-card:hover {
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 20px rgba(0,255,255,0.1);
+}
+.stat-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  text-shadow: 0 0 15px rgba(0,255,255,0.5);
+}
+.stat-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+/* === DEAL CARDS === */
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--accent-magenta);
+  fill: none;
+}
+
+.deals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.deal-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.deal-card:hover {
+  border-color: var(--accent-cyan);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,255,255,0.1);
+}
+
+.deal-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.deal-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+.deal-scope {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.deal-status {
+  font-size: 8px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.deal-status.executing { background: rgba(0,255,136,0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+.deal-status.pending { background: rgba(0,255,255,0.15); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+.deal-status.site-visit { background: rgba(255,0,255,0.15); color: var(--accent-magenta); border: 1px solid var(--accent-magenta); }
+.deal-status.at-risk { background: rgba(255,68,102,0.2); color: var(--accent-red); border: 1px solid var(--accent-red); animation: statusBlink 1s infinite; }
+.deal-status.lab { background: rgba(255,170,0,0.15); color: var(--accent-amber); border: 1px solid var(--accent-amber); }
+.deal-status.future { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid var(--glass-border); }
+
+.deal-body {
+  padding: 14px 16px;
+}
+.deal-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+.deal-meta-item {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+.deal-meta-item span {
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+.deal-contacts {
+  font-size: 10px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+.deal-contacts strong {
+  color: var(--accent-magenta);
+  font-weight: 500;
+}
+.deal-next {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--glass-border);
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+.deal-next::before {
+  content: 'NEXT';
+  display: inline-block;
+  background: var(--accent-cyan);
+  color: #000;
+  font-size: 7px;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-right: 8px;
+}
+
+/* === TRAVEL SECTION === */
+.travel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 900px) {
+  .travel-grid { grid-template-columns: 1fr; }
+}
+
+.flight-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+.flight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent-cyan), var(--accent-magenta));
+}
+.flight-number {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.flight-route {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.flight-airport {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.flight-arrow {
+  color: var(--accent-magenta);
+  font-size: 20px;
+}
+.flight-details {
+  font-size: 10px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+}
+.flight-purpose {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--glass-border);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.flight-purpose strong {
+  color: var(--accent-green);
+}
+
+/* Calendar */
+.calendar-widget {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 20px;
+}
+.calendar-header {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  text-align: center;
+}
+.calendar-day-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  padding: 4px;
+}
+.calendar-day {
+  font-size: 10px;
+  padding: 8px 4px;
+  border-radius: 4px;
+  color: var(--text-secondary);
+}
+.calendar-day.today {
+  background: var(--accent-magenta);
+  color: #fff;
+  font-weight: 700;
+}
+.calendar-day.has-event {
+  background: rgba(0,255,255,0.15);
+  color: var(--accent-cyan);
+  border: 1px solid var(--accent-cyan);
+}
+.calendar-day.travel {
+  background: rgba(255,0,255,0.1);
+  color: var(--accent-magenta);
+}
+
+/* Coming Soon Placeholder */
+.coming-soon-card {
+  background: var(--bg-card);
+  border: 1px dashed var(--glass-border);
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  opacity: 0.6;
+}
+.coming-soon-card svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--text-muted);
+  fill: none;
+  margin-bottom: 12px;
+}
+.coming-soon-card .title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+}
+.coming-soon-card .sub {
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* Carbon Placeholder */
+.carbon-widget {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+.carbon-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.carbon-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  color: var(--text-muted);
+}
+.carbon-unit {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* === PERSONAL SECTION === */
+.personal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 20px;
+}
+.info-card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  color: var(--accent-magenta);
+  letter-spacing: 0.1em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.info-card-title svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+}
+.info-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.info-list li {
+  font-size: 11px;
+  color: var(--text-secondary);
+  padding: 8px 0;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.info-list li:last-child {
+  border-bottom: none;
+}
+.info-list .label {
+  color: var(--text-muted);
+}
+.info-list .value {
+  color: var(--accent-cyan);
+  text-align: right;
+}
+.info-list .value a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+.info-list .value a:hover {
+  text-decoration: underline;
+}
+.info-list .tag {
+  font-size: 8px;
+  background: rgba(255,0,255,0.15);
+  color: var(--accent-magenta);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+}
+
+/* === FOOTER === */
+.footer {
+  margin-top: 40px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--glass-border);
+  text-align: center;
+}
+.footer-text {
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.footer-text a {
+  color: var(--accent-cyan);
+  text-decoration: none;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .header { flex-direction: column; gap: 12px; text-align: center; }
+  .tabs { justify-content: center; }
+  .deals-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="status-indicator"></div>
+    <div>
+      <div class="header-title">SAWYER OPS TERMINAL</div>
+      <div class="header-subtitle">BARRON SAWYER // WESTECH ENGINEERING // WESTERN U.S.</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="draft-badge">DRAFT v0.3</div>
+    <a href="https://watermaxxing.com" class="watermaxx-btn">WATERMAXXING</a>
+    <div class="timestamp"><span id="clock">--:--:--</span> PT</div>
+  </div>
+</header>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item"><span class="gr">NGM executing</span> — Stage C contract in motion, KDP 3/18</div>
+    <div class="ticker-item"><span class="hl">AWS Management Meeting</span> — Seattle, March 24</div>
+    <div class="ticker-item"><span class="mg">Site visit alert:</span> GeoFrame/Iliad DLE site, TX — March 26</div>
+    <div class="ticker-item"><span class="am">Reminder:</span> Apple Reminders synced. Check your phone, not your inbox.</div>
+    <div class="ticker-item"><span class="hl">Pipeline status:</span> 10 active deals, 9-figure+ aggregate</div>
+    <div class="ticker-item"><span class="mg">Pro tip:</span> Hydrate before client calls. Dehydrated operators make bad decisions.</div>
+    <div class="ticker-item"><span class="gr">NGM executing</span> — Stage C contract in motion, KDP 3/18</div>
+    <div class="ticker-item"><span class="hl">AWS Management Meeting</span> — Seattle, March 24</div>
+    <div class="ticker-item"><span class="mg">Site visit alert:</span> GeoFrame/Iliad DLE site, TX — March 26</div>
+    <div class="ticker-item"><span class="am">Reminder:</span> Apple Reminders synced. Check your phone, not your inbox.</div>
+  </div>
+</div>
+
+<!-- TABS -->
+<nav class="tabs">
+  <button class="tab active" onclick="showTab('deals')">
+    <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+    DEAL BOARD
+  </button>
+  <button class="tab" onclick="showTab('travel')">
+    <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+    TRAVEL
+  </button>
+  <button class="tab" onclick="showTab('flowstate')">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 004 14.5V5a2 2 0 012-2h14v14H6.5A2.5 2.5 0 004 19.5z"/></svg>
+    FLOWSTATE
+  </button>
+  <button class="tab" onclick="showTab('linkedin')">
+    <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6zM2 9h4v12H2zM4 6a2 2 0 100-4 2 2 0 000 4z"/></svg>
+    LINKEDIN
+  </button>
+  <button class="tab" onclick="showTab('personal')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+    PERSONAL
+  </button>
+  <button class="tab coming-soon">
+    <svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+    ANALYTICS
+  </button>
+  <button class="tab coming-soon">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+    FLIGHT LOG
+  </button>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <!-- DEALS TAB -->
+  <div id="deals" class="tab-content active">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">10</div>
+        <div class="stat-label">Active Deals</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">SSM Priority 1</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Site Visits (14d)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1</div>
+        <div class="stat-label">Executing</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">9+</div>
+        <div class="stat-label">Pipeline (Figures)</div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      ACTIVE PIPELINE
+    </div>
+
+    <div class="deals-grid">
+      <!-- NGM -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">NGM — Nevada Gold Mines</div>
+            <div class="deal-scope">UF/RO/GM 12-Month Rental Program</div>
+          </div>
+          <div class="deal-status executing">Executing</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>C</span></div>
+            <div class="deal-meta-item">SSM: <span>1</span></div>
+          </div>
+          <div class="deal-contacts">
+            <strong>Taft</strong> — Site Execution<br>
+            <strong>Tao</strong> — Procurement<br>
+            <strong>Steve Ware</strong> — Strategic
+          </div>
+          <div class="deal-next">Complete contract, submit Order Entry, finalize KDP 3/18, schedule external KDP.</div>
+        </div>
+      </div>
+
+      <!-- AWS -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">AWS — Amazon Web Services</div>
+            <div class="deal-scope">Data Center Water Treatment Strategy</div>
+          </div>
+          <div class="deal-status pending">Meeting 3/24</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Discovery</span></div>
+            <div class="deal-meta-item">SSM: <span>1</span></div>
+          </div>
+          <div class="deal-contacts">
+            <strong>Brady</strong> — AWS Water / Former Utilities<br>
+            <strong>Nathan Myers</strong> — Strategy & Alignment<br>
+            <strong>Dave Stanek</strong> — Technical
+          </div>
+          <div class="deal-next">Management level meeting in Seattle. Target regional stakeholders for upcoming DC builds.</div>
+        </div>
+      </div>
+
+      <!-- E3 Platforms -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">E3 Platforms</div>
+            <div class="deal-scope">Utah Power/Data Complex — 700-1,000 gpm</div>
+          </div>
+          <div class="deal-status pending">Meeting 3/23</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Structuring</span></div>
+            <div class="deal-meta-item">SSM: <span>1</span></div>
+          </div>
+          <div class="deal-contacts">
+            <strong>Spencer Vierenes</strong> — CEO, E3 Platforms
+          </div>
+          <div class="deal-next">Capital structuring for power + data infrastructure. Developer actively closing.</div>
+        </div>
+      </div>
+
+      <!-- Iliad / GeoFrame -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">Iliad / GeoFrame</div>
+            <div class="deal-scope">DLE Lithium Extraction — Texas (~1,750 gpm)</div>
+          </div>
+          <div class="deal-status site-visit">Site Visit 3/26</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Technical</span></div>
+            <div class="deal-meta-item">SSM: <span>1</span></div>
+          </div>
+          <div class="deal-contacts">
+            <strong>Laura Zahn</strong> — Chief Geologist<br>
+            <strong>Aaron Prion</strong> — Commercial Director
+          </div>
+          <div class="deal-next">High chloride brine; iron removal. Capital raise $250M+. Low price sensitivity.</div>
+        </div>
+      </div>
+
+      <!-- Mortonsen Lem -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">Mortonsen Lem</div>
+            <div class="deal-scope">Research Oregon Fab</div>
+          </div>
+          <div class="deal-status at-risk">At Risk</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Decision</span></div>
+            <div class="deal-meta-item">SSM: <span>1</span></div>
+          </div>
+          <div class="deal-contacts">
+            <strong>Issue:</strong> Lost turnkey approach. Owner driving sole-source based on prior vendor relationships.
+          </div>
+          <div class="deal-next">Decision: Pursue selective equipment OR strategically disengage and redeploy.</div>
+        </div>
+      </div>
+
+      <!-- American Battery -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">American Battery</div>
+            <div class="deal-scope">Sparks, NV — Lab Validation Program</div>
+          </div>
+          <div class="deal-status lab">Lab Phase</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Validation</span></div>
+            <div class="deal-meta-item">SSM: <span>2</span></div>
+          </div>
+          <div class="deal-contacts">
+            Membrane testing program. Proving membrane life improvement for lifecycle decisions.
+          </div>
+        </div>
+      </div>
+
+      <!-- Texas Instruments -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">Texas Instruments</div>
+            <div class="deal-scope">LFAB2 Utah — Wastewater/Packaging</div>
+          </div>
+          <div class="deal-status pending">Decision Pending</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Prospect</span></div>
+            <div class="deal-meta-item">SSM: <span>2</span></div>
+          </div>
+          <div class="deal-contacts">
+            Semiconductor fab wastewater. Pending TI decision on OFCI vs contractor-led.
+          </div>
+        </div>
+      </div>
+
+      <!-- Iliad / Chevron -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">Iliad / Chevron</div>
+            <div class="deal-scope">Arkansas DLE (Smackover Formation)</div>
+          </div>
+          <div class="deal-status pending">Award 1-2 Weeks</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Pending Award</span></div>
+            <div class="deal-meta-item">SSM: <span>2</span></div>
+          </div>
+          <div class="deal-contacts">
+            Awaiting Iliad award. Preferred pretreatment partner. Leverage GeoFrame credibility.
+          </div>
+        </div>
+      </div>
+
+      <!-- AWS Reno -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">AWS — Reno Parallel Track</div>
+            <div class="deal-scope">Rental Water Treatment Support</div>
+          </div>
+          <div class="deal-status pending">Active 3/24</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Parallel</span></div>
+            <div class="deal-meta-item">SSM: <span>1</span></div>
+          </div>
+          <div class="deal-contacts">
+            <strong>Qianyu Deng</strong> — AWS Water Strategy<br>
+            <strong>Rupert Malhotra</strong> — Capability Presentation
+          </div>
+        </div>
+      </div>
+
+      <!-- Bunker Hill -->
+      <div class="deal-card">
+        <div class="deal-header">
+          <div>
+            <div class="deal-name">Bunker Hill Mining</div>
+            <div class="deal-scope">CTP Acquisition — Owner/Operator Play</div>
+          </div>
+          <div class="deal-status future">Q2 2026</div>
+        </div>
+        <div class="deal-body">
+          <div class="deal-meta">
+            <div class="deal-meta-item">Stage: <span>Future</span></div>
+            <div class="deal-meta-item">SSM: <span>2</span></div>
+          </div>
+          <div class="deal-contacts">
+            <strong>Tom Francis</strong> — General Manager<br>
+            <strong>Sam Ash</strong> — CEO
+          </div>
+          <div class="deal-next">CTP acquisition expected 1-2 year window. Position as natural owner/operator.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAVEL TAB -->
+  <div id="travel" class="tab-content">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Flights This Trip</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">7</div>
+        <div class="stat-label">Days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">3</div>
+        <div class="stat-label">Cities</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Meetings</div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      MARCH 23-29, 2026 — WESTERN SWING
+    </div>
+
+    <div class="travel-grid">
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Flight 1 -->
+        <div class="flight-card">
+          <div class="flight-number">ALASKA 2277</div>
+          <div class="flight-route">
+            <span class="flight-airport">RDM</span>
+            <span class="flight-arrow">→</span>
+            <span class="flight-airport">SEA</span>
+          </div>
+          <div class="flight-details">
+            <strong>Mon 3/23</strong> · Depart 9:37 AM · Arrive 10:53 AM
+          </div>
+          <div class="flight-purpose">
+            <strong>Purpose:</strong> AWS + Apple data center water strategy meetings
+          </div>
+        </div>
+
+        <!-- Flight 2 -->
+        <div class="flight-card">
+          <div class="flight-number">ALASKA 1424</div>
+          <div class="flight-route">
+            <span class="flight-airport">SEA</span>
+            <span class="flight-arrow">→</span>
+            <span class="flight-airport">SAN</span>
+          </div>
+          <div class="flight-details">
+            <strong>Tue 3/24</strong> · Depart 7:09 PM · Arrive 9:58 PM
+          </div>
+          <div class="flight-purpose">
+            <strong>Agenda:</strong><br>
+            • Tue 3/25 — Dinner with Energy Source Minerals (La Jolla)<br>
+            • Wed 3/26 — Site visit: ESM geothermal plant (El Centro)<br>
+            • Wed 3/26 — Meeting: ESM R&D center (Carlsbad)
+          </div>
+        </div>
+
+        <!-- Flight 3 -->
+        <div class="flight-card">
+          <div class="flight-number">ALASKA 2162</div>
+          <div class="flight-route">
+            <span class="flight-airport">LAX</span>
+            <span class="flight-arrow">→</span>
+            <span class="flight-airport">RDM</span>
+          </div>
+          <div class="flight-details">
+            <strong>Sun 3/29</strong> · Depart 9:04 PM · Arrive 11:21 PM
+          </div>
+          <div class="flight-purpose">
+            <strong>LA Leg:</strong><br>
+            • Fri 3/27 — Chevron meeting, El Segundo Refinery<br>
+            • Weekend — Santa Barbara with Owen (20)
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <!-- Calendar -->
+        <div class="calendar-widget">
+          <div class="calendar-header">MARCH 2026</div>
+          <div class="calendar-days">
+            <div class="calendar-day-label">SU</div>
+            <div class="calendar-day-label">MO</div>
+            <div class="calendar-day-label">TU</div>
+            <div class="calendar-day-label">WE</div>
+            <div class="calendar-day-label">TH</div>
+            <div class="calendar-day-label">FR</div>
+            <div class="calendar-day-label">SA</div>
+            <div class="calendar-day">1</div>
+            <div class="calendar-day">2</div>
+            <div class="calendar-day">3</div>
+            <div class="calendar-day">4</div>
+            <div class="calendar-day">5</div>
+            <div class="calendar-day">6</div>
+            <div class="calendar-day">7</div>
+            <div class="calendar-day">8</div>
+            <div class="calendar-day">9</div>
+            <div class="calendar-day">10</div>
+            <div class="calendar-day">11</div>
+            <div class="calendar-day">12</div>
+            <div class="calendar-day">13</div>
+            <div class="calendar-day">14</div>
+            <div class="calendar-day">15</div>
+            <div class="calendar-day">16</div>
+            <div class="calendar-day">17</div>
+            <div class="calendar-day has-event">18</div>
+            <div class="calendar-day today">19</div>
+            <div class="calendar-day">20</div>
+            <div class="calendar-day">21</div>
+            <div class="calendar-day">22</div>
+            <div class="calendar-day travel">23</div>
+            <div class="calendar-day travel">24</div>
+            <div class="calendar-day travel">25</div>
+            <div class="calendar-day travel">26</div>
+            <div class="calendar-day travel">27</div>
+            <div class="calendar-day travel">28</div>
+            <div class="calendar-day travel">29</div>
+            <div class="calendar-day">30</div>
+            <div class="calendar-day">31</div>
+          </div>
+        </div>
+
+        <!-- Carbon Widget -->
+        <div class="carbon-widget">
+          <div class="carbon-label">ANNUAL CARBON FOOTPRINT (FLIGHTS)</div>
+          <div class="carbon-value">—</div>
+          <div class="carbon-unit">metric tons CO₂ since 2023</div>
+        </div>
+
+        <!-- Past Flights Coming Soon -->
+        <div class="coming-soon-card">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <div class="title">FLIGHT LOG</div>
+          <div class="sub">Historical flight data coming soon</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOWSTATE TAB -->
+  <div id="flowstate" class="tab-content">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">5</div>
+        <div class="stat-label">Issues Published</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">~3.9K</div>
+        <div class="stat-label">Subscribers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Next Issue</div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 004 14.5V5a2 2 0 012-2h14v14H6.5"/></svg>
+      NEWSLETTER STATUS
+    </div>
+
+    <div class="personal-grid">
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><polyline points="14,2 14,8 20,8"/></svg>
+          ISSUE 6 DRAFT
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Title</span><span class="value">"The Valve That Remembers"</span></li>
+          <li><span class="label">Theme</span><span class="value">Grady Watts training younger ops</span></li>
+          <li><span class="label">Status</span><span class="value">Complete draft saved</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          CO-CREATOR
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Name</span><span class="value">Bob Smiley</span></li>
+          <li><span class="label">Background</span><span class="value">Netflix comedy writer</span></li>
+          <li><span class="label">Relationship</span><span class="value">Close personal friend</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          FUTURE: PODCAST/VIDEO
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Concept</span><span class="value">Interview "Grady Watts"</span></li>
+          <li><span class="label">Format</span><span class="value">3-7 min clips</span></li>
+          <li><span class="label">Tools</span><span class="value">HeyGen + ElevenLabs</span></li>
+          <li><span class="label">Source</span><span class="value">Real operator stories</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINKEDIN TAB -->
+  <div id="linkedin" class="tab-content">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">34K</div>
+        <div class="stat-label">Followers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">#1</div>
+        <div class="stat-label">US Water Treatment</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">30K</div>
+        <div class="stat-label">Connections</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">1-4</div>
+        <div class="stat-label">Posts / Week</div>
+      </div>
+    </div>
+
+    <div class="section-title">
+      <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-4 0v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      STRATEGY & NETWORK
+    </div>
+
+    <div class="personal-grid">
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          POSITIONING
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Status</span><span class="value">#1 industrial water resource</span></li>
+          <li><span class="label">Current</span><span class="value">1x/week</span></li>
+          <li><span class="label">Target</span><span class="value">4-7x/week</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          MASTERMIND GROUP
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Alex Passini</span><span class="value">109K<span class="tag">Canada/Miami</span></span></li>
+          <li><span class="label">Alejandro</span><span class="value">33K<span class="tag">Spain</span></span></li>
+          <li><span class="label">Walid</span><span class="value">36K<span class="tag">UAE</span></span></li>
+          <li><span class="label">Steve</span><span class="value">33K<span class="tag">CA/UAE</span></span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg>
+          CONTENT STRATEGY
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Tone</span><span class="value">Grounded, slightly contrarian</span></li>
+          <li><span class="label">Core</span><span class="value">Water = infrastructure, not core biz</span></li>
+          <li><span class="label">Themes</span><span class="value">Capital allocation, practical eng</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAL TAB -->
+  <div id="personal" class="tab-content">
+    <div class="section-title">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      PERSONAL DETAILS
+    </div>
+
+    <div class="personal-grid">
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          LOCATION & BACKGROUND
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Base</span><span class="value">Bend, Oregon (PT)</span></li>
+          <li><span class="label">Origin</span><span class="value">Cattle ranch near world's largest diatomite mine</span></li>
+          <li><span class="label">Previous</span><span class="value">Houston, TX (2012-2022)</span></li>
+          <li><span class="label">Education</span><span class="value">J.D. (Oregon), B.A. (UCLA)</span></li>
+          <li><span class="label">Church</span><span class="value"><a href="https://eastmontchurch.com" target="_blank">Eastmont Church, Bend</a></span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          FAMILY
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Wife</span><span class="value">Kerry</span></li>
+          <li><span class="label">Owen</span><span class="value">20 · Sophomore, Santa Barbara City College</span></li>
+          <li><span class="label">Simon</span><span class="value">17 · Junior, Trinity Lutheran School</span></li>
+          <li><span class="label">Claire</span><span class="value">15 · BJJ competitor</span></li>
+          <li><span class="label">Colette</span><span class="value">11 · BJJ competitor</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+          VEHICLES
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Primary</span><span class="value">2009 Chevy Tahoe Z71<span class="tag">The Silver Ox</span></span></li>
+          <li><span class="label">Secondary</span><span class="value">2003 Mercedes ML320</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          COMPUTERS
+        </div>
+        <ul class="info-list">
+          <li><span class="label">OpenClaw</span><span class="value">Mac Mini M1 16GB/1TB</span></li>
+          <li><span class="label">Tablet</span><span class="value">iPad Pro 11" M1 128GB + Magic Keyboard</span></li>
+          <li><span class="label">Work</span><span class="value">Dell Latitude 5340</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          UPCOMING
+        </div>
+        <ul class="info-list">
+          <li><span class="label">April 2026</span><span class="value">Data Center World — Washington, DC</span></li>
+          <li><span class="label">Objective</span><span class="value">Position as infrastructure strategist</span></li>
+        </ul>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">
+          <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          TOOLS
+        </div>
+        <ul class="info-list">
+          <li><span class="label">Reminders</span><span class="value">Apple Reminders (deal next-steps)</span></li>
+          <li><span class="label">LLM</span><span class="value">Ollama (Mistral, Gemma3, Qwen3.5)</span></li>
+          <li><span class="label">Site</span><span class="value"><a href="https://watermaxxing.com">watermaxxing.com</a></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-text">
+    SAWYER OPS TERMINAL v0.3 · <a href="https://watermaxxing.com">WATERMAXXING.COM</a> · Not for distribution
+  </div>
+</footer>
+
+<script>
+// Clock
+function updateClock() {
+  const now = new Date();
+  const opts = { timeZone: 'America/Los_Angeles', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+  document.getElementById('clock').textContent = now.toLocaleTimeString('en-US', opts);
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+// Tabs
+function showTab(tabId) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.querySelector(`[onclick="showTab('${tabId}')"]`).classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+console.log('%c[SAWYER-OPS] Terminal initialized', 'color:#00ffff;font-family:monospace');
+</script>
+
+</body>
+</html>
