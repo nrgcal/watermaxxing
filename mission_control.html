@@ -689,6 +689,7 @@
         <!-- TABS -->
         <div class="tabs-container">
             <button class="tab-button active" onclick="switchTab(event, 'wetech')">WeSTech Deals</button>
+            <button class="tab-button" onclick="switchTab(event, 'travel')">✈️ Travel</button>
             <button class="tab-button" onclick="switchTab(event, 'flowstate')">FLOWSTATE</button>
             <button class="tab-button" onclick="switchTab(event, 'linkedin')">LinkedIn Strategy</button>
             <button class="tab-button" onclick="switchTab(event, 'personal')">Personal</button>
@@ -1038,6 +1039,139 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- TRAVEL TAB -->
+            <div id="travel" class="tab-content">
+                <h2 style="font-family: 'Orbitron', monospace; font-size: 18px; color: var(--accent-magenta); margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;">Business Travel — March 23–29, 2026</h2>
+
+                <div class="summary-grid" style="margin-bottom: 30px;">
+                    <div class="summary-card">
+                        <div class="summary-number">3</div>
+                        <div class="summary-label">Flights</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">7</div>
+                        <div class="summary-label">Days</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">3</div>
+                        <div class="summary-label">Cities</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-number">5</div>
+                        <div class="summary-label">Meetings</div>
+                    </div>
+                </div>
+
+                <!-- FLIGHT 1 -->
+                <div class="flowstate-section" style="border-left: 4px solid var(--accent-cyan);">
+                    <h3>✈️ Flight 1: Seattle (AWS Meetings)</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 16px;">
+                        <div>
+                            <div class="detail-label">Airline</div>
+                            <div style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Alaska Airlines 2277</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Departure</div>
+                            <div style="color: var(--accent-magenta); font-size: 14px; font-weight: 600; margin-top: 4px;">Mon 3/23 @ 9:37 AM</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Route</div>
+                            <div style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Redmond (RDM) → Seattle (SEA)</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Arrival</div>
+                            <div style="color: var(--accent-cyan); font-size: 14px; font-weight: 600; margin-top: 4px;">10:53 AM</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(0,255,255,0.05); border-left: 2px solid var(--accent-cyan); border-radius: 4px;">
+                        <p style="color: var(--text-secondary); margin: 0; font-size: 13px;"><strong>Purpose:</strong> Meetings with Amazon/AWS and Apple on data center water treatment topics</p>
+                    </div>
+                </div>
+
+                <!-- FLIGHT 2 -->
+                <div class="flowstate-section" style="border-left: 4px solid var(--accent-magenta);">
+                    <h3>✈️ Flight 2: San Diego (Energy Source Minerals + Chevron)</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 16px;">
+                        <div>
+                            <div class="detail-label">Airline</div>
+                            <div style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Alaska Airlines 1424</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Departure</div>
+                            <div style="color: var(--accent-magenta); font-size: 14px; font-weight: 600; margin-top: 4px;">Tue 3/24 @ 7:09 PM</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Route</div>
+                            <div style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Seattle (SEA) → San Diego (SAN)</div>
+                        </div>
+                        <div>
+                            <div class="detail-label">Arrival</div>
+                            <div style="color: var(--accent-cyan); font-size: 14px; font-weight: 600; margin-top: 4px;">9:58 PM</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 16px;">
+                        <div style="padding: 12px; background: rgba(255,165,0,0.08); border-left: 2px solid #ffa500; border-radius: 4px; margin-bottom: 12px;">
+                            <p style="color: var(--text-secondary); margin: 0 0 8px 0; font-size: 13px;"><strong>Tue 3/25 (La Jolla):</strong> Dinner with Energy Source Minerals team</p>
+                        </div>
+                        <div style="padding: 12px; background: rgba(255,165,0,0.08); border-left: 2px solid #ffa500; border-radius: 4px;">
+                            <p style="color: var(--text-secondary); margin: 0 0 6px 0; font-size: 13px;"><strong>Wed 3/26 (El Centro + Carlsbad):</strong></p>
+                            <ul style="margin: 6px 0 0 0; padding-left: 18px; font-size: 12px; color: var(--text-secondary);">
+                                <li>Site visit: Energy Source Minerals geothermal plant (El Centro)</li>
+                                <li>Meeting: Energy Source Minerals R&D center (Carlsbad)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FLIGHT 3 + LA -->
+                <div class="flowstate-section" style="border-left: 4px solid #00ff88;">
+                    <h3>🌴 Los Angeles Leg + Return</h3>
+                    <div style="margin-top: 16px;">
+                        <div style="padding: 12px; background: rgba(0,255,136,0.08); border-left: 2px solid #00ff88; border-radius: 4px; margin-bottom: 12px;">
+                            <p style="color: var(--text-secondary); margin: 0 0 6px 0; font-size: 13px;"><strong>Fri 3/27 (Los Angeles):</strong> Meeting with Chevron at El Segundo Refinery</p>
+                        </div>
+                        <div style="padding: 12px; background: rgba(0,255,136,0.08); border-left: 2px solid #00ff88; border-radius: 4px; margin-bottom: 12px;">
+                            <p style="color: var(--text-secondary); margin: 0 0 6px 0; font-size: 13px;"><strong>Fri–Sun (Weekend):</strong></p>
+                            <ul style="margin: 6px 0 0 0; padding-left: 18px; font-size: 12px; color: var(--text-secondary);">
+                                <li>Staying with friends/family in LA</li>
+                                <li>Drive to Santa Barbara with son Owen (20) and colleague</li>
+                                <li>Explore Hollywood backlot with friends</li>
+                                <li>Weekend getaway in Santa Barbara</li>
+                            </ul>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 16px;">
+                            <div>
+                                <div class="detail-label">Return Flight</div>
+                                <div style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Alaska Airlines 2162</div>
+                            </div>
+                            <div>
+                                <div class="detail-label">Departure</div>
+                                <div style="color: var(--accent-magenta); font-size: 14px; font-weight: 600; margin-top: 4px;">Sun 3/29 @ 9:04 PM</div>
+                            </div>
+                            <div>
+                                <div class="detail-label">Route</div>
+                                <div style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Los Angeles (LAX) → Redmond (RDM)</div>
+                            </div>
+                            <div>
+                                <div class="detail-label">Arrival</div>
+                                <div style="color: var(--accent-cyan); font-size: 14px; font-weight: 600; margin-top: 4px;">11:21 PM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUMMARY -->
+                <div class="flowstate-section" style="background: rgba(255,0,255,0.05); border: 2px solid rgba(255,0,255,0.3);">
+                    <h3>📋 Trip Summary</h3>
+                    <ul>
+                        <li><strong>Seattle (3/23–3/24):</strong> AWS + Apple data center strategy</li>
+                        <li><strong>San Diego (3/24–3/26):</strong> Energy Source Minerals partnership (geothermal + DLE lithium)</li>
+                        <li><strong>Los Angeles (3/26–3/29):</strong> Chevron refinery meeting + family time with Owen</li>
+                        <li><strong>Key Focus:</strong> Data center water infrastructure, lithium extraction technology, refinery optimization</li>
+                    </ul>
                 </div>
             </div>
 
