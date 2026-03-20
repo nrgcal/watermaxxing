@@ -4,96 +4,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mission Control — WeSTech Engineering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
+        /* === CSS RESET === */
+        *, *::before, *::after {
             box-sizing: border-box;
         }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
-            background: #0a0e27;
-            color: #e2e8f0;
-            line-height: 1.6;
-        }
-
-        .wrapper {
-            display: flex;
-            height: 100vh;
-            flex-direction: column;
-        }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border-bottom: 1px solid #334155;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        h1 {
-            font-size: 28px;
-            font-weight: 300;
-            letter-spacing: -0.5px;
-        }
-
-        .header-meta {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        /* Tabs */
-        .tabs-container {
-            background: #0f172a;
-            border-bottom: 1px solid #334155;
+        html, body {
+            margin: 0;
             padding: 0;
-            display: flex;
-            gap: 0;
+            background: #0d0221;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
-        .tab-button {
-            flex: 1;
-            padding: 16px 24px;
-            border: none;
-            background: transparent;
-            color: #94a3b8;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border-bottom: 3px solid transparent;
-            transition: all 0.2s;
+        /* === THEME VARIABLES === */
+        :root {
+            --bg-primary: #0d0221;
+            --bg-secondary: #1a0a2e;
+            --bg-tertiary: #16082a;
+            --text-primary: #fff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --text-muted: rgba(255,255,255,0.4);
+            --accent-magenta: #ff00ff;
+            --accent-cyan: #00ffff;
+            --glass-bg: rgba(255,255,255,0.03);
+            --glass-border: rgba(255,255,255,0.1);
+            --scanline-opacity: 0.15;
         }
 
-        .tab-button:hover {
-            color: #cbd5e1;
-            background: rgba(148, 163, 184, 0.05);
+        /* === ANIMATIONS === */
+        @keyframes neonPulse {
+            0%, 100% { text-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+            50% { text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff, 0 0 20px #ff00ff; }
         }
 
-        .tab-button.active {
-            color: #0ea5e9;
-            border-bottom-color: #0ea5e9;
-            background: rgba(14, 165, 233, 0.05);
+        @keyframes borderGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(255,0,255,0.5), inset 0 0 15px rgba(255,0,255,0.1); }
+            50% { box-shadow: 0 0 25px rgba(255,0,255,0.8), inset 0 0 25px rgba(255,0,255,0.2); }
         }
 
-        /* Main content area */
-        .content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 30px;
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 12px #00ff88; }
+            50% { opacity: 0.5; box-shadow: 0 0 6px #00ff88; }
         }
 
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.3s ease-in;
-        }
-
-        .tab-content.active {
-            display: block;
+        @keyframes slide {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
         }
 
         @keyframes fadeIn {
@@ -101,7 +61,210 @@
             to { opacity: 1; }
         }
 
-        /* Deal Summary Dashboard */
+        @keyframes scanMove {
+            0% { top: -10%; }
+            100% { top: 110%; }
+        }
+
+        /* === GLASSMORPHISM CARDS === */
+        .glass-card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(255,0,255,0.15);
+            border-color: rgba(255,0,255,0.3);
+        }
+
+        /* === TICKER STYLES === */
+        .ticker-container {
+            background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 100%);
+            border-bottom: 2px solid var(--accent-magenta);
+            overflow: hidden;
+            position: relative;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 0 20px rgba(255,0,255,0.3), inset 0 0 20px rgba(255,0,255,0.05);
+        }
+
+        .ticker-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-right: 20px;
+            flex-shrink: 0;
+            animation: neonPulse 2s ease-in-out infinite;
+        }
+
+        .ticker-content {
+            display: flex;
+            gap: 60px;
+            animation: slide 30s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .ticker-item .label {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .ticker-item .value {
+            color: var(--accent-magenta);
+            font-weight: 700;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: statusPulse 2s ease-in-out infinite;
+        }
+
+        /* === HEADER === */
+        header {
+            background: linear-gradient(135deg, #1a0a2e 0%, #0d0221 100%);
+            border-bottom: 1px solid rgba(255,0,255,0.2);
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        h1 {
+            font-family: 'Orbitron', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+        }
+
+        .header-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .watermaxxing-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: rgba(255,0,255,0.1);
+            border: 1px solid rgba(255,0,255,0.3);
+            border-radius: 8px;
+            color: var(--accent-magenta);
+            text-decoration: none;
+            font-family: 'Orbitron', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .watermaxxing-link:hover {
+            background: rgba(255,0,255,0.2);
+            box-shadow: 0 0 20px rgba(255,0,255,0.4);
+            transform: translateY(-2px);
+        }
+
+        .header-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        /* === TABS === */
+        .tabs-container {
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid rgba(255,0,255,0.2);
+            padding: 0;
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px 24px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-family: 'Orbitron', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: var(--accent-cyan);
+            background: rgba(0,255,255,0.05);
+        }
+
+        .tab-button.active {
+            color: var(--accent-magenta);
+            border-bottom-color: var(--accent-magenta);
+            background: rgba(255,0,255,0.05);
+            box-shadow: 0 -2px 15px rgba(255,0,255,0.2);
+        }
+
+        /* === CONTENT AREA === */
+        .wrapper {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 50%);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* === SUMMARY GRID === */
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -110,28 +273,33 @@
         }
 
         .summary-card {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid #334155;
-            border-radius: 8px;
+            glass-card;
             padding: 20px;
             text-align: center;
+            border: 1px solid rgba(255,0,255,0.2);
         }
 
         .summary-number {
-            font-size: 32px;
-            font-weight: 700;
-            color: #0ea5e9;
+            font-family: 'Orbitron', monospace;
+            font-size: 36px;
+            font-weight: 800;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 8px;
+            letter-spacing: 1px;
         }
 
         .summary-label {
-            font-size: 12px;
-            color: #94a3b8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
-        /* Deal Cards */
+        /* === DEAL CARDS === */
         .deals-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -139,22 +307,24 @@
         }
 
         .deal-card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,0,255,0.15);
+            border-radius: 12px;
             overflow: hidden;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
         }
 
         .deal-card:hover {
-            border-color: #64748b;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255,0,255,0.4);
+            box-shadow: 0 8px 32px rgba(255,0,255,0.15);
+            transform: translateY(-4px);
         }
 
         .deal-header {
             padding: 16px;
-            background: #0f172a;
-            border-bottom: 1px solid #334155;
+            background: rgba(255,0,255,0.05);
+            border-bottom: 1px solid rgba(255,0,255,0.15);
             cursor: pointer;
             display: flex;
             justify-content: space-between;
@@ -163,39 +333,44 @@
         }
 
         .deal-header:hover {
-            background: #1e293b;
+            background: rgba(255,0,255,0.08);
         }
 
         .deal-title-section {
             flex: 1;
         }
 
+        .deal-client {
+            font-family: 'Orbitron', monospace;
+            font-size: 10px;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+
         .deal-name {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            color: #f1f5f9;
+            color: var(--text-primary);
             margin-bottom: 6px;
             word-break: break-word;
         }
 
-        .deal-client {
-            font-size: 13px;
-            color: #0ea5e9;
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-
         .deal-meta {
-            font-size: 11px;
-            color: #64748b;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
+            letter-spacing: 0.5px;
         }
 
         .deal-badges {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             flex-wrap: wrap;
         }
 
@@ -203,77 +378,78 @@
             display: inline-block;
             padding: 4px 8px;
             border-radius: 3px;
-            font-size: 10px;
+            font-family: 'Orbitron', monospace;
+            font-size: 8px;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.5px;
+            border: 1px solid;
         }
 
         .badge.priority-1 {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.4);
+            background: rgba(255,0,0,0.15);
+            color: #ff6b6b;
+            border-color: rgba(255,0,0,0.4);
         }
 
         .badge.priority-2 {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fcd34d;
-            border: 1px solid rgba(245, 158, 11, 0.4);
+            background: rgba(255,165,0,0.15);
+            color: #ffa500;
+            border-color: rgba(255,165,0,0.4);
         }
 
         .badge.priority-3 {
-            background: rgba(59, 130, 246, 0.2);
-            color: #93c5fd;
-            border: 1px solid rgba(59, 130, 246, 0.4);
-        }
-
-        .badge.stage-prospect {
-            background: rgba(148, 163, 184, 0.2);
-            color: #cbd5e1;
-        }
-
-        .badge.stage-meeting {
-            background: rgba(59, 130, 246, 0.2);
-            color: #93c5fd;
-        }
-
-        .badge.stage-negotiation {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fcd34d;
+            background: rgba(0,255,255,0.15);
+            color: var(--accent-cyan);
+            border-color: rgba(0,255,255,0.4);
         }
 
         .badge.stage-contract {
-            background: rgba(34, 197, 94, 0.2);
-            color: #86efac;
+            background: rgba(0,255,136,0.15);
+            color: #00ff88;
+            border-color: rgba(0,255,136,0.4);
+        }
+
+        .badge.stage-meeting {
+            background: rgba(255,0,255,0.15);
+            color: var(--accent-magenta);
+            border-color: rgba(255,0,255,0.4);
+        }
+
+        .badge.stage-prospect {
+            background: rgba(0,150,255,0.15);
+            color: #0096ff;
+            border-color: rgba(0,150,255,0.4);
         }
 
         .toggle-icon {
-            font-size: 20px;
-            color: #64748b;
-            transition: transform 0.2s;
+            font-size: 18px;
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
             flex-shrink: 0;
         }
 
         .toggle-icon.open {
             transform: rotate(180deg);
+            color: var(--accent-magenta);
         }
 
         .deal-body {
             padding: 0;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .deal-card.open .deal-body {
-            max-height: 500px;
+            max-height: 600px;
         }
 
         .deal-details {
             padding: 16px;
-            background: #0f172a;
-            border-top: 1px solid #334155;
-            font-size: 13px;
+            background: rgba(0,0,0,0.3);
+            border-top: 1px solid rgba(255,0,255,0.1);
+            font-size: 12px;
             line-height: 1.8;
         }
 
@@ -286,16 +462,18 @@
         }
 
         .detail-label {
-            font-size: 11px;
-            color: #94a3b8;
+            font-family: 'Orbitron', monospace;
+            font-size: 9px;
+            color: var(--accent-cyan);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            font-weight: 700;
         }
 
         .detail-value {
-            color: #cbd5e1;
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
         }
 
         .contact-list {
@@ -305,102 +483,128 @@
         }
 
         .contact-item {
-            font-size: 12px;
-            color: #cbd5e1;
+            font-size: 11px;
+            color: var(--text-secondary);
             padding: 6px 8px;
-            background: rgba(148, 163, 184, 0.1);
-            border-radius: 3px;
+            background: rgba(0,255,255,0.05);
+            border: 1px solid rgba(0,255,255,0.15);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
         }
 
         .contact-role {
-            color: #94a3b8;
-            font-size: 11px;
+            color: var(--text-muted);
+            font-size: 10px;
         }
 
-        /* Priority/Size Indicator */
-        .scale-indicator {
-            display: flex;
-            gap: 4px;
-            margin-top: 8px;
-        }
-
-        .scale-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: rgba(148, 163, 184, 0.3);
-        }
-
-        .scale-dot.filled {
-            background: #10b981;
-        }
-
-        /* Status colors */
-        .status-urgent { color: #ef4444; }
-        .status-pending { color: #f59e0b; }
-        .status-active { color: #10b981; }
-
-        /* Scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-
-        /* Tab-specific styles */
+        /* === FLOWSTATE & LINKEDIN SECTIONS === */
         .flowstate-section {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,0,255,0.15);
+            border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .flowstate-section h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
+            color: var(--accent-magenta);
+            margin: 0 0 12px 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .flowstate-section p {
+            color: var(--text-secondary);
+            margin: 8px 0;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .flowstate-section ul {
+            list-style: none;
+            padding: 0;
+            color: var(--text-secondary);
+        }
+
+        .flowstate-section li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .flowstate-section li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
         }
 
         .linkedin-metrics {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
             gap: 16px;
             margin-bottom: 30px;
         }
 
         .metric-card {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,0,255,0.15);
+            border-radius: 12px;
             padding: 16px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            border-color: rgba(255,0,255,0.4);
+            box-shadow: 0 8px 24px rgba(255,0,255,0.1);
         }
 
         .metric-value {
+            font-family: 'Orbitron', monospace;
             font-size: 28px;
-            font-weight: 700;
-            color: #0ea5e9;
+            font-weight: 800;
+            color: var(--accent-magenta);
             margin-bottom: 6px;
+            letter-spacing: 1px;
         }
 
         .metric-label {
-            font-size: 11px;
-            color: #94a3b8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--text-muted);
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Responsive */
+        /* === SCROLLBAR === */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255,0,255,0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,0,255,0.3);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,0,255,0.5);
+        }
+
+        /* === RESPONSIVE === */
         @media (max-width: 1024px) {
             .deals-container {
                 grid-template-columns: 1fr;
             }
-
             .summary-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -410,36 +614,79 @@
             header {
                 flex-direction: column;
                 gap: 12px;
+                text-align: center;
             }
-
             .tabs-container {
                 overflow-x: auto;
             }
-
             .tab-button {
                 flex-shrink: 0;
             }
-
             .content {
                 padding: 16px;
             }
-
             .summary-grid {
                 grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 28px;
             }
         }
     </style>
 </head>
 <body>
     <div class="wrapper">
+        <!-- TICKER -->
+        <div class="ticker-container">
+            <div class="ticker-label">📊 ACTIVE</div>
+            <div class="ticker-content">
+                <div class="ticker-item">
+                    <span class="label">Deals:</span>
+                    <span class="value">10</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="status-dot"></span>
+                    <span class="label">SSM 1:</span>
+                    <span class="value">5</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="label">Executing:</span>
+                    <span class="value">1 (NGM)</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="label">Site Visits:</span>
+                    <span class="value">3</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="label">Pipeline:</span>
+                    <span class="value">9-Figure+</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="label">Next:</span>
+                    <span class="value">AWS (3/24)</span>
+                </div>
+                <div class="ticker-item">
+                    <span class="label">Status:</span>
+                    <span class="status-dot"></span>
+                    <span class="value">OPERATIONAL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- HEADER -->
         <header>
             <div>
-                <h1>Mission Control</h1>
-                <div class="header-meta">WeSTech Engineering | Updated March 18, 2026</div>
+                <h1>MISSION CONTROL</h1>
+                <div class="header-meta">WeSTech Engineering | Solutions Lead, Western U.S.</div>
             </div>
-            <div class="header-meta">Deals: 10 Active | Pipeline Value: $Multiple 9-Figures</div>
+            <div class="header-links">
+                <a href="https://watermaxxing.com" target="_blank" class="watermaxxing-link">
+                    🌊 watermaxxing.com
+                </a>
+            </div>
         </header>
 
+        <!-- TABS -->
         <div class="tabs-container">
             <button class="tab-button active" onclick="switchTab(event, 'wetech')">WeSTech Deals</button>
             <button class="tab-button" onclick="switchTab(event, 'flowstate')">FLOWSTATE</button>
@@ -447,6 +694,7 @@
             <button class="tab-button" onclick="switchTab(event, 'personal')">Personal</button>
         </div>
 
+        <!-- CONTENT -->
         <div class="content">
             <!-- WETECH TAB -->
             <div id="wetech" class="tab-content active">
@@ -461,7 +709,7 @@
                     </div>
                     <div class="summary-card">
                         <div class="summary-number">3</div>
-                        <div class="summary-label">Site Visits/Meetings (Next 14 Days)</div>
+                        <div class="summary-label">Site Visits (Next 14d)</div>
                     </div>
                     <div class="summary-card">
                         <div class="summary-number">1</div>
@@ -469,17 +717,17 @@
                     </div>
                 </div>
 
-                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">Deal Pipeline</h2>
+                <h2 style="font-family: 'Orbitron', monospace; font-size: 16px; color: var(--accent-magenta); margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;">Deal Pipeline</h2>
 
                 <div class="deals-container">
-                    <!-- DEAL 1: NGM (GREEN - EXECUTING) -->
+                    <!-- DEAL 1: NGM (EXECUTING) -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">NGM</div>
                                 <div class="deal-name">UF/RO/GM 12-Month</div>
                                 <div class="deal-meta">
-                                    <span class="status-active">● EXECUTING</span>
+                                    <span style="color: #00ff88;">● EXECUTING</span>
                                     <span>Stage C</span>
                                 </div>
                             </div>
@@ -492,46 +740,33 @@
                         <div class="deal-body">
                             <div class="deal-details">
                                 <div class="detail-section">
-                                    <div class="detail-label">Lead Contact</div>
+                                    <div class="detail-label">Lead Contacts</div>
                                     <div class="contact-list">
-                                        <div class="contact-item">
-                                            Taft <span class="contact-role">Site Execution</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Tao <span class="contact-role">Procurement</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Steve Ware <span class="contact-role">Strategic</span>
-                                        </div>
+                                        <div class="contact-item">Taft <span class="contact-role">Site Execution</span></div>
+                                        <div class="contact-item">Tao <span class="contact-role">Procurement</span></div>
+                                        <div class="contact-item">Steve Ware <span class="contact-role">Strategic</span></div>
                                     </div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Strategy</div>
-                                    <div class="detail-value">Close cleanly with strong execution and visibility. Elevate discussion toward enterprise rental agreement across NGM sites. Position WeSTech as preferred mobile water treatment provider with repeatable deployment model.</div>
+                                    <div class="detail-value">Close cleanly with strong execution. Elevate toward enterprise rental agreement across NGM sites. Position WeSTech as preferred mobile water treatment provider.</div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Next Steps</div>
-                                    <div class="detail-value">📌 Set in Apple Reminders. Complete contract, submit Order Entry, finalize KDP 3/18, schedule external KDP.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
+                                    <div class="detail-value">📌 Complete contract, submit Order Entry, finalize KDP 3/18, schedule external KDP.</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 2: AWS Management (YELLOW - PENDING) -->
+                    <!-- DEAL 2: AWS Management -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">AWS</div>
-                                <div class="deal-name">Management Level Meeting (WA)</div>
+                                <div class="deal-name">Management Level Meeting</div>
                                 <div class="deal-meta">
-                                    <span class="status-pending">● PENDING</span>
+                                    <span style="color: #ffa500;">● PENDING</span>
                                     <span>March 24</span>
                                 </div>
                             </div>
@@ -546,47 +781,27 @@
                                 <div class="detail-section">
                                     <div class="detail-label">Lead Contacts</div>
                                     <div class="contact-list">
-                                        <div class="contact-item">
-                                            Brady <span class="contact-role">AWS Water / Former Utilities</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Nathan Myers <span class="contact-role">Strategy & Alignment</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Dave Stanek <span class="contact-role">Technical</span>
-                                        </div>
+                                        <div class="contact-item">Brady <span class="contact-role">AWS Water / Former Utilities</span></div>
+                                        <div class="contact-item">Nathan Myers <span class="contact-role">Strategy & Alignment</span></div>
+                                        <div class="contact-item">Dave Stanek <span class="contact-role">Technical</span></div>
                                     </div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Scope</div>
-                                    <div class="detail-value">Design Engineering / Data Center Water Treatment. Target: Design, Engineering/Technology, regional stakeholders tied to current and upcoming data center builds.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Strategy</div>
-                                    <div class="detail-value">Position WeSTech + partners as unified delivery team for repeatable water treatment approach supporting speed, modularity, and visibility across AWS sites.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Opportunity Scale</div>
-                                    <div class="scale-indicator">
-                                        <div class="scale-dot filled"></div>
-                                        <div class="scale-dot filled"></div>
-                                        <div class="scale-dot filled"></div>
-                                        <div class="scale-dot filled"></div>
-                                        <div class="scale-dot"></div>
-                                    </div>
+                                    <div class="detail-value">Design Engineering / Data Center Water Treatment. Target regional stakeholders tied to current and upcoming data center builds.</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 3: E3 Platforms (YELLOW - PENDING) -->
+                    <!-- DEAL 3: E3 Platforms -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">E3 Platforms</div>
                                 <div class="deal-name">Utah Power/Data Complex</div>
                                 <div class="deal-meta">
-                                    <span class="status-pending">● PENDING</span>
+                                    <span style="color: #ffa500;">● PENDING</span>
                                     <span>March 23</span>
                                 </div>
                             </div>
@@ -599,46 +814,25 @@
                         <div class="deal-body">
                             <div class="deal-details">
                                 <div class="detail-section">
-                                    <div class="detail-label">Lead Contacts</div>
-                                    <div class="contact-list">
-                                        <div class="contact-item">
-                                            Spencer Vierenes <span class="contact-role">CEO, E3 Platforms</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Brian Pritty <span class="contact-role">VP, Water West Geoscience</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Barron Sawyer <span class="contact-role">Lead Interface</span>
-                                        </div>
-                                    </div>
+                                    <div class="detail-label">Lead Contact</div>
+                                    <div class="contact-item">Spencer Vierenes <span class="contact-role">CEO, E3 Platforms</span></div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Scope</div>
-                                    <div class="detail-value">Capital Structuring / Water Strategy for Power + Data Infrastructure. Demand: 700–1,000 gpm (variable by cooling approach). Developer actively structuring capital with near-term close expected.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Commercial</div>
-                                    <div class="detail-value">Open to third-party infrastructure model; evaluating water-as-a-service concept. Concession structures including PID involvement and long-term O&M.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
+                                    <div class="detail-value">Capital Structuring for Power + Data Infrastructure. Demand: 700–1,000 gpm. Developer actively structuring capital with near-term close.</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 4: Iliad DLE (YELLOW - MEETING) -->
+                    <!-- DEAL 4: Iliad DLE -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">Iliad / GeoFrame</div>
                                 <div class="deal-name">DLE Lithium Extraction (TX)</div>
                                 <div class="deal-meta">
-                                    <span class="status-pending">● SITE VISIT</span>
+                                    <span style="color: #ffa500;">● SITE VISIT</span>
                                     <span>March 26</span>
                                 </div>
                             </div>
@@ -653,44 +847,26 @@
                                 <div class="detail-section">
                                     <div class="detail-label">Lead Contacts</div>
                                     <div class="contact-list">
-                                        <div class="contact-item">
-                                            Laura Zahn <span class="contact-role">Chief Geologist</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Aaron Prion <span class="contact-role">Commercial Director</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Barron Sawyer + Dave <span class="contact-role">On-site Visit</span>
-                                        </div>
+                                        <div class="contact-item">Laura Zahn <span class="contact-role">Chief Geologist</span></div>
+                                        <div class="contact-item">Aaron Prion <span class="contact-role">Commercial Director</span></div>
                                     </div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Technical</div>
-                                    <div class="detail-value">High chloride brine; iron removal + solids management; ~1,750 gpm; modular footprint. Pretreatment proposal: carbon steel with liner and select alloys.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Commercial</div>
-                                    <div class="detail-value">Capital raise 250M+. Low price sensitivity (high lithium value). Preference for scalable, reliable solutions. Repeat deployment model across lithium projects.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
+                                    <div class="detail-value">High chloride brine; iron removal; ~1,750 gpm. Capital raise 250M+. Low price sensitivity (high lithium value).</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 5: Mortonsen Fab (RED - URGENT) -->
+                    <!-- DEAL 5: Mortonsen Fab (RED FLAG) -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">Mortonsen Lem</div>
-                                <div class="deal-name">Research Oregon Fab (Charter)</div>
+                                <div class="deal-name">Research Oregon Fab</div>
                                 <div class="deal-meta">
-                                    <span class="status-urgent">● RED FLAG</span>
+                                    <span style="color: #ff6b6b;">● RED FLAG</span>
                                     <span>Decision Pending</span>
                                 </div>
                             </div>
@@ -704,48 +880,30 @@
                             <div class="deal-details">
                                 <div class="detail-section">
                                     <div class="detail-label">Issue</div>
-                                    <div class="detail-value" style="color: #fca5a5;"><strong>Lost turnkey packaging approach. Owner driving sole-source equipment decisions based on prior vendor relationships.</strong></div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Lead Contacts</div>
-                                    <div class="contact-list">
-                                        <div class="contact-item">
-                                            Rick Nevot <span class="contact-role">Senior MEP Engineer (internal advocate)</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Mike Tucker <span class="contact-role">Mechanical Estimating (unresponsive)</span>
-                                        </div>
-                                    </div>
+                                    <div class="detail-value" style="color: #ff6b6b;"><strong>Lost turnkey approach. Owner driving sole-source decisions based on prior vendor relationships.</strong></div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Decision Required</div>
-                                    <div class="detail-value">Pursue selective equipment participation in remaining scope OR strategically disengage and redeploy to higher-probability semiconductor opportunities.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
+                                    <div class="detail-value">Pursue selective equipment participation OR strategically disengage and redeploy to higher-probability opportunities.</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 6: American Battery (ACTIVE) -->
+                    <!-- DEAL 6: American Battery -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">American Battery</div>
                                 <div class="deal-name">Sparks, NV Lab Program</div>
                                 <div class="deal-meta">
-                                    <span class="status-active">● ACTIVE</span>
+                                    <span style="color: #00ff88;">● ACTIVE</span>
                                     <span>Lab Phase</span>
                                 </div>
                             </div>
                             <div class="deal-badges">
                                 <span class="badge priority-2">SSM 2</span>
-                                <span class="badge stage-negotiation">Negotiation</span>
+                                <span class="badge stage-meeting">Lab Validation</span>
                             </div>
                             <span class="toggle-icon">▼</span>
                         </div>
@@ -753,31 +911,20 @@
                             <div class="deal-details">
                                 <div class="detail-section">
                                     <div class="detail-label">Scope</div>
-                                    <div class="detail-value">Lab validation + Membrane testing program. Lab validation required step accepted by client and progressing toward authorization.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Strategy</div>
-                                    <div class="detail-value">Anchor as technical lead through lab validation of pretreatment. Use data to prove membrane life, utilization, recovery improvement. Maintain control of membrane testing scope to guide lifecycle decisions.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
+                                    <div class="detail-value">Lab validation + Membrane testing program. Use data to prove membrane life improvement and guide lifecycle decisions.</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 7: TI LFAB2 (PENDING) -->
+                    <!-- DEAL 7: TI LFAB2 -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">Texas Instruments</div>
                                 <div class="deal-name">LFAB2 Utah</div>
                                 <div class="deal-meta">
-                                    <span class="status-pending">● PENDING</span>
+                                    <span style="color: #ffa500;">● PENDING</span>
                                     <span>Packaging Decision</span>
                                 </div>
                             </div>
@@ -791,37 +938,20 @@
                             <div class="deal-details">
                                 <div class="detail-section">
                                     <div class="detail-label">Scope</div>
-                                    <div class="detail-value">Wastewater/packaging for semiconductor fab. Pending TI internal decision on OFCI (direct) vs contractor-led packaging approach.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Lead Contact</div>
-                                    <div class="contact-item">
-                                        Grant Jimenez <span class="contact-role">TI Internal Advocate</span>
-                                    </div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Strategy</div>
-                                    <div class="detail-value">Stay aligned with TI timing; avoid forcing early engagement. Position as flexible across OFCI + contractor pathways. Lead with practical collection and access through EPC relationships.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
+                                    <div class="detail-value">Wastewater/packaging for semiconductor fab. Pending TI decision on OFCI vs contractor-led approach.</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 8: Iliad/Chevron (PENDING AWARD) -->
+                    <!-- DEAL 8: Iliad/Chevron -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">Iliad / Chevron</div>
                                 <div class="deal-name">Arkansas DLE (Smackover)</div>
                                 <div class="deal-meta">
-                                    <span class="status-pending">● PENDING AWARD</span>
+                                    <span style="color: #ffa500;">● PENDING AWARD</span>
                                     <span>1-2 Weeks</span>
                                 </div>
                             </div>
@@ -835,43 +965,26 @@
                             <div class="deal-details">
                                 <div class="detail-section">
                                     <div class="detail-label">Status</div>
-                                    <div class="detail-value">Awaiting Iliad award decision within 1-2 weeks. No formal Chevron agenda yet defined.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Lead Contact</div>
-                                    <div class="contact-item">
-                                        Daniel Hernandez <span class="contact-role">Iliad Director of Operations (award gatekeeper)</span>
-                                    </div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Strategy</div>
-                                    <div class="detail-value">Preferred pretreatment partner to Iliad. Leverage GeoFrame credibility. If awarded, pursue exclusive partnership model. Extend to broader Smackover development pipeline.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot"></div>
+                                    <div class="detail-value">Awaiting Iliad award within 1-2 weeks. Preferred pretreatment partner. Leverage GeoFrame credibility.</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 9: AWS Reno (PARALLEL TRACK) -->
+                    <!-- DEAL 9: AWS Reno -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">AWS</div>
                                 <div class="deal-name">Reno Opp Call (Parallel)</div>
                                 <div class="deal-meta">
-                                    <span class="status-active">● ACTIVE</span>
+                                    <span style="color: #00ff88;">● ACTIVE</span>
                                     <span>March 24</span>
                                 </div>
                             </div>
                             <div class="deal-badges">
                                 <span class="badge priority-1">SSM 1</span>
-                                <span class="badge stage-meeting">Parallel Track</span>
+                                <span class="badge stage-meeting">Parallel</span>
                             </div>
                             <span class="toggle-icon">▼</span>
                         </div>
@@ -880,30 +993,26 @@
                                 <div class="detail-section">
                                     <div class="detail-label">Lead Contacts</div>
                                     <div class="contact-list">
-                                        <div class="contact-item">
-                                            Qianyu Deng <span class="contact-role">AWS Water Strategy</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Rupert Malhotra <span class="contact-role">Capability Presentation</span>
-                                        </div>
+                                        <div class="contact-item">Qianyu Deng <span class="contact-role">AWS Water Strategy</span></div>
+                                        <div class="contact-item">Rupert Malhotra <span class="contact-role">Capability Presentation</span></div>
                                     </div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Focus</div>
-                                    <div class="detail-value">Rental water treatment support. Running parallel to AWS Management Level meeting on same day (3/24) for dual-track engagement.</div>
+                                    <div class="detail-value">Rental water treatment support. Parallel track to AWS Management meeting (3/24).</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- DEAL 10: Bunker Hill (Q2 ACQUISITION) -->
+                    <!-- DEAL 10: Bunker Hill -->
                     <div class="deal-card" onclick="toggleDeal(this)">
                         <div class="deal-header">
                             <div class="deal-title-section">
                                 <div class="deal-client">Bunker Hill</div>
                                 <div class="deal-name">CTP Acquisition (Mining)</div>
                                 <div class="deal-meta">
-                                    <span class="status-pending">● FUTURE</span>
+                                    <span style="color: #0096ff;">● FUTURE</span>
                                     <span>Q2 2026</span>
                                 </div>
                             </div>
@@ -918,28 +1027,13 @@
                                 <div class="detail-section">
                                     <div class="detail-label">Lead Contacts</div>
                                     <div class="contact-list">
-                                        <div class="contact-item">
-                                            Tom Francis <span class="contact-role">General Manager (operating authority)</span>
-                                        </div>
-                                        <div class="contact-item">
-                                            Sam Ash <span class="contact-role">CEO (decision driver)</span>
-                                        </div>
+                                        <div class="contact-item">Tom Francis <span class="contact-role">General Manager</span></div>
+                                        <div class="contact-item">Sam Ash <span class="contact-role">CEO</span></div>
                                     </div>
                                 </div>
                                 <div class="detail-section">
                                     <div class="detail-label">Opportunity</div>
-                                    <div class="detail-value">CTP acquisition expected in 1-2 year window. Capital deployment likely. Model supports recurring revenue and long-term contract.</div>
-                                </div>
-                                <div class="detail-section">
-                                    <div class="detail-label">Strategy</div>
-                                    <div class="detail-value">Position as natural owner/operator before formal divestiture discussions. Build trust through direct engagement. Win by shaping structure early; avoid competitive bid environment.</div>
-                                </div>
-                                <div class="scale-indicator">
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot filled"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
-                                    <div class="scale-dot"></div>
+                                    <div class="detail-value">CTP acquisition expected 1-2 year window. Position as natural owner/operator before formal divestiture discussions.</div>
                                 </div>
                             </div>
                         </div>
@@ -949,52 +1043,39 @@
 
             <!-- FLOWSTATE TAB -->
             <div id="flowstate" class="tab-content">
-                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">FLOWSTATE Newsletter</h2>
+                <h2 style="font-family: 'Orbitron', monospace; font-size: 18px; color: var(--accent-magenta); margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;">FLOWSTATE Newsletter</h2>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">📌 Current Status</h3>
+                    <h3>📌 Current Status</h3>
                     <p><strong>Issues Published:</strong> 5 (May–August 2025)</p>
-                    <p><strong>Current Readers:</strong> ~3,900 subscribers (~3,500 at peak)</p>
-                    <p><strong>Email Notifications:</strong> ~80% enabled, ~20% have opted out</p>
-                    <p><strong>Next Issue:</strong> Issue 6 — "The Valve That Remembers" (drafted)</p>
+                    <p><strong>Current Readers:</strong> ~3,900 subscribers</p>
+                    <p><strong>Next Issue:</strong> Issue 6 — "The Valve That Remembers"</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">🎬 Issue 6 Draft</h3>
+                    <h3>🎬 Issue 6 Draft</h3>
                     <p><strong>Title:</strong> "The Valve That Remembers"</p>
                     <p><strong>Theme:</strong> Grady Watts training younger operators; practical engineering + institutional knowledge</p>
                     <p><strong>Status:</strong> Complete draft saved</p>
-                    <p><strong>Next Step:</strong> Review, edit, publish (📌 in Apple Reminders: coordinate timing)</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">🤝 Co-Creator</h3>
+                    <h3>🤝 Co-Creator</h3>
                     <p><strong>Bob Smiley</strong> (Netflix comedy writer, close personal friend)</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">📊 Distribution Strategy</h3>
-                    <ul style="margin-left: 20px; color: #cbd5e1;">
-                        <li>Personal newsletter tied to Bear's profile (cannot transfer to company page)</li>
-                        <li>New issues shared as posts to Bear's personal LinkedIn profile</li>
-                        <li>Linked from FLOWSTATE company page (510 followers, growing)</li>
-                        <li>Goal: Grow company page to ~1,000 followers, then push newsletter through it</li>
-                    </ul>
-                </div>
-
-                <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">🎥 Future: Podcast/Video Show</h3>
-                    <p><strong>Concept:</strong> Interview "Grady Watts" (Homer Simpson-style cartoon character)</p>
+                    <h3>🎥 Future: Podcast/Video Show</h3>
+                    <p><strong>Concept:</strong> Interview "Grady Watts" (cartoon character)</p>
                     <p><strong>Format:</strong> 3–7 minute clips</p>
                     <p><strong>Tools:</strong> HeyGen + ElevenLabs</p>
-                    <p><strong>Content Source:</strong> Real operator stories submitted by water treatment workers</p>
-                    <p><strong>Status:</strong> Requires more planning, resources, and budget</p>
+                    <p><strong>Content Source:</strong> Real operator stories from water treatment workers</p>
                 </div>
             </div>
 
             <!-- LINKEDIN TAB -->
             <div id="linkedin" class="tab-content">
-                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">LinkedIn Strategy</h2>
+                <h2 style="font-family: 'Orbitron', monospace; font-size: 18px; color: var(--accent-magenta); margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;">LinkedIn Strategy</h2>
 
                 <div class="linkedin-metrics">
                     <div class="metric-card">
@@ -1007,86 +1088,68 @@
                     </div>
                     <div class="metric-card">
                         <div class="metric-value">1–4</div>
-                        <div class="metric-label">Posts / Week (Goal: 4–7)</div>
+                        <div class="metric-label">Posts / Week</div>
                     </div>
                     <div class="metric-card">
                         <div class="metric-value">30K</div>
-                        <div class="metric-label">LinkedIn Connections</div>
+                        <div class="metric-label">Connections</div>
                     </div>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">📈 Current Status</h3>
-                    <p><strong>Positioning:</strong> LinkedIn's #1 industrial water treatment resource</p>
+                    <h3>📈 Positioning</h3>
+                    <p><strong>Status:</strong> LinkedIn's #1 industrial water treatment resource</p>
                     <p><strong>Current Cadence:</strong> 1x/week (target: 4–7x/week)</p>
-                    <p><strong>Benchmark:</strong> Alex Passini (Canada/Miami) — 109k followers, posts daily, high virality</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">🤝 Water Treatment Mastermind Group</h3>
+                    <h3>🤝 Water Treatment Mastermind Group</h3>
                     <p><strong>Members:</strong></p>
-                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                    <ul>
                         <li>Alex Passini — 109k followers (Canada/Miami)</li>
                         <li>Alejandro — 33k followers (Spain)</li>
                         <li>Walid — 36k followers (UAE)</li>
                         <li>Steve — 33k followers (California/UAE)</li>
                     </ul>
-                    <p style="margin-top: 12px;"><strong>Insight:</strong> Only ~1,000–1,200 mutual connections each — large audience growth potential through cross-exposure</p>
-                    <p><strong>Opportunity:</strong> First-ever podcast episode being coordinated by Alex</p>
+                    <p><strong>Insight:</strong> Only ~1,000–1,200 mutual connections each — large audience growth potential</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">📝 Content Strategy</h3>
-                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                    <h3>📝 Content Strategy</h3>
+                    <ul>
                         <li><strong>Tone:</strong> Thoughtful, grounded, slightly contrarian</li>
-                        <li><strong>Core Message:</strong> Water is infrastructure, not core business. Companies should outsource it.</li>
-                        <li><strong>Themes:</strong> Capital allocation, practical engineering, generational transition, FLOWSTATE universe (Grady Watts)</li>
-                        <li><strong>Formats:</strong> Market observations, deal context, operator stories, contrarian takes</li>
-                    </ul>
-                </div>
-
-                <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">🎯 Growth Levers</h3>
-                    <ul style="margin-left: 20px; color: #cbd5e1;">
-                        <li>Increase posting cadence (1x → 4–7x/week)</li>
-                        <li>Cross-promote with mastermind group members</li>
-                        <li>Leverage 30K connections as warm audience</li>
-                        <li>FLOWSTATE newsletter as content feeder (stories → LinkedIn posts)</li>
-                        <li>Podcast series (Grady Watts video clips) as engagement driver</li>
+                        <li><strong>Core Message:</strong> Water is infrastructure, not core business</li>
+                        <li><strong>Themes:</strong> Capital allocation, practical engineering, FLOWSTATE universe (Grady Watts)</li>
                     </ul>
                 </div>
             </div>
 
             <!-- PERSONAL TAB -->
             <div id="personal" class="tab-content">
-                <h2 style="margin-bottom: 20px; font-size: 18px; font-weight: 600;">Personal / Home</h2>
+                <h2 style="font-family: 'Orbitron', monospace; font-size: 18px; color: var(--accent-magenta); margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase;">Personal / Home</h2>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">📍 Location & Context</h3>
+                    <h3>📍 Location & Context</h3>
                     <p><strong>Base:</strong> Bend, Oregon (Pacific timezone)</p>
-                    <p><strong>Work Setup:</strong> Solo home office</p>
-                    <p><strong>Background:</strong> Grew up on cattle ranch near world's largest diatomite mine (no electricity); decade in Houston (2012–2022); relocated back to Pacific Northwest</p>
-                    <p><strong>Education:</strong> J.D. (University of Oregon), B.A. (UCLA)</p>
+                    <p><strong>Background:</strong> Grew up on cattle ranch near world's largest diatomite mine; decade in Houston (2012–2022); J.D. (University of Oregon), B.A. (UCLA)</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">👨‍👧 Family</h3>
+                    <h3>👨‍👧 Family</h3>
                     <p>Has a daughter</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">🚀 Upcoming Travel</h3>
+                    <h3>🚀 Upcoming</h3>
                     <p><strong>Data Center World Conference</strong> — Washington, DC (April 2026)</p>
-                    <p><strong>Objective:</strong> Position as infrastructure strategist; identify + warm-intro water treatment decision makers before design lock</p>
-                    <p><strong>Strategy:</strong> Monitor exhibitor/speaker lists; cross-check against pipeline contacts + 30K LinkedIn connections</p>
+                    <p><strong>Objective:</strong> Position as infrastructure strategist; identify + warm-intro water treatment decision makers</p>
                 </div>
 
                 <div class="flowstate-section">
-                    <h3 style="margin-bottom: 12px; font-size: 16px;">⚙️ Tools & Integrations</h3>
-                    <ul style="margin-left: 20px; color: #cbd5e1;">
+                    <h3>⚙️ Tools</h3>
+                    <ul>
                         <li><strong>Reminders:</strong> Apple Reminders (all deal next-steps synced)</li>
-                        <li><strong>LLM:</strong> Ollama (Mistral, Gemma3, Qwen3.5) — ask before using to save API tokens</li>
-                        <li><strong>GitHub:</strong> Fine-grained PAT (HollisterRanch account)</li>
+                        <li><strong>LLM:</strong> Ollama (Mistral, Gemma3, Qwen3.5)</li>
                         <li><strong>Site:</strong> watermaxxing.com</li>
                     </ul>
                 </div>
@@ -1096,15 +1159,12 @@
 
     <script>
         function switchTab(event, tabName) {
-            // Hide all tabs
             const contents = document.querySelectorAll('.tab-content');
             contents.forEach(content => content.classList.remove('active'));
-
-            // Remove active class from all buttons
+            
             const buttons = document.querySelectorAll('.tab-button');
             buttons.forEach(btn => btn.classList.remove('active'));
-
-            // Show selected tab
+            
             document.getElementById(tabName).classList.add('active');
             event.target.classList.add('active');
         }
@@ -1115,7 +1175,6 @@
             icon.classList.toggle('open');
         }
 
-        // Add keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.deal-card.open').forEach(card => {
