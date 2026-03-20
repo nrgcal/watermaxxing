@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAWYER OPS TERMINAL — Barron Sawyer | Updated via Telegram</title>
+<title>SAWYER OPS TERMINAL — Barron Sawyer</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 /* === RESET & BASE === */
@@ -688,6 +688,391 @@ body::before {
   .deals-grid { grid-template-columns: 1fr; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* === FLIGHT LOG === */
+.flightlog-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+@media (max-width: 900px) {
+  .flightlog-hero { grid-template-columns: 1fr; }
+}
+
+.big-stat-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.big-stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta), var(--accent-cyan));
+}
+.big-stat-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 48px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+}
+.big-stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  margin-top: 8px;
+  text-transform: uppercase;
+}
+.big-stat-sub {
+  font-size: 10px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.chart-container {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.chart-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 10px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chart-title svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--accent-magenta);
+  fill: none;
+}
+
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 160px;
+  padding: 0 10px;
+  gap: 20px;
+}
+.bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  max-width: 120px;
+}
+.bar {
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--accent-magenta) 100%);
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  min-height: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 0 15px rgba(0,255,255,0.3);
+}
+.bar:hover {
+  box-shadow: 0 0 25px rgba(0,255,255,0.5);
+  transform: scaleY(1.02);
+}
+.bar-value {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  color: var(--accent-cyan);
+  font-weight: 700;
+}
+.bar-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.donut-chart-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.donut-chart {
+  width: 140px;
+  height: 140px;
+  position: relative;
+}
+.donut-chart svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.donut-chart circle {
+  fill: none;
+  stroke-width: 20;
+}
+.donut-bg {
+  stroke: rgba(255,255,255,0.05);
+}
+.donut-segment {
+  stroke-linecap: round;
+  transition: all 0.5s;
+}
+.donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+.donut-center-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.donut-center-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+.donut-legend {
+  flex: 1;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--glass-border);
+}
+.legend-item:last-child {
+  border-bottom: none;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.legend-label {
+  font-size: 10px;
+  color: var(--text-secondary);
+  flex: 1;
+}
+.legend-value {
+  font-size: 10px;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.records-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.record-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 16px;
+  position: relative;
+}
+.record-card.highlight {
+  border-color: var(--accent-magenta);
+  box-shadow: 0 0 20px rgba(255,0,255,0.15);
+}
+.record-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 24px;
+  height: 24px;
+  stroke: var(--accent-magenta);
+  fill: none;
+  opacity: 0.5;
+}
+.record-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.record-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+.record-sub {
+  font-size: 9px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.year-section {
+  margin-bottom: 32px;
+}
+.year-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: linear-gradient(90deg, rgba(255,0,255,0.1) 0%, transparent 100%);
+  border-left: 3px solid var(--accent-magenta);
+  margin-bottom: 16px;
+  border-radius: 0 8px 8px 0;
+}
+.year-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent-magenta);
+}
+.year-stats {
+  display: flex;
+  gap: 20px;
+}
+.year-stat {
+  text-align: right;
+}
+.year-stat-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  color: var(--accent-cyan);
+}
+.year-stat-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.flights-table {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.flights-table-header {
+  display: grid;
+  grid-template-columns: 90px 70px 1fr 80px;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(0,255,255,0.05);
+  border-bottom: 1px solid var(--glass-border);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.flight-row {
+  display: grid;
+  grid-template-columns: 90px 70px 1fr 80px;
+  gap: 12px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  font-size: 10px;
+  transition: all 0.2s;
+}
+.flight-row:last-child {
+  border-bottom: none;
+}
+.flight-row:hover {
+  background: rgba(0,255,255,0.03);
+}
+.flight-row .date {
+  color: var(--text-muted);
+}
+.flight-row .carrier {
+  font-family: 'Orbitron', sans-serif;
+  color: var(--accent-cyan);
+  font-weight: 500;
+}
+.flight-row .route {
+  color: var(--text-primary);
+}
+.flight-row .distance {
+  color: var(--accent-magenta);
+  text-align: right;
+}
+
+.carbon-hero {
+  background: linear-gradient(135deg, rgba(0,255,136,0.1) 0%, rgba(0,100,50,0.1) 100%);
+  border: 1px solid rgba(0,255,136,0.3);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.carbon-icon {
+  width: 60px;
+  height: 60px;
+  background: rgba(0,255,136,0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.carbon-icon svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--accent-green);
+  fill: none;
+}
+.carbon-data {
+  flex: 1;
+}
+.carbon-main-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--accent-green);
+  text-shadow: 0 0 20px rgba(0,255,136,0.5);
+}
+.carbon-main-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+.carbon-breakdown {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+}
+.carbon-item {
+  text-align: center;
+}
+.carbon-item-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  color: var(--text-primary);
+}
+.carbon-item-label {
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
 </style>
 </head>
 <body>
@@ -752,7 +1137,7 @@ body::before {
     <svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
     ANALYTICS
   </button>
-  <button class="tab coming-soon">
+  <button class="tab" onclick="showTab('flightlog')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
     FLIGHT LOG
   </button>
@@ -1137,16 +1522,16 @@ body::before {
 
         <!-- Carbon Widget -->
         <div class="carbon-widget">
-          <div class="carbon-label">ANNUAL CARBON FOOTPRINT (FLIGHTS)</div>
-          <div class="carbon-value">—</div>
-          <div class="carbon-unit">metric tons CO₂ since 2023</div>
+          <div class="carbon-label">CARBON FOOTPRINT (ALL FLIGHTS SINCE 2024)</div>
+          <div class="carbon-value" style="color: var(--accent-green);">~14.2</div>
+          <div class="carbon-unit">metric tons CO₂</div>
         </div>
 
-        <!-- Past Flights Coming Soon -->
-        <div class="coming-soon-card">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <!-- Flight Log Link -->
+        <div class="coming-soon-card" style="cursor: pointer; opacity: 1;" onclick="showTab('flightlog')">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
           <div class="title">FLIGHT LOG</div>
-          <div class="sub">Historical flight data coming soon</div>
+          <div class="sub">89 flights · 55,509 miles since 2024 →</div>
         </div>
       </div>
     </div>
@@ -1253,78 +1638,17 @@ body::before {
         </ul>
       </div>
 
-      <div class="info-card" style="grid-column: 1 / -1; padding: 20px;">
-        <div class="info-card-title" style="margin-bottom: 16px;">
+      <div class="info-card">
+        <div class="info-card-title">
           <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          MASTERMIND GROUP <span style="color: var(--text-muted); font-size: 0.75em; font-weight: normal;">Est. October 2025</span>
+          MASTERMIND GROUP
         </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-          <!-- Alex Passini -->
-          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(255,0,255,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Alex Passini <span style="color: var(--text-muted); font-size: 0.85em;">(Co-Leader)</span></h4>
-              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">109.7K</span>
-            </div>
-            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 Canada/Miami</div>
-            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Product/ops strategy, focus on scale in industrial water ops.</p>
-            <a href="https://www.linkedin.com/in/alexpassini/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
-          </div>
-
-          <!-- Barron Sawyer -->
-          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(0,255,255,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Barron Sawyer, J.D. <span style="color: var(--text-muted); font-size: 0.85em;">(Co-Leader)</span></h4>
-              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">34.0K</span>
-            </div>
-            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 Bend, Oregon</div>
-            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 6px 0 8px 0; line-height: 1.4;">Lead, Asset Acquisitions (Western U.S.) at WesTech Engineering; outsourced water infrastructure strategy.</p>
-            <div style="font-size: 0.75em; color: var(--text-muted); margin-bottom: 8px;">J.D. — University of Oregon | B.A. — UCLA</div>
-            <a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
-          </div>
-
-          <!-- Steve Coffee -->
-          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(255,165,0,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Steve Coffee</h4>
-              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">33.0K</span>
-            </div>
-            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 California/UAE</div>
-            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Senior strategist, deal origination and network cultivation.</p>
-            <a href="https://www.linkedin.com/in/stevecoffee/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
-          </div>
-
-          <!-- Alejandro Sturniolo -->
-          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(0,255,136,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Alejandro Sturniolo</h4>
-              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">33.5K</span>
-            </div>
-            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 Spain</div>
-            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Strategy & partnerships, regional outreach and content initiatives.</p>
-            <a href="https://www.linkedin.com/in/alejandro-sturniolo/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
-          </div>
-
-          <!-- Walid Khoury -->
-          <div style="border: 1px solid var(--glass-border); border-radius: 8px; padding: 16px; background: rgba(255,68,102,0.03);">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
-              <h4 style="margin: 0; font-size: 1.1em; color: var(--accent-magenta);">Walid Khoury</h4>
-              <span style="font-size: 1em; color: var(--accent-cyan); font-weight: bold;">37.2K</span>
-            </div>
-            <div style="font-size: 0.85em; color: var(--text-muted); margin-bottom: 8px;">📍 UAE</div>
-            <p style="font-size: 0.8em; color: var(--text-secondary); margin: 8px 0; line-height: 1.4;">Technical advisor, integration lead, content strategy contributor.</p>
-            <a href="https://www.linkedin.com/in/walidkhoury/" target="_blank" style="color: var(--accent-cyan); text-decoration: none; font-size: 0.8em;">LinkedIn</a>
-          </div>
-        </div>
-
-        <!-- Podcast Initiative -->
-        <div style="margin-top: 20px; padding: 16px; border: 1px solid var(--accent-magenta); border-radius: 8px; background: rgba(255,0,255,0.05);">
-          <h4 style="margin: 0 0 12px 0; color: var(--accent-magenta); font-size: 1em;">🎬 Podcast Launch: Summer 2026</h4>
-          <p style="font-size: 0.8em; color: var(--text-secondary); margin: 0 0 8px 0; line-height: 1.5;">Format: 4–7 minute video series exploring the intersection of water and global phenomena.</p>
-          <div style="font-size: 0.8em; color: var(--text-muted); line-height: 1.6;">
-            <div>📍 <strong>Themes:</strong> Water&Olympics · Water&World Cup · Water&Data Centers · Water&Mining · Water&Infrastructure</div>
-          </div>
-        </div>
+        <ul class="info-list">
+          <li><span class="label">Alex Passini</span><span class="value">109K<span class="tag">Canada/Miami</span></span></li>
+          <li><span class="label">Alejandro</span><span class="value">33K<span class="tag">Spain</span></span></li>
+          <li><span class="label">Walid</span><span class="value">36K<span class="tag">UAE</span></span></li>
+          <li><span class="label">Steve</span><span class="value">33K<span class="tag">CA/UAE</span></span></li>
+        </ul>
       </div>
 
       <div class="info-card">
@@ -1423,6 +1747,365 @@ body::before {
         </ul>
       </div>
     </div>
+  </div>
+
+  <!-- FLIGHT LOG TAB -->
+  <div id="flightlog" class="tab-content">
+    
+    <!-- Carbon Hero -->
+    <div class="carbon-hero">
+      <div class="carbon-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+      </div>
+      <div class="carbon-data">
+        <div class="carbon-main-value">~14.2</div>
+        <div class="carbon-main-label">METRIC TONS CO₂ SINCE 2024</div>
+        <div class="carbon-breakdown">
+          <div class="carbon-item">
+            <div class="carbon-item-value">6.5t</div>
+            <div class="carbon-item-label">2024</div>
+          </div>
+          <div class="carbon-item">
+            <div class="carbon-item-value">6.4t</div>
+            <div class="carbon-item-label">2025</div>
+          </div>
+          <div class="carbon-item">
+            <div class="carbon-item-value">1.2t</div>
+            <div class="carbon-item-label">2026 YTD</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Stats -->
+    <div class="flightlog-hero">
+      <div class="big-stat-card">
+        <div class="big-stat-value">55,509</div>
+        <div class="big-stat-label">Total Miles Flown</div>
+        <div class="big-stat-sub">2.2x around Earth · 0.23x to the Moon</div>
+      </div>
+      <div class="big-stat-card">
+        <div class="big-stat-value">171h 27m</div>
+        <div class="big-stat-label">Time in the Air</div>
+        <div class="big-stat-sub">~7 full days at 35,000 feet</div>
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value">89</div>
+        <div class="stat-label">Total Flights</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">624</div>
+        <div class="stat-label">Avg Distance (mi)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">19</div>
+        <div class="stat-label">Unique Airports</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">6</div>
+        <div class="stat-label">Airlines Used</div>
+      </div>
+    </div>
+
+    <!-- Distance by Year Chart -->
+    <div class="chart-container">
+      <div class="chart-title">
+        <svg viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+        DISTANCE BY YEAR (MILES)
+      </div>
+      <div class="bar-chart">
+        <div class="bar-group">
+          <div class="bar" style="height: 130px;">
+            <span class="bar-value">25,678</span>
+          </div>
+          <span class="bar-label">2024</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height: 127px;">
+            <span class="bar-value">25,156</span>
+          </div>
+          <span class="bar-label">2025</span>
+        </div>
+        <div class="bar-group">
+          <div class="bar" style="height: 24px;">
+            <span class="bar-value">4,675</span>
+          </div>
+          <span class="bar-label">2026 YTD</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Two Column: Airline Mix & Top Routes -->
+    <div class="travel-grid">
+      <div class="chart-container">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/></svg>
+          AIRLINE MIX (ALL TIME)
+        </div>
+        <div class="donut-chart-container">
+          <div class="donut-chart">
+            <svg viewBox="0 0 100 100">
+              <circle class="donut-bg" cx="50" cy="50" r="40"/>
+              <!-- Delta: 38 flights = 43% -->
+              <circle class="donut-segment" cx="50" cy="50" r="40" stroke="#ff00ff" stroke-dasharray="108 252" stroke-dashoffset="0"/>
+              <!-- Alaska: 25 flights = 28% -->
+              <circle class="donut-segment" cx="50" cy="50" r="40" stroke="#00ffff" stroke-dasharray="70 252" stroke-dashoffset="-108"/>
+              <!-- United: 16 flights = 18% -->
+              <circle class="donut-segment" cx="50" cy="50" r="40" stroke="#00ff88" stroke-dasharray="45 252" stroke-dashoffset="-178"/>
+              <!-- Frontier: 6 flights = 7% -->
+              <circle class="donut-segment" cx="50" cy="50" r="40" stroke="#ffaa00" stroke-dasharray="18 252" stroke-dashoffset="-223"/>
+              <!-- Other: 4 flights = 4% -->
+              <circle class="donut-segment" cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.3)" stroke-dasharray="10 252" stroke-dashoffset="-241"/>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-center-value">89</div>
+              <div class="donut-center-label">FLIGHTS</div>
+            </div>
+          </div>
+          <div class="donut-legend">
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #ff00ff;"></div>
+              <span class="legend-label">Delta (DL)</span>
+              <span class="legend-value">38</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #00ffff;"></div>
+              <span class="legend-label">Alaska (AS)</span>
+              <span class="legend-value">25</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #00ff88;"></div>
+              <span class="legend-label">United (UA)</span>
+              <span class="legend-value">16</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: #ffaa00;"></div>
+              <span class="legend-label">Frontier (F9)</span>
+              <span class="legend-value">6</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-dot" style="background: rgba(255,255,255,0.3);"></div>
+              <span class="legend-label">Other (WN, NK)</span>
+              <span class="legend-value">4</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-title">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          TOP ROUTES
+        </div>
+        <div class="info-list" style="margin: 0;">
+          <li style="padding: 10px 0;"><span class="label">RDM ↔ SLC</span><span class="value">14 flights</span></li>
+          <li style="padding: 10px 0;"><span class="label">SEA ↔ RDM</span><span class="value">10 flights</span></li>
+          <li style="padding: 10px 0;"><span class="label">SLC ↔ DEN</span><span class="value">6 flights</span></li>
+          <li style="padding: 10px 0;"><span class="label">RDM ↔ SFO</span><span class="value">4 flights</span></li>
+          <li style="padding: 10px 0;"><span class="label">PDX ↔ SLC</span><span class="value">4 flights</span></li>
+        </div>
+      </div>
+    </div>
+
+    <!-- Records -->
+    <div class="section-title">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      FLIGHT RECORDS
+    </div>
+    <div class="records-grid">
+      <div class="record-card highlight">
+        <svg class="record-icon" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        <div class="record-label">LONGEST FLIGHT</div>
+        <div class="record-value">New Orleans → San Francisco</div>
+        <div class="record-sub">1,908 mi · UA 1870 · Oct 9, 2024</div>
+      </div>
+      <div class="record-card">
+        <svg class="record-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <div class="record-label">SHORTEST FLIGHT</div>
+        <div class="record-value">Redmond → Portland</div>
+        <div class="record-sub">116 mi · AS 2043 · Jan 18, 2026</div>
+      </div>
+      <div class="record-card">
+        <svg class="record-icon" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <div class="record-label">HOME BASE</div>
+        <div class="record-value">Redmond (RDM)</div>
+        <div class="record-sub">47 departures/arrivals</div>
+      </div>
+      <div class="record-card">
+        <svg class="record-icon" viewBox="0 0 24 24"><path d="M12 20V10M18 20V4M6 20v-4"/></svg>
+        <div class="record-label">BUSIEST MONTH</div>
+        <div class="record-value">October 2025</div>
+        <div class="record-sub">12 flights · 5,200+ miles</div>
+      </div>
+      <div class="record-card">
+        <svg class="record-icon" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <div class="record-label">MOST VISITED</div>
+        <div class="record-value">Salt Lake City (SLC)</div>
+        <div class="record-sub">26 visits · mining/energy hub</div>
+      </div>
+      <div class="record-card">
+        <svg class="record-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+        <div class="record-label">PREFERRED CARRIER</div>
+        <div class="record-value">Delta Air Lines</div>
+        <div class="record-sub">38 flights · 43% of total</div>
+      </div>
+    </div>
+
+    <!-- 2026 Flights -->
+    <div class="year-section">
+      <div class="year-header">
+        <div class="year-title">2026</div>
+        <div class="year-stats">
+          <div class="year-stat">
+            <div class="year-stat-value">10</div>
+            <div class="year-stat-label">FLIGHTS</div>
+          </div>
+          <div class="year-stat">
+            <div class="year-stat-value">4,675 mi</div>
+            <div class="year-stat-label">DISTANCE</div>
+          </div>
+          <div class="year-stat">
+            <div class="year-stat-value">16h 46m</div>
+            <div class="year-stat-label">AIRTIME</div>
+          </div>
+        </div>
+      </div>
+      <div class="flights-table">
+        <div class="flights-table-header">
+          <span>Date</span>
+          <span>Flight</span>
+          <span>Route</span>
+          <span>Distance</span>
+        </div>
+        <div class="flight-row"><span class="date">Feb 26</span><span class="carrier">AS 319</span><span class="route">Seattle → Redmond</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 26</span><span class="carrier">AS 678</span><span class="route">Salt Lake City → Seattle</span><span class="distance">689 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 21</span><span class="carrier">F9 4721</span><span class="route">Denver → Salt Lake City</span><span class="distance">391 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 17</span><span class="carrier">UA 1188</span><span class="route">Redmond → Denver</span><span class="distance">897 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 21</span><span class="carrier">AS 2388</span><span class="route">Seattle → Redmond</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 21</span><span class="carrier">AS 734</span><span class="route">Salt Lake City → Seattle</span><span class="distance">689 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 18</span><span class="carrier">AS 733</span><span class="route">Seattle → Salt Lake City</span><span class="distance">689 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 18</span><span class="carrier">AS 145</span><span class="route">Portland → Seattle</span><span class="distance">145 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 18</span><span class="carrier">AS 575</span><span class="route">Portland → Salt Lake City</span><span class="distance">605 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 18</span><span class="carrier">AS 2043</span><span class="route">Redmond → Portland</span><span class="distance">116 mi</span></div>
+      </div>
+    </div>
+
+    <!-- 2025 Flights -->
+    <div class="year-section">
+      <div class="year-header">
+        <div class="year-title">2025</div>
+        <div class="year-stats">
+          <div class="year-stat">
+            <div class="year-stat-value">39</div>
+            <div class="year-stat-label">FLIGHTS</div>
+          </div>
+          <div class="year-stat">
+            <div class="year-stat-value">25,156 mi</div>
+            <div class="year-stat-label">DISTANCE</div>
+          </div>
+          <div class="year-stat">
+            <div class="year-stat-value">79h 29m</div>
+            <div class="year-stat-label">AIRTIME</div>
+          </div>
+        </div>
+      </div>
+      <div class="flights-table">
+        <div class="flights-table-header">
+          <span>Date</span>
+          <span>Flight</span>
+          <span>Route</span>
+          <span>Distance</span>
+        </div>
+        <div class="flight-row"><span class="date">Dec 11</span><span class="carrier">DL 3616</span><span class="route">Reno → Salt Lake City</span><span class="distance">436 mi</span></div>
+        <div class="flight-row"><span class="date">Dec 7</span><span class="carrier">DL 1607</span><span class="route">Salt Lake City → Reno</span><span class="distance">436 mi</span></div>
+        <div class="flight-row"><span class="date">Dec 7</span><span class="carrier">DL 1425</span><span class="route">Austin → Salt Lake City</span><span class="distance">1,089 mi</span></div>
+        <div class="flight-row"><span class="date">Dec 2</span><span class="carrier">DL 1980</span><span class="route">Salt Lake City → Austin</span><span class="distance">1,089 mi</span></div>
+        <div class="flight-row"><span class="date">Dec 2</span><span class="carrier">DL 3549</span><span class="route">Redmond → Salt Lake City</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Nov 23</span><span class="carrier">DL 3547</span><span class="route">Salt Lake City → Redmond</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Nov 17</span><span class="carrier">DL 3547</span><span class="route">Redmond → Salt Lake City</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 29</span><span class="carrier">UA 5425</span><span class="route">San Francisco → Redmond</span><span class="distance">569 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 29</span><span class="carrier">UA 324</span><span class="route">Boise → San Francisco</span><span class="distance">524 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 26</span><span class="carrier">UA 1406</span><span class="route">San Francisco → Boise</span><span class="distance">524 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 26</span><span class="carrier">UA 400</span><span class="route">Redmond → San Francisco</span><span class="distance">569 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 15</span><span class="carrier">DL 1373</span><span class="route">Salt Lake City → Portland</span><span class="distance">629 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 14</span><span class="carrier">F9 4721</span><span class="route">Denver → Salt Lake City</span><span class="distance">391 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 14</span><span class="carrier">F9 3229</span><span class="route">Houston → Denver</span><span class="distance">879 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 13</span><span class="carrier">NK 1514</span><span class="route">Los Angeles → Houston</span><span class="distance">1,374 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 9</span><span class="carrier">F9 2996</span><span class="route">Denver → Houston</span><span class="distance">879 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 9</span><span class="carrier">F9 1790</span><span class="route">Portland → Denver</span><span class="distance">1,001 mi</span></div>
+        <div class="flight-row"><span class="date">Sep 29</span><span class="carrier">UA 1639</span><span class="route">San Francisco → Redmond</span><span class="distance">569 mi</span></div>
+        <div class="flight-row"><span class="date">Sep 29</span><span class="carrier">UA 2475</span><span class="route">Chicago → San Francisco</span><span class="distance">1,843 mi</span></div>
+        <div class="flight-row"><span class="date">Sep 27</span><span class="carrier">UA 2329</span><span class="route">Denver → Chicago</span><span class="distance">888 mi</span></div>
+        <div class="flight-row"><span class="date">Sep 27</span><span class="carrier">UA 1188</span><span class="route">Redmond → Denver</span><span class="distance">897 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 26</span><span class="carrier">DL 4047</span><span class="route">Seattle → Redmond</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 26</span><span class="carrier">DL 2880</span><span class="route">Las Vegas → Seattle</span><span class="distance">866 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 23</span><span class="carrier">DL 2905</span><span class="route">Seattle → Las Vegas</span><span class="distance">866 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 23</span><span class="carrier">DL 4036</span><span class="route">Redmond → Seattle</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 6</span><span class="carrier">AS 924</span><span class="route">Seattle → Redmond</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 6</span><span class="carrier">AS 510</span><span class="route">Salt Lake City → Seattle</span><span class="distance">689 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 4</span><span class="carrier">AS 550</span><span class="route">Seattle → Salt Lake City</span><span class="distance">689 mi</span></div>
+        <div class="flight-row"><span class="date">Jun 4</span><span class="carrier">AS 2107</span><span class="route">Redmond → Seattle</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Apr 27</span><span class="carrier">DL 3727</span><span class="route">Salt Lake City → Redmond</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Apr 24</span><span class="carrier">DL 4004</span><span class="route">Redmond → Salt Lake City</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 28</span><span class="carrier">WN 4093</span><span class="route">San José → Eugene</span><span class="distance">524 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 28</span><span class="carrier">WN 1983</span><span class="route">Los Angeles → San José</span><span class="distance">308 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 25</span><span class="carrier">DL 3695</span><span class="route">Denver → Los Angeles</span><span class="distance">860 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 22</span><span class="carrier">DL 1623</span><span class="route">Salt Lake City → Denver</span><span class="distance">391 mi</span></div>
+        <div class="flight-row"><span class="date">Feb 17</span><span class="carrier">DL 3727</span><span class="route">Redmond → Salt Lake City</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 30</span><span class="carrier">DL 1209</span><span class="route">Salt Lake City → Portland</span><span class="distance">629 mi</span></div>
+        <div class="flight-row"><span class="date">Jan 27</span><span class="carrier">DL 714</span><span class="route">Portland → Salt Lake City</span><span class="distance">629 mi</span></div>
+      </div>
+    </div>
+
+    <!-- 2024 Flights -->
+    <div class="year-section">
+      <div class="year-header">
+        <div class="year-title">2024</div>
+        <div class="year-stats">
+          <div class="year-stat">
+            <div class="year-stat-value">34</div>
+            <div class="year-stat-label">FLIGHTS</div>
+          </div>
+          <div class="year-stat">
+            <div class="year-stat-value">25,678 mi</div>
+            <div class="year-stat-label">DISTANCE</div>
+          </div>
+          <div class="year-stat">
+            <div class="year-stat-value">75h 12m</div>
+            <div class="year-stat-label">AIRTIME</div>
+          </div>
+        </div>
+      </div>
+      <div class="flights-table">
+        <div class="flights-table-header">
+          <span>Date</span>
+          <span>Flight</span>
+          <span>Route</span>
+          <span>Distance</span>
+        </div>
+        <div class="flight-row"><span class="date">Dec 13</span><span class="carrier">DL 4141</span><span class="route">Seattle → Redmond</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Dec 13</span><span class="carrier">DL 2740</span><span class="route">Denver → Seattle</span><span class="distance">1,024 mi</span></div>
+        <div class="flight-row"><span class="date">Dec 11</span><span class="carrier">DL 1586</span><span class="route">Salt Lake City → Denver</span><span class="distance">391 mi</span></div>
+        <div class="flight-row"><span class="date">Dec 10</span><span class="carrier">DL 4004</span><span class="route">Redmond → Salt Lake City</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Nov 14</span><span class="carrier">DL 3675</span><span class="route">Seattle → Redmond</span><span class="distance">227 mi</span></div>
+        <div class="flight-row"><span class="date">Nov 14</span><span class="carrier">DL 871</span><span class="route">Salt Lake City → Seattle</span><span class="distance">689 mi</span></div>
+        <div class="flight-row"><span class="date">Nov 11</span><span class="carrier">DL 4004</span><span class="route">Redmond → Salt Lake City</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 22</span><span class="carrier">UA 1523</span><span class="route">Houston → Portland</span><span class="distance">1,825 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 17</span><span class="carrier">UA 325</span><span class="route">Portland → Houston</span><span class="distance">1,825 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 9</span><span class="carrier">UA 5711</span><span class="route">San Francisco → Redmond</span><span class="distance">569 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 9</span><span class="carrier">UA 1870</span><span class="route">New Orleans → San Francisco</span><span class="distance">1,908 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 6</span><span class="carrier">UA 2273</span><span class="route">Denver → New Orleans</span><span class="distance">1,063 mi</span></div>
+        <div class="flight-row"><span class="date">Oct 6</span><span class="carrier">UA 1188</span><span class="route">Redmond → Denver</span><span class="distance">897 mi</span></div>
+        <div class="flight-row"><span class="date">Sep 25</span><span class="carrier">DL 3756</span><span class="route">Salt Lake City → Redmond</span><span class="distance">545 mi</span></div>
+        <div class="flight-row"><span class="date">Sep 25</span><span class="carrier">DL 2368</span><span class="route">Las Vegas → Salt Lake City</span><span class="distance">368 mi</span></div>
+        <div class="flight-row"><span class="date">Sep 23</span><span class="carrier">DL 2922</span><span class="route">Seattle → Las Vegas</span><span class="distance">866 mi</span></div>
+      </div>
+    </div>
+
   </div>
 
 </main>
