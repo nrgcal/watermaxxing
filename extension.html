@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATERMAXXING Chrome Extension - Download</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0d0221;
+  color: #fff;
+  min-height: 100vh;
+  line-height: 1.7;
+}
+
+/* Scanlines */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,255,255,0.015) 2px, rgba(0,255,255,0.015) 4px);
+  pointer-events: none;
+  z-index: 10000;
+}
+
+/* Grid floor */
+.grid-bg {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 40vh;
+  background: 
+    linear-gradient(to bottom, transparent 0%, rgba(13,2,33,0.8) 100%),
+    repeating-linear-gradient(90deg, rgba(255,0,255,0.1) 0px, transparent 1px, transparent 60px),
+    repeating-linear-gradient(0deg, rgba(0,255,255,0.1) 0px, transparent 1px, transparent 60px);
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: bottom;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.4;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 60px 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  color: #00ffff;
+  letter-spacing: 0.2em;
+  text-shadow: 0 0 20px rgba(0,255,255,0.5);
+  margin-bottom: 8px;
+}
+
+h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+}
+
+.tagline {
+  color: rgba(255,255,255,0.6);
+  font-size: 14px;
+}
+
+/* Preview */
+.preview {
+  background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 100%);
+  border: 1px solid rgba(255,0,255,0.3);
+  border-radius: 8px;
+  padding: 0;
+  margin-bottom: 40px;
+  overflow: hidden;
+}
+
+.preview-bar {
+  height: 28px;
+  background: linear-gradient(180deg, #0d0221 0%, #1a0a2e 100%);
+  border-bottom: 1px solid rgba(255,0,255,0.3);
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.preview-brand {
+  color: #00ffff;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.preview-ticker {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  color: rgba(255,255,255,0.7);
+  font-size: 10px;
+}
+
+.preview-ticker span {
+  animation: tickerPreview 20s linear infinite;
+}
+
+@keyframes tickerPreview {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.preview-content {
+  padding: 40px;
+  text-align: center;
+  color: rgba(255,255,255,0.4);
+  font-size: 12px;
+}
+
+/* Download Section */
+.download-section {
+  background: rgba(0,255,255,0.05);
+  border: 1px solid rgba(0,255,255,0.2);
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(0,255,255,0.2) 0%, rgba(255,0,255,0.2) 100%);
+  border: 2px solid #00ffff;
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 0 20px rgba(0,255,255,0.3);
+}
+
+.download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0,255,255,0.5), 0 0 60px rgba(255,0,255,0.3);
+  background: linear-gradient(135deg, rgba(0,255,255,0.3) 0%, rgba(255,0,255,0.3) 100%);
+}
+
+.download-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+}
+
+.download-note {
+  margin-top: 16px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.4);
+}
+
+/* Instructions */
+.instructions {
+  margin-bottom: 40px;
+}
+
+.instructions h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  color: #ff00ff;
+  letter-spacing: 0.1em;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255,0,255,0.2);
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.step-num {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #00ffff, #ff00ff);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0d0221;
+  flex-shrink: 0;
+}
+
+.step-content {
+  flex: 1;
+}
+
+.step-content h3 {
+  font-size: 14px;
+  color: #00ffff;
+  margin-bottom: 6px;
+}
+
+.step-content p {
+  font-size: 12px;
+  color: rgba(255,255,255,0.7);
+}
+
+.step-content code {
+  background: rgba(0,255,255,0.1);
+  border: 1px solid rgba(0,255,255,0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  color: #00ffff;
+}
+
+/* Features */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.feature {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.feature-icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.feature h3 {
+  font-size: 12px;
+  color: #00ffff;
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.feature p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.5);
+}
+
+/* Store link */
+.store-section {
+  background: rgba(255,170,0,0.1);
+  border: 1px solid rgba(255,170,0,0.3);
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.store-section h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 12px;
+  color: #ffaa00;
+  margin-bottom: 8px;
+}
+
+.store-section p {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+}
+
+.store-section a {
+  color: #ffaa00;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.footer a {
+  color: #00ffff;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.footer a:hover {
+  text-decoration: underline;
+}
+
+.footer p {
+  margin-top: 12px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.3);
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<div class="container">
+  <div class="header">
+    <div class="logo">🕹️ WATERMAXXING.COM</div>
+    <h1>Chrome Extension</h1>
+    <p class="tagline">Plant status ticker for your browser. 100+ alerts. Zero data collection.</p>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview">
+    <div class="preview-bar">
+      <span class="preview-brand">🕹️ watermaxxing.com</span>
+      <span class="preview-ticker">
+        <span>● clarifier #2 skimmer arm tension needs adjustment 🔧 &nbsp;&nbsp;&nbsp; ● 🚨 TURBIDITY SPIKE: 8.4 NTU &nbsp;&nbsp;&nbsp; ● raccoons have established territory in the blower building 🦝 &nbsp;&nbsp;&nbsp; ● greg locked himself in the control room again 🔐 &nbsp;&nbsp;&nbsp; ● clarifier #2 skimmer arm tension needs adjustment 🔧 &nbsp;&nbsp;&nbsp; ● 🚨 TURBIDITY SPIKE: 8.4 NTU &nbsp;&nbsp;&nbsp; ● raccoons have established territory in the blower building 🦝 &nbsp;&nbsp;&nbsp;</span>
+      </span>
+    </div>
+    <div class="preview-content">
+      ↑ This ticker appears at the top of every webpage
+    </div>
+  </div>
+
+  <!-- Download -->
+  <div class="download-section">
+    <a href="barron-live-extension.zip" class="download-btn" download>
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      DOWNLOAD EXTENSION
+    </a>
+    <p class="download-note">barron-live-extension.zip · ~24 KB · Works on Chrome, Edge, Brave</p>
+  </div>
+
+  <!-- Installation Instructions -->
+  <div class="instructions">
+    <h2>INSTALLATION (DEVELOPER MODE)</h2>
+    
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <h3>Download & Unzip</h3>
+        <p>Download the ZIP file above and extract it to a folder on your computer.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <h3>Open Extensions Page</h3>
+        <p>In Chrome, go to <code>chrome://extensions/</code> (just type it in the address bar)</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <h3>Enable Developer Mode</h3>
+        <p>Toggle the <strong>"Developer mode"</strong> switch in the top-right corner of the page.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <h3>Load the Extension</h3>
+        <p>Click <strong>"Load unpacked"</strong> and select the unzipped <code>barron-live-extension</code> folder.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <h3>Done!</h3>
+        <p>Refresh any webpage. The ticker will appear at the top. Use the SLOW/FAST toggle to change speed, or click × to hide it for the session.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Features -->
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">🌊</div>
+      <h3>100+ MESSAGES</h3>
+      <p>Rotating plant status updates, chaos alerts, and rare events</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🚨</div>
+      <h3>CHAOS ALERTS</h3>
+      <p>Red glowing alerts for turbidity spikes, flow deviations, and more</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🦝</div>
+      <h3>RACCOON SIGHTINGS</h3>
+      <p>Occasional wildlife encounters in the blower building</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⭐</div>
+      <h3>RARE EVENTS</h3>
+      <p>1-in-30 chance for gold star positive messages</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <h3>SPEED TOGGLE</h3>
+      <p>Switch between SLOW and FAST modes</p>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔒</div>
+      <h3>ZERO DATA</h3>
+      <p>No tracking, no analytics, no data collection whatsoever</p>
+    </div>
+  </div>
+
+  <!-- Chrome Web Store -->
+  <div class="store-section">
+    <h3>🏪 CHROME WEB STORE</h3>
+    <p>This extension is pending review on the Chrome Web Store. Once approved, you'll be able to install it directly without developer mode. Check back soon!</p>
+    <!-- <p><a href="https://chrome.google.com/webstore/detail/YOUR-EXTENSION-ID" target="_blank">Install from Chrome Web Store →</a></p> -->
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <a href="https://watermaxxing.com">← Back to WATERMAXXING.COM</a>
+    <p>Free extension by Barron Sawyer · No data collected · <a href="privacy-extension.html">Privacy Policy</a></p>
+  </div>
+</div>
+
+</body>
+</html>
