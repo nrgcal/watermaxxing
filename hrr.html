@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Rhythm Records | The Sound of Soul Reborn</title>
+  <meta name="description" content="Human Rhythm Records is reviving the golden age of funk with horn-driven grooves, analog warmth, and unstoppable rhythm. Enter the groove.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@400;500;700&family=Italiana&display=swap" rel="stylesheet">
+  
+  <style>
+    /* ============================================
+       CSS VARIABLES - 1970s FUNK PALETTE
+    ============================================ */
+    :root {
+      --gold: #C9A227;
+      --gold-light: #D4A537;
+      --champagne: #F7E7CE;
+      --cream: #FDF5E6;
+      --burgundy: #722F37;
+      --brown-deep: #3D2314;
+      --chocolate: #5C3317;
+      --mahogany: #4E2728;
+      --coral: #E07B53;
+      --mustard: #D4A537;
+      --black: #1A1412;
+      --charcoal: #2D2926;
+      --warm-gray: #8B8580;
+      --off-white: #FEFCF7;
+      
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --font-accent: 'Italiana', serif;
+    }
+
+    /* ============================================
+       RESET & BASE
+    ============================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--black);
+      color: var(--cream);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ============================================
+       NOISE TEXTURE OVERLAY
+    ============================================ */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ============================================
+       ANIMATIONS
+    ============================================ */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(5deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; opacity: 0; }
+    .delay-2 { animation-delay: 0.2s; opacity: 0; }
+    .delay-3 { animation-delay: 0.3s; opacity: 0; }
+    .delay-4 { animation-delay: 0.4s; opacity: 0; }
+    .delay-5 { animation-delay: 0.5s; opacity: 0; }
+
+    /* ============================================
+       HEADER & NAVIGATION
+    ============================================ */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 2rem;
+      transition: all 0.4s ease;
+    }
+
+    .header.scrolled {
+      background: rgba(26, 20, 18, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+    }
+
+    .nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.05em;
+    }
+
+    .logo span {
+      color: var(--cream);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--champagne);
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--gold);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .mobile-menu-btn span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gold);
+      margin: 5px 0;
+      transition: 0.3s;
+    }
+
+    /* ============================================
+       HERO SECTION
+    ============================================ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--brown-deep) 0%, var(--burgundy) 50%, var(--mahogany) 100%);
+    }
+
+    /* Starburst rays */
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150%;
+      height: 150%;
+      transform: translate(-50%, -50%);
+      background: 
+        repeating-conic-gradient(
+          from 0deg,
+          transparent 0deg 8deg,
+          rgba(201, 162, 39, 0.03) 8deg 10deg
+        );
+      animation: spin 120s linear infinite;
+    }
+
+    /* Gradient orb */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(201, 162, 39, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 2rem;
+      max-width: 900px;
+    }
+
+    /* Sparkle decorations */
+    .sparkle {
+      position: absolute;
+      color: var(--gold);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .sparkle-1 { top: 15%; left: 15%; font-size: 1.5rem; animation-delay: 0s; }
+    .sparkle-2 { top: 25%; right: 20%; font-size: 1rem; animation-delay: 0.5s; }
+    .sparkle-3 { bottom: 30%; left: 10%; font-size: 0.8rem; animation-delay: 1s; }
+    .sparkle-4 { bottom: 20%; right: 15%; font-size: 1.2rem; animation-delay: 1.5s; }
+
+    .hero-label {
+      font-family: var(--font-accent);
+      font-size: 1rem;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 12vw, 8rem);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 0.9;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title span {
+      display: block;
+      font-style: italic;
+      color: var(--gold);
+      font-size: 0.4em;
+      letter-spacing: 0.1em;
+    }
+
+    .hero-subtitle {
+      font-family: var(--font-display);
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      font-style: italic;
+      color: var(--champagne);
+      margin: 1.5rem 0 2.5rem;
+      opacity: 0.9;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--gold);
+      color: var(--black);
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .hero-cta:hover {
+      background: var(--gold-light);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 40px rgba(201, 162, 39, 0.3);
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold);
+      opacity: 0.6;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* ============================================
+       SECTION STYLING
+    ============================================ */
+    section {
+      padding: 6rem 2rem;
+      position: relative;
+    }
+
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-label {
+      font-family: var(--font-accent);
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    .section-divider {
+      width: 80px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 1.5rem auto 0;
+    }
+
+    /* ============================================
+       ABOUT SECTION
+    ============================================ */
+    .about {
+      background: linear-gradient(180deg, var(--black) 0%, var(--charcoal) 100%);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .about-image {
+      position: relative;
+    }
+
+    /* Photo placeholder */
+    .photo-placeholder {
+      aspect-ratio: 4/5;
+      background: linear-gradient(135deg, var(--brown-deep) 0%, var(--chocolate) 100%);
+      border: 3px solid var(--gold);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .photo-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: 
+        linear-gradient(45deg, transparent 48%, rgba(201, 162, 39, 0.1) 50%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(201, 162, 39, 0.1) 50%, transparent 52%);
+      background-size: 20px 20px;
+    }
+
+    .photo-placeholder-icon {
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.5;
+    }
+
+    .photo-placeholder-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--gold);
+    }
+
+    .photo-placeholder-text {
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      opacity: 0.5;
+      text-transform: uppercase;
+    }
+
+    /* Decorative frame corners */
+    .frame-corner {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.6;
+    }
+
+    .frame-corner.top-left {
+      top: -8px;
+      left: -8px;
+      border-width: 2px 0 0 2px;
+    }
+
+    .frame-corner.top-right {
+      top: -8px;
+      right: -8px;
+      border-width: 2px 2px 0 0;
+    }
+
+    .frame-corner.bottom-left {
+      bottom: -8px;
+      left: -8px;
+      border-width: 0 0 2px 2px;
+    }
+
+    .frame-corner.bottom-right {
+      bottom: -8px;
+      right: -8px;
+      border-width: 0 2px 2px 0;
+    }
+
+    .about-content h3 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--cream);
+      margin-bottom: 1.5rem;
+      font-weight: 400;
+    }
+
+    .about-content h3 span {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .about-content p {
+      color: var(--warm-gray);
+      margin-bottom: 1.5rem;
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    .about-stats {
+      display: flex;
+      gap: 3rem;
+      margin-top: 2.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(201, 162, 39, 0.2);
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--warm-gray);
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* ============================================
+       MUSIC SECTION
+    ============================================ */
+    .music {
+      background: var(--black);
+      position: relative;
+    }
+
+    .music::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+
+    .tracks-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .track-card {
+      background: linear-gradient(135deg, var(--charcoal) 0%, var(--brown-deep) 100%);
+      border: 1px solid rgba(201, 162, 39, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .track-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--gold);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .track-cover {
+      aspect-ratio: 1;
+      background: linear-gradient(135deg, var(--brown-deep) 0%, var(--mahogany) 100%);
+      border: 2px solid var(--gold);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .track-cover::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      border: 2px solid rgba(201, 162, 39, 0.3);
+      border-radius: 50%;
+    }
+
+    .play-btn {
+      width: 56px;
+      height: 56px;
+      background: var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .play-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--black);
+      margin-left: 3px;
+    }
+
+    .track-card:hover .play-btn {
+      transform: scale(1.1);
+      box-shadow: 0 0 30px rgba(201, 162, 39, 0.5);
+    }
+
+    .track-info h4 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--cream);
+      margin-bottom: 0.25rem;
+    }
+
+    .track-info p {
+      font-size: 0.85rem;
+      color: var(--warm-gray);
+    }
+
+    .track-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(201, 162, 39, 0.1);
+    }
+
+    .track-duration {
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-family: var(--font-body);
+    }
+
+    .track-genre {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      background: rgba(201, 162, 39, 0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+    }
+
+    /* Streaming links */
+    .streaming-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 4rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(201, 162, 39, 0.2);
+    }
+
+    .streaming-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--warm-gray);
+      font-size: 0.85rem;
+      transition: color 0.3s ease;
+    }
+
+    .streaming-link:hover {
+      color: var(--gold);
+    }
+
+    .streaming-link svg {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    /* ============================================
+       VIDEO SECTION
+    ============================================ */
+    .videos {
+      background: linear-gradient(180deg, var(--charcoal) 0%, var(--black) 100%);
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .video-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .video-thumbnail {
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, var(--brown-deep) 0%, var(--chocolate) 100%);
+      border: 2px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .video-thumbnail::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.3);
+      transition: background 0.3s ease;
+    }
+
+    .video-card:hover .video-thumbnail::before {
+      background: rgba(0, 0, 0, 0.1);
+    }
+
+    .video-play-btn {
+      width: 72px;
+      height: 72px;
+      background: rgba(201, 162, 39, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .video-play-btn svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--black);
+      margin-left: 4px;
+    }
+
+    .video-card:hover .video-play-btn {
+      transform: scale(1.15);
+      background: var(--gold);
+    }
+
+    .video-info {
+      padding: 1.25rem 0;
+    }
+
+    .video-info h4 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--cream);
+      margin-bottom: 0.25rem;
+    }
+
+    .video-info p {
+      font-size: 0.85rem;
+      color: var(--warm-gray);
+    }
+
+    /* ============================================
+       NEWSLETTER SECTION
+    ============================================ */
+    .newsletter {
+      background: linear-gradient(135deg, var(--burgundy) 0%, var(--brown-deep) 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .newsletter::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(201, 162, 39, 0.1) 0%, transparent 60%);
+    }
+
+    .newsletter-content {
+      position: relative;
+      z-index: 2;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .newsletter h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      color: var(--cream);
+      margin-bottom: 1rem;
+    }
+
+    .newsletter p {
+      color: var(--champagne);
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 1rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(201, 162, 39, 0.3);
+      border-radius: 50px;
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter-form input::placeholder {
+      color: rgba(253, 245, 230, 0.5);
+    }
+
+    .newsletter-form input:focus {
+      border-color: var(--gold);
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .newsletter-form button {
+      padding: 1rem 2rem;
+      background: var(--gold);
+      color: var(--black);
+      border: none;
+      border-radius: 50px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .newsletter-form button:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(201, 162, 39, 0.3);
+    }
+
+    .newsletter-note {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: rgba(253, 245, 230, 0.5);
+    }
+
+    /* ============================================
+       FOOTER
+    ============================================ */
+    .footer {
+      background: var(--black);
+      padding: 4rem 2rem 2rem;
+      border-top: 1px solid rgba(201, 162, 39, 0.2);
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-tagline {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--champagne);
+      margin-bottom: 2rem;
+      opacity: 0.8;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .social-link {
+      width: 44px;
+      height: 44px;
+      border: 1px solid rgba(201, 162, 39, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      background: var(--gold);
+      color: var(--black);
+      border-color: var(--gold);
+    }
+
+    .social-link svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.8rem;
+      color: var(--warm-gray);
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(201, 162, 39, 0.1);
+    }
+
+    .copyright {
+      font-size: 0.75rem;
+      color: var(--warm-gray);
+      opacity: 0.6;
+    }
+
+    /* ============================================
+       VINYL DECORATION
+    ============================================ */
+    .vinyl-decoration {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      opacity: 0.3;
+      animation: spin 20s linear infinite;
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .vinyl-decoration svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ============================================
+       RESPONSIVE DESIGN
+    ============================================ */
+    @media (max-width: 1024px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      .about-image {
+        max-width: 400px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      section {
+        padding: 4rem 1.5rem;
+      }
+
+      .hero-content {
+        padding: 1.5rem;
+      }
+
+      .about-stats {
+        gap: 2rem;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .streaming-links {
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .footer-links {
+        gap: 1rem 2rem;
+      }
+
+      .vinyl-decoration {
+        display: none;
+      }
+
+      .sparkle {
+        display: none;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-label {
+        font-size: 0.8rem;
+        letter-spacing: 0.2em;
+      }
+
+      .about-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header" id="header">
+    <nav class="nav">
+      <a href="#" class="logo">Human <span>Rhythm</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#music">Music</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#newsletter">Join</a></li>
+      </ul>
+      <button class="mobile-menu-btn" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <!-- Sparkle decorations -->
+    <div class="sparkle sparkle-1">✦</div>
+    <div class="sparkle sparkle-2">✦</div>
+    <div class="sparkle sparkle-3">✦</div>
+    <div class="sparkle sparkle-4">✦</div>
+
+    <div class="hero-content">
+      <p class="hero-label fade-in delay-1">Est. 2024</p>
+      <h1 class="hero-title fade-in delay-2">
+        Human Rhythm
+        <span>Records</span>
+      </h1>
+      <p class="hero-subtitle fade-in delay-3">The Sound of Soul Reborn</p>
+      <a href="#music" class="hero-cta fade-in delay-4">
+        Enter the Groove
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="scroll-indicator fade-in delay-5">
+      <span>Scroll</span>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12l7 7 7-7"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <div class="section-container">
+      <div class="about-grid">
+        <div class="about-image">
+          <div class="photo-placeholder">
+            <div class="frame-corner top-left"></div>
+            <div class="frame-corner top-right"></div>
+            <div class="frame-corner bottom-left"></div>
+            <div class="frame-corner bottom-right"></div>
+            <div class="photo-placeholder-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <path d="M21 15l-5-5L5 21"/>
+              </svg>
+            </div>
+            <span class="photo-placeholder-text">Photo</span>
+          </div>
+        </div>
+        <div class="about-content">
+          <p class="section-label">The Story</p>
+          <h3>Reviving the <span>Golden Era</span> of Funk</h3>
+          <p>
+            Human Rhythm Records was born from a simple belief: the groove never died, it just went underground. We're bringing back the horn-driven arrangements, the analog warmth, and the unstoppable rhythm that defined a generation.
+          </p>
+          <p>
+            Every track in our catalog carries the DNA of the masters—but speaks to today. This isn't nostalgia. This is evolution. This is funk music doing what it's always done: making you move.
+          </p>
+          <div class="about-stats">
+            <div class="stat">
+              <div class="stat-number">100+</div>
+              <div class="stat-label">Original Tracks</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">24/7</div>
+              <div class="stat-label">Pure Groove</div>
+            </div>
+            <div class="stat">
+              <div class="stat-number">∞</div>
+              <div class="stat-label">Soul</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Music Section -->
+  <section class="music" id="music">
+    <div class="section-container">
+      <div class="section-header">
+        <p class="section-label">The Catalog</p>
+        <h2 class="section-title">Latest Releases</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="tracks-grid">
+        <!-- Track 1 -->
+        <div class="track-card">
+          <div class="track-cover">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div class="track-info">
+            <h4>Midnight Brass</h4>
+            <p>The Groove Collective</p>
+          </div>
+          <div class="track-meta">
+            <span class="track-duration">4:32</span>
+            <span class="track-genre">Funk Soul</span>
+          </div>
+        </div>
+
+        <!-- Track 2 -->
+        <div class="track-card">
+          <div class="track-cover">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div class="track-info">
+            <h4>Velvet Sunrise</h4>
+            <p>Human Rhythm Orchestra</p>
+          </div>
+          <div class="track-meta">
+            <span class="track-duration">5:18</span>
+            <span class="track-genre">Soul Jazz</span>
+          </div>
+        </div>
+
+        <!-- Track 3 -->
+        <div class="track-card">
+          <div class="track-cover">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div class="track-info">
+            <h4>Uptown Strut</h4>
+            <p>The Horn Section</p>
+          </div>
+          <div class="track-meta">
+            <span class="track-duration">3:47</span>
+            <span class="track-genre">Funk</span>
+          </div>
+        </div>
+
+        <!-- Track 4 -->
+        <div class="track-card">
+          <div class="track-cover">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div class="track-info">
+            <h4>Saturday Night Protocol</h4>
+            <p>Brass Dynasty</p>
+          </div>
+          <div class="track-meta">
+            <span class="track-duration">6:02</span>
+            <span class="track-genre">Disco Funk</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Streaming Links -->
+      <div class="streaming-links">
+        <a href="#" class="streaming-link">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Spotify
+        </a>
+        <a href="#" class="streaming-link">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          YouTube
+        </a>
+        <a href="#" class="streaming-link">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          TikTok
+        </a>
+        <a href="#" class="streaming-link">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          X
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Videos Section -->
+  <section class="videos" id="videos">
+    <div class="section-container">
+      <div class="section-header">
+        <p class="section-label">Visual Grooves</p>
+        <h2 class="section-title">Watch & Listen</h2>
+        <div class="section-divider"></div>
+      </div>
+
+      <div class="video-grid">
+        <!-- Video 1 -->
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <div class="video-play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div class="video-info">
+            <h4>Live Session: Midnight Brass</h4>
+            <p>Studio performance</p>
+          </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <div class="video-play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div class="video-info">
+            <h4>The Sound of Human Rhythm</h4>
+            <p>Label documentary</p>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="video-card">
+          <div class="video-thumbnail">
+            <div class="video-play-btn">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </div>
+          </div>
+          <div class="video-info">
+            <h4>1 Hour Funk Mix</h4>
+            <p>Extended listening session</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter" id="newsletter">
+    <div class="section-container">
+      <div class="newsletter-content">
+        <p class="section-label">Stay in the Groove</p>
+        <h2>Join the Movement</h2>
+        <p>Be the first to hear new releases, exclusive sessions, and behind-the-scenes moments from the Human Rhythm family.</p>
+        <form class="newsletter-form" action="#" method="POST">
+          <input type="email" name="email" placeholder="Enter your email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+        <p class="newsletter-note">No spam. Just pure funk. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">Human Rhythm</div>
+      <p class="footer-tagline">The Sound of Soul Reborn</p>
+      
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Spotify">
+          <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="YouTube">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="TikTok">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="X">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href="#" class="social-link" aria-label="Instagram">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        </a>
+      </div>
+
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">Contact</a>
+        <a href="#">Press</a>
+        <a href="#">Licensing</a>
+      </div>
+
+      <div class="footer-bottom">
+        <p class="copyright">© 2024 Human Rhythm Records. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Vinyl Decoration -->
+  <div class="vinyl-decoration">
+    <svg viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="48" fill="#1A1412" stroke="#C9A227" stroke-width="1"/>
+      <circle cx="50" cy="50" r="35" fill="none" stroke="#3D2314" stroke-width="0.5"/>
+      <circle cx="50" cy="50" r="25" fill="none" stroke="#3D2314" stroke-width="0.5"/>
+      <circle cx="50" cy="50" r="15" fill="#C9A227"/>
+      <circle cx="50" cy="50" r="4" fill="#1A1412"/>
+    </svg>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Header scroll effect
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Newsletter form submission
+    document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const email = this.querySelector('input[type="email"]').value;
+      // Replace this with your actual form handling (e.g., Mailchimp, ConvertKit, etc.)
+      alert('Thanks for joining the groove! We\'ll be in touch.');
+      this.reset();
+    });
+
+    // Intersection Observer for fade-in animations on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe elements that should animate on scroll
+    document.querySelectorAll('.track-card, .video-card, .about-content, .about-image').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Track card hover sound effect placeholder
+    document.querySelectorAll('.track-card').forEach(card => {
+      card.addEventListener('click', function() {
+        // Replace with actual audio player functionality
+        console.log('Playing track:', this.querySelector('h4').textContent);
+      });
+    });
+  </script>
+
+</body>
+</html>
