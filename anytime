@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact | Barron Sawyer</title>
+<meta name="description" content="Direct contact for serious industrial water projects, partnerships, and opportunities">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+font-family: ‘Inter’, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, sans-serif;
+background: #fff;
+color: #1a1a1a;
+line-height: 1.7;
+font-size: 16px;
+-webkit-font-smoothing: antialiased;
+}
+
+.container {
+max-width: 640px;
+margin: 0 auto;
+padding: 80px 24px 120px;
+}
+
+/* Hero */
+.hero {
+margin-bottom: 56px;
+}
+
+.hero h1 {
+font-size: 32px;
+font-weight: 600;
+letter-spacing: -0.02em;
+margin-bottom: 12px;
+}
+
+.hero p {
+color: #666;
+font-size: 17px;
+}
+
+/* Sections */
+section {
+margin-bottom: 48px;
+}
+
+section h2 {
+font-size: 14px;
+font-weight: 600;
+text-transform: uppercase;
+letter-spacing: 0.05em;
+color: #999;
+margin-bottom: 16px;
+}
+
+section p, section li {
+color: #333;
+margin-bottom: 0;
+}
+
+section .block {
+margin-bottom: 24px;
+}
+
+section .block:last-child {
+margin-bottom: 0;
+}
+
+/* Primary contact */
+.primary-contact .contact-line {
+font-size: 17px;
+margin-bottom: 4px;
+}
+
+.primary-contact .contact-line a {
+color: #1a1a1a;
+text-decoration: none;
+border-bottom: 1px solid #ccc;
+}
+
+.primary-contact .contact-line a:hover {
+border-bottom-color: #1a1a1a;
+}
+
+.primary-contact .note {
+margin-top: 20px;
+color: #555;
+font-size: 15px;
+}
+
+.primary-contact .note p {
+margin-bottom: 16px;
+}
+
+.primary-contact .note p:last-child {
+margin-bottom: 0;
+}
+
+/* Lists */
+.list-plain {
+list-style: none;
+}
+
+.list-plain li {
+padding: 3px 0;
+color: #333;
+}
+
+.list-plain li.spacer {
+height: 12px;
+}
+
+/* Emphasis text */
+.emphasis {
+color: #1a1a1a;
+font-weight: 500;
+}
+
+/* Example boxes */
+.example-box {
+background: #f8f8f8;
+border-left: 3px solid #ddd;
+padding: 16px 20px;
+font-size: 15px;
+color: #444;
+font-style: italic;
+}
+
+/* Links section */
+.links-list a {
+color: #1a1a1a;
+text-decoration: none;
+border-bottom: 1px solid #ccc;
+}
+
+.links-list a:hover {
+border-bottom-color: #1a1a1a;
+}
+
+.links-list li {
+margin-bottom: 8px;
+}
+
+/* Divider */
+hr {
+border: none;
+border-top: 1px solid #eee;
+margin: 48px 0;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+.container {
+padding: 48px 20px 80px;
+}
+
+.hero h1 {
+font-size: 28px;
+}
+
+section {
+margin-bottom: 40px;
+}
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+  <div class="hero">
+    <h1>Contact</h1>
+    <p>If it's real work, I'll take a look.</p>
+  </div>
+
+  <section class="primary-contact">
+    <div class="contact-line">Email: <a href="mailto:bsawyer@westechwater.com">bsawyer@westechwater.com</a></div>
+    <div class="contact-line">Call or text: <a href="tel:+12136752070">(213) 675-2070</a></div>
+
+```
+<div class="note">
+  <p>I'm usually moving. Airports, job sites, somewhere between a plant and a bad cup of coffee. I check both.</p>
+  <p>If I miss you, send it once more. That's enough.</p>
+</div>
+```
+
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>What I respond to</h2>
+    <ul class="list-plain">
+      <li>Projects with weight behind them</li>
+      <li>Industrial water. Mining. Power. Data centers</li>
+      <li>Acquisitions. DBOOM structures</li>
+      <li>Things that actually need to get built and run</li>
+      <li class="spacer"></li>
+      <li>If you've got something live, or about to be, I'm interested</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>How to reach me</h2>
+    <ul class="list-plain">
+      <li class="emphasis">Tell me three things</li>
+      <li class="spacer"></li>
+      <li>Who you are</li>
+      <li>What you're working on</li>
+      <li>Where it stands right now</li>
+      <li class="spacer"></li>
+      <li>You don't need a pitch deck to start. You do need clarity</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>If you're bringing new technology</h2>
+    <div class="block">
+      <p>I see a lot of inbound here, so I'll save you some time</p>
+    </div>
+    <div class="block">
+      <p>I run integrated solutions for the Western U.S. at WesTech Engineering, part of Swire Water. Focused on industrial water and wastewater systems, acquisitions, and long term operating projects</p>
+    </div>
+    <div class="block">
+      <p>We work with systems that are already proven in the field. TRL 9. Sometimes TRL 8 if there's a real partner and a real path</p>
+    </div>
+    <div class="block">
+      <p>We don't take cold tech meetings or fill out supplier forms</p>
+    </div>
+    <div class="block">
+      <p>Most of the companies we work with, we meet in the wild. WEFTEC, MTC, IWC, IFAT</p>
+    </div>
+    <div class="block">
+      <p>If you want a real look inside, send a non proprietary overview to my email. No attachments through LinkedIn</p>
+    </div>
+    <div class="block">
+      <ul class="list-plain">
+        <li class="emphasis">Put this up front</li>
+        <li>What it is</li>
+        <li>What it does</li>
+        <li>TRL level</li>
+        <li>Where it's already working</li>
+      </ul>
+    </div>
+    <div class="block">
+      <p>And most important: what it changes for a company like WesTech that builds, integrates, and operates systems</p>
+    </div>
+    <div class="block">
+      <p>That's how you get a fast answer</p>
+    </div>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>Other places</h2>
+    <ul class="list-plain links-list">
+      <li><a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank">LinkedIn</a></li>
+      <li><a href="https://linktr.ee/bsawyer" target="_blank">linktr.ee/bsawyer</a></li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>A good note</h2>
+    <div class="example-box">
+      Barron, saw your work on a project. We've got something moving in a location. Might line up. Open to a quick call
+    </div>
+  </section>
+
+  <section>
+    <h2>Good enough</h2>
+    <div class="example-box">
+      Got a minute
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
