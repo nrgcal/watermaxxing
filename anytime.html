@@ -27,7 +27,7 @@ padding: 80px 24px 120px;
 
 /* Hero */
 .hero {
-margin-bottom: 56px;
+margin-bottom: 48px;
 }
 
 .hero h1 {
@@ -44,7 +44,7 @@ font-size: 17px;
 
 /* Sections */
 section {
-margin-bottom: 48px;
+margin-bottom: 40px;
 }
 
 section h2 {
@@ -53,26 +53,22 @@ font-weight: 600;
 text-transform: uppercase;
 letter-spacing: 0.05em;
 color: #999;
-margin-bottom: 16px;
+margin-bottom: 14px;
 }
 
-section p, section li {
+section p {
 color: #333;
-margin-bottom: 0;
+margin-bottom: 12px;
 }
 
-section .block {
-margin-bottom: 24px;
-}
-
-section .block:last-child {
+section p:last-child {
 margin-bottom: 0;
 }
 
 /* Primary contact */
 .primary-contact .contact-line {
 font-size: 17px;
-margin-bottom: 4px;
+margin-bottom: 6px;
 }
 
 .primary-contact .contact-line a {
@@ -91,26 +87,19 @@ color: #555;
 font-size: 15px;
 }
 
-.primary-contact .note p {
-margin-bottom: 16px;
-}
-
-.primary-contact .note p:last-child {
-margin-bottom: 0;
-}
-
 /* Lists */
 .list-plain {
 list-style: none;
+margin-bottom: 16px;
+}
+
+.list-plain:last-child {
+margin-bottom: 0;
 }
 
 .list-plain li {
 padding: 3px 0;
 color: #333;
-}
-
-.list-plain li.spacer {
-height: 12px;
 }
 
 /* Emphasis text */
@@ -148,7 +137,7 @@ margin-bottom: 8px;
 hr {
 border: none;
 border-top: 1px solid #eee;
-margin: 48px 0;
+margin: 40px 0;
 }
 
 /* Mobile */
@@ -162,7 +151,7 @@ font-size: 28px;
 }
 
 section {
-margin-bottom: 40px;
+margin-bottom: 36px;
 }
 }
 </style>
@@ -174,7 +163,7 @@ margin-bottom: 40px;
 
   <div class="hero">
     <h1>Contact</h1>
-    <p>If it's real work, I'll take a look.</p>
+    <p>If it is real work, I will take a look.</p>
   </div>
 
   <section class="primary-contact">
@@ -183,8 +172,9 @@ margin-bottom: 40px;
 
 ```
 <div class="note">
-  <p>I'm usually moving. Airports, job sites, somewhere between a plant and a bad cup of coffee. I check both.</p>
-  <p>If I miss you, send it once more. That's enough.</p>
+  <p>I am usually moving. Airports, job sites, somewhere between a plant and a bad cup of coffee.</p>
+  <p>I check both.</p>
+  <p>If I miss you, send it once more. That is enough.</p>
 </div>
 ```
 
@@ -193,66 +183,86 @@ margin-bottom: 40px;
   <hr>
 
   <section>
-    <h2>What I respond to</h2>
+    <h2>Best way to reach me</h2>
     <ul class="list-plain">
-      <li>Projects with weight behind them</li>
-      <li>Industrial water. Mining. Power. Data centers</li>
-      <li>Acquisitions. DBOOM structures</li>
-      <li>Things that actually need to get built and run</li>
-      <li class="spacer"></li>
-      <li>If you've got something live, or about to be, I'm interested</li>
+      <li>A call is better than a long message</li>
+      <li>Afternoons and evenings are usually the safest bet</li>
+      <li>Do not overthink it</li>
+      <li>Unknown numbers are not a problem</li>
+      <li>If I do not answer, text me and try again later</li>
     </ul>
   </section>
 
   <section>
-    <h2>How to reach me</h2>
+    <h2>What I respond to</h2>
     <ul class="list-plain">
-      <li class="emphasis">Tell me three things</li>
-      <li class="spacer"></li>
-      <li>Who you are</li>
-      <li>What you're working on</li>
-      <li>Where it stands right now</li>
-      <li class="spacer"></li>
-      <li>You don't need a pitch deck to start. You do need clarity</li>
+      <li>Real projects with real stakes</li>
+      <li>Industrial water and wastewater</li>
+      <li>Mining, power, data centers, and other heavy water problems</li>
+      <li>Acquisitions, integrated delivery, and operating models</li>
+      <li>Work that needs to be built, run, or fixed</li>
     </ul>
+    <p>If it is live or close to live, I am interested.</p>
+    <p>If it is only a logo and a dream, probably not.</p>
+  </section>
+
+  <section>
+    <h2>When you call</h2>
+    <ul class="list-plain">
+      <li>Remind me who you are</li>
+      <li>Tell me what you are working on</li>
+      <li>Tell me where we met or what prompted the outreach</li>
+      <li>Tell me what you need</li>
+    </ul>
+    <p>Do not make me guess.</p>
+    <p>A quick refresh is perfect.</p>
   </section>
 
   <hr>
 
   <section>
-    <h2>If you're bringing new technology</h2>
-    <div class="block">
-      <p>I see a lot of inbound here, so I'll save you some time</p>
+    <h2>If you are bringing new technology</h2>
+    <p>I see a lot of inbound from tech people, so here is the clean version.</p>
+    <p>I run integrated solutions for the Western U.S. at WesTech Engineering, part of Swire Water, focused on industrial water and wastewater systems, acquisitions, and long-term operating projects.</p>
+    <p>We work with systems that are already proven in the field.</p>
+    <p>TRL 9 is the sweet spot. TRL 8 can work if there is a real partner and a real path.</p>
+    <p>We do not take cold tech meetings or fill out supplier forms.</p>
+    <p>Most of the people we end up working with, we meet in the wild at WEFTEC, MTC, IWC, or IFAT.</p>
+    <p>If you want a real look inside, send a non-proprietary overview to my email. No attachments through LinkedIn.</p>
+
+```
+<ul class="list-plain" style="margin-top: 16px;">
+  <li class="emphasis">Put this up front:</li>
+  <li>What it is</li>
+  <li>What it does</li>
+  <li>TRL level</li>
+  <li>Where it is already working</li>
+  <li>What changes for a company like WesTech</li>
+</ul>
+```
+
+  </section>
+
+  <section>
+    <h2>A few exceptions</h2>
+    <p>If you already know me, keep it casual.</p>
+    <p>If there is a strong reason to schedule, mention that clearly.</p>
+    <p>If you are reaching out with something paid, important, or unusually specific, say that up front.</p>
+  </section>
+
+  <hr>
+
+  <section>
+    <h2>A good note</h2>
+    <div class="example-box">
+      Barron, I saw your work on [project]. We have something moving in [place]. It may line up. Open to a quick call
     </div>
-    <div class="block">
-      <p>I run integrated solutions for the Western U.S. at WesTech Engineering, part of Swire Water. Focused on industrial water and wastewater systems, acquisitions, and long term operating projects</p>
-    </div>
-    <div class="block">
-      <p>We work with systems that are already proven in the field. TRL 9. Sometimes TRL 8 if there's a real partner and a real path</p>
-    </div>
-    <div class="block">
-      <p>We don't take cold tech meetings or fill out supplier forms</p>
-    </div>
-    <div class="block">
-      <p>Most of the companies we work with, we meet in the wild. WEFTEC, MTC, IWC, IFAT</p>
-    </div>
-    <div class="block">
-      <p>If you want a real look inside, send a non proprietary overview to my email. No attachments through LinkedIn</p>
-    </div>
-    <div class="block">
-      <ul class="list-plain">
-        <li class="emphasis">Put this up front</li>
-        <li>What it is</li>
-        <li>What it does</li>
-        <li>TRL level</li>
-        <li>Where it's already working</li>
-      </ul>
-    </div>
-    <div class="block">
-      <p>And most important: what it changes for a company like WesTech that builds, integrates, and operates systems</p>
-    </div>
-    <div class="block">
-      <p>That's how you get a fast answer</p>
+  </section>
+
+  <section>
+    <h2>Good enough</h2>
+    <div class="example-box">
+      Got a minute
     </div>
   </section>
 
@@ -264,22 +274,6 @@ margin-bottom: 40px;
       <li><a href="https://www.linkedin.com/in/sawyerlaw/" target="_blank">LinkedIn</a></li>
       <li><a href="https://linktr.ee/bsawyer" target="_blank">linktr.ee/bsawyer</a></li>
     </ul>
-  </section>
-
-  <hr>
-
-  <section>
-    <h2>A good note</h2>
-    <div class="example-box">
-      Barron, saw your work on a project. We've got something moving in a location. Might line up. Open to a quick call
-    </div>
-  </section>
-
-  <section>
-    <h2>Good enough</h2>
-    <div class="example-box">
-      Got a minute
-    </div>
   </section>
 
 </div>
