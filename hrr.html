@@ -475,7 +475,7 @@
       z-index: 2;
     }
 
-    /* TONEARM - Fixed position over the record */
+    /* TONEARM - Draggable, rotates from pivot point */
     .tonearm-assembly {
       position: absolute;
       right: 5%;
@@ -492,7 +492,17 @@
       width: 100%;
       height: 100%;
       transform-origin: 95% 10%;
-      transform: rotate(25deg);
+      transform: rotate(-35deg);
+      transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      cursor: grab;
+      pointer-events: auto;
+    }
+    .tonearm.dragging {
+      cursor: grabbing;
+      transition: none;
+    }
+    .tonearm.playing {
+      transform: rotate(18deg);
     }
     .tonearm-base {
       position: absolute;
@@ -1811,6 +1821,8 @@
       eqColumns: 24,
       eqRows: 10,
       elements: {},
+      tonearmDragging: false,
+      tonearmAngle: -35,
       
       init() {
         this.cacheElements();
@@ -1819,6 +1831,7 @@
         this.setupAudio();
         this.setupAlbumInteractions();
         this.setupTurntableControls();
+        this.setupTonearmDrag();
         this.setup8TrackControls();
         this.setupRating();
         this.setupHeader();
@@ -1916,6 +1929,72 @@
         document.getElementById('btn-next').addEventListener('click', () => this.nextTrack());
       },
       
+      setupTonearmDrag() {
+        const tonearm = this.elements.tonearm;
+        const deck = document.getElementById('turntable-deck');
+        
+        const getAngleFromEvent = (e) => {
+          const rect = deck.getBoundingClientRect();
+          // Pivot point is at 95% right, 10% top of tonearm assembly
+          // Tonearm assembly is at right: 5%, top: 10% of deck
+          const pivotX = rect.right - (rect.width * 0.05) - (rect.width * 0.35 * 0.05);
+          const pivotY = rect.top + (rect.height * 0.10) + (rect.height * 0.50 * 0.10);
+          
+          const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+          const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+          
+          const dx = clientX - pivotX;
+          const dy = clientY - pivotY;
+          let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+          
+          // Constrain angle between -50 (rest) and 25 (over record)
+          angle = Math.max(-50, Math.min(25, angle));
+          return angle;
+        };
+        
+        const onStart = (e) => {
+          if (!this.currentAlbum) return;
+          e.preventDefault();
+          this.tonearmDragging = true;
+          tonearm.classList.add('dragging');
+          tonearm.classList.remove('playing');
+        };
+        
+        const onMove = (e) => {
+          if (!this.tonearmDragging) return;
+          e.preventDefault();
+          this.tonearmAngle = getAngleFromEvent(e);
+          tonearm.style.transform = `rotate(${this.tonearmAngle}deg)`;
+        };
+        
+        const onEnd = () => {
+          if (!this.tonearmDragging) return;
+          this.tonearmDragging = false;
+          tonearm.classList.remove('dragging');
+          
+          // If arm is over the record (angle > 5), start playing
+          if (this.tonearmAngle > 5 && this.currentAlbum) {
+            tonearm.classList.add('playing');
+            tonearm.style.transform = '';
+            if (!this.isPlaying) this.play();
+          } else {
+            // Move arm back to rest position
+            tonearm.style.transform = '';
+            if (this.isPlaying) this.pause();
+          }
+        };
+        
+        // Mouse events
+        tonearm.addEventListener('mousedown', onStart);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('mouseup', onEnd);
+        
+        // Touch events
+        tonearm.addEventListener('touchstart', onStart, { passive: false });
+        document.addEventListener('touchmove', onMove, { passive: false });
+        document.addEventListener('touchend', onEnd);
+      },
+      
       setup8TrackControls() {
         this.elements.dashPlay.addEventListener('click', () => this.togglePlay());
         document.getElementById('dash-eject').addEventListener('click', () => this.ejectCartridge());
@@ -1994,6 +2073,8 @@
         this.isPlaying = true;
         if (this.mode === 'turntable') {
           this.elements.vinyl.classList.add('spinning');
+          this.elements.tonearm.classList.add('playing');
+          this.elements.tonearm.style.transform = '';
           this.elements.ledSignal.classList.add('on');
           this.elements.playIcon.style.display = 'none';
           this.elements.pauseIcon.style.display = 'block';
@@ -2015,6 +2096,7 @@
         this.isPlaying = false;
         if (this.mode === 'turntable') {
           this.elements.vinyl.classList.remove('spinning');
+          this.elements.tonearm.classList.remove('playing');
           this.elements.ledSignal.classList.remove('on');
           this.elements.playIcon.style.display = 'block';
           this.elements.pauseIcon.style.display = 'none';
@@ -2034,6 +2116,7 @@
         this.isPlaying = false;
         if (this.mode === 'turntable') {
           this.elements.vinyl.classList.remove('spinning');
+          this.elements.tonearm.classList.remove('playing');
           this.elements.ledSignal.classList.remove('on');
           this.elements.playIcon.style.display = 'block';
           this.elements.pauseIcon.style.display = 'none';
