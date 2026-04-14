@@ -1680,6 +1680,11 @@
               <div class="album-info"><h4>I Wish It Would Rain</h4><p>DXTRA</p></div>
               <span class="album-badge badge-available">Play</span>
             </div>
+            <div class="album-item" data-album="yougivemejoy" data-title="You Give Me Joy" data-artist="DXTRA" data-writer="Written by Mark Jasa" data-cover="hrr_image6_joy.png" data-audio="yougivemejoy.mp3" data-available="true">
+              <div class="album-cover" style="background-image: url('hrr_image6_joy.png');"></div>
+              <div class="album-info"><h4>You Give Me Joy</h4><p>DXTRA</p></div>
+              <span class="album-badge badge-available">Play</span>
+            </div>
             <div class="album-item unavailable" data-album="supergroovers" data-title="Super Groovers" data-artist="The Groove Collective" data-cover="hrr_image2.png" data-available="false">
               <div class="album-cover" style="background-image: url('hrr_image2.png');"></div>
               <div class="album-info"><h4>Super Groovers</h4><p>The Groove Collective</p></div>
@@ -1733,6 +1738,11 @@
         <div class="track-card available">
           <div class="track-cover"><img src="hrr_image5.png" alt="I Wish It Would Rain"><div class="track-overlay"><span>Listen Now</span></div></div>
           <div class="track-info"><h4>I Wish It Would Rain</h4><p>DXTRA</p></div>
+          <div class="track-meta"><span class="track-status status-available">Available</span></div>
+        </div>
+        <div class="track-card available">
+          <div class="track-cover"><img src="hrr_image6_joy.png" alt="You Give Me Joy"><div class="track-overlay"><span>Listen Now</span></div></div>
+          <div class="track-info"><h4>You Give Me Joy</h4><p>DXTRA</p></div>
           <div class="track-meta"><span class="track-status status-available">Available</span></div>
         </div>
         <div class="track-card">
@@ -2042,8 +2052,22 @@
       },
       
       togglePlay() { if (this.currentAlbum) this.isPlaying ? this.pause() : this.play(); },
-      prevTrack() { const a = document.querySelector('.album-item[data-available="true"]'); if (a) this.loadAlbum(a); },
-      nextTrack() { const a = document.querySelector('.album-item[data-available="true"]'); if (a) this.loadAlbum(a); },
+      
+      prevTrack() { 
+        const available = Array.from(document.querySelectorAll('.album-item[data-available="true"]'));
+        if (available.length === 0) return;
+        let idx = this.currentAlbum ? available.findIndex(a => a.dataset.album === this.currentAlbum.id) : 0;
+        idx = (idx - 1 + available.length) % available.length;
+        this.loadAlbum(available[idx]);
+      },
+      
+      nextTrack() { 
+        const available = Array.from(document.querySelectorAll('.album-item[data-available="true"]'));
+        if (available.length === 0) return;
+        let idx = this.currentAlbum ? available.findIndex(a => a.dataset.album === this.currentAlbum.id) : -1;
+        idx = (idx + 1) % available.length;
+        this.loadAlbum(available[idx]);
+      },
       ejectCartridge() { if (this.isPlaying) this.stop(); this.elements.cartridge.classList.remove('inserted'); this.elements.displayTitle.textContent = 'Insert Tape'; this.elements.displayArtist.textContent = ''; this.currentAlbum = null; },
       
       activateEffects() { this.elements.musicEffects.querySelectorAll('.sound-wave, .music-note, .heart, .sparkle-particle').forEach(e => e.classList.add('active')); },
