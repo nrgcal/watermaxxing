@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KLTmaxxing Appendix</title>
+  <style>
+    :root {
+      --bg: #f7f1df;
+      --ink: #1e1b16;
+      --panel: #fff8e8;
+      --accent: #d9480f;
+      --accent2: #2f6f3e;
+      --line: #201a12;
+      --muted: #665f51;
+      --danger: #8b0000;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.55;
+    }
+
+    .page {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 28px 18px 80px;
+    }
+
+    .hero {
+      border: 5px solid var(--line);
+      background: #fff3c4;
+      padding: 28px;
+      box-shadow: 10px 10px 0 #000;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 82px);
+      line-height: 0.88;
+      margin: 8px 0 14px;
+      letter-spacing: -0.06em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin-top: 44px;
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      border-bottom: 4px solid var(--line);
+      padding-bottom: 8px;
+    }
+
+    h3 {
+      font-size: 24px;
+      margin-top: 28px;
+      line-height: 1.1;
+    }
+
+    p {
+      font-size: 18px;
+      margin: 14px 0;
+    }
+
+    .subtitle {
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 0;
+    }
+
+    .tagline {
+      font-size: 19px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .disclaimer {
+      background: #fff;
+      border: 4px dashed var(--danger);
+      padding: 22px;
+      margin: 28px 0;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.25);
+    }
+
+    .disclaimer h2 {
+      margin-top: 0;
+      border-bottom: none;
+      color: var(--danger);
+    }
+
+    .section {
+      background: var(--panel);
+      border: 3px solid var(--line);
+      padding: 22px;
+      margin: 28px 0;
+      box-shadow: 6px 6px 0 rgba(0,0,0,0.18);
+    }
+
+    .quote {
+      font-size: 22px;
+      font-weight: 900;
+      background: #e2f2d6;
+      border-left: 10px solid var(--accent2);
+      padding: 16px 18px;
+      margin: 20px 0;
+    }
+
+    ul {
+      font-size: 18px;
+      padding-left: 24px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    .detonation-box {
+      background: #1e1b16;
+      color: #fff8e8;
+      padding: 24px;
+      border: 5px solid #000;
+      box-shadow: 9px 9px 0 var(--accent);
+      margin: 34px 0;
+    }
+
+    .detonation-box h2,
+    .detonation-box h3 {
+      color: #fff;
+      border-color: #fff8e8;
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: 900;
+      margin-top: 16px;
+      margin-bottom: 6px;
+      font-size: 16px;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    select,
+    textarea,
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border: 3px solid #000;
+      background: #fffdf4;
+      color: #000;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .feedback {
+      margin-top: 14px;
+      padding: 14px;
+      background: #fff3c4;
+      color: #000;
+      border: 3px solid #000;
+      font-weight: 900;
+    }
+
+    .mini {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .detonation-box .mini {
+      color: #f8d98d;
+    }
+
+    .final {
+      background: #dff3ff;
+      border: 5px solid #000;
+      padding: 26px;
+      box-shadow: 10px 10px 0 #000;
+      margin-top: 40px;
+    }
+
+    .definition {
+      font-size: 22px;
+      font-weight: 900;
+    }
+
+    .greg {
+      font-family: "Courier New", Courier, monospace;
+      font-size: 20px;
+      background: #fff;
+      border: 3px solid #000;
+      padding: 16px;
+      transform: rotate(-0.3deg);
+    }
+
+    .footer-note {
+      margin-top: 50px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    button {
+      margin-top: 14px;
+      padding: 12px 18px;
+      border: 3px solid #000;
+      background: var(--accent);
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #000;
+      text-transform: uppercase;
+    }
+
+    button:hover {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 #000;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <header class="hero">
+      <div class="eyebrow">Appendix // advanced operator-only material</div>
+      <h1>KLTMAXXING</h1>
+      <p class="subtitle">advanced Know Like Trust behavior for sales guys who have become too powerful</p>
+      <p class="tagline">A chaotic appendix for people who understand the Value Selling Institute framework and also own at least one questionable conference badge.</p>
+    </header>
+
+    <section class="disclaimer">
+      <h2>Mandatory Disclaimer Before Someone Hurts Themselves</h2>
+      <p>This appendix is for advanced pros only.</p>
+      <p>If you jumped directly here from the table of contents because the word <strong>KLTmaxxing</strong> looked funny, please return to Chapter 1 immediately. Bob put too much work into the actual training for you to skip the vegetables and sprint directly into the raccoon cannon.</p>
+      <p>This page is not affiliated with Bob Hultz, Value Selling Institute, RJH Growth Consultants, or any official sales training organization. It is parody. It is tribute. It is a workplace-safe detonation device.</p>
+      <p>That said, Bob Hultz is the G.O.A.T. of sales trainers and is himself obviously a KLTmaxxer. This is not legal advice. This is not procurement advice. This is definitely not permission to call a customer during actual wedding vows.</p>
+    </section>
+
+    <section class="section">
+      <h2>Official Learning Objective Probably</h2>
+      <p>By the end of this appendix the trainee will understand the final and most dangerous stage of the Know Like and Trust principle.</p>
+      <p>This stage is called:</p>
+      <div class="quote">KLTmaxxing</div>
+      <p>It is when the customer knows you, likes you, trusts you, answers your phone call during a wedding reception, laughs before you talk, says “what’s up bro,” gives you the real budget problem, introduces you to the guy who actually runs the thing, and then somehow asks when your proposal is coming.</p>
+      <p>This is not normal sales.</p>
+      <p>This is not networking.</p>
+      <p>This is not “checking in.”</p>
+      <p>This is when the relationship has entered the upper atmosphere and procurement can no longer breathe without a special mask.</p>
+    </section>
+
+    <section class="section">
+      <h2>Section 1: The Ancient Law of Bob</h2>
+      <p>Bob teaches:</p>
+      <div class="quote">People buy from people they know, like, and trust.</div>
+      <p>This is the whole sandwich.</p>
+      <p>Some salespeople hear this and say “yes absolutely” then immediately send a seven paragraph email starting with “Hope this finds you well.”</p>
+      <p>It did not find them well.</p>
+      <p>It found them deleting you.</p>
+      <p>The customer does not wake up hoping to be nurtured by a vendor journey.</p>
+      <p>The customer wakes up with a problem.</p>
+      <p>A weird problem.</p>
+      <p>A budget problem.</p>
+      <p>A schedule problem.</p>
+      <p>A chemical feed pump problem.</p>
+      <p>A “my boss asked me why this is not done yet” problem.</p>
+      <p>A problem standing in the hallway holding coffee and blinking too slow.</p>
+      <p>Then you appear.</p>
+      <p>If they do not know you, you are a stranger with attachments.</p>
+      <p>If they do not like you, you are a calendar invite wearing pants.</p>
+      <p>If they do not trust you, you are just another guy saying “solution.”</p>
+      <p>But if they know you, like you, trust you, and have begun saying things like “you should talk to Gary before this gets stupid,” then congratulations.</p>
+      <p>You may be KLTmaxxing.</p>
+      <p>Do not celebrate yet.</p>
+      <p>Gary may still ruin everything.</p>
+    </section>
+
+    <section class="section">
+      <h2>Section 2: The Four Levels of the Sales Creature</h2>
+
+      <h3>Level 1: Know</h3>
+      <p>They know your name.</p>
+      <p>Huge.</p>
+      <p>A raccoon also knows where the trash is.</p>
+      <p>Do not get proud yet.</p>
+      <p>At this stage the customer says:</p>
+      <div class="quote">“Who was that guy again?”</div>
+      <p>or</p>
+      <div class="quote">“The WesTech guy.”</div>
+      <p>or</p>
+      <div class="quote">“The water guy.”</div>
+      <p>or</p>
+      <div class="quote">“The guy from LinkedIn who keeps appearing near industrial infrastructure.”</div>
+      <p>This is fine. This is how life starts. You are a small sales egg in the corporate nest. Do not peck too hard.</p>
+
+      <h3>Level 2: Like</h3>
+      <p>Now they like you.</p>
+      <p>Not in a weird way.</p>
+      <p>Not “come to Thanksgiving.”</p>
+      <p>Not “be in the family photo.”</p>
+      <p>More like:</p>
+      <div class="quote">“Actually bring Greg into this. He’ll understand what we’re dealing with.”</div>
+      <p>This is the L.</p>
+      <p>The L is very sneaky.</p>
+      <p>It is not charm. It is not cologne. It is not saying “buddy” to a plant manager you met 14 minutes ago.</p>
+      <p>The L is when the customer stops treating you like a toll booth and starts treating you like a person who might make the next 30 minutes less dumb.</p>
+      <p>This is a major sales event.</p>
+      <p>Fireworks are not provided because finance cut the budget.</p>
+
+      <h3>Level 3: Trust</h3>
+      <p>Now they trust you.</p>
+      <p>This is where the relationship gets heavier.</p>
+      <p>They may say things like:</p>
+      <div class="quote">“Here’s what’s really going on.”</div>
+      <div class="quote">“Don’t put this in writing yet.”</div>
+      <div class="quote">“The RFP doesn’t really describe the problem.”</div>
+      <div class="quote">“Procurement thinks this is about price but operations is scared.”</div>
+      <p>Very good.</p>
+      <p>Now you are near the machine room of the deal. Wear eye protection.</p>
+      <p>Trust means they believe your judgment enough to hand you a piece of the real problem.</p>
+      <p>Do not drop it.</p>
+      <p>Do not juggle it.</p>
+      <p>Do not put it in a “quick recap” email with 11 bullets and a smiley face.</p>
+
+      <h3>Level 4: KLTmaxxing</h3>
+      <p>This is the forbidden level.</p>
+      <p>The customer knows you.</p>
+      <p>The customer likes you.</p>
+      <p>The customer trusts you.</p>
+      <p>But now something else is happening.</p>
+      <p>They see your name on caller ID and instead of saying “not this guy,” they say:</p>
+      <div class="quote">“This is either going to help me or make me laugh.”</div>
+      <p>Then they answer.</p>
+      <p>During golf. During dinner. During a wedding reception. During the part of the conference where everyone is pretending the panel is good.</p>
+      <p>During an airport delay where the only food left is a $19 turkey wrap that has legal issues.</p>
+      <p>They answer because your interruption has value.</p>
+      <p>That is KLTmaxxing.</p>
+      <p>You have become a return on interruption.</p>
+      <p>That is the phrase.</p>
+      <p>Write it down.</p>
+      <p>Actually don’t. It sounds like a software startup.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 1: Are You Known or Just Nearby?</h2>
+
+      <label for="knownCustomer">Name a customer who knows you</label>
+      <select id="knownCustomer">
+        <option>Greg from the plant who answers in one-word texts</option>
+        <option>Margaret the CFO who has never once laughed in a spreadsheet</option>
+        <option>Gary, unfortunately</option>
+        <option>The guy who calls you “water man” but somehow means it respectfully</option>
+        <option>A buyer who saw you near the shrimp tray and did not call security</option>
+      </select>
+
+      <label for="knownFor">What do they know you for?</label>
+      <select id="knownFor" onchange="showFeedback('knownFor','knownFeedback')">
+        <option value="">Choose your sales creature status</option>
+        <option value="strong">Solving problems without making everyone attend a 90-minute pre-meeting</option>
+        <option value="strong">Being useful and weirdly calm near industrial chaos</option>
+        <option value="medium">Posting from industrial sites with high water guy energy</option>
+        <option value="weak">Existing near the shrimp tray at conferences</option>
+        <option value="danger">Sending attachments and asking if they had a chance to review</option>
+        <option value="raccoon">A raccoon-level ability to locate opportunity in a dumpster fire</option>
+      </select>
+
+      <div id="knownFeedback" class="feedback">Select an option and the workbook will judge you gently but not really.</div>
+
+      <label for="roomName">What would they call you if you were not in the room?</label>
+      <select id="roomName" onchange="showFeedback('roomName','roomFeedback')">
+        <option value="">Select the behind-the-back title</option>
+        <option value="strong">“Greg knows this stuff. Bring him in.”</option>
+        <option value="strong">“The guy who actually understands the operating problem.”</option>
+        <option value="medium">“The water guy.”</option>
+        <option value="weak">“Which vendor was that again?”</option>
+        <option value="danger">“Please remove me from this thread.”</option>
+      </select>
+
+      <div id="roomFeedback" class="feedback">If the answer is “that guy,” you are still in Level 1. Respect the ladder.</div>
+    </section>
+
+    <section class="section">
+      <h2>Section 3: The L Is Where the Sauce Lives</h2>
+      <p>The L is the funniest part because it sounds soft.</p>
+      <p>It is not soft.</p>
+      <p>It is the hinge on the entire barn door.</p>
+      <p>Without the L the seller is just clanking around outside making “value proposition” noises.</p>
+      <p>The customer may know you.</p>
+      <p>The customer may even respect that your company has engineers, brochures, skid photos, and one guy named Steve who knows everything but answers emails like a submarine.</p>
+      <p>Still not enough.</p>
+      <p>If they do not like working with you, every conversation costs them energy.</p>
+      <p>You are now a tax.</p>
+      <p>No one likes tax.</p>
+      <p>Except maybe one guy in accounting who has a special calculator and no visible fear.</p>
+      <p>The L means the customer feels better when you are involved.</p>
+      <p>Not happier.</p>
+      <p>Better.</p>
+      <p>Clearer.</p>
+      <p>Less alone.</p>
+      <p>Less trapped in the corporate fog machine.</p>
+      <p>Maybe slightly entertained.</p>
+      <p>Maybe they see your email and think:</p>
+      <div class="quote">“Okay this one might not be terrible.”</div>
+      <p>That is the L.</p>
+      <p>That is sacred.</p>
+      <p>Do not ruin it by saying “synergy.”</p>
+    </section>
+
+    <section class="section">
+      <h2>Section 4: Signs the L Has Arrived</h2>
+      <p>The L may be present when:</p>
+      <ul>
+        <li>The customer replies like a human.</li>
+        <li>They stop writing “per my last email.”</li>
+        <li>They use your first name and not “team.”</li>
+        <li>They make a side comment.</li>
+        <li>They tell you travel was a disaster.</li>
+        <li>They tell you the meeting was weird.</li>
+        <li>They admit the schedule is fake.</li>
+        <li>They tell you the budget is “being discussed,” which means everyone is scared but in business casual.</li>
+        <li>They laugh at something you said that was barely a joke.</li>
+        <li>They send you something and say: “Thought you’d appreciate this.”</li>
+      </ul>
+      <p>Huge.</p>
+      <p>That is not a lead.</p>
+      <p>That is not a PO.</p>
+      <p>But it is a small bird landing on your sales shoulder.</p>
+      <p>Remain calm.</p>
+      <p>Do not try to sell the bird.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 2: Diagnose the L Before You Hurt Yourself</h2>
+
+      <label for="likeStatus">Do they like working with you?</label>
+      <select id="likeStatus" onchange="showFeedback('likeStatus','likeFeedback')">
+        <option value="">Choose carefully. The L can smell fear.</option>
+        <option value="strong">Yes. They bring me in because I make the process less dumb.</option>
+        <option value="medium">Maybe. They reply warmly but still keep the real problem in a locked cabinet.</option>
+        <option value="weak">They like the company but I personally am still in committee.</option>
+        <option value="danger">They like me because I have not yet asked a real question.</option>
+        <option value="raccoon">They tolerate me like a raccoon in a parking lot. Concerned but curious.</option>
+      </select>
+      <div id="likeFeedback" class="feedback">Select your L status. The workbook is wearing a tiny judge robe.</div>
+
+      <label for="proofL">What is your proof?</label>
+      <select id="proofL" onchange="showFeedback('proofL','proofFeedback')">
+        <option value="">Select proof or alleged proof</option>
+        <option value="strong">They tell me useful context they do not put in the official email.</option>
+        <option value="strong">They ask for my plain read before the formal meeting.</option>
+        <option value="medium">They respond with actual human words.</option>
+        <option value="weak">They liked my LinkedIn post in 2023.</option>
+        <option value="danger">Their assistant spelled my name right.</option>
+      </select>
+      <div id="proofFeedback" class="feedback">Crumbs are not bread. Do not build a house out of crumbs. Ants will come.</div>
+    </section>
+
+    <section class="section">
+      <h2>Section 5: Wedding Reception Theory</h2>
+      <p>This is the central doctrine.</p>
+      <p>KLTmaxxing is measured by the Wedding Reception Test.</p>
+      <p>Question:</p>
+      <div class="quote">Would the customer answer your call during a wedding reception?</div>
+      <p>Not during the vows.</p>
+      <p>Do not be insane.</p>
+      <p>We are sales professionals.</p>
+      <p>Barely.</p>
+      <p>But during the reception.</p>
+      <p>Music playing.</p>
+      <p>Uncle doing a speech nobody approved.</p>
+      <p>Chicken or salmon.</p>
+      <p>Some cousin named Tyler has removed his tie and is about to become a liability.</p>
+      <p>The customer sees your name.</p>
+      <p>They look at the phone.</p>
+      <p>They think:</p>
+      <div class="quote">“This better be useful.”</div>
+      <p>Then they answer.</p>
+      <p>That is the test.</p>
+      <p>Not because you are needy.</p>
+      <p>Not because you are interrupting.</p>
+      <p>Not because you are trying to prove dominance over matrimony.</p>
+      <p>Because you have trained the relationship through repeated usefulness that your call is probably worth the 90 seconds.</p>
+      <p>That is advanced.</p>
+      <p>That is rare.</p>
+      <p>That is very close to illegal in Canada probably.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 3: Wedding Reception Drill</h2>
+
+      <label for="weddingCustomer">Name the customer most likely to answer your wedding reception call</label>
+      <select id="weddingCustomer">
+        <option>Greg who says “send it” and means three different things</option>
+        <option>Margaret the CFO who would answer only if EBITDA is on fire</option>
+        <option>Gary, but only to ruin the vibe</option>
+        <option>The operations lead who trusts you more than the RFP</option>
+        <option>The person who calls you “the guy I told you about”</option>
+      </select>
+
+      <label for="weddingType">What wedding are they at?</label>
+      <select id="weddingType">
+        <option>Daughter’s wedding with very serious chair covers</option>
+        <option>Nephew’s wedding where the DJ is committing crimes</option>
+        <option>Mysterious second marriage at a golf club</option>
+        <option>Vendor-hosted event that somehow became formal</option>
+        <option>Steak medallions and one powerful shrimp tower</option>
+      </select>
+
+      <label for="answerReason">Why would they answer?</label>
+      <select id="answerReason" onchange="showFeedback('answerReason','answerFeedback')">
+        <option value="">Select the alleged reason</option>
+        <option value="strong">I bring value and help them avoid a very expensive mistake.</option>
+        <option value="strong">I bring clarity when the internal process is wearing a fake mustache.</option>
+        <option value="medium">They think I might say something funny and maybe useful.</option>
+        <option value="weak">They are avoiding dancing.</option>
+        <option value="danger">They confused me with someone else.</option>
+      </select>
+      <div id="answerFeedback" class="feedback">If your reason is not value or clarity, do not call the wedding. Eat your salmon and reflect.</div>
+
+      <label for="firstSentence">First sentence you say when they answer</label>
+      <select id="firstSentence" onchange="showFeedback('firstSentence','sentenceFeedback')">
+        <option value="">Choose your opening line</option>
+        <option value="strong">“I’ll be quick. I think I found the piece that keeps this from drifting.”</option>
+        <option value="strong">“This is worth 90 seconds. The real issue may not be the price.”</option>
+        <option value="medium">“I know you’re mid-wedding. This is either useful or I owe you shrimp.”</option>
+        <option value="danger">“Just checking in.”</option>
+        <option value="danger">“Hope this finds you well.”</option>
+      </select>
+      <div id="sentenceFeedback" class="feedback">If you selected “just checking in,” please leave the workbook on the table and walk into the nearest lake. Not deep. Just enough to think.</div>
+    </section>
+
+    <section class="section">
+      <h2>Section 6: KLTmaxxing Is Not Friendship</h2>
+      <p>Very important.</p>
+      <p>KLTmaxxing is not friendship.</p>
+      <p>Friendship is when someone helps you move.</p>
+      <p>KLTmaxxing is when someone tells you who actually owns the budget before the RFP drops.</p>
+      <p>Different thing.</p>
+      <p>Friendship is pizza.</p>
+      <p>KLTmaxxing is deal intelligence with eye contact.</p>
+      <p>Do not confuse them.</p>
+      <p>The customer may like you. They may laugh. They may call you bro. They may greet you with a high five. They may ask about your trip.</p>
+      <p>They may even say:</p>
+      <div class="quote">“Man we need to get you guys involved earlier next time.”</div>
+      <p>Beautiful.</p>
+      <p>But they can still award the project to your competitor because the competitor was cheaper, faster, already approved, better positioned, politically embedded, or golfing with Gary.</p>
+      <p>Gary again.</p>
+      <p>Gary is everywhere.</p>
+      <p>KLTmaxxing does not mean you won.</p>
+      <p>It means you have unusual access to make winning more likely.</p>
+      <p>Use the access.</p>
+      <p>Do not stand there holding it like a decorative squash.</p>
+    </section>
+
+    <section class="section">
+      <h2>Section 7: The Professional Bro</h2>
+      <p>At KLTmaxxing stage you may be granted one professional bro.</p>
+      <p>Use carefully.</p>
+      <p>Correct use:</p>
+      <div class="quote">“Bro, we need to solve the operating model before procurement turns this into a spreadsheet contest.”</div>
+      <p>Incorrect use:</p>
+      <div class="quote">“Bro can I get that PO today lol.”</div>
+      <p>Never write “lol” near a purchase order unless you sell inflatable kayaks.</p>
+      <p>The professional bro is not slang.</p>
+      <p>It is a cultural instrument.</p>
+      <p>It says:</p>
+      <ul>
+        <li>We are familiar enough to speak plainly.</li>
+        <li>We are still serious enough to move the work.</li>
+        <li>We are not two guys yelling in a Buffalo Wild Wings parking lot.</li>
+      </ul>
+      <p>Unless the customer is actually in a Buffalo Wild Wings parking lot.</p>
+      <p>In which case adapt.</p>
+      <p>Sales is situational.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 4: Professional Bro Authorization Form</h2>
+
+      <label for="broAuth">Have you earned the right to say bro?</label>
+      <select id="broAuth" onchange="showFeedback('broAuth','broFeedback')">
+        <option value="">Select authorization level</option>
+        <option value="strong">Yes. They said it first and procurement did not object.</option>
+        <option value="medium">Only in person and only after the second useful insight.</option>
+        <option value="weak">Not yet. The bro is still in permitting.</option>
+        <option value="danger">Absolutely not. This is a CFO named Margaret.</option>
+        <option value="raccoon">Only if a raccoon interrupts the meeting and the room needs leadership.</option>
+      </select>
+      <div id="broFeedback" class="feedback">Professional bro is a cultural instrument. Do not play it like a kazoo in a boardroom.</div>
+
+      <label for="safeWord">What is the safest relationship word to use instead?</label>
+      <select id="safeWord">
+        <option>Fair</option>
+        <option>Makes sense</option>
+        <option>Understood</option>
+        <option>I’ll give you my plain read</option>
+        <option>Margaret</option>
+      </select>
+    </section>
+
+    <section class="section">
+      <h2>Section 8: The Difference Between Being Liked and Being Useful</h2>
+      <p>Some salespeople are liked.</p>
+      <p>They are pleasant.</p>
+      <p>They remember names.</p>
+      <p>They say “good to see you.”</p>
+      <p>They know where the coffee is.</p>
+      <p>They can talk sports for nine minutes without causing harm.</p>
+      <p>Fine.</p>
+      <p>But being liked is not enough.</p>
+      <p>A golden retriever is liked.</p>
+      <p>The golden retriever is not getting sole-source consideration on a complex industrial water project.</p>
+      <p>Probably.</p>
+      <p>KLTmaxxing requires usefulness.</p>
+      <p>You need to bring something.</p>
+      <ul>
+        <li>A clearer path.</li>
+        <li>A sharper question.</li>
+        <li>A risk they missed.</li>
+        <li>A way to compress schedule.</li>
+        <li>A person they should meet.</li>
+        <li>A commercial structure.</li>
+        <li>A field reality.</li>
+        <li>A reason not to make the cheap mistake.</li>
+        <li>A sentence that cuts through two weeks of internal fog.</li>
+      </ul>
+      <p>At KLTmaxxing stage the customer likes you because you are useful.</p>
+      <p>Not instead of useful.</p>
+      <p>Because.</p>
+      <p>That is the whole thing hiding inside the clown car.</p>
+    </section>
+
+    <section class="section">
+      <h2>Section 9: What the Customer Says When You Are KLTmaxxing</h2>
+      <p>They may say:</p>
+      <div class="quote">“Call me.”</div>
+      <p>This means you are through the first gate.</p>
+      <p>They may say:</p>
+      <div class="quote">“I’ll tell you what’s really going on.”</div>
+      <p>This means the gate has opened and there is a smaller scarier gate behind it.</p>
+      <p>They may say:</p>
+      <div class="quote">“You didn’t hear this from me.”</div>
+      <p>This means listen carefully and do not become a screenshot.</p>
+      <p>They may say:</p>
+      <div class="quote">“You should meet our operations lead.”</div>
+      <p>This means the deal has bones.</p>
+      <p>They may say:</p>
+      <div class="quote">“We need your team’s view before this gets too far.”</div>
+      <p>This means you are upstream.</p>
+      <p>Upstream is good.</p>
+      <p>Downstream is where vendors go to fight in the mud for 2% margin while procurement watches from a folding chair.</p>
+      <p>They may say:</p>
+      <div class="quote">“What would you do?”</div>
+      <p>This is one of the highest signals.</p>
+      <p>Do not answer like a brochure.</p>
+      <p>Answer like someone who has seen a jobsite at 6:40 a.m. and understands consequences.</p>
+      <p>Also maybe eat breakfast first.</p>
+      <p>Low blood sugar ruins strategy.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 5: Translate Customer Language</h2>
+
+      <label for="internalReview">Customer says: “We’re still reviewing internally.” What might that actually mean?</label>
+      <select id="internalReview" onchange="showFeedback('internalReview','reviewFeedback')">
+        <option value="">Select translation</option>
+        <option value="strong">No one owns the decision and the project is backing into a hedge.</option>
+        <option value="strong">Budget is weird and everyone is using calm voices.</option>
+        <option value="medium">Procurement has appeared holding a spreadsheet like a medieval shield.</option>
+        <option value="medium">Operations hates the current plan but has not yet used its outdoor voice.</option>
+        <option value="weak">They are reviewing internally.</option>
+        <option value="danger">Gary.</option>
+      </select>
+      <div id="reviewFeedback" class="feedback">The right answer may be Gary. It is often Gary. Still qualify it like a professional.</div>
+
+      <label for="reviewResponse">Your response</label>
+      <select id="reviewResponse" onchange="showFeedback('reviewResponse','reviewResponseFeedback')">
+        <option value="">Choose response</option>
+        <option value="strong">“Understood. What specific internal question has to get answered before the next step is clear?”</option>
+        <option value="strong">“Got it. Is the review real or are we watching the project slowly back into a hedge?”</option>
+        <option value="medium">“Makes sense. What would keep this from drifting?”</option>
+        <option value="danger">“Sounds good. Just checking in next week.”</option>
+      </select>
+      <div id="reviewResponseFeedback" class="feedback">Some customers do not like hedge-based sales diagnostics. Deploy according to relationship altitude.</div>
+    </section>
+
+    <section class="section">
+      <h2>Section 10: The Sacred Weapons of KLTmaxxing</h2>
+      <p>At this stage you unlock special weapons.</p>
+      <p>Not weapons like weapons.</p>
+      <p>Sales weapons.</p>
+      <p>Relax HR.</p>
+
+      <h3>Weapon 1: The Plain Read</h3>
+      <div class="quote">“I’ll give you my plain read.”</div>
+      <p>This is powerful.</p>
+      <p>It means you are about to say something useful without wrapping it in 600 yards of corporate bubble wrap.</p>
+      <div class="quote">“I’ll give you my plain read. This is being framed as a capex issue but it feels more like an operating risk issue.”</div>
+      <p>Boom.</p>
+      <p>A chair moved somewhere.</p>
+
+      <h3>Weapon 2: The Real Question</h3>
+      <div class="quote">“What is actually holding this up?”</div>
+      <p>Not:</p>
+      <div class="quote">“Where are you in your process?”</div>
+      <p>That is weak tea.</p>
+      <p>That is hotel lobby cucumber water.</p>
+      <p>Ask the real question.</p>
+
+      <h3>Weapon 3: The Friendly Challenge</h3>
+      <div class="quote">“I understand why that option looks cheaper. I’m not sure it is cheaper after startup.”</div>
+      <p>This is not rude.</p>
+      <p>This is helpful.</p>
+      <p>If they like and trust you, they can hear it.</p>
+      <p>If they do not, they will say “interesting” and bury you in the vendor pit.</p>
+
+      <h3>Weapon 4: The Meeting Compression Device</h3>
+      <div class="quote">“We can keep trading fragments or get the four right people in one room and solve this.”</div>
+      <p>This is strong.</p>
+      <p>This creates movement.</p>
+      <p>This also makes people nervous because now the fake activity has to become real activity.</p>
+      <p>Good.</p>
+
+      <h3>Weapon 5: The Close That Does Not Wear Tap Shoes</h3>
+      <div class="quote">“If we solve the commercial structure and confirm schedule, is there any reason we should not move forward together?”</div>
+      <p>Direct.</p>
+      <p>Clean.</p>
+      <p>No jazz hands.</p>
+      <p>No “just wanted to see.”</p>
+      <p>No soft-shoe routine in the lobby.</p>
+      <p>Ask like someone who earned the right.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 6: Choose Your Weapon</h2>
+
+      <label for="compareOptions">Customer says: “We like your approach but need to compare options.” Choose your response.</label>
+      <select id="compareOptions" onchange="showFeedback('compareOptions','compareFeedback')">
+        <option value="">Select your weapon</option>
+        <option value="danger">“Totally understand. We appreciate the opportunity.”</option>
+        <option value="danger">“Great. I will send 14 attachments and a prayer candle.”</option>
+        <option value="strong">“Makes sense. What are the two or three criteria that will actually decide this?”</option>
+        <option value="weak">“Bro.”</option>
+        <option value="raccoon">“Are we comparing options or feeding raccoons in the procurement alley?”</option>
+      </select>
+      <div id="compareFeedback" class="feedback">Make it direct. Make it human. Make it not weird. Harder than it sounds.</div>
+    </section>
+
+    <section class="section">
+      <h2>Section 11: How People Ruin KLTmaxxing</h2>
+      <p>Salespeople are amazing because they can spend 14 months building a relationship and then destroy it with one lazy follow-up.</p>
+
+      <h3>Ruin Method 1: Getting Too Casual</h3>
+      <p>They like me.</p>
+      <p>I can wing it.</p>
+      <p>No.</p>
+      <p>No you cannot.</p>
+      <p>The customer likes the version of you that was prepared.</p>
+      <p>Do not replace that person with Airport Thumb Email Guy.</p>
+      <p>Airport Thumb Email Guy has value in emergencies.</p>
+      <p>He should not run strategy.</p>
+
+      <h3>Ruin Method 2: Mistaking Banter for Budget</h3>
+      <p>The customer laughed.</p>
+      <p>Great.</p>
+      <p>The CFO did not laugh money into existence.</p>
+      <p>Find the budget.</p>
+
+      <h3>Ruin Method 3: Forgetting the Decision Process</h3>
+      <p>You have a champion.</p>
+      <p>Nice.</p>
+      <p>Does the champion own the decision?</p>
+      <p>No?</p>
+      <p>Then keep mapping.</p>
+      <p>A champion without authority is still useful.</p>
+      <p>But do not ask a golden retriever to sign a master service agreement.</p>
+      <p>Again with the golden retriever.</p>
+      <p>He is trying his best.</p>
+
+      <h3>Ruin Method 4: Becoming the Fun Vendor</h3>
+      <p>Danger.</p>
+      <p>You are funny.</p>
+      <p>They like you.</p>
+      <p>They invite you around.</p>
+      <p>You make meetings better.</p>
+      <p>Then the serious vendor gets the work.</p>
+      <p>This is how a man becomes a mascot with mileage reimbursement.</p>
+      <p>Do not become mascot.</p>
+      <p>Mascot bad.</p>
+      <p>Trusted advisor good.</p>
+
+      <h3>Ruin Method 5: Not Asking</h3>
+      <p>This is the worst.</p>
+      <p>You earned the relationship.</p>
+      <p>You got the access.</p>
+      <p>You saw the opening.</p>
+      <p>Then you said:</p>
+      <div class="quote">“Happy to help.”</div>
+      <p>Happy to help is where closes go to be buried in a shallow grave behind the CRM.</p>
+      <p>Ask for the next step.</p>
+      <p>Ask for the meeting.</p>
+      <p>Ask what is missing.</p>
+      <p>Ask if they want to move forward.</p>
+      <p>Bob did not train you to become a friendly weather pattern.</p>
+    </section>
+
+    <section class="section">
+      <h2>Section 12: The KLTmaxxing Emergency Broadcast System</h2>
+      <p>If you believe you are KLTmaxxing, ask yourself:</p>
+      <ul>
+        <li>Do they tell me the truth?</li>
+        <li>Do they bring me in early?</li>
+        <li>Do they let me challenge them?</li>
+        <li>Do they tell me who matters?</li>
+        <li>Do they answer when busy?</li>
+        <li>Do they ask my opinion?</li>
+        <li>Do they let me see the problem behind the problem?</li>
+        <li>Do they give me action or just warmth?</li>
+        <li>Do they introduce me to power?</li>
+        <li>Do they still expect excellence?</li>
+      </ul>
+      <p>If yes, congratulations.</p>
+      <p>You may be in the zone.</p>
+      <p>Proceed with humility and possibly a clean shirt.</p>
+      <p>If no, return to normal KLT building.</p>
+      <p>Do not fake maxx.</p>
+      <p>Fake maxxing is very dangerous.</p>
+      <p>It looks like confidence but smells like forecast inflation.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 7: Fake Maxx Detector</h2>
+
+      <label for="maxxEvidence">I believe I am KLTmaxxing because:</label>
+      <select id="maxxEvidence" onchange="showFeedback('maxxEvidence','maxxFeedback')">
+        <option value="">Choose your evidence</option>
+        <option value="strong">They tell me the useful truth before the formal process catches up.</option>
+        <option value="strong">They introduce me to power and ask for my plain read.</option>
+        <option value="medium">They answer quickly and occasionally say something human.</option>
+        <option value="weak">They laughed once near the coffee station.</option>
+        <option value="danger">I need the forecast to look good.</option>
+      </select>
+      <div id="maxxFeedback" class="feedback">Hard evidence or soft vibes? The CRM can smell the difference.</div>
+
+      <label for="avoidedQuestion">What direct question have you avoided asking because you enjoy being liked?</label>
+      <select id="avoidedQuestion">
+        <option>“Who actually owns the decision?”</option>
+        <option>“Is this funded or are we building a castle out of conference enthusiasm?”</option>
+        <option>“What would keep you from moving forward with us?”</option>
+        <option>“Are we solving the real problem or feeding the RFP raccoon?”</option>
+        <option>“Is Gary involved?”</option>
+      </select>
+    </section>
+
+    <section class="section">
+      <h2>Section 13: KLTmaxxing Role Play</h2>
+
+      <h3>Customer:</h3>
+      <div class="quote">“We’re trying to decide if this should be a capital project or outsourced.”</div>
+      <p>Weak response:</p>
+      <div class="quote">“We can support either way.”</div>
+      <p>KLTmaxxing response:</p>
+      <div class="quote">“The real question may be whether you want to own the operating risk long term. The capital model is only one part of it.”</div>
+      <p>Greg response if relationship is dangerously strong:</p>
+      <div class="quote">“That sounds like capex wearing a fake mustache over an operations problem.”</div>
+      <p>Instructor decides if class is ready.</p>
+      <p>Most classes are not ready.</p>
+
+      <h3>Customer:</h3>
+      <div class="quote">“Your competitor is cheaper.”</div>
+      <p>Weak response:</p>
+      <div class="quote">“We can sharpen our pencil.”</div>
+      <p>Stop sharpening pencils.</p>
+      <p>There are no pencils left.</p>
+      <p>KLTmaxxing response:</p>
+      <div class="quote">“Understood. Are they cheaper against the bid tab or cheaper against the risk you actually have to live with?”</div>
+      <p>Greg response:</p>
+      <div class="quote">“Cheaper at the front door can still rob you in the kitchen.”</div>
+      <p>This metaphor may require supervision.</p>
+
+      <h3>Customer:</h3>
+      <div class="quote">“We need to think about it.”</div>
+      <p>Weak response:</p>
+      <div class="quote">“Absolutely. Let me know.”</div>
+      <p>KLTmaxxing response:</p>
+      <div class="quote">“Makes sense. What part needs more thought?”</div>
+      <p>Greg response:</p>
+      <div class="quote">“Are we thinking or are we hiding from Gary?”</div>
+      <p>Only use if Gary is known.</p>
+      <p>Never invent Gary unless the relationship is elite.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Trainee Detonation Box 8: Create Your Own Mildly Unhinged But Useful Line</h2>
+
+      <label for="normalLine">Choose a normal sales line</label>
+      <select id="normalLine">
+        <option>“Let us know how we can help.”</option>
+        <option>“We appreciate the opportunity.”</option>
+        <option>“We can support either path.”</option>
+        <option>“We are happy to jump on a call.”</option>
+        <option>“Just checking in.”</option>
+      </select>
+
+      <label for="gregLine">Now make it Greg-tier but still usable by a human with a job</label>
+      <select id="gregLine" onchange="showFeedback('gregLine','gregLineFeedback')">
+        <option value="">Select field-deployable chaos</option>
+        <option value="strong">“We can keep trading fragments or get the right people in one room and solve the thing.”</option>
+        <option value="strong">“This feels like the visible problem has a second problem standing behind it holding a sandwich.”</option>
+        <option value="medium">“I think the RFP is describing the smoke. We should find the toaster.”</option>
+        <option value="medium">“This is either ready for a working session or about to become folklore.”</option>
+        <option value="danger">“Bro send PO.”</option>
+      </select>
+      <div id="gregLineFeedback" class="feedback">Instructor approval required before field deployment. Seriously. Some of you are not licensed for this.</div>
+    </section>
+
+    <section class="section">
+      <h2>Section 14: The Final Stage — They Name Their Kid After You Probably</h2>
+      <p>The highest known KLTmaxxing legends include:</p>
+      <ul>
+        <li>The customer answers during a wedding reception.</li>
+        <li>The customer says “I was just about to call you.”</li>
+        <li>The customer introduces you as “the guy I told you about.”</li>
+        <li>The customer starts using your phrase in internal meetings.</li>
+        <li>The customer tells your competitor “we already have someone helping us think through this.”</li>
+        <li>The customer asks if you can join a meeting before there is a formal project.</li>
+        <li>The customer says “don’t send me a deck, just tell me what you think.”</li>
+        <li>The customer asks your opinion on something adjacent because you have become generally useful.</li>
+        <li>The customer says “bro” in front of procurement and procurement accepts it as part of the record.</li>
+        <li>The customer names their child after you.</li>
+      </ul>
+      <p>This last one is rare.</p>
+      <p>Usually a middle name.</p>
+      <p>Do not request it.</p>
+      <p>Let the market decide.</p>
+    </section>
+
+    <section class="section">
+      <h2>Section 15: KLTmaxxing Is Still Value Selling</h2>
+      <p>This appendix is insane.</p>
+      <p>But the concept is not.</p>
+      <p>KLTmaxxing still lives inside the Value Selling framework.</p>
+      <p>It is not a replacement for process.</p>
+      <p>It is what happens when the process has worked so well that the relationship becomes a strategic asset.</p>
+      <p>You still need to understand:</p>
+      <ul>
+        <li>Need.</li>
+        <li>Value.</li>
+        <li>Timing.</li>
+        <li>Decision process.</li>
+        <li>Authority.</li>
+        <li>Risk.</li>
+        <li>Alternatives.</li>
+        <li>Differentiation.</li>
+        <li>The cost of doing nothing.</li>
+        <li>How much.</li>
+        <li>How soon.</li>
+        <li>How sure.</li>
+      </ul>
+      <p>You still need to prepare.</p>
+      <p>You still need to follow through.</p>
+      <p>You still need to close.</p>
+      <p>KLTmaxxing is not skipping the process.</p>
+      <p>KLTmaxxing is what happens when the relationship gives you permission to run the process at a higher altitude with fewer fake conversations and more truth.</p>
+      <p>That is the serious part.</p>
+      <p>Now back to nonsense.</p>
+    </section>
+
+    <section class="detonation-box">
+      <h2>Final Exam: Do Not Fail In Front of Bob</h2>
+
+      <label for="defineKlt">Define KLTmaxxing in your own words</label>
+      <select id="defineKlt" onchange="showFeedback('defineKlt','defineFeedback')">
+        <option value="">Select definition</option>
+        <option value="strong">The customer welcomes your involvement and gives you useful truth because you have earned relationship equity.</option>
+        <option value="strong">Know gets you recognized. Like gets you welcomed. Trust gets you risk. KLTmaxxing gets you momentum.</option>
+        <option value="medium">Customer answers during wedding because you might save money or say something about Gary.</option>
+        <option value="weak">Being really popular with buyers.</option>
+        <option value="danger">A reason to stop preparing.</option>
+      </select>
+      <div id="defineFeedback" class="feedback">Correct answer should include useful truth, unusual access, and not becoming mascot.</div>
+
+      <label for="mustNotDo">What is one thing you must not do?</label>
+      <select id="mustNotDo" onchange="showFeedback('mustNotDo','mustNotFeedback')">
+        <option value="">Select what not to do</option>
+        <option value="strong">Get casual.</option>
+        <option value="strong">Stop qualifying.</option>
+        <option value="strong">Confuse laughter with budget.</option>
+        <option value="strong">Become mascot.</option>
+        <option value="strong">Say “just checking in.”</option>
+        <option value="strong">Waste the bro.</option>
+        <option value="strong">All of them. Life is hard.</option>
+      </select>
+      <div id="mustNotFeedback" class="feedback">Correct answer may be all of them. Life is hard.</div>
+
+      <label for="bobGrade">Bob’s likely grade on your KLTmaxxing discipline</label>
+      <select id="bobGrade" onchange="showFeedback('bobGrade','bobGradeFeedback')">
+        <option value="">Choose your fate</option>
+        <option value="strong">Bob nods once. Highest known honor.</option>
+        <option value="medium">Bob says “good” but adds three questions that reveal your gaps.</option>
+        <option value="weak">Bob takes the marker back.</option>
+        <option value="danger">Bob sends you to Chapter 1 because you sprinted into the raccoon cannon.</option>
+      </select>
+      <div id="bobGradeFeedback" class="feedback">Bob is fair. Bob is watching. Bob has frameworks.</div>
+    </section>
+
+    <section class="final">
+      <h2>Final Definition</h2>
+      <p class="definition"><strong>KLTmaxxing</strong> is the final stage of Know Like and Trust where the customer welcomes your involvement, gives you unusual access, tells you the useful truth, and lets you lead more directly because you have earned enough relationship equity to create momentum.</p>
+
+      <h2>Field Definition</h2>
+      <p class="definition">Customer answers during wedding. Customer laughs before you talk. Customer gives real context. Customer says bro at next meeting. Deal moves forward.</p>
+
+      <h2>Bob-Compatible Definition</h2>
+      <p class="definition">Know gets you recognized.<br>Like gets you welcomed.<br>Trust gets you risk.<br>KLTmaxxing gets you momentum.</p>
+
+      <h2>Greg-Compatible Definition</h2>
+      <div class="greg">client sees ur name during wedding reception and answers bc u might save them 4 million dollars or say something about gary<br><br>advanced sales<br><br>do not waste the bro</div>
+    </section>
+
+    <p class="footer-note">Unofficial parody appendix. Not affiliated with Bob Hultz or Value Selling Institute. Bob remains the G.O.A.T. Proceed carefully. Gary may still be involved.</p>
+
+  </main>
+
+  <script>
+    const feedbackMap = {
+      strong: [
+        "Correct. The workbook briefly saluted.",
+        "Strong. Bob may nod once. That is basically fireworks.",
+        "Advanced. Proceed but do not become mascot.",
+        "This has deal bones. Wear eye protection."
+      ],
+      medium: [
+        "Possible. Needs more evidence before you declare upper atmosphere.",
+        "Not bad. This is maybe the L wearing a small hat.",
+        "There is something here. Do not start saying bro yet.",
+        "Warm but not maxxed. Keep qualifying."
+      ],
+      weak: [
+        "Weak signal. Crumbs are not bread.",
+        "This is not nothing but it is also not KLTmaxxing.",
+        "Respectfully this is Level 1 energy wearing sunglasses.",
+        "Proceed back to the actual framework before Gary appears."
+      ],
+      danger: [
+        "Danger. Bob just looked up from the workbook.",
+        "This is how people become mascots with mileage reimbursement.",
+        "Stop. Return to Chapter 1. Bob put too much work into this.",
+        "You are approaching raccoon cannon territory."
+      ],
+      raccoon: [
+        "Raccoon-adjacent. Chaotic but potentially useful if contained.",
+        "This may work in the field but do not put it in the proposal.",
+        "The raccoon has found the dumpster fire. Now qualify the budget.",
+        "Proceed with gloves and a clear next step."
+      ]
+    };
+
+    function showFeedback(selectId, feedbackId) {
+      const select = document.getElementById(selectId);
+      const feedback = document.getElementById(feedbackId);
+      const value = select.value;
+
+      if (!value || !feedbackMap[value]) {
+        feedback.textContent = "Select an option and the workbook will judge you gently but not really.";
+        return;
+      }
+
+      const options = feedbackMap[value];
+      const random = options[Math.floor(Math.random() * options.length)];
+      feedback.textContent = random;
+    }
+  </script>
+</body>
+</html>
